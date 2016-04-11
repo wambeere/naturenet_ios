@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ExploreCell" id="gTV-IL-0wX" customClass="ExploreCollectionViewCell" customModule="NatureNet" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-wP-xq1">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </imageView>
+                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JtA-Br-y8F">
+                        <rect key="frame" x="0.0" y="140" width="200" height="60"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jaK-rT-lDs">
+                                <rect key="frame" x="46" y="8" width="146" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.2156862745" green="0.76862745099999996" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwq-xE-WK2">
+                                <rect key="frame" x="46" y="28" width="146" height="23.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rdM-iQ-aom">
+                                <rect key="frame" x="8" y="15" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="8m3-eQ-47W"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="jaK-rT-lDs" secondAttribute="bottom" constant="27" id="2bx-O2-9Sh"/>
+                            <constraint firstItem="jaK-rT-lDs" firstAttribute="leading" secondItem="rdM-iQ-aom" secondAttribute="trailing" constant="8" id="Ant-Ro-WYL"/>
+                            <constraint firstItem="rdM-iQ-aom" firstAttribute="leading" secondItem="JtA-Br-y8F" secondAttribute="leading" constant="8" id="BMV-sx-7KD"/>
+                            <constraint firstItem="Lwq-xE-WK2" firstAttribute="top" secondItem="jaK-rT-lDs" secondAttribute="bottom" constant="-5" id="DOt-FV-uX8"/>
+                            <constraint firstAttribute="bottom" secondItem="rdM-iQ-aom" secondAttribute="bottom" constant="15" id="NEZ-05-DxE"/>
+                            <constraint firstItem="Lwq-xE-WK2" firstAttribute="top" secondItem="jaK-rT-lDs" secondAttribute="bottom" constant="-5" id="bRr-HH-P8j"/>
+                            <constraint firstAttribute="bottom" secondItem="Lwq-xE-WK2" secondAttribute="bottom" constant="8" id="dOn-sO-bCu"/>
+                            <constraint firstAttribute="trailing" secondItem="jaK-rT-lDs" secondAttribute="trailing" constant="8" id="eKY-k0-VqW"/>
+                            <constraint firstItem="Lwq-xE-WK2" firstAttribute="leading" secondItem="rdM-iQ-aom" secondAttribute="trailing" constant="8" id="swW-op-mKa"/>
+                            <constraint firstItem="jaK-rT-lDs" firstAttribute="top" secondItem="JtA-Br-y8F" secondAttribute="top" constant="8" id="uGE-xb-Qqu"/>
+                            <constraint firstItem="rdM-iQ-aom" firstAttribute="top" secondItem="JtA-Br-y8F" secondAttribute="top" constant="15" id="veo-uu-YhG"/>
+                            <constraint firstAttribute="height" constant="60" id="w5J-iz-ZA7"/>
+                            <constraint firstAttribute="trailing" secondItem="Lwq-xE-WK2" secondAttribute="trailing" constant="8" id="xJr-47-F7l"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <color key="backgroundColor" red="0.2156862745" green="0.76862745099999996" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="JtA-Br-y8F" secondAttribute="trailing" id="Dpa-IE-BZD"/>
+                <constraint firstAttribute="trailing" secondItem="TGw-wP-xq1" secondAttribute="trailing" id="IZY-OU-dI0"/>
+                <constraint firstAttribute="bottom" secondItem="JtA-Br-y8F" secondAttribute="bottom" id="ihb-dV-KhA"/>
+                <constraint firstAttribute="bottom" secondItem="TGw-wP-xq1" secondAttribute="bottom" id="lPQ-EY-gha"/>
+                <constraint firstItem="JtA-Br-y8F" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="mw8-G8-kw5"/>
+                <constraint firstItem="TGw-wP-xq1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="sAo-E0-YEj"/>
+                <constraint firstItem="TGw-wP-xq1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="vDQ-2q-G6G"/>
+            </constraints>
+            <connections>
+                <outlet property="exploreDate" destination="Lwq-xE-WK2" id="AWv-sx-3yb"/>
+                <outlet property="exploreImageView" destination="TGw-wP-xq1" id="IES-EL-ukA"/>
+                <outlet property="exploreProfileIcon" destination="rdM-iQ-aom" id="Vfa-yf-HgX"/>
+                <outlet property="exploreProfileName" destination="jaK-rT-lDs" id="d79-q3-b4M"/>
+                <outlet property="exploreProfileSubView" destination="JtA-Br-y8F" id="9Up-Eq-4BG"/>
+            </connections>
+            <point key="canvasLocation" x="231" y="15"/>
+        </collectionViewCell>
+    </objects>
+</document>

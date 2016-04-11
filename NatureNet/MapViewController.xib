@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapViewController" customModule="NatureNet" customModuleProvider="target">
+            <connections>
+                <outlet property="exploreView" destination="YAV-5K-HdU" id="00v-PX-0I9"/>
+                <outlet property="mapAnnotationClickSubView" destination="kai-y9-dth" id="zAb-CI-sVL"/>
+                <outlet property="mapAnnotationClickView" destination="23x-Yg-tKM" id="Sd2-AM-gdh"/>
+                <outlet property="mapTypeView" destination="EYK-OQ-1Qk" id="qFc-PZ-Nv3"/>
+                <outlet property="observationImageView" destination="nGA-uk-LJR" id="5dB-4q-ZPw"/>
+                <outlet property="observationTextLabel" destination="mwO-Oe-hy1" id="ojo-OM-eug"/>
+                <outlet property="observerAffiliation" destination="Kyi-se-gcY" id="cHa-un-6XG"/>
+                <outlet property="observerAvatarImageView" destination="Ham-fy-s4d" id="xRD-2D-rgF"/>
+                <outlet property="observerDisplayName" destination="hzT-n3-HJf" id="4IU-8x-Fau"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YAV-5K-HdU">
+                    <rect key="frame" x="0.0" y="607" width="375" height="60"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1cR-JJ-WM7">
+                            <rect key="frame" x="8" y="8" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="rTs-tO-e99"/>
+                                <constraint firstAttribute="width" constant="44" id="vEB-yB-aZu"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EXPLORE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DeR-Ro-p8f">
+                            <rect key="frame" x="150" y="19" width="74" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="dhJ-tE-GLA"/>
+                                <constraint firstAttribute="width" constant="74" id="ioV-ui-Sjw"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.2156862745" green="0.76862745099999996" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="DeR-Ro-p8f" firstAttribute="top" secondItem="YAV-5K-HdU" secondAttribute="top" constant="19" id="Ayy-hi-cMG"/>
+                        <constraint firstAttribute="width" constant="375" id="EvE-mx-1FI"/>
+                        <constraint firstAttribute="height" constant="60" id="PPQ-f9-Ve5"/>
+                        <constraint firstItem="1cR-JJ-WM7" firstAttribute="centerY" secondItem="YAV-5K-HdU" secondAttribute="centerY" id="g21-2K-LiT"/>
+                        <constraint firstItem="1cR-JJ-WM7" firstAttribute="leading" secondItem="YAV-5K-HdU" secondAttribute="leading" constant="8" id="kvY-7i-HTz"/>
+                        <constraint firstItem="DeR-Ro-p8f" firstAttribute="centerX" secondItem="YAV-5K-HdU" secondAttribute="centerX" id="mHG-kC-I6A"/>
+                        <constraint firstItem="DeR-Ro-p8f" firstAttribute="leading" secondItem="1cR-JJ-WM7" secondAttribute="trailing" constant="98" id="tOi-yj-Vgl"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="YAV-5K-HdU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="72u-ZU-Vis"/>
+                <constraint firstItem="YAV-5K-HdU" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="607" id="YLP-ll-C65"/>
+                <constraint firstItem="YAV-5K-HdU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="u9A-Ud-uj9"/>
+                <constraint firstAttribute="trailing" secondItem="YAV-5K-HdU" secondAttribute="trailing" id="zOi-v7-jlE"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <point key="canvasLocation" x="169.5" y="-399.5"/>
+        </view>
+        <view tag="8" contentMode="scaleToFill" id="23x-Yg-tKM">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kai-y9-dth">
+                    <rect key="frame" x="0.0" y="57" width="375" height="143"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ham-fy-s4d">
+                            <rect key="frame" x="100" y="4" width="44" height="44"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzT-n3-HJf">
+                            <rect key="frame" x="153" y="4" width="214" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.2156862745" green="0.76862745099999996" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kyi-se-gcY">
+                            <rect key="frame" x="153" y="33" width="214" height="12"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwO-Oe-hy1">
+                            <rect key="frame" x="101" y="53" width="266" height="50"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSi-SH-w0P">
+                            <rect key="frame" x="219" y="105" width="30" height="30"/>
+                            <state key="normal" backgroundImage="comment.png"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8BT-RR-BAC">
+                            <rect key="frame" x="101" y="105" width="30" height="30"/>
+                            <state key="normal" backgroundImage="like.png"/>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="nGA-uk-LJR">
+                            <rect key="frame" x="8" y="4" width="85" height="131"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEl-w1-xrn">
+                            <rect key="frame" x="337" y="105" width="30" height="30"/>
+                            <state key="normal" backgroundImage="share.png"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKz-X8-k29">
+                    <rect key="frame" x="8" y="0.0" width="50" height="50"/>
+                    <state key="normal" backgroundImage="add observation.png"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xap-ta-y3P">
+                    <rect key="frame" x="317" y="0.0" width="50" height="50"/>
+                    <state key="normal" backgroundImage="add design ideas.png"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="623.5" y="-572"/>
+        </view>
+        <view tag="9" contentMode="scaleToFill" id="EYK-OQ-1Qk">
+            <rect key="frame" x="0.0" y="0.0" width="150" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPh-Hn-inc">
+                    <rect key="frame" x="44" y="44" width="106" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="Satellite View">
+                        <color key="titleColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="mapTypeSatellite:" destination="-1" eventType="touchUpInside" id="Qsx-dH-Qt1"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KNG-UI-Mtz">
+                    <rect key="frame" x="44" y="0.0" width="106" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="Standard View">
+                        <color key="titleColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="mapTypeStandard:" destination="-1" eventType="touchUpInside" id="MBl-TA-1qk"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="map.png" translatesAutoresizingMaskIntoConstraints="NO" id="xP6-5e-5rr">
+                    <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="satellite.png" translatesAutoresizingMaskIntoConstraints="NO" id="klc-JG-BBf">
+                    <rect key="frame" x="0.0" y="44" width="44" height="44"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="761" y="-287"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="add design ideas.png" width="512" height="512"/>
+        <image name="add observation.png" width="512" height="512"/>
+        <image name="comment.png" width="512" height="512"/>
+        <image name="like.png" width="512" height="512"/>
+        <image name="map.png" width="512" height="512"/>
+        <image name="profile_icon.png" width="600" height="600"/>
+        <image name="satellite.png" width="512" height="512"/>
+        <image name="share.png" width="25" height="25"/>
+        <image name="user.png" width="512" height="512"/>
+    </resources>
+</document>
