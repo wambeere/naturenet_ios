@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NatureNet/MapViewController.swift"
-            timestampString = "482080875.028049"
+            filePath = "NatureNet/SignInSignUpViewController.swift"
+            timestampString = "482185064.091722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
-            landmarkName = "mapView(_:didSelectAnnotationView:)"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "signInButtonClicked(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NatureNet/MapViewController.swift"
-            timestampString = "482080927.481709"
+            filePath = "NatureNet/SignInSignUpViewController.swift"
+            timestampString = "482185146.800081"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "getObservations()"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "signInButtonClicked(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NatureNet/MapViewController.swift"
-            timestampString = "482080948.498108"
+            filePath = "NatureNet/SignInSignUpViewController.swift"
+            timestampString = "482185150.164554"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "getObservations()"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
+            landmarkName = "signInButtonClicked(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,44 +57,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NatureNet/ConnectionManager.swift"
-            timestampString = "482091411.174421"
+            filePath = "NatureNet/SignInSignUpViewController.swift"
+            timestampString = "482185153.862424"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "globalinit_33_9A55141673E3C2042AFEAE3C5F970152_func0"
-                  moduleName = "NatureNet"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/abhinaybalusu/Desktop/NatureNet/NatureNet/ConnectionManager.swift"
-                  timestampString = "482091422.300464"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "12"
-                  endingLineNumber = "12"
-                  offsetFromSymbolStart = "23">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NatureNet.OBSERVATIONS_URL.unsafeMutableAddressor : Swift.String"
-                  moduleName = "NatureNet"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/abhinaybalusu/Desktop/NatureNet/NatureNet/ConnectionManager.swift"
-                  timestampString = "482091422.300709"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "12"
-                  endingLineNumber = "12"
-                  offsetFromSymbolStart = "4">
-               </Location>
-            </Locations>
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "signInButtonClicked(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NatureNet/SignInSignUpViewController.swift"
+            timestampString = "482185218.820436"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "signInButtonClicked(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NatureNet/SignInSignUpViewController.swift"
+            timestampString = "482185242.338428"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "signInButtonClicked(_:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -35,7 +35,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     
     let mapView = MKMapView(frame: UIScreen.mainScreen().bounds)
     var tempAnnotationView : MKAnnotationView!
+    
+    var commentsDictArray : NSMutableArray = []
+    var commentsDicttoDetailVC : NSDictionary = [:]
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -102,6 +106,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             print("could not start reachability notifier")
         }
         
+        
+        
     }
     
     func reachabilityChanged(note: NSNotification) {
@@ -158,6 +164,22 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     print(latAndLongs[0])
                     print(latAndLongs[1])
                     print(observationImageAndText["image"])
+                    
+                    let tempcomments = observationData.objectForKey("comments") as! NSDictionary
+                    
+                    print(tempcomments)
+                    
+                    commentsDictArray.addObject(tempcomments)
+//                    
+//                    commentsDictionaryArray.addObject(tempcomments)
+//                    
+//                    for j in 0 ..< tempcomments.count
+//                    {
+//                        let comments = tempcomments.allValues[j] as! NSDictionary
+//                        print(comments)
+//                    }
+                    
+                    
                     observationImagesArray.addObject(observationImageAndText["image"]!)
                     
                     print(observationImageAndText["text"])
@@ -254,6 +276,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         eVC.exploreObservationsImagesArray = observationImagesArray
         eVC.observerIdsfromMapView = observerIds
         eVC.observationTextArray = observationTextArray
+        eVC.commentsDictArrayfromMapView = commentsDictArray
         let exploreNavVC = UINavigationController()
         exploreNavVC.viewControllers = [eVC]
         self.presentViewController(exploreNavVC, animated: true, completion: nil)
@@ -318,7 +341,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         self.view.addSubview(self.mapAnnotationClickView)
 //            }, completion: nil)
 //        self.mapViewCoordinate()
-        //print(view.tag)
+        print(commentsDictArray.objectAtIndex(view.tag))
+        commentsDicttoDetailVC = commentsDictArray.objectAtIndex(view.tag)  as! NSDictionary
         
         observationTextLabel.text = (observationTextArray[view.tag] as! String)
         
@@ -364,14 +388,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             do{
                 let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
                 print(json)
-                if let observerData = json["public"] as? NSDictionary {
-                    
+                
                     //print(observerData.objectForKey("affiliation"))
                     //print(observerData.objectForKey("display_name"))
                     //print(observerData)
-                    if((observerData.objectForKey("affiliation")) != nil)
+                    if((json.objectForKey("affiliation")) != nil)
                     {
-                        let observerAffiliationString = observerData.objectForKey("affiliation") as! String
+                        let observerAffiliationString = json.objectForKey("affiliation") as! String
                         self.observerAffiliation.text = observerAffiliationString
                         //observerAffiliationsArray.addObject(observerAffiliationString)
                         print(observerAffiliationString)
@@ -381,9 +404,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                         self.observerAffiliation.text = ""
                     }
                     
-                    if((observerData.objectForKey("display_name")) != nil)
+                    if((json.objectForKey("display_name")) != nil)
                     {
-                        let observerDisplayNameString = observerData.objectForKey("display_name") as! String
+                        let observerDisplayNameString = json.objectForKey("display_name") as! String
                         self.observerDisplayName.text = observerDisplayNameString
                         //observerNamesArray.addObject(observerDisplayNameString)
                     }
@@ -394,9 +417,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     
                     //print(observerAffiliation)
                     //print(observerDisplayName)
-                    if((observerData.objectForKey("avatar")) != nil)
+                    if((json.objectForKey("avatar")) != nil)
                     {
-                        let observerAvatar = observerData.objectForKey("avatar")
+                        let observerAvatar = json.objectForKey("avatar")
                         if let observerAvatarUrl  = NSURL(string: observerAvatar as! String),
                             observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
                         {
@@ -412,7 +435,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                         
                     }
                     
-                }
+                
                 
             }catch let error as NSError {
                 print("json error: \(error.localizedDescription)")
@@ -451,7 +474,29 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         detailedObservationVC.observerAffiliation = observerAffiliation.text!
         detailedObservationVC.observationImageUrl = observervationUrlString
         detailedObservationVC.observationText = observationTextLabel.text!
+        detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
+        
+    }
+    
+    @IBAction func shareButtonClicked(sender: UIButton) {
+        
+        displayShareSheet("NatureNet")
+        
+    }
+    func displayShareSheet(shareContent:String) {
+        // let activityItem: [AnyObject] = [self.imageView.image as! AnyObject]
+        let activityViewController = UIActivityViewController(activityItems: [shareContent as NSString], applicationActivities: nil)
+        presentViewController(activityViewController, animated: true, completion: {})
+    }
+    @IBAction func likesButtonClicked(sender: UIButton) {
+        
+        mapAnnotationClickSubViewtapped()
+        
+    }
+    @IBAction func commentsButtonClicked(sender: UIButton) {
+        
+        mapAnnotationClickSubViewtapped()
         
     }
 }

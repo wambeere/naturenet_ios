@@ -12,6 +12,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     
     var collectionView: UICollectionView!
     var observerIdsfromMapView : NSMutableArray = []
+    var commentsDictArrayfromMapView : NSMutableArray = []
     
     var exploreObservationsImagesArray : NSArray!
     
@@ -51,7 +52,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         //Setting up collection view
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 110, height: 110)
+        layout.itemSize = CGSize(width: 172, height: 172)
         
         collectionView = UICollectionView(frame: UIScreen.mainScreen().bounds, collectionViewLayout: layout)
         collectionView.dataSource = self
@@ -85,14 +86,13 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                 do{
                     let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
                     print(json)
-                    if let observerData = json["public"] as? NSDictionary {
                         
                         //print(observerData.objectForKey("affiliation"))
                         //print(observerData.objectForKey("display_name"))
-                        print(observerData)
-                        if((observerData.objectForKey("affiliation")) != nil)
+                        //print(observerData)
+                        if((json.objectForKey("affiliation")) != nil)
                         {
-                            let observerAffiliationString = observerData.objectForKey("affiliation") as! String
+                            let observerAffiliationString = json.objectForKey("affiliation") as! String
                             
                             observerAffiliationsArray.addObject(observerAffiliationString)
                         }
@@ -100,9 +100,9 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                         {
                             observerAffiliationsArray.addObject("")
                         }
-                        if((observerData.objectForKey("display_name")) != nil)
+                        if((json.objectForKey("display_name")) != nil)
                         {
-                            let observerDisplayNameString = observerData.objectForKey("display_name") as! String
+                            let observerDisplayNameString = json.objectForKey("display_name") as! String
                             observerNamesArray.addObject(observerDisplayNameString)
                         }
                         else
@@ -115,9 +115,9 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                         
                         //print(observerAffiliation)
                         //print(observerDisplayName)
-                        if((observerData.objectForKey("avatar")) != nil)
+                        if((json.objectForKey("avatar")) != nil)
                         {
-                            let observerAvatar = observerData.objectForKey("avatar")
+                            let observerAvatar = json.objectForKey("avatar")
                             if let observerAvatarUrl  = NSURL(string: observerAvatar as! String),
                                 observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
                             {
@@ -136,8 +136,6 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                                 
                             }
                         }
-                        
-                    }
                     
                 }catch let error as NSError {
                     print("json error: \(error.localizedDescription)")
@@ -242,6 +240,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         detailedObservationVC.observerAffiliation = observerAffiliationsArray[indexPath.row] as! String;
         detailedObservationVC.observationText = observationTextArray[indexPath.row] as! String;
         detailedObservationVC.observationImageUrl = exploreObservationsImagesArray[indexPath.row] as! String;
+        //detailedObservationVC.observationsIdsfromExploreView = observationsIdsfromMapView
+        detailedObservationVC.commentsDictfromExploreView = commentsDictArrayfromMapView[indexPath.row] as! NSDictionary
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
     }
 

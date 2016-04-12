@@ -98,10 +98,16 @@
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSi-SH-w0P">
                             <rect key="frame" x="219" y="105" width="30" height="30"/>
                             <state key="normal" backgroundImage="comment.png"/>
+                            <connections>
+                                <action selector="commentsButtonClicked:" destination="-1" eventType="touchUpInside" id="UaA-FL-lrz"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8BT-RR-BAC">
                             <rect key="frame" x="101" y="105" width="30" height="30"/>
                             <state key="normal" backgroundImage="like.png"/>
+                            <connections>
+                                <action selector="likesButtonClicked:" destination="-1" eventType="touchUpInside" id="KTg-n5-Thr"/>
+                            </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="nGA-uk-LJR">
                             <rect key="frame" x="8" y="4" width="85" height="131"/>
@@ -109,6 +115,9 @@
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEl-w1-xrn">
                             <rect key="frame" x="337" y="105" width="30" height="30"/>
                             <state key="normal" backgroundImage="share.png"/>
+                            <connections>
+                                <action selector="shareButtonClicked:" destination="-1" eventType="touchUpInside" id="4eu-Tb-cAz"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -127,7 +136,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="623.5" y="-572"/>
+            <point key="canvasLocation" x="982.5" y="-600"/>
         </view>
         <view tag="9" contentMode="scaleToFill" id="EYK-OQ-1Qk">
             <rect key="frame" x="0.0" y="0.0" width="150" height="88"/>

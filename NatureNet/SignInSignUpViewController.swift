@@ -287,13 +287,10 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                         //print(json["public"]!["affliation"])
                                         
                                         //let userPublicData = json["public"] as! NSArray
-                                        if let userPublicData = json["public"] as? NSDictionary {
-                                            print(userPublicData)
-                                            print(userPublicData.objectForKey("affiliation"))
-                                            print(userPublicData.objectForKey("display_name"))
+                                        if(json != ""){
                                             
-                                            let userAffiliation = userPublicData.objectForKey("affiliation")
-                                            let userDisplayName = userPublicData.objectForKey("display_name")
+                                            let userAffiliation = json.objectForKey("affiliation")
+                                            let userDisplayName = json.objectForKey("display_name")
                                             
                                             let userDefaults = NSUserDefaults.standardUserDefaults()
                                             userDefaults.setValue(userAffiliation, forKey: "userAffiliation")
@@ -374,13 +371,13 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                 else
                                                 {
                                                     let usersRef = ref.childByAppendingPath(uid)
-                                                    let usersPubReftoid = usersRef.childByAppendingPath("public")
+                                                    //let usersPubReftoid = usersRef.childByAppendingPath("public")
                                                     let usersPub = ["id": uid as! AnyObject,"display_name": self.joinName.text as! AnyObject, "affiliation": self.joinAffliation.text as! AnyObject]
-                                                    usersPubReftoid.setValue(usersPub)
+                                                    usersRef.setValue(usersPub)
                                                     
-                                                    let usersPrivateReftoid = usersRef.childByAppendingPath("private")
-                                                    let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
-                                                    usersPrivateReftoid.setValue(usersPrivate)
+                                                    //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
+                                                    //let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
+                                                    //usersRef.setValue(usersPub)
                                                     
                                                     let userDefaults = NSUserDefaults.standardUserDefaults()
                                                     userDefaults.setValue(self.joinAffliation.text, forKey: "userAffiliation")

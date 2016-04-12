@@ -8,6 +8,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailedObservationViewController" customModule="NatureNet" customModuleProvider="target">
             <connections>
+                <outlet property="commentTF" destination="Rmo-Em-tTT" id="iI4-My-1bB"/>
+                <outlet property="commentView" destination="lrV-7L-obF" id="Pyr-nw-OS3"/>
                 <outlet property="commentsTableView" destination="WS0-Xj-v0Y" id="cOP-3l-eB9"/>
                 <outlet property="observationImageView" destination="xsP-CB-11Q" id="VQr-h4-Gaz"/>
                 <outlet property="observationTextLabel" destination="lwk-nm-kqU" id="jmw-zN-xEC"/>
@@ -84,13 +86,34 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WS0-Xj-v0Y">
-                    <rect key="frame" x="0.0" y="405" width="375" height="262"/>
+                    <rect key="frame" x="0.0" y="405" width="375" height="212"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lrV-7L-obF">
+                    <rect key="frame" x="0.0" y="625" width="375" height="42"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-Em-tTT">
+                            <rect key="frame" x="57" y="6" width="260" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jp8-3Q-AUC">
+                            <rect key="frame" x="8" y="6" width="30" height="30"/>
+                            <state key="normal" backgroundImage="like.png"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZI0-ok-woI">
+                            <rect key="frame" x="325" y="6" width="46" height="30"/>
+                            <state key="normal" title="Send">
+                                <color key="titleColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="WS0-Xj-v0Y" secondAttribute="bottom" id="0yA-T9-LKd"/>
+                <constraint firstAttribute="bottom" secondItem="WS0-Xj-v0Y" secondAttribute="bottom" constant="50" id="0yA-T9-LKd"/>
                 <constraint firstAttribute="trailing" secondItem="BJA-T0-Ksy" secondAttribute="trailing" id="2W9-Je-tqp"/>
                 <constraint firstAttribute="bottom" secondItem="BJA-T0-Ksy" secondAttribute="bottom" constant="270" id="3qN-Hi-LWF"/>
                 <constraint firstItem="WS0-Xj-v0Y" firstAttribute="top" secondItem="BJA-T0-Ksy" secondAttribute="bottom" constant="8" id="688-qz-KdQ"/>
@@ -100,7 +123,10 @@
                 <constraint firstItem="BJA-T0-Ksy" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="fQZ-jv-III"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-            <point key="canvasLocation" x="282.5" y="-170.5"/>
+            <point key="canvasLocation" x="474.5" y="-115.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="like.png" width="512" height="512"/>
+    </resources>
 </document>

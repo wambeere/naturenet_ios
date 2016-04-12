@@ -20,7 +20,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q4R-mq-ggC">
                         <rect key="frame" x="60" y="8" width="252" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="textColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWw-72-Y51">
@@ -37,7 +37,7 @@
                     </label>
                 </subviews>
             </tableViewCellContentView>
-            <color key="backgroundColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="commentLabel" destination="cpp-RJ-wHj" id="kGo-UK-o9x"/>
                 <outlet property="commentorAvatarImageView" destination="MGA-q7-oEB" id="n1j-gi-uqi"/>
