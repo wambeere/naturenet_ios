@@ -13,6 +13,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     var collectionView: UICollectionView!
     var observerIdsfromMapView : NSMutableArray = []
     var commentsDictArrayfromMapView : NSMutableArray = []
+    var observationIdsfromMapView : NSMutableArray = []
     
     var exploreObservationsImagesArray : NSArray!
     
@@ -21,6 +22,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     var observerNamesArray : NSMutableArray = []
     var observerAffiliationsArray : NSMutableArray = []
     var observationTextArray : NSMutableArray = []
+    
+    let newObsAndDIView = NewObsAndDIViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,6 +153,9 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         print(observerAffiliationsArray)
         print(observerNamesArray)
         print(observerAvatarsArray)
+        
+        newObsAndDIView.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView.view.frame.size.height+60, newObsAndDIView.view.frame.size.width, newObsAndDIView.view.frame.size.height)
+        self.view.addSubview(newObsAndDIView.view)
 
     }
     
@@ -240,7 +246,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         detailedObservationVC.observerAffiliation = observerAffiliationsArray[indexPath.row] as! String;
         detailedObservationVC.observationText = observationTextArray[indexPath.row] as! String;
         detailedObservationVC.observationImageUrl = exploreObservationsImagesArray[indexPath.row] as! String;
-        //detailedObservationVC.observationsIdsfromExploreView = observationsIdsfromMapView
+        detailedObservationVC.observationsIdsfromExploreView = observerIdsfromMapView
         detailedObservationVC.commentsDictfromExploreView = commentsDictArrayfromMapView[indexPath.row] as! NSDictionary
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
     }

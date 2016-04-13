@@ -52,6 +52,15 @@
 		9F32D21E1CB7F33100298E02 /* marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D21C1CB7F33100298E02 /* marker.png */; };
 		9F32D2201CB7F8FE00298E02 /* exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D21F1CB7F8FE00298E02 /* exit.png */; };
 		9F32D2221CB7F90900298E02 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2211CB7F90900298E02 /* share.png */; };
+		9F32D2251CBDBD6E00298E02 /* NewObsAndDIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D2231CBDBD6E00298E02 /* NewObsAndDIViewController.swift */; };
+		9F32D2261CBDBD6E00298E02 /* NewObsAndDIViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2241CBDBD6E00298E02 /* NewObsAndDIViewController.xib */; };
+		9F32D2291CBDC73C00298E02 /* CameraAndGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D2271CBDC73C00298E02 /* CameraAndGalleryViewController.swift */; };
+		9F32D22A1CBDC73C00298E02 /* CameraAndGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2281CBDC73C00298E02 /* CameraAndGalleryViewController.xib */; };
+		9F32D22C1CBEA66100298E02 /* newObsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D22B1CBEA66100298E02 /* newObsButton.swift */; };
+		9F32D22F1CBEB61900298E02 /* NewObsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */; };
+		9F32D2301CBEB61900298E02 /* NewObsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */; };
+		9F32D2331CBEE46A00298E02 /* NewObservationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */; };
+		9F32D2341CBEE46A00298E02 /* NewObservationDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */; };
 		9F9BB3BC1C9B214C0076E68E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */; };
 		9F9BB3BE1C9B214C0076E68E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BD1C9B214C0076E68E /* ViewController.swift */; };
 		9F9BB3C11C9B214C0076E68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BF1C9B214C0076E68E /* Main.storyboard */; };
@@ -129,6 +138,15 @@
 		9F32D21C1CB7F33100298E02 /* marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marker.png; sourceTree = "<group>"; };
 		9F32D21F1CB7F8FE00298E02 /* exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exit.png; sourceTree = "<group>"; };
 		9F32D2211CB7F90900298E02 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		9F32D2231CBDBD6E00298E02 /* NewObsAndDIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewObsAndDIViewController.swift; sourceTree = "<group>"; };
+		9F32D2241CBDBD6E00298E02 /* NewObsAndDIViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewObsAndDIViewController.xib; sourceTree = "<group>"; };
+		9F32D2271CBDC73C00298E02 /* CameraAndGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryViewController.swift; sourceTree = "<group>"; };
+		9F32D2281CBDC73C00298E02 /* CameraAndGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryViewController.xib; sourceTree = "<group>"; };
+		9F32D22B1CBEA66100298E02 /* newObsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = newObsButton.swift; sourceTree = "<group>"; };
+		9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewObsViewController.swift; sourceTree = "<group>"; };
+		9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewObsViewController.xib; sourceTree = "<group>"; };
+		9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewObservationDetailsViewController.swift; sourceTree = "<group>"; };
+		9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewObservationDetailsViewController.xib; sourceTree = "<group>"; };
 		9F9BB3B81C9B214C0076E68E /* NatureNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NatureNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F9BB3BD1C9B214C0076E68E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +245,10 @@
 				9F14A79D1C9F15BB00CAB0F6 /* CommunitiesViewController.swift */,
 				9F9DBC6B1CA2F68A0047DE4B /* SignInSignUpViewController.swift */,
 				9F32D2111CB6E92100298E02 /* CommentsTableViewCell.swift */,
+				9F32D2231CBDBD6E00298E02 /* NewObsAndDIViewController.swift */,
+				9F32D2271CBDC73C00298E02 /* CameraAndGalleryViewController.swift */,
+				9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */,
+				9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -247,6 +269,10 @@
 				9F14A79E1C9F15BB00CAB0F6 /* CommunitiesViewController.xib */,
 				9F9DBC6C1CA2F68A0047DE4B /* SignInSignUpViewController.xib */,
 				9F32D2121CB6E92100298E02 /* CommentsTableViewCell.xib */,
+				9F32D2241CBDBD6E00298E02 /* NewObsAndDIViewController.xib */,
+				9F32D2281CBDC73C00298E02 /* CameraAndGalleryViewController.xib */,
+				9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */,
+				9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -285,6 +311,7 @@
 				9F0ECB971CA5D0AC00594B2C /* Views */,
 				9F0ECB961CA5D06200594B2C /* Controllers */,
 				9F0ECB951CA5D03A00594B2C /* Images */,
+				9F32D22B1CBEA66100298E02 /* newObsButton.swift */,
 			);
 			path = NatureNet;
 			sourceTree = "<group>";
@@ -431,6 +458,7 @@
 				9F0ECB8C1CA3239100594B2C /* user.png in Resources */,
 				9F0ECB8A1CA3239100594B2C /* project.png in Resources */,
 				9F14A79C1C9F159C00CAB0F6 /* DesignIdeasViewController.xib in Resources */,
+				9F32D2261CBDBD6E00298E02 /* NewObsAndDIViewController.xib in Resources */,
 				9F14A7821C9B53BF00CAB0F6 /* MenuTableViewCell.xib in Resources */,
 				9F32D21E1CB7F33100298E02 /* marker.png in Resources */,
 				9F14A7941C9E65B800CAB0F6 /* DetailedObservationViewController.xib in Resources */,
@@ -439,6 +467,8 @@
 				9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */,
 				9F14A7981C9F158000CAB0F6 /* ProjectsViewController.xib in Resources */,
 				9F0ECB991CA96F8900594B2C /* LaunchIcon.png in Resources */,
+				9F32D2301CBEB61900298E02 /* NewObsViewController.xib in Resources */,
+				9F32D22A1CBDC73C00298E02 /* CameraAndGalleryViewController.xib in Resources */,
 				9F9BB3C61C9B214C0076E68E /* LaunchScreen.storyboard in Resources */,
 				9F0ECB8B1CA3239100594B2C /* satellite.png in Resources */,
 				9F9BB3C31C9B214C0076E68E /* Assets.xcassets in Resources */,
@@ -446,6 +476,7 @@
 				9F9DBC6E1CA2F68A0047DE4B /* SignInSignUpViewController.xib in Resources */,
 				9F14A7901C9E5EA400CAB0F6 /* double_down.png in Resources */,
 				9F0ECB8E1CA3718D00594B2C /* observations navy.png in Resources */,
+				9F32D2341CBEE46A00298E02 /* NewObservationDetailsViewController.xib in Resources */,
 				9F0ECB881CA3239100594B2C /* design ideas.png in Resources */,
 				9F0ECB861CA3239100594B2C /* community.png in Resources */,
 				9F32D2221CB7F90900298E02 /* share.png in Resources */,
@@ -541,12 +572,17 @@
 				9F14A7971C9F158000CAB0F6 /* ProjectsViewController.swift in Sources */,
 				9F9BB3BC1C9B214C0076E68E /* AppDelegate.swift in Sources */,
 				9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */,
+				9F32D2291CBDC73C00298E02 /* CameraAndGalleryViewController.swift in Sources */,
 				9F14A7871C9B739600CAB0F6 /* ExploreCollectionViewCell.swift in Sources */,
+				9F32D2251CBDBD6E00298E02 /* NewObsAndDIViewController.swift in Sources */,
 				9F14A79B1C9F159C00CAB0F6 /* DesignIdeasViewController.swift in Sources */,
 				9F9DBC6D1CA2F68A0047DE4B /* SignInSignUpViewController.swift in Sources */,
+				9F32D2331CBEE46A00298E02 /* NewObservationDetailsViewController.swift in Sources */,
+				9F32D22C1CBEA66100298E02 /* newObsButton.swift in Sources */,
 				9F14A78B1C9DC8CE00CAB0F6 /* ExploreViewController.swift in Sources */,
 				9F32D2161CB6F6E100298E02 /* ConnectionManager.swift in Sources */,
 				9F14A7811C9B53BF00CAB0F6 /* MenuTableViewCell.swift in Sources */,
+				9F32D22F1CBEB61900298E02 /* NewObsViewController.swift in Sources */,
 				9F32D2131CB6E92100298E02 /* CommentsTableViewCell.swift in Sources */,
 				9F14A79F1C9F15BB00CAB0F6 /* CommunitiesViewController.swift in Sources */,
 				9F32D20E1CB587FD00298E02 /* Reachability.swift in Sources */,

@@ -35,17 +35,17 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EXPLORE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DeR-Ro-p8f">
-                            <rect key="frame" x="150" y="19" width="74" height="21"/>
+                            <rect key="frame" x="148" y="19" width="79" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="dhJ-tE-GLA"/>
-                                <constraint firstAttribute="width" constant="74" id="ioV-ui-Sjw"/>
+                                <constraint firstAttribute="width" constant="79" id="ioV-ui-Sjw"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <color key="textColor" red="0.15686274510000001" green="0.22352941179999999" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="0.2156862745" green="0.76862745099999996" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="DeR-Ro-p8f" firstAttribute="top" secondItem="YAV-5K-HdU" secondAttribute="top" constant="19" id="Ayy-hi-cMG"/>
                         <constraint firstAttribute="width" constant="375" id="EvE-mx-1FI"/>
@@ -53,7 +53,7 @@
                         <constraint firstItem="1cR-JJ-WM7" firstAttribute="centerY" secondItem="YAV-5K-HdU" secondAttribute="centerY" id="g21-2K-LiT"/>
                         <constraint firstItem="1cR-JJ-WM7" firstAttribute="leading" secondItem="YAV-5K-HdU" secondAttribute="leading" constant="8" id="kvY-7i-HTz"/>
                         <constraint firstItem="DeR-Ro-p8f" firstAttribute="centerX" secondItem="YAV-5K-HdU" secondAttribute="centerX" id="mHG-kC-I6A"/>
-                        <constraint firstItem="DeR-Ro-p8f" firstAttribute="leading" secondItem="1cR-JJ-WM7" secondAttribute="trailing" constant="98" id="tOi-yj-Vgl"/>
+                        <constraint firstItem="DeR-Ro-p8f" firstAttribute="leading" secondItem="1cR-JJ-WM7" secondAttribute="trailing" constant="96" id="tOi-yj-Vgl"/>
                     </constraints>
                 </view>
             </subviews>
@@ -68,11 +68,11 @@
             <point key="canvasLocation" x="169.5" y="-399.5"/>
         </view>
         <view tag="8" contentMode="scaleToFill" id="23x-Yg-tKM">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="143"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kai-y9-dth">
-                    <rect key="frame" x="0.0" y="57" width="375" height="143"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="143"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ham-fy-s4d">
                             <rect key="frame" x="100" y="4" width="44" height="44"/>
@@ -122,21 +122,13 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKz-X8-k29">
-                    <rect key="frame" x="8" y="0.0" width="50" height="50"/>
-                    <state key="normal" backgroundImage="add observation.png"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xap-ta-y3P">
-                    <rect key="frame" x="317" y="0.0" width="50" height="50"/>
-                    <state key="normal" backgroundImage="add design ideas.png"/>
-                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="982.5" y="-600"/>
+            <point key="canvasLocation" x="1177.5" y="-624.5"/>
         </view>
         <view tag="9" contentMode="scaleToFill" id="EYK-OQ-1Qk">
             <rect key="frame" x="0.0" y="0.0" width="150" height="88"/>
@@ -179,8 +171,6 @@
         </view>
     </objects>
     <resources>
-        <image name="add design ideas.png" width="512" height="512"/>
-        <image name="add observation.png" width="512" height="512"/>
         <image name="comment.png" width="512" height="512"/>
         <image name="like.png" width="512" height="512"/>
         <image name="map.png" width="512" height="512"/>

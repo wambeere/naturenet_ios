@@ -38,7 +38,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     
     var commentsDictArray : NSMutableArray = []
     var commentsDicttoDetailVC : NSDictionary = [:]
-
+    
+    let newObsAndDIView = NewObsAndDIViewController()
+    
+    let cgVC = CameraAndGalleryViewController()
+    
+    var obsevationIds : NSMutableArray = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +71,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
-        exploreView.backgroundColor=UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
+        //exploreView.backgroundColor=UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         exploreView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MapViewController.tappedView)))
         exploreView.userInteractionEnabled = true
 
@@ -107,7 +113,28 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         }
         
         
+        newObsAndDIView.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView.view.frame.size.height-8 - 60, newObsAndDIView.view.frame.size.width, newObsAndDIView.view.frame.size.height)
+        self.view.addSubview(newObsAndDIView.view)
+        //self.view.bringSubviewToFront(newObsAndDIView.view)
+        newObsAndDIView.camButton.addTarget(self, action: #selector(MapViewController.openNewObsView), forControlEvents: .TouchUpInside)
         
+        
+    }
+    func openNewObsView()
+    {
+        print("gverver")
+        self.addChildViewController(cgVC)
+        cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - cgVC.view.frame.size.height+68, cgVC.view.frame.size.width, cgVC.view.frame.size.height)
+        self.view.addSubview(cgVC.view)
+        UIView.animateWithDuration(0.3, animations: {
+        
+            self.cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - self.cgVC.view.frame.size.height+68, self.cgVC.view.frame.size.width, self.cgVC.view.frame.size.height)
+        
+        }) { (isComplete) in
+        
+            self.cgVC.didMoveToParentViewController(self)
+                    
+        }
     }
     
     func reachabilityChanged(note: NSNotification) {
@@ -169,7 +196,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     
                     print(tempcomments)
                     
+                    let obsId = observationData.objectForKey("id") as! String
+                    print(obsId)
+                    
                     commentsDictArray.addObject(tempcomments)
+                    obsevationIds.addObject(obsId)
 //                    
 //                    commentsDictionaryArray.addObject(tempcomments)
 //                    
@@ -244,6 +275,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             exploreViewWithTag.removeFromSuperview()
             
         }
+        newObsAndDIView.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView.view.frame.size.height-8 - 60, newObsAndDIView.view.frame.size.width, newObsAndDIView.view.frame.size.height)
+        cgVC.view.removeFromSuperview()
+        cgVC.removeFromParentViewController()
+        
     }
     func mapViewCoordinate(annotationLocation: CLLocation, tagForAnnotation : Int)
     {
@@ -277,6 +312,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         eVC.observerIdsfromMapView = observerIds
         eVC.observationTextArray = observationTextArray
         eVC.commentsDictArrayfromMapView = commentsDictArray
+        eVC.observerIdsfromMapView = obsevationIds
         let exploreNavVC = UINavigationController()
         exploreNavVC.viewControllers = [eVC]
         self.presentViewController(exploreNavVC, animated: true, completion: nil)
@@ -338,6 +374,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         //view.hidden=true
 //        UIView.animateWithDuration(0.6, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
 //            view.frame = CGRectMake(view.frame.origin.x,view.frame.origin.y, view.frame.width * 1.5, self.view.frame.height * 0.1)
+        
+        newObsAndDIView.view.frame = CGRectMake(0 , self.mapAnnotationClickView.frame.origin.y - newObsAndDIView.view.frame.size.height-8, newObsAndDIView.view.frame.width, newObsAndDIView.view.frame.height)
+        
         self.view.addSubview(self.mapAnnotationClickView)
 //            }, completion: nil)
 //        self.mapViewCoordinate()
@@ -499,4 +538,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         mapAnnotationClickSubViewtapped()
         
     }
+        
+        
 }

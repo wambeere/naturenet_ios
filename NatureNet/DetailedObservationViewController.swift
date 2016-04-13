@@ -23,7 +23,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     var observationText : String = ""
     var isfromMapView : Bool = false
     
-    //var observationsIdsfromExploreView : NSMutableArray = []
+    var observationsIdsfromExploreView : NSMutableArray = []
     var commentsDictfromExploreView : NSDictionary = [:]
     
     @IBOutlet weak var commentTF: UITextField!
@@ -94,7 +94,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         }
         commentTF.delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailedObservationViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
 
 
