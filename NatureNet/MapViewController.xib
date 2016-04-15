@@ -41,7 +41,7 @@
                                 <constraint firstAttribute="width" constant="79" id="ioV-ui-Sjw"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                            <color key="textColor" red="0.15686274510000001" green="0.22352941179999999" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>

@@ -19,6 +19,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     var projectName : String = ""
     var descText :String = ""
+    var userID :String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,11 +69,41 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
 //        let obs = ["id": uid as! AnyObject,"display_name": self.joinName.text as! AnyObject, "affiliation": self.joinAffliation.text as! AnyObject]
 //        observations.setValue(obs)
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        projectName = (userDefaults.objectForKey("ObservationDescription") as? String)!
-        descText = (userDefaults.objectForKey("Project") as? String)!
+        if(userDefaults.objectForKey("ObservationDescription") != nil)
+        {
+            descText = (userDefaults.objectForKey("ObservationDescription") as? String)!
+        }
+        if(userDefaults.objectForKey("Project") != nil)
+        {
+            projectName = (userDefaults.objectForKey("Project") as? String)!
+        }
+        if(userDefaults.objectForKey("userID") != nil)
+        {
+            userID = (userDefaults.objectForKey("userID") as? String)!
+        }
+        
+        
+        
         
         print(projectName)
         print(descText)
+        print(userID)
+        
+        let ref = Firebase(url: POST_OBSERVATION_URL)
+        print(ref.childByAutoId())
+        let autoID = ref.childByAutoId()
+        //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
+        let obsData = autoID.childByAppendingPath("data")
+        let obsDataDetails = obsData.childByAppendingPath("text")
+        obsDataDetails.setValue(descText)
+        
+        let obsIdKey = autoID.childByAppendingPath("observer")
+        obsIdKey.setValue(userID)
+
+        //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
+        //let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
+        //usersRef.setValue(usersPub)
+        
     }
     
     // MARK: - Table view data source

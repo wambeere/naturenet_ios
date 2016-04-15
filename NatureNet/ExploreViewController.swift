@@ -23,7 +23,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     var observerAffiliationsArray : NSMutableArray = []
     var observationTextArray : NSMutableArray = []
     
-    let newObsAndDIView = NewObsAndDIViewController()
+    let newObsAndDIViewtemp = NewObsAndDIViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,10 +154,30 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         print(observerNamesArray)
         print(observerAvatarsArray)
         
-        newObsAndDIView.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView.view.frame.size.height+60, newObsAndDIView.view.frame.size.width, newObsAndDIView.view.frame.size.height)
-        self.view.addSubview(newObsAndDIView.view)
+//        newObsAndDIViewtemp.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIViewtemp.view.frame.size.height-8 - 60, newObsAndDIViewtemp.view.frame.size.width, newObsAndDIViewtemp.view.frame.size.height)
+//        self.view.addSubview(newObsAndDIViewtemp.view)
+//        //self.view.bringSubviewToFront(newObsAndDIView.view)
+//        newObsAndDIViewtemp.camButton.addTarget(self, action: #selector(ExploreViewController.openNewObsView), forControlEvents: .TouchUpInside)
 
     }
+//    func openNewObsView()
+//    {
+//        print("gverver")
+//        let cgVC = CameraAndGalleryViewController()
+//        self.addChildViewController(cgVC)
+//        cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - cgVC.view.frame.size.height+68, cgVC.view.frame.size.width, cgVC.view.frame.size.height)
+//        self.view.addSubview(cgVC.view)
+//        UIView.animateWithDuration(0.3, animations: {
+//            
+//            cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - cgVC.view.frame.size.height+68, cgVC.view.frame.size.width, cgVC.view.frame.size.height)
+//            
+//        }) { (isComplete) in
+//            
+//            cgVC.didMoveToParentViewController(self)
+//            
+//        }
+//    }
+
     
     func dismissVC(){
         
@@ -246,7 +266,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         detailedObservationVC.observerAffiliation = observerAffiliationsArray[indexPath.row] as! String;
         detailedObservationVC.observationText = observationTextArray[indexPath.row] as! String;
         detailedObservationVC.observationImageUrl = exploreObservationsImagesArray[indexPath.row] as! String;
-        detailedObservationVC.observationsIdsfromExploreView = observerIdsfromMapView
+        //detailedObservationVC.observationsIdsfromExploreView = observerIdsfromMapView
+        detailedObservationVC.observationId = observationIdsfromMapView[indexPath.row] as! String
         detailedObservationVC.commentsDictfromExploreView = commentsDictArrayfromMapView[indexPath.row] as! NSDictionary
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
     }

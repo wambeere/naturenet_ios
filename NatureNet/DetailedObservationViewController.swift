@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 
 class DetailedObservationViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
@@ -23,7 +24,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     var observationText : String = ""
     var isfromMapView : Bool = false
     
-    var observationsIdsfromExploreView : NSMutableArray = []
+    var observationId : String = ""
     var commentsDictfromExploreView : NSDictionary = [:]
     
     @IBOutlet weak var commentTF: UITextField!
@@ -36,6 +37,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        print(observationId)
         self.navigationItem.title="Native or Not?"
         
         self.navigationController!.navigationBar.barTintColor = UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
@@ -263,6 +265,44 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         return 90
     }
 
+    @IBAction func postComment(sender: UIButton) {
+        
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        var userID = String()
+        if(userDefaults.objectForKey("userID") != nil)
+        {
+            userID = (userDefaults.objectForKey("userID") as? String)!
+        }
+     
+        print(userID)
+        
+        if(commentTF.text != "")
+        {
+        
+            let ref = Firebase(url: "https://naturenet-testing.firebaseio.com/observations/\(observationId)/comments")
+            print(ref.childByAutoId())
+            let autoID = ref.childByAutoId()
+            //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
+            let commentChild = autoID.childByAppendingPath("comment")
+            commentChild.setValue(commentTF.text)
+        
+            let commenterChild = autoID.childByAppendingPath("commenter")
+            commenterChild.setValue(userID)
+            
+            let alert = UIAlertController(title: "Alert", message: "Comment Posted Successfully", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else
+        {
+            let alert = UIAlertController(title: "Alert", message: "Please Enter Text in the Comment Field to Post it", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -61,6 +61,7 @@
 		9F32D2301CBEB61900298E02 /* NewObsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */; };
 		9F32D2331CBEE46A00298E02 /* NewObservationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */; };
 		9F32D2341CBEE46A00298E02 /* NewObservationDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */; };
+		9F32D2361CBFE2A500298E02 /* default-no-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2351CBFE2A500298E02 /* default-no-image.png */; };
 		9F9BB3BC1C9B214C0076E68E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */; };
 		9F9BB3BE1C9B214C0076E68E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BD1C9B214C0076E68E /* ViewController.swift */; };
 		9F9BB3C11C9B214C0076E68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BF1C9B214C0076E68E /* Main.storyboard */; };
@@ -147,6 +148,7 @@
 		9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewObsViewController.xib; sourceTree = "<group>"; };
 		9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewObservationDetailsViewController.swift; sourceTree = "<group>"; };
 		9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewObservationDetailsViewController.xib; sourceTree = "<group>"; };
+		9F32D2351CBFE2A500298E02 /* default-no-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-no-image.png"; sourceTree = "<group>"; };
 		9F9BB3B81C9B214C0076E68E /* NatureNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NatureNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F9BB3BD1C9B214C0076E68E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				9F0ECB821CA3239100594B2C /* satellite.png */,
 				9F0ECB831CA3239100594B2C /* user.png */,
 				9F2A48531CA1E8E600B98821 /* more.png */,
+				9F32D2351CBFE2A500298E02 /* default-no-image.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				9F14A7901C9E5EA400CAB0F6 /* double_down.png in Resources */,
 				9F0ECB8E1CA3718D00594B2C /* observations navy.png in Resources */,
 				9F32D2341CBEE46A00298E02 /* NewObservationDetailsViewController.xib in Resources */,
+				9F32D2361CBFE2A500298E02 /* default-no-image.png in Resources */,
 				9F0ECB881CA3239100594B2C /* design ideas.png in Resources */,
 				9F0ECB861CA3239100594B2C /* community.png in Resources */,
 				9F32D2221CB7F90900298E02 /* share.png in Resources */,

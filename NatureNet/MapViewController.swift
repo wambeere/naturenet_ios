@@ -44,6 +44,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     let cgVC = CameraAndGalleryViewController()
     
     var obsevationIds : NSMutableArray = []
+    var obsevationId : String = ""
     
     
     override func viewDidLoad() {
@@ -71,7 +72,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
-        //exploreView.backgroundColor=UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
+        exploreView.backgroundColor=UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         exploreView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MapViewController.tappedView)))
         exploreView.userInteractionEnabled = true
 
@@ -190,17 +191,33 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     let observationImageAndText = observationData.objectForKey("data") as! NSDictionary
                     print(latAndLongs[0])
                     print(latAndLongs[1])
-                    print(observationImageAndText["image"])
                     
-                    let tempcomments = observationData.objectForKey("comments") as! NSDictionary
                     
-                    print(tempcomments)
+                    if(observationData.objectForKey("comments") != nil)
+                    {
+                        let tempcomments = observationData.objectForKey("comments") as! NSDictionary
+                        print(tempcomments)
+                        commentsDictArray.addObject(tempcomments)
+                    }
+                    else
+                    {
+                        let tempcomments = NSDictionary()
+                        commentsDictArray.addObject(tempcomments)
+                    }
                     
-                    let obsId = observationData.objectForKey("id") as! String
-                    print(obsId)
                     
-                    commentsDictArray.addObject(tempcomments)
-                    obsevationIds.addObject(obsId)
+                    if(observationData.objectForKey("id") != nil)
+                    {
+                        let obsId = observationData.objectForKey("id") as! String
+                        print(obsId)
+                        obsevationIds.addObject(obsId)
+                    }
+                    else
+                    {
+                        obsevationIds.addObject("")
+                    }
+                    
+                    
 //                    
 //                    commentsDictionaryArray.addObject(tempcomments)
 //                    
@@ -210,15 +227,37 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
 //                        print(comments)
 //                    }
                     
+                    if(observationImageAndText["image"] != nil)
+                    {
+                        observationImagesArray.addObject(observationImageAndText["image"]!)
+                        //print(observationImageAndText["image"])
+                    }
+                    else
+                    {
+                        observationImagesArray.addObject("")
+                    }
+                    if(observationImageAndText["text"] != nil)
+                    {
+                        //print(observationImageAndText["text"])
+                        observationTextArray.addObject(observationImageAndText["text"]!)
+                    }
+                    else
+                    {
+                        observationTextArray.addObject("")
+                    }
                     
-                    observationImagesArray.addObject(observationImageAndText["image"]!)
+                    if(observationData.objectForKey("observer") != nil)
+                    {
+                        let observerId = observationData.objectForKey("observer") as! String
+                        //print(observerId)
+                        observerIds.addObject(observerId)
+                    }
+                    else
+                    {
+                        observerIds.addObject("")
+                    }
                     
-                    print(observationImageAndText["text"])
-                    observationTextArray.addObject(observationImageAndText["text"]!)
-                    
-                    let observerId = observationData.objectForKey("observer") as! String
-                    //print(observerId)
-                    observerIds.addObject(observerId)
+                   
                     
                     let annotationLatAndLong = CLLocation(latitude: latAndLongs[0].doubleValue, longitude: latAndLongs[1].doubleValue)
                     
@@ -312,7 +351,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         eVC.observerIdsfromMapView = observerIds
         eVC.observationTextArray = observationTextArray
         eVC.commentsDictArrayfromMapView = commentsDictArray
-        eVC.observerIdsfromMapView = obsevationIds
+        eVC.observationIdsfromMapView = obsevationIds
         let exploreNavVC = UINavigationController()
         exploreNavVC.viewControllers = [eVC]
         self.presentViewController(exploreNavVC, animated: true, completion: nil)
@@ -374,10 +413,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         //view.hidden=true
 //        UIView.animateWithDuration(0.6, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
 //            view.frame = CGRectMake(view.frame.origin.x,view.frame.origin.y, view.frame.width * 1.5, self.view.frame.height * 0.1)
+        UIView.animateWithDuration(0.3, animations: {
+           
+            self.newObsAndDIView.view.frame = CGRectMake(0 , self.mapAnnotationClickView.frame.origin.y - self.newObsAndDIView.view.frame.size.height-8, self.newObsAndDIView.view.frame.width, self.newObsAndDIView.view.frame.height)
         
-        newObsAndDIView.view.frame = CGRectMake(0 , self.mapAnnotationClickView.frame.origin.y - newObsAndDIView.view.frame.size.height-8, newObsAndDIView.view.frame.width, newObsAndDIView.view.frame.height)
-        
-        self.view.addSubview(self.mapAnnotationClickView)
+            self.view.addSubview(self.mapAnnotationClickView)
+            
+        })
+        obsevationId = obsevationIds[view.tag] as! String
 //            }, completion: nil)
 //        self.mapViewCoordinate()
         print(commentsDictArray.objectAtIndex(view.tag))
@@ -514,6 +557,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         detailedObservationVC.observationImageUrl = observervationUrlString
         detailedObservationVC.observationText = observationTextLabel.text!
         detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
+        detailedObservationVC.observationId = obsevationId
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
         
     }

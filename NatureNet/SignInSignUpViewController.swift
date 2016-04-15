@@ -296,6 +296,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                             userDefaults.setValue(userAffiliation, forKey: "userAffiliation")
                                             userDefaults.setValue(userDisplayName, forKey: "userDisplayName")
                                             userDefaults.setValue("true", forKey: "isSignedIn")
+                                            userDefaults.setValue(authData.uid, forKey: "userID")
                                             
                                             self.dismissVC()
                                             
@@ -370,6 +371,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                 }
                                                 else
                                                 {
+                                                    print("Successfully logged in by user with uid: \(uid)")
                                                     let usersRef = ref.childByAppendingPath(uid)
                                                     //let usersPubReftoid = usersRef.childByAppendingPath("public")
                                                     let usersPub = ["id": uid as! AnyObject,"display_name": self.joinName.text as! AnyObject, "affiliation": self.joinAffliation.text as! AnyObject]
