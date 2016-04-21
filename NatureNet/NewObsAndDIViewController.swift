@@ -14,6 +14,8 @@ class NewObsAndDIViewController: UIViewController{
     //@IBOutlet var obsAndDIView: UIView!
     @IBOutlet var imageSelectionView: UIView!
 
+    @IBOutlet var designSelectionView: UIView!
+    @IBOutlet weak var designIdeaButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -81,7 +83,7 @@ class NewObsAndDIViewController: UIViewController{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-      
+    
     /*
     // MARK: - Navigation
 

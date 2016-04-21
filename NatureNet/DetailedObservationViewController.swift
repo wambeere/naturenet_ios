@@ -97,7 +97,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         commentTF.delegate = self
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailedObservationViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailedObservationViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
 
 
 
@@ -280,7 +280,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         if(commentTF.text != "")
         {
         
-            let ref = Firebase(url: "https://naturenet-testing.firebaseio.com/observations/\(observationId)/comments")
+            let ref = Firebase(url: POST_OBSERVATION_URL+"\(observationId)/comments")
             print(ref.childByAutoId())
             let autoID = ref.childByAutoId()
             //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())

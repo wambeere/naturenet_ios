@@ -1,16 +1,16 @@
 PODS:
   - Alamofire (3.3.0)
+  - Cloudinary (1.0.15)
   - Firebase (2.5.1)
-  - SWRevealViewController (2.3.0)
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
+  - Cloudinary
   - Firebase (>= 2.5.0)
-  - SWRevealViewController (~> 2.3)
 
 SPEC CHECKSUMS:
   Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
+  Cloudinary: f80af4565ec08c521d5e58cb56d9fbe1e4595e40
   Firebase: 3565ea88b830f28f2c77ecc524622bc71a20d085
-  SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
 COCOAPODS: 0.39.0

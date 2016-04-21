@@ -41,6 +41,7 @@
 		9F14A79F1C9F15BB00CAB0F6 /* CommunitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A79D1C9F15BB00CAB0F6 /* CommunitiesViewController.swift */; };
 		9F14A7A01C9F15BB00CAB0F6 /* CommunitiesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A79E1C9F15BB00CAB0F6 /* CommunitiesViewController.xib */; };
 		9F14A7A21C9F216600CAB0F6 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7A11C9F216600CAB0F6 /* profile_icon.png */; };
+		9F25D3731CC7CF2200342B56 /* UploadImageToCloudinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F25D3721CC7CF2200342B56 /* UploadImageToCloudinary.swift */; };
 		9F2A48541CA1E8E600B98821 /* more.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2A48531CA1E8E600B98821 /* more.png */; };
 		9F32D20E1CB587FD00298E02 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D20D1CB587FD00298E02 /* Reachability.swift */; };
 		9F32D2131CB6E92100298E02 /* CommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D2111CB6E92100298E02 /* CommentsTableViewCell.swift */; };
@@ -62,6 +63,11 @@
 		9F32D2331CBEE46A00298E02 /* NewObservationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */; };
 		9F32D2341CBEE46A00298E02 /* NewObservationDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */; };
 		9F32D2361CBFE2A500298E02 /* default-no-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2351CBFE2A500298E02 /* default-no-image.png */; };
+		9F4523551CC167C400D5D92C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4523541CC167C400D5D92C /* SWRevealViewController.m */; };
+		9F45235B1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4523591CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift */; };
+		9F45235C1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F45235A1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib */; };
+		9F45235F1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F45235D1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift */; };
+		9F4523601CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F45235E1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib */; };
 		9F9BB3BC1C9B214C0076E68E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */; };
 		9F9BB3BE1C9B214C0076E68E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BD1C9B214C0076E68E /* ViewController.swift */; };
 		9F9BB3C11C9B214C0076E68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9BB3BF1C9B214C0076E68E /* Main.storyboard */; };
@@ -128,6 +134,7 @@
 		9F14A79D1C9F15BB00CAB0F6 /* CommunitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunitiesViewController.swift; sourceTree = "<group>"; };
 		9F14A79E1C9F15BB00CAB0F6 /* CommunitiesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunitiesViewController.xib; sourceTree = "<group>"; };
 		9F14A7A11C9F216600CAB0F6 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
+		9F25D3721CC7CF2200342B56 /* UploadImageToCloudinary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadImageToCloudinary.swift; sourceTree = "<group>"; };
 		9F2A48531CA1E8E600B98821 /* more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more.png; sourceTree = "<group>"; };
 		9F32D20D1CB587FD00298E02 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		9F32D2111CB6E92100298E02 /* CommentsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsTableViewCell.swift; sourceTree = "<group>"; };
@@ -149,6 +156,12 @@
 		9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewObservationDetailsViewController.swift; sourceTree = "<group>"; };
 		9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewObservationDetailsViewController.xib; sourceTree = "<group>"; };
 		9F32D2351CBFE2A500298E02 /* default-no-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-no-image.png"; sourceTree = "<group>"; };
+		9F4523531CC167C400D5D92C /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		9F4523541CC167C400D5D92C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		9F4523591CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignIdeasAndChallengesViewController.swift; sourceTree = "<group>"; };
+		9F45235A1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DesignIdeasAndChallengesViewController.xib; sourceTree = "<group>"; };
+		9F45235D1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDesignIdeasAndChallengesViewController.swift; sourceTree = "<group>"; };
+		9F45235E1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDesignIdeasAndChallengesViewController.xib; sourceTree = "<group>"; };
 		9F9BB3B81C9B214C0076E68E /* NatureNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NatureNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F9BB3BD1C9B214C0076E68E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -252,6 +265,8 @@
 				9F32D2271CBDC73C00298E02 /* CameraAndGalleryViewController.swift */,
 				9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */,
 				9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */,
+				9F4523591CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift */,
+				9F45235D1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -276,8 +291,19 @@
 				9F32D2281CBDC73C00298E02 /* CameraAndGalleryViewController.xib */,
 				9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */,
 				9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */,
+				9F45235A1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib */,
+				9F45235E1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		9F4523561CC167CA00D5D92C /* SlideView */ = {
+			isa = PBXGroup;
+			children = (
+				9F4523531CC167C400D5D92C /* SWRevealViewController.h */,
+				9F4523541CC167C400D5D92C /* SWRevealViewController.m */,
+			);
+			name = SlideView;
 			sourceTree = "<group>";
 		};
 		9F9BB3AF1C9B214C0076E68E = {
@@ -309,6 +335,8 @@
 				9F32D20D1CB587FD00298E02 /* Reachability.swift */,
 				9F32D2151CB6F6E100298E02 /* ConnectionManager.swift */,
 				9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */,
+				9F25D3721CC7CF2200342B56 /* UploadImageToCloudinary.swift */,
+				9F4523561CC167CA00D5D92C /* SlideView */,
 				9F9BB3C21C9B214C0076E68E /* Assets.xcassets */,
 				9F9BB3C71C9B214C0076E68E /* Info.plist */,
 				9F0ECB971CA5D0AC00594B2C /* Views */,
@@ -417,7 +445,7 @@
 				TargetAttributes = {
 					9F9BB3B71C9B214C0076E68E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 34H4VK3UZ5;
+						DevelopmentTeam = 6L33LY5G5P;
 					};
 					9F9BB3CB1C9B214C0076E68E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -460,6 +488,7 @@
 				9F14A78C1C9DC8CE00CAB0F6 /* ExploreViewController.xib in Resources */,
 				9F0ECB8C1CA3239100594B2C /* user.png in Resources */,
 				9F0ECB8A1CA3239100594B2C /* project.png in Resources */,
+				9F45235C1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib in Resources */,
 				9F14A79C1C9F159C00CAB0F6 /* DesignIdeasViewController.xib in Resources */,
 				9F32D2261CBDBD6E00298E02 /* NewObsAndDIViewController.xib in Resources */,
 				9F14A7821C9B53BF00CAB0F6 /* MenuTableViewCell.xib in Resources */,
@@ -487,6 +516,7 @@
 				9F0ECB871CA3239100594B2C /* design ideas navy.png in Resources */,
 				9F14A77E1C9B425E00CAB0F6 /* MapViewController.xib in Resources */,
 				9F32D2181CB7F22500298E02 /* logout.png in Resources */,
+				9F4523601CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib in Resources */,
 				9F32D21D1CB7F33100298E02 /* like.png in Resources */,
 				9F9BB3C11C9B214C0076E68E /* Main.storyboard in Resources */,
 				9F0ECB851CA3239100594B2C /* add observation.png in Resources */,
@@ -572,9 +602,12 @@
 			files = (
 				9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */,
 				9F14A7931C9E65B800CAB0F6 /* DetailedObservationViewController.swift in Sources */,
+				9F45235F1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift in Sources */,
 				9F9BB3BE1C9B214C0076E68E /* ViewController.swift in Sources */,
 				9F14A7971C9F158000CAB0F6 /* ProjectsViewController.swift in Sources */,
+				9F25D3731CC7CF2200342B56 /* UploadImageToCloudinary.swift in Sources */,
 				9F9BB3BC1C9B214C0076E68E /* AppDelegate.swift in Sources */,
+				9F45235B1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift in Sources */,
 				9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */,
 				9F32D2291CBDC73C00298E02 /* CameraAndGalleryViewController.swift in Sources */,
 				9F14A7871C9B739600CAB0F6 /* ExploreCollectionViewCell.swift in Sources */,
@@ -584,6 +617,7 @@
 				9F32D2331CBEE46A00298E02 /* NewObservationDetailsViewController.swift in Sources */,
 				9F32D22C1CBEA66100298E02 /* newObsButton.swift in Sources */,
 				9F14A78B1C9DC8CE00CAB0F6 /* ExploreViewController.swift in Sources */,
+				9F4523551CC167C400D5D92C /* SWRevealViewController.m in Sources */,
 				9F32D2161CB6F6E100298E02 /* ConnectionManager.swift in Sources */,
 				9F14A7811C9B53BF00CAB0F6 /* MenuTableViewCell.swift in Sources */,
 				9F32D22F1CBEB61900298E02 /* NewObsViewController.swift in Sources */,
@@ -733,12 +767,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = NatureNet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NatureNet.NatureNet;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.NatureNet.Nature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NatureNet-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -748,11 +790,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = NatureNet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NatureNet.NatureNet;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.NatureNet.Nature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NatureNet-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'D2A6462C21540E23924B5FB9'
-               BlueprintName = 'SWRevealViewController'
+               BlueprintIdentifier = '1750311DF16C956DB157C9D9'
+               BlueprintName = 'Cloudinary'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SWRevealViewController.framework'>
+               BuildableName = 'Cloudinary.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

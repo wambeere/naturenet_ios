@@ -8,8 +8,12 @@
 
 import UIKit
 
-class ProjectsViewController: UIViewController {
+class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var projectsTableView: UITableView!
+    
+    var projItems: [String] = ["Red Mountain", "Native or Not?","How many Mallards?", "Heron Spotting","Who's Who?", "Tracks"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,6 +31,32 @@ class ProjectsViewController: UIViewController {
         self.navigationController!.navigationBar.barTintColor = UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        
+        projectsTableView.delegate=self
+        projectsTableView.dataSource=self
+        
+        //Registering custom cell
+        //menuTableView.registerNib(UINib(nibName: "MenuTableViewCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
+        projectsTableView.separatorColor = UIColor.clearColor()
+        projectsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return projItems.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        cell.textLabel?.text = projItems[indexPath.row]
+        cell.imageView!.image = UIImage(named: "project.png")
+        return cell
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     }
 
     override func didReceiveMemoryWarning() {

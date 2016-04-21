@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Cloudinary
 
 class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
@@ -82,27 +83,57 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             userID = (userDefaults.objectForKey("userID") as? String)!
         }
         
-        
-        
+        let upImage = UploadImageToCloudinary()
+        upImage.uploadToCloudinary(obsImage)
         
         print(projectName)
         print(descText)
         print(userID)
+        print(OBSERVATION_IMAGE_UPLOAD_URL)
         
+        let email = userDefaults.objectForKey("email") as? String
+        let password = userDefaults.objectForKey("password") as? String
+        let obsImageUrl = userDefaults.objectForKey("observationImageUrl") as? String
+        
+        //print(email)
+        //print(password)
+        print(obsImageUrl)
+    
+        let refUser = Firebase(url: FIREBASE_URL)
+        refUser.authUser(email, password: password,
+                     withCompletionBlock: { error, authData in
+                        if error != nil {
+                            
+                            print("\(error)")
+                            let alert = UIAlertController(title: "Alert", message:error.userInfo.description ,preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                            
+                        }
+                        else
+                        {
         let ref = Firebase(url: POST_OBSERVATION_URL)
         print(ref.childByAutoId())
         let autoID = ref.childByAutoId()
         //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
         let obsData = autoID.childByAppendingPath("data")
         let obsDataDetails = obsData.childByAppendingPath("text")
-        obsDataDetails.setValue(descText)
+        obsDataDetails.setValue(self.descText)
+        let obsDataImageDetails = obsData.childByAppendingPath("image")
+        obsDataImageDetails.setValue(obsImageUrl)
+        let obsDataIgnoreDetails = obsData.childByAppendingPath("ignore")
+        obsDataIgnoreDetails.setValue("true")
         
         let obsIdKey = autoID.childByAppendingPath("observer")
-        obsIdKey.setValue(userID)
+        obsIdKey.setValue(self.userID)
+        
+        
+                        }})
 
         //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
         //let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
         //usersRef.setValue(usersPub)
+        //OBSERVATION_IMAGE_UPLOAD_URL = ""
         
     }
     

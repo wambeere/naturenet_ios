@@ -297,6 +297,8 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                             userDefaults.setValue(userDisplayName, forKey: "userDisplayName")
                                             userDefaults.setValue("true", forKey: "isSignedIn")
                                             userDefaults.setValue(authData.uid, forKey: "userID")
+                                            userDefaults.setValue(self.username.text, forKey: "email")
+                                            userDefaults.setValue(self.password.text, forKey: "password")
                                             
                                             self.dismissVC()
                                             
@@ -363,7 +365,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
 //                                        let alert = UIAlertController(title: "Alert", message:"Successfully created user account with uid: \(uid)" ,preferredStyle: UIAlertControllerStyle.Alert)
 //                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
 //                                        self.presentViewController(alert, animated: true, completion: nil)
-                                        let ref = Firebase(url: USERS_URL)
+                                        let ref = Firebase(url: FIREBASE_URL+"users/")
                                         ref.authUser(self.joinEmail.text, password: self.joinPassword.text,
                                             withCompletionBlock: { error, authData in
                                                 if error != nil {
@@ -374,26 +376,56 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     print("Successfully logged in by user with uid: \(uid)")
                                                     let usersRef = ref.childByAppendingPath(uid)
                                                     //let usersPubReftoid = usersRef.childByAppendingPath("public")
-                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinName.text as! AnyObject, "affiliation": self.joinAffliation.text as! AnyObject]
+                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinName.text as! AnyObject,"affiliation": self.joinAffliation.text as! AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
                                                     usersRef.setValue(usersPub)
                                                     
                                                     //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
                                                     //let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
                                                     //usersRef.setValue(usersPub)
                                                     
+                                                    let refPrivate = Firebase(url: FIREBASE_URL+"users-private/")
+                                                    
+                                                    
+                                                                let usersPrivateRef = refPrivate.childByAppendingPath(uid)
+                                                                
+                                                                let usersConsentPrivate = ["required": true as AnyObject]
+                                                                //let usersPubReftoid = usersRef.childByAppendingPath("public")
+                                                                let usersPrivate = ["id": uid as! AnyObject,"consent": usersConsentPrivate as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                                                usersPrivateRef.setValue(usersPrivate)
+                                                                
+                                                                //let userConsent = usersPrivateRef.childByAppendingPath("consent")
+                                                                //let usersConsentPrivate = ["required": true as AnyObject]
+                                                                //userConsent.setValue(usersConsentPrivate)
+                                                                
+                                                                //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
+                                                                //let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
+                                                                //usersRef.setValue(usersPub)
+                                                    
+                                                                
+                                                                //self.dismissVC()
+                                                                
+                                                    
+                                                
+
+                                                    
                                                     let userDefaults = NSUserDefaults.standardUserDefaults()
                                                     userDefaults.setValue(self.joinAffliation.text, forKey: "userAffiliation")
                                                     userDefaults.setValue(self.joinName.text, forKey: "userDisplayName")
                                                     userDefaults.setValue("true", forKey: "isSignedIn")
+                                                    userDefaults.setValue(uid, forKey: "userID")
+                                                    userDefaults.setValue(self.joinEmail.text, forKey: "email")
+                                                    userDefaults.setValue(self.joinPassword.text, forKey: "password")
                                                     
                                                     self.dismissVC()
 
                                                 }
-                                        })
+                                        
+                                            })
                                     }
             })
             
         }
+        
         else
         {
             let alert = UIAlertController(title: "Alert", message: "Please Enter All the Details", preferredStyle: UIAlertControllerStyle.Alert)

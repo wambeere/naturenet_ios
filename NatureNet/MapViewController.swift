@@ -42,6 +42,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     let newObsAndDIView = NewObsAndDIViewController()
     
     let cgVC = CameraAndGalleryViewController()
+    let diAndCVC = DesignIdeasAndChallengesViewController()
     
     var obsevationIds : NSMutableArray = []
     var obsevationId : String = ""
@@ -119,11 +120,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         //self.view.bringSubviewToFront(newObsAndDIView.view)
         newObsAndDIView.camButton.addTarget(self, action: #selector(MapViewController.openNewObsView), forControlEvents: .TouchUpInside)
         
+        newObsAndDIView.designIdeaButton.addTarget(self, action: #selector(MapViewController.openNewDesignView), forControlEvents: .TouchUpInside)
+        
         
     }
     func openNewObsView()
     {
-        print("gverver")
+        //print("gverver")
         self.addChildViewController(cgVC)
         cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - cgVC.view.frame.size.height+68, cgVC.view.frame.size.width, cgVC.view.frame.size.height)
         self.view.addSubview(cgVC.view)
@@ -137,6 +140,23 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     
         }
     }
+    func openNewDesignView()
+    {
+        //print("gverver")
+        self.addChildViewController(diAndCVC)
+        diAndCVC.view.frame = CGRectMake(0, self.view.frame.size.height - diAndCVC.view.frame.size.height+68, diAndCVC.view.frame.size.width, diAndCVC.view.frame.size.height)
+        self.view.addSubview(diAndCVC.view)
+        UIView.animateWithDuration(0.3, animations: {
+            
+            self.diAndCVC.view.frame = CGRectMake(0, self.view.frame.size.height - self.diAndCVC.view.frame.size.height+68, self.diAndCVC.view.frame.size.width, self.diAndCVC.view.frame.size.height)
+            
+        }) { (isComplete) in
+            
+            self.diAndCVC.didMoveToParentViewController(self)
+            
+        }
+    }
+
     
     func reachabilityChanged(note: NSNotification) {
         
@@ -230,7 +250,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     if(observationImageAndText["image"] != nil)
                     {
                         observationImagesArray.addObject(observationImageAndText["image"]!)
-                        //print(observationImageAndText["image"])
+                        print(observationImageAndText["image"])
                     }
                     else
                     {
@@ -317,6 +337,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         newObsAndDIView.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView.view.frame.size.height-8 - 60, newObsAndDIView.view.frame.size.width, newObsAndDIView.view.frame.size.height)
         cgVC.view.removeFromSuperview()
         cgVC.removeFromParentViewController()
+        diAndCVC.view.removeFromSuperview()
+        diAndCVC.removeFromParentViewController()
         
     }
     func mapViewCoordinate(annotationLocation: CLLocation, tagForAnnotation : Int)
