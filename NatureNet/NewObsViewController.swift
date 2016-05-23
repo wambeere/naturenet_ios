@@ -22,6 +22,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     var descText :String = ""
     var userID :String = ""
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,6 +41,11 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         navigationItem.rightBarButtonItem = rightBarButtonItem
         
         observationImageView.image = obsImage
+        
+        //spinner.startAnimating()
+        let upImage = UploadImageToCloudinary()
+        upImage.uploadToCloudinary(obsImage)
+        //spinner.startAnimating()
         
         observationDetailsTableView.delegate = self
         observationDetailsTableView.dataSource = self
@@ -83,8 +89,10 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             userID = (userDefaults.objectForKey("userID") as? String)!
         }
         
-        let upImage = UploadImageToCloudinary()
-        upImage.uploadToCloudinary(obsImage)
+        //let upImage = UploadImageToCloudinary()
+        //upImage.uploadToCloudinary(obsImage)
+        
+        
         
         print(projectName)
         print(descText)
@@ -97,7 +105,6 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         //print(email)
         //print(password)
-        print(obsImageUrl)
     
         let refUser = Firebase(url: FIREBASE_URL)
         refUser.authUser(email, password: password,
@@ -112,21 +119,56 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                         }
                         else
                         {
-        let ref = Firebase(url: POST_OBSERVATION_URL)
-        print(ref.childByAutoId())
-        let autoID = ref.childByAutoId()
-        //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
-        let obsData = autoID.childByAppendingPath("data")
-        let obsDataDetails = obsData.childByAppendingPath("text")
-        obsDataDetails.setValue(self.descText)
-        let obsDataImageDetails = obsData.childByAppendingPath("image")
-        obsDataImageDetails.setValue(obsImageUrl)
-        let obsDataIgnoreDetails = obsData.childByAppendingPath("ignore")
-        obsDataIgnoreDetails.setValue("true")
-        
-        let obsIdKey = autoID.childByAppendingPath("observer")
-        obsIdKey.setValue(self.userID)
-        
+                            let ref = Firebase(url: POST_OBSERVATION_URL)
+                            print(ref.childByAutoId())
+                            let autoID = ref.childByAutoId()
+                            //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
+                            //let obsData = autoID.childByAppendingPath("data")
+//                            let obsDataDetails = obsData.childByAppendingPath("text")
+//                            obsDataDetails.setValue(self.descText)
+//                            let obsDataImageDetails = obsData.childByAppendingPath("image")
+//                            obsDataImageDetails.setValue(obsImageUrl)
+////                            let obsDataIgnoreDetails = obsData.childByAppendingPath("ignore")
+////                            obsDataIgnoreDetails.setValue("true")
+//                            let obsId = autoID.childByAppendingPath("id")
+//                            obsId.setValue(autoID.key)
+//                            let obsCreatedAt = autoID.childByAppendingPath("created_at")
+//                            obsCreatedAt.setValue(FirebaseServerValue.timestamp())
+//                            let obsUpdatedAt = autoID.childByAppendingPath("updated_at")
+//                            obsUpdatedAt.setValue(FirebaseServerValue.timestamp())
+//                            let obsActivityLocation = autoID.childByAppendingPath("activity_location")
+//                            obsActivityLocation.setValue("test")
+//
+//        
+//                            let obsIdKey = autoID.childByAppendingPath("observer")
+//                            obsIdKey.setValue(self.userID)
+                            
+                            //let dataKeys = ["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject]
+                            //obsData.setValue(dataKeys)
+                            let userDefaults = NSUserDefaults.standardUserDefaults()
+                            print(userDefaults.objectForKey("progress"))
+                            if(userDefaults.objectForKey("progress") as? String == "100.0")
+                            {
+                                let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"id": autoID.key,"activity_location": self.projectName,"observer":self.userID, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                autoID.setValue(obsDetails)
+                                
+                                print(autoID)
+                                
+                                let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                self.presentViewController(alert, animated: true, completion: nil)
+                                
+                                //self.dismissVC()
+
+                            }
+                            else
+                            {
+                                let alert = UIAlertController(title: "Alert", message:"Image uploading failed" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                self.presentViewController(alert, animated: true, completion: nil)
+                            }
+                            
+                            
         
                         }})
 
@@ -166,17 +208,23 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let obsDetailsVC = NewObservationDetailsViewController()
+        let projectVC = ProjectsViewController()
+        let navVC = UINavigationController()
         if(indexPath.row == 0)
         {
             obsDetailsVC.isDescription = true
+            navVC.viewControllers = [obsDetailsVC]
+            self.presentViewController(navVC, animated: true, completion: nil)
         }
         else
         {
-            obsDetailsVC.isDescription = false
+            //obsDetailsVC.isDescription = false
+            projectVC.isfromObservationVC = true
+            navVC.viewControllers = [projectVC]
+            self.presentViewController(navVC, animated: true, completion: nil)
         }
-        let navVC = UINavigationController()
-        navVC.viewControllers = [obsDetailsVC]
-        self.presentViewController(navVC, animated: true, completion: nil)
+        
+        
         
     }
 

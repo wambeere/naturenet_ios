@@ -16,6 +16,7 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     
     var observationImage:UIImage?
     var selectedCloset:String?
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +61,12 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         //do any progress update you may need
         let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
         //self.updateProgressDelegate?.onUpdateProgress(progress)
+        
+        
         print("uploading to cloudinary... wait! \(progress * 100)%")
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue("\(progress * 100)", forKey: "progress")
     }
 
     override func didReceiveMemoryWarning() {

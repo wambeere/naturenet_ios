@@ -10,25 +10,32 @@ import UIKit
 
 class DesignIdeasAndChallengesViewController: UIViewController {
     
-    let newDIandDCVC = NewDesignIdeasAndChallengesViewController()
-    let navVC = UINavigationController()
+    
 
+    @IBOutlet weak var closeButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        navVC.viewControllers = [newDIandDCVC]
+        
     }
 
     @IBAction func disignIdeasButtonClicked(sender: UIButton) {
         
+        let newDIandDCVC = NewDesignIdeasAndChallengesViewController()
+        let navVC = UINavigationController()
+        newDIandDCVC.isDesignIdea = true
+        navVC.viewControllers = [newDIandDCVC]
         self.presentViewController(navVC, animated: true, completion: nil)
         
     }
     @IBAction func designChallengesButtonClicked(sender: UIButton) {
         
-        
+        let newDIandDCVC = NewDesignIdeasAndChallengesViewController()
+        let navVC = UINavigationController()
+        newDIandDCVC.isDesignIdea = false
+        navVC.viewControllers = [newDIandDCVC]
         self.presentViewController(navVC, animated: true, completion: nil)
         
     }

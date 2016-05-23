@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import Firebase
 
-class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate{
+class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource{
     
     var pageTitle :String!
 
@@ -23,8 +23,12 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     @IBOutlet weak var joinPassword: UITextField!
     @IBOutlet weak var joinName: UITextField!
     @IBOutlet weak var joinEmail: UITextField!
-    @IBOutlet weak var joinAffliation: UITextField!
+    @IBOutlet weak var joinAffliation: UILabel!
    
+    @IBOutlet weak var affiliationPickerView: UIPickerView!
+    
+    @IBOutlet weak var viewForHidingPickerView: UIView!
+    var sitesArray : NSMutableArray = []
     
    
     @IBAction func forgotPasswordButtonClicked(sender: UIButton) {
@@ -32,6 +36,22 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     var tapGesture:UITapGestureRecognizer!
     
     var joinScrollView: UIScrollView!
+    
+    
+    @IBOutlet var consentForm: UIView!
+    
+   
+    @IBOutlet weak var firstConsentButton: UIButton!
+    @IBOutlet weak var secondConsentButton: UIButton!
+    
+    @IBOutlet weak var thirdConsentButton: UIButton!
+    
+    @IBOutlet weak var fourthConsentButton: UIButton!
+    
+    var isFirstConsentChecked: Bool = false
+    var isSecondConsentChecked: Bool = false
+    var isThirdConsentChecked: Bool = false
+    var isFourthConsentChecked: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,11 +85,116 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         }
         else if(pageTitle == "Join NatureNet")
         {
-            addJoinScrollView()
+            self.view.addSubview(consentForm)
+            buttonBorder(firstConsentButton)
+            buttonBorder(secondConsentButton)
+            buttonBorder(thirdConsentButton)
+            buttonBorder(fourthConsentButton)
         }
+        
+        affiliationPickerView.hidden = true
+        viewForHidingPickerView.hidden = true
         
 
     }
+    
+    @IBAction func nextButtonClicked(sender: UIButton) {
+        
+        UIView.animateWithDuration(0.3, animations: {
+            
+            self.consentForm.removeFromSuperview()
+            self.addJoinScrollView()
+            
+        })
+        
+    }
+    
+    @IBAction func backButtonToConsentForm(sender: UIButton) {
+        
+        UIView.animateWithDuration(0.3, animations: {
+            
+            self.view.addSubview(self.consentForm)
+            self.joinScrollView.removeFromSuperview()
+            
+        })
+        
+    }
+    
+    @IBAction func firstConsentChecked(sender: UIButton) {
+        
+        if(isFirstConsentChecked == true)
+        {
+            sender.setImage(nil, forState: .Normal)
+            buttonBorder(sender)
+            isFirstConsentChecked = false
+        }
+        else
+        {
+            sender.setImage(UIImage(named: "completed.png") as UIImage?, forState: .Normal)
+            sender.layer.borderColor = UIColor.clearColor().CGColor
+            isFirstConsentChecked = true
+        }
+        
+        
+        
+    }
+    
+    @IBAction func secondConsentChecked(sender: UIButton) {
+        
+        if(isSecondConsentChecked == true)
+        {
+            sender.setImage(nil, forState: .Normal)
+            buttonBorder(sender)
+            isSecondConsentChecked = false
+        }
+        else
+        {
+            sender.setImage(UIImage(named: "completed.png") as UIImage?, forState: .Normal)
+            sender.layer.borderColor = UIColor.clearColor().CGColor
+            isSecondConsentChecked = true
+        }
+
+        
+    }
+    
+    @IBAction func thirdConsentChecked(sender: UIButton) {
+        
+        if(isThirdConsentChecked == true)
+        {
+            sender.setImage(nil, forState: .Normal)
+            buttonBorder(sender)
+            isThirdConsentChecked = false
+        }
+        else
+        {
+            sender.setImage(UIImage(named: "completed.png") as UIImage?, forState: .Normal)
+            sender.layer.borderColor = UIColor.clearColor().CGColor
+            isThirdConsentChecked = true
+        }
+
+        
+    }
+    
+    @IBAction func fourthConsentChecked(sender: UIButton) {
+        
+        if(isFourthConsentChecked == true)
+        {
+            sender.setImage(nil, forState: .Normal)
+            buttonBorder(sender)
+            isFourthConsentChecked = false
+        }
+        else
+        {
+            sender.setImage(UIImage(named: "completed.png") as UIImage?, forState: .Normal)
+            sender.layer.borderColor = UIColor.clearColor().CGColor
+            isFourthConsentChecked = true
+        }
+
+        
+    }
+
+    
+    
     func addJoinScrollView()
     {
         if(joinScrollView == nil)
@@ -89,17 +214,104 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         textFieldBorder(joinPassword)
         textFieldBorder(joinName)
         textFieldBorder(joinEmail)
-        textFieldBorder(joinAffliation)
+        labelBorder(joinAffliation)
         
         joinUsername.delegate = self
         joinPassword.delegate = self
         joinName.delegate = self
         joinEmail.delegate = self
-        joinAffliation.delegate = self
+        //joinAffliation.delegate = self
         
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         joinScrollView.userInteractionEnabled = true
+        
+        let sitesUrl = NSURL(string: FIREBASE_URL + "sites.json")
+        
+        var sitesData:NSData? = nil
+        do {
+            sitesData = try NSData(contentsOfURL: sitesUrl!, options: NSDataReadingOptions())
+            //print(userData)
+        }
+        catch {
+            print("Handle \(error) here")
+        }
+        
+        if let data = sitesData {
+            // Convert data to JSON here
+            do{
+                let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+                
+                print(json)
+                
+                for i in 0 ..< json.count
+                {
+                    //print(i)
+                    let sites = json.allValues[i] as! NSDictionary
+                    print(sites.objectForKey("name"))
+                    if(sites.objectForKey("name") != nil)
+                    {
+                        sitesArray.addObject(sites.objectForKey("name")!)
+                    }
+                    
+                }
+            }
+            catch let error as NSError {
+                print("json error: \(error.localizedDescription)")
+                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
+        
+        //self.view.addSubview(affiliationPickerView)
+        
+        affiliationPickerView.delegate = self
+        affiliationPickerView.dataSource = self
+        
+        
+        joinScrollView.addGestureRecognizer(tapGesture)
+        joinAffliation.userInteractionEnabled = true
+        
+        let affiliationGesture = UITapGestureRecognizer(target: self, action: #selector(self.showPicker))
+        joinAffliation.addGestureRecognizer(affiliationGesture)
+        //affiliationPickerView.frame = CGRectMake(0, self.view.frame.origin.y - affiliationPickerView.frame.size.height, affiliationPickerView.frame.size.width, affiliationPickerView.frame.size.height)
+        //joinAffliation.inputView = affiliationPickerView
+        //affiliationPickerView.removeFromSuperview()
+        //joinAffliation.becomeFirstResponder()
+
+    }
+    
+    @IBAction func hidePickerView(sender: UIButton) {
+        
+        if(viewForHidingPickerView.hidden == false)
+        {
+            viewForHidingPickerView.hidden = true
+            affiliationPickerView.hidden = true
+        }
+        
+    }
+    
+    //MARK: - Sites PickerView
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return sitesArray.count
+    }
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return sitesArray[row] as? String
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        joinAffliation.text = sitesArray[row] as? String
+    }
+    func showPicker()
+    {
+        affiliationPickerView.hidden = false
+        viewForHidingPickerView.hidden = false
+        self.view.bringSubviewToFront(affiliationPickerView)
+        self.view.bringSubviewToFront(viewForHidingPickerView)
     }
     
     @IBAction func joinButtonClickedFronSignInView(sender: UIButton) {
@@ -116,6 +328,9 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         joinName.resignFirstResponder()
         joinEmail.resignFirstResponder()
         joinAffliation.resignFirstResponder()
+        
+        affiliationPickerView.hidden = true
+        viewForHidingPickerView.hidden = true
         
         setViewToMoveUp(false,tempTF: nil)
     }
@@ -144,6 +359,23 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         textField.layer.addSublayer(border)
         textField.layer.masksToBounds = true
     }
+    func labelBorder(lbl: UILabel)
+    {
+        let border = CALayer()
+        let width = CGFloat(1.0)
+        border.borderColor = UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0).CGColor
+        
+        border.frame = CGRect(x: 0, y: lbl.frame.size.height - width, width:  lbl.frame.size.width, height: lbl.frame.size.height)
+        
+        border.borderWidth = width
+        lbl.layer.addSublayer(border)
+        lbl.layer.masksToBounds = true
+    }
+    func buttonBorder(btn: UIButton)
+    {
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = UIColor.blackColor().CGColor
+    }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool // called when 'return' key pressed. return NO to ignore.
     {
@@ -158,10 +390,12 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     {
         if(joinScrollView != nil)
         {
-            if(textField == joinEmail || textField == joinAffliation || textField == joinName )
+            if(textField == joinEmail || textField == joinName )
             {
                 setViewToMoveUp(true,tempTF: textField)
             }
+            
+            
         }
         return true
     }
@@ -376,7 +610,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     print("Successfully logged in by user with uid: \(uid)")
                                                     let usersRef = ref.childByAppendingPath(uid)
                                                     //let usersPubReftoid = usersRef.childByAppendingPath("public")
-                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinName.text as! AnyObject,"affiliation": self.joinAffliation.text as! AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.joinAffliation.text as! AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
                                                     usersRef.setValue(usersPub)
                                                     
                                                     //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
@@ -390,7 +624,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                                 
                                                                 let usersConsentPrivate = ["required": true as AnyObject]
                                                                 //let usersPubReftoid = usersRef.childByAppendingPath("public")
-                                                                let usersPrivate = ["id": uid as! AnyObject,"consent": usersConsentPrivate as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                                                let usersPrivate = ["id": uid as! AnyObject,"name": self.joinName.text as! AnyObject,"consent": usersConsentPrivate as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
                                                                 usersPrivateRef.setValue(usersPrivate)
                                                                 
                                                                 //let userConsent = usersPrivateRef.childByAppendingPath("consent")
@@ -410,7 +644,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     
                                                     let userDefaults = NSUserDefaults.standardUserDefaults()
                                                     userDefaults.setValue(self.joinAffliation.text, forKey: "userAffiliation")
-                                                    userDefaults.setValue(self.joinName.text, forKey: "userDisplayName")
+                                                    userDefaults.setValue(self.joinUsername.text, forKey: "userDisplayName")
                                                     userDefaults.setValue("true", forKey: "isSignedIn")
                                                     userDefaults.setValue(uid, forKey: "userID")
                                                     userDefaults.setValue(self.joinEmail.text, forKey: "email")

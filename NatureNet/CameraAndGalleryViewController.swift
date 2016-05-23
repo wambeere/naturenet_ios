@@ -10,6 +10,7 @@ import UIKit
 
 class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate {
     
+    @IBOutlet weak var closeButton: UIButton!
     var picker:UIImagePickerController?=UIImagePickerController()
     var popover:UIPopoverController?=nil
     

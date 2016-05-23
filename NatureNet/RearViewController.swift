@@ -132,8 +132,8 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             menuTableView.reloadData()
             allowOnce = true
             
-            let mapVC = MapViewController()
-            newFrontViewController = UINavigationController(rootViewController: mapVC)
+            let homeVC = HomeViewController()
+            newFrontViewController = UINavigationController(rootViewController: homeVC)
             revealViewController().pushFrontViewController(newFrontViewController, animated: true)
             
         }

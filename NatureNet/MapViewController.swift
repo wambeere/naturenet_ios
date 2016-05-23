@@ -47,6 +47,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     var obsevationIds : NSMutableArray = []
     var obsevationId : String = ""
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,8 +77,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         exploreView.backgroundColor=UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         exploreView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MapViewController.tappedView)))
         exploreView.userInteractionEnabled = true
+        
+        activityIndicator.hidden = true
 
-        mapView.frame = CGRectMake(0 , 0, self.view.frame.width, self.view.frame.height-self.exploreView.frame.height)
+        mapView.frame = CGRectMake(0 , 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height-self.exploreView.frame.height)
         mapView.delegate = self
         mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MapViewController.mapViewTapped)))
         mapView.userInteractionEnabled = true
@@ -123,13 +126,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         newObsAndDIView.designIdeaButton.addTarget(self, action: #selector(MapViewController.openNewDesignView), forControlEvents: .TouchUpInside)
         
         
+        
+        
     }
     func openNewObsView()
     {
         //print("gverver")
         self.addChildViewController(cgVC)
+        
         cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - cgVC.view.frame.size.height+68, cgVC.view.frame.size.width, cgVC.view.frame.size.height)
         self.view.addSubview(cgVC.view)
+        cgVC.closeButton.hidden = true
         UIView.animateWithDuration(0.3, animations: {
         
             self.cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - self.cgVC.view.frame.size.height+68, self.cgVC.view.frame.size.width, self.cgVC.view.frame.size.height)
@@ -145,6 +152,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         //print("gverver")
         self.addChildViewController(diAndCVC)
         diAndCVC.view.frame = CGRectMake(0, self.view.frame.size.height - diAndCVC.view.frame.size.height+68, diAndCVC.view.frame.size.width, diAndCVC.view.frame.size.height)
+        diAndCVC.closeButton.hidden = true
+        
         self.view.addSubview(diAndCVC.view)
         UIView.animateWithDuration(0.3, animations: {
             
@@ -345,7 +354,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     {
         let initialLocation = CLLocation(latitude: annotationLocation.coordinate.latitude, longitude: annotationLocation.coordinate.longitude)
         
-        let regionRadius: CLLocationDistance = 10000
+        let regionRadius: CLLocationDistance = 600
         func centerMapOnLocation(location: CLLocation) {
             let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
                 regionRadius * 4.0, regionRadius * 4.0)
@@ -368,6 +377,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     
     func tappedView(){
         
+        activityIndicator.hidden = false
+        activityIndicator.startAnimating()
         let eVC = ExploreViewController() //change this to your class name
         eVC.exploreObservationsImagesArray = observationImagesArray
         eVC.observerIdsfromMapView = observerIds
@@ -377,6 +388,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         let exploreNavVC = UINavigationController()
         exploreNavVC.viewControllers = [eVC]
         self.presentViewController(exploreNavVC, animated: true, completion: nil)
+        //activityIndicator.stopAnimating()
         
     }
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {

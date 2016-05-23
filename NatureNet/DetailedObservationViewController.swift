@@ -23,9 +23,13 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     var observationImageUrl : String = ""
     var observationText : String = ""
     var isfromMapView : Bool = false
+    var isfromDesignIdeasView : Bool = false
+    
     
     var observationId : String = ""
     var commentsDictfromExploreView : NSDictionary = [:]
+    
+    var pageTitle: String = ""
     
     @IBOutlet weak var commentTF: UITextField!
     var commentsArray : NSMutableArray = []
@@ -38,7 +42,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
 
         // Do any additional setup after loading the view.
         print(observationId)
-        self.navigationItem.title="Native or Not?"
+        self.navigationItem.title=pageTitle
         
         self.navigationController!.navigationBar.barTintColor = UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()

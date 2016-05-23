@@ -20,6 +20,7 @@ class NewObservationDetailsViewController: UIViewController ,UITableViewDataSour
     var project : String = ""
     
     var projItems: [String] = ["Red Mountain", "Native or Not?","How many Mallards?", "Heron Spotting","Who's Who?", "Tracks"]
+    var projIcons: [String] = ["RedMountain.png", "Native.png","Mallard.png", "Heron.png","Who.png", "Tracks.png"]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -87,6 +88,7 @@ class NewObservationDetailsViewController: UIViewController ,UITableViewDataSour
         
         let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         cell.textLabel?.text = self.projItems[indexPath.row]
+        cell.imageView?.image = UIImage(named: projIcons[indexPath.row])
 //        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 //        
 //        cell.frame = CGRectMake(8,cell.frame.size.height+3,self.view.frame.size.width-16,cell.frame.size.height)

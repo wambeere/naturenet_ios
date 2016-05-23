@@ -22,10 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
-        let mapVC = MapViewController()
+        //let mapVC = MapViewController()
+        let homeVC = HomeViewController()
         let rearVC = RearViewController()
         
-        frontNavController = UINavigationController(rootViewController: mapVC)
+        frontNavController = UINavigationController(rootViewController: homeVC)
         let rearNavController = UINavigationController(rootViewController: rearVC)
         
         let revealVC: SWRevealViewController = SWRevealViewController(rearViewController: rearNavController, frontViewController: frontNavController)
