@@ -9,8 +9,10 @@
 import UIKit
 import Firebase
 import Cloudinary
+import MapKit
+import CoreLocation
 
-class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
+class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate{
 
     @IBOutlet weak var observationDetailsTableView: UITableView!
     @IBOutlet weak var observationImageView: UIImageView!
@@ -21,6 +23,9 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     var projectName : String = ""
     var descText :String = ""
     var userID :String = ""
+    
+    let locationManager = CLLocationManager()
+    var locValue = CLLocationCoordinate2D()
     
     
     override func viewDidLoad() {
@@ -54,8 +59,24 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         observationDetailsTableView.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
         
         self.view.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+        
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
 
 
+    }
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locValue = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     override func viewWillAppear(animated: Bool) {
         
@@ -72,6 +93,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     func postObservation()
     {
         print("post")
+        
 //        var observations = Firebase(url: "https://naturenet-staging.firebaseio.com/observations")
 //        let obs = ["id": uid as! AnyObject,"display_name": self.joinName.text as! AnyObject, "affiliation": self.joinAffliation.text as! AnyObject]
 //        observations.setValue(obs)
@@ -112,8 +134,24 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                         if error != nil {
                             
                             print("\(error)")
-                            let alert = UIAlertController(title: "Alert", message:error.userInfo.description ,preferredStyle: UIAlertControllerStyle.Alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                            let alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                            //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                            let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                                UIAlertAction in
+                                //print("OK Pressed")
+                                //self.dismissVC()
+                                
+                                let signInSignUpVC=SignInSignUpViewController()
+                                let signInSignUpNavVC = UINavigationController()
+                                signInSignUpVC.pageTitle="Sign In"
+                                signInSignUpNavVC.viewControllers = [signInSignUpVC]
+                                self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+                            }
+                            
+                            // Add the actions
+                            alert.addAction(showMenuAction)
+
+                            
                             self.presentViewController(alert, animated: true, completion: nil)
                             
                         }
@@ -149,7 +187,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             print(userDefaults.objectForKey("progress"))
                             if(userDefaults.objectForKey("progress") as? String == "100.0")
                             {
-                                let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"id": autoID.key,"activity_location": self.projectName,"observer":self.userID, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectName,"observer":self.userID, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
                                 autoID.setValue(obsDetails)
                                 
                                 print(autoID)

@@ -13,6 +13,9 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     var menuItems: [String] = ["Explore","Projects","Design Ideas","Communities"]
     var menuItemsImages: [String] = ["observations navy.png","project.png","design ideas.png","community.png"]
     
+    //var menuItems: [String] = ["Explore","Projects","Design Ideas"]
+    //var menuItemsImages: [String] = ["observations navy.png","project.png","design ideas.png"]
+    
 
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!

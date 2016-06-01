@@ -16,7 +16,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="129.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="nXs-N5-QLO">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-no-image.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zlr-hK-Tfs">
+                        <rect key="frame" x="8" y="8" width="100" height="114"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user.png" translatesAutoresizingMaskIntoConstraints="NO" id="nXs-N5-QLO">
                         <rect key="frame" x="116" y="8" width="44" height="44"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="44" id="CSl-kb-C7Y"/>
@@ -55,8 +59,9 @@
                         </constraints>
                         <state key="normal" backgroundImage="like.png"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3g-6E-8Wr">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3g-6E-8Wr">
                         <rect key="frame" x="144" y="101" width="20" height="20"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="Jbs-ml-tmM"/>
                             <constraint firstAttribute="height" constant="20" id="gIx-2o-M94"/>
@@ -73,8 +78,9 @@
                         </constraints>
                         <state key="normal" backgroundImage="dislike.png"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="228" verticalHuggingPriority="251" text="22" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0nd-GF-IUf">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="228" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0nd-GF-IUf">
                         <rect key="frame" x="200" y="101" width="20" height="20"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="ElL-Zw-rdw"/>
                             <constraint firstAttribute="width" constant="20" id="Owh-Be-Y35"/>
@@ -91,12 +97,6 @@
                         </constraints>
                         <state key="normal" backgroundImage="comment.png"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZ4-a9-7bd">
-                        <rect key="frame" x="256" y="101" width="20" height="20"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" image="completed.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZYg-Qc-39j">
                         <rect key="frame" x="292" y="32" width="20" height="20"/>
                         <constraints>
@@ -104,10 +104,17 @@
                             <constraint firstAttribute="height" constant="20" id="eUV-w5-ZPC"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="obs.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zlr-hK-Tfs">
-                        <rect key="frame" x="8" y="8" width="100" height="114"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZ4-a9-7bd">
+                        <rect key="frame" x="256" y="101" width="20" height="20"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </imageView>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="8MI-F0-AKW"/>
+                            <constraint firstAttribute="height" constant="20" id="qf4-FM-4vx"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="0nd-GF-IUf" firstAttribute="top" secondItem="aiA-gx-z73" secondAttribute="bottom" constant="11" id="0so-CG-vIz"/>
@@ -121,7 +128,6 @@
                     <constraint firstItem="Zlr-hK-Tfs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="AQg-FS-X10"/>
                     <constraint firstItem="Zlr-hK-Tfs" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="BRO-Cy-pgl"/>
                     <constraint firstItem="nXs-N5-QLO" firstAttribute="leading" secondItem="Zlr-hK-Tfs" secondAttribute="trailing" constant="8" id="Cnh-ha-yGd"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="ZZ4-a9-7bd" secondAttribute="trailing" constant="36" id="Dx7-16-a8v"/>
                     <constraint firstItem="aiA-gx-z73" firstAttribute="top" secondItem="rmj-0j-1Il" secondAttribute="bottom" constant="2" id="FNe-kp-eAv"/>
                     <constraint firstItem="ZYg-Qc-39j" firstAttribute="leading" secondItem="rmj-0j-1Il" secondAttribute="trailing" constant="8" id="Ku7-LN-5Ai"/>
                     <constraint firstItem="aiA-gx-z73" firstAttribute="top" secondItem="ZYg-Qc-39j" secondAttribute="bottom" constant="2" id="Lx0-qN-XrJ"/>
@@ -157,22 +163,26 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="commentsLabel" destination="ZZ4-a9-7bd" id="mGy-RI-OyH"/>
                 <outlet property="contentLabel" destination="aiA-gx-z73" id="5tG-Zz-vsb"/>
                 <outlet property="designIdeaOrChallengeAvatarView" destination="nXs-N5-QLO" id="fIU-2R-UzE"/>
                 <outlet property="designIdeaOrChallengeImageView" destination="Zlr-hK-Tfs" id="PP3-Ja-f1S"/>
+                <outlet property="dislikesLabel" destination="0nd-GF-IUf" id="6D0-6t-VRm"/>
+                <outlet property="likesLabel" destination="f3g-6E-8Wr" id="gGb-AO-wyX"/>
+                <outlet property="statusImageView" destination="ZYg-Qc-39j" id="ivz-jr-que"/>
                 <outlet property="submitterAffiliation" destination="rmj-0j-1Il" id="iSn-ap-R1R"/>
                 <outlet property="submitterAvatarView" destination="nXs-N5-QLO" id="CIO-XD-Pyi"/>
                 <outlet property="submitterDisplayName" destination="DGP-nF-gBo" id="Xf6-2g-JcG"/>
             </connections>
-            <point key="canvasLocation" x="329" y="200"/>
+            <point key="canvasLocation" x="420" y="151"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="comment.png" width="512" height="512"/>
         <image name="completed.png" width="512" height="512"/>
+        <image name="default-no-image.png" width="1490" height="1080"/>
         <image name="dislike.png" width="512" height="512"/>
         <image name="like.png" width="512" height="512"/>
-        <image name="obs.png" width="512" height="512"/>
-        <image name="profile_icon.png" width="600" height="600"/>
+        <image name="user.png" width="512" height="512"/>
     </resources>
 </document>

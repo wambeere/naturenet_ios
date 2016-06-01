@@ -13,7 +13,7 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="obs.png" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-wP-xq1">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-no-image.png" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-wP-xq1">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
@@ -83,6 +83,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="obs.png" width="512" height="512"/>
+        <image name="default-no-image.png" width="1490" height="1080"/>
     </resources>
 </document>

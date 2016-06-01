@@ -119,8 +119,24 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
                             if error != nil {
                                 
                                 print("\(error)")
-                                let alert = UIAlertController(title: "Alert", message:error.userInfo.description ,preferredStyle: UIAlertControllerStyle.Alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                let alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                                    UIAlertAction in
+                                    //print("OK Pressed")
+                                    //self.dismissVC()
+                                    
+                                    let signInSignUpVC=SignInSignUpViewController()
+                                    let signInSignUpNavVC = UINavigationController()
+                                    signInSignUpVC.pageTitle="Sign In"
+                                    signInSignUpNavVC.viewControllers = [signInSignUpVC]
+                                    self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+                                }
+                                
+                                // Add the actions
+                                alert.addAction(showMenuAction)
+                                
+                                
                                 self.presentViewController(alert, animated: true, completion: nil)
                                 
                             }

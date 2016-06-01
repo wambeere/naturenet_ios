@@ -99,8 +99,9 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                 for i in 0 ..< json.count
                 {
 //                    //print(i)
-                    
+                    print(json)
                     let geoActivities = json.allValues[i] as! NSDictionary
+                    print(geoActivities)
                     let geoActivity = geoActivities.objectForKey("activity") as! String
                     let geoActivityId = geoActivities.objectForKey("id") as! String
                     
@@ -190,7 +191,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                     //print(activity)
                                     if(activity == geoActivity)
                                     {
-                                        self.projectIconKeys.addObject(activityDictionary.objectForKey("icon_url")!)
+                                        
+                                        let iconUrlString = activityDictionary.objectForKey("icon_url") as! String
+                                        let newiconUrlString = iconUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                                        self.projectIconKeys.addObject(newiconUrlString)
                                     }
                                 }
                                 if(activityDictionary.objectForKey("status") != nil && geoActivity != "")

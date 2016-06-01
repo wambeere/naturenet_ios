@@ -22,6 +22,13 @@ class DesignIdeasAndChallengesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var submitterAffiliation: UILabel!
     
+    @IBOutlet weak var statusImageView: UIImageView!
+    
+    @IBOutlet weak var likesLabel: UILabel!
+    
+    @IBOutlet weak var dislikesLabel: UILabel!
+    
+    @IBOutlet weak var commentsLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

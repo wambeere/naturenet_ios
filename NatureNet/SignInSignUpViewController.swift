@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Firebase
+//import SWRevealViewController
 
 class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource{
     
@@ -39,7 +40,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     
     
     @IBOutlet var consentForm: UIView!
-    
+    var isFromHomeVC: Bool = false
    
     @IBOutlet weak var firstConsentButton: UIButton!
     @IBOutlet weak var secondConsentButton: UIButton!
@@ -100,12 +101,59 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     
     @IBAction func nextButtonClicked(sender: UIButton) {
         
-        UIView.animateWithDuration(0.3, animations: {
+        if(isFirstConsentChecked == true && isSecondConsentChecked == true)
+        {
+            UIView.animateWithDuration(0.3, animations: {
+                
+                self.consentForm.removeFromSuperview()
+                self.addJoinScrollView()
+                
+            })
+        }
+        else
+        {
+            let alert = UIAlertController(title: nil, message:"Please check the required fields or continue as a guest" ,preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+            let showMenuAction = UIAlertAction(title: "Continue As Guest", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                
+                let userDefaults = NSUserDefaults()
+                
+                if(self.isFromHomeVC == true)
+                {
+                    userDefaults.setValue("true", forKey: "isFromConsentForm")
+                }
+                else
+                {
+                    userDefaults.setValue("false", forKey: "isFromConsentForm")
+                }
+                
+                
+                self.dismissVC()
+                
+//                if self.revealViewController() != nil {
+//                    self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+//                    self.revealViewController().rearViewRevealWidth = 290
+//                    
+//                   self.revealViewController().revealToggleAnimated(true)
+//                    
+//                }
+
+                
+//                self.dismissVC()
+//                
+//                let newFrontViewController = UINavigationController()
+//                let mapVC = MapViewController()
+//                newFrontViewController.viewControllers = [mapVC]
+//                self.navigationController?.pushViewController(newFrontViewController, animated: true)
+            }
             
-            self.consentForm.removeFromSuperview()
-            self.addJoinScrollView()
+            // Add the actions
+            alert.addAction(showMenuAction)
             
-        })
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
         
     }
     
@@ -114,6 +162,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         UIView.animateWithDuration(0.3, animations: {
             
             self.view.addSubview(self.consentForm)
+            self.sitesArray.removeAllObjects()
             self.joinScrollView.removeFromSuperview()
             
         })
@@ -317,7 +366,12 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     @IBAction func joinButtonClickedFronSignInView(sender: UIButton) {
     
         signInView.removeFromSuperview()
-        addJoinScrollView()
+        //addJoinScrollView()
+        self.view.addSubview(consentForm)
+        buttonBorder(firstConsentButton)
+        buttonBorder(secondConsentButton)
+        buttonBorder(thirdConsentButton)
+        buttonBorder(fourthConsentButton)
         self.navigationItem.title="Join NatureNet"
     
     }
@@ -449,7 +503,11 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     
     func dismissVC(){
         
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: {})
+        self.presentingViewController?.dismissViewControllerAnimated(true, completion: {
+        
+           
+        
+        })
     }
 
 //    // placeholder position
@@ -622,7 +680,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     
                                                                 let usersPrivateRef = refPrivate.childByAppendingPath(uid)
                                                                 
-                                                                let usersConsentPrivate = ["required": true as AnyObject]
+                                                                let usersConsentPrivate = ["upload": self.isFirstConsentChecked as AnyObject,"share": self.isSecondConsentChecked as AnyObject,"recording": self.isThirdConsentChecked as AnyObject,"survey": self.isFourthConsentChecked as AnyObject]
                                                                 //let usersPubReftoid = usersRef.childByAppendingPath("public")
                                                                 let usersPrivate = ["id": uid as! AnyObject,"name": self.joinName.text as! AnyObject,"consent": usersConsentPrivate as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
                                                                 usersPrivateRef.setValue(usersPrivate)

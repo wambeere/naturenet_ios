@@ -57,7 +57,6 @@
                         <constraint firstItem="1cR-JJ-WM7" firstAttribute="centerY" secondItem="YAV-5K-HdU" secondAttribute="centerY" id="g21-2K-LiT"/>
                         <constraint firstItem="1cR-JJ-WM7" firstAttribute="leading" secondItem="YAV-5K-HdU" secondAttribute="leading" constant="8" id="kvY-7i-HTz"/>
                         <constraint firstItem="DeR-Ro-p8f" firstAttribute="centerX" secondItem="YAV-5K-HdU" secondAttribute="centerX" id="mHG-kC-I6A"/>
-                        <constraint firstItem="DeR-Ro-p8f" firstAttribute="leading" secondItem="1cR-JJ-WM7" secondAttribute="trailing" constant="96" id="tOi-yj-Vgl"/>
                     </constraints>
                 </view>
             </subviews>
@@ -113,7 +112,7 @@
                                 <action selector="likesButtonClicked:" destination="-1" eventType="touchUpInside" id="KTg-n5-Thr"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="nGA-uk-LJR">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-no-image.png" translatesAutoresizingMaskIntoConstraints="NO" id="nGA-uk-LJR">
                             <rect key="frame" x="8" y="4" width="85" height="131"/>
                         </imageView>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEl-w1-xrn">
@@ -176,9 +175,9 @@
     </objects>
     <resources>
         <image name="comment.png" width="512" height="512"/>
+        <image name="default-no-image.png" width="1490" height="1080"/>
         <image name="like.png" width="512" height="512"/>
         <image name="map.png" width="512" height="512"/>
-        <image name="profile_icon.png" width="600" height="600"/>
         <image name="satellite.png" width="512" height="512"/>
         <image name="share.png" width="25" height="25"/>
         <image name="user.png" width="512" height="512"/>

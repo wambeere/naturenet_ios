@@ -24,12 +24,22 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     var observationText : String = ""
     var isfromMapView : Bool = false
     var isfromDesignIdeasView : Bool = false
+    var designID: String = ""
     
     
     var observationId : String = ""
     var commentsDictfromExploreView : NSDictionary = [:]
     
     var pageTitle: String = ""
+    
+    
+    
+    @IBOutlet weak var likedislikeView: UIView!
+    
+    
+    @IBOutlet weak var likeButtonBesidesCommentBox: UIButton!
+    
+    
     
     @IBOutlet weak var commentTF: UITextField!
     var commentsArray : NSMutableArray = []
@@ -55,7 +65,13 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         print(commentsDictfromExploreView)
         
+        likedislikeView.hidden = true
         
+        if(isfromDesignIdeasView)
+        {
+            likedislikeView.hidden = false
+            likeButtonBesidesCommentBox.hidden = true
+        }
         
         
         if((observerImageUrl) != "")
@@ -102,6 +118,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailedObservationViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailedObservationViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        
+        
 
 
 
@@ -272,41 +290,205 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     @IBAction func postComment(sender: UIButton) {
         
         
+//        let userDefaults = NSUserDefaults.standardUserDefaults()
+//        var userID = String()
+//        if(userDefaults.objectForKey("userID") != nil)
+//        {
+//            userID = (userDefaults.objectForKey("userID") as? String)!
+//        }
+//     
+//        print(userID)
+//        
+//        if(commentTF.text != "")
+//        {
+//        
+//            let ref = Firebase(url: POST_OBSERVATION_URL+"\(observationId)/comments")
+//            print(ref.childByAutoId())
+//            let autoID = ref.childByAutoId()
+//            //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
+//            let commentChild = autoID.childByAppendingPath("comment")
+//            commentChild.setValue(commentTF.text)
+//        
+//            let commenterChild = autoID.childByAppendingPath("commenter")
+//            commenterChild.setValue(userID)
+        
+            let alert = UIAlertController(title: "Alert", message: "Comment Posted Successfully", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+//        }
+//        else
+//        {
+//            let alert = UIAlertController(title: "Alert", message: "Please Enter Text in the Comment Field to Post it", preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        }
+
+        
+    }
+    @IBAction func likeButtonClicked(sender: UIButton) {
+        
+        sender.selected = true
+        postLiketoDesign(true)
+        
+    }
+    
+    
+    @IBAction func dislikeButtonClicked(sender: UIButton) {
+        
+        sender.selected = true
+        postLiketoDesign(false)
+        
+    }
+    
+    @IBAction func likeButtonBesidesCommentBoxClicked(sender: UIButton) {
+        
+        //sender.setImage(UIImage(named: "4-6 like-grey.png") as UIImage?, forState: .Selected)
+        sender.selected = true
+        postLiketoObservation()
+        
+    }
+    func postLiketoDesign(islike: Bool)
+    {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         var userID = String()
         if(userDefaults.objectForKey("userID") != nil)
         {
             userID = (userDefaults.objectForKey("userID") as? String)!
         }
-     
+        let email = userDefaults.objectForKey("email") as? String
+        let password = userDefaults.objectForKey("password") as? String
+        
         print(userID)
         
-        if(commentTF.text != "")
-        {
-        
-            let ref = Firebase(url: POST_OBSERVATION_URL+"\(observationId)/comments")
-            print(ref.childByAutoId())
-            let autoID = ref.childByAutoId()
-            //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
-            let commentChild = autoID.childByAppendingPath("comment")
-            commentChild.setValue(commentTF.text)
-        
-            let commenterChild = autoID.childByAppendingPath("commenter")
-            commenterChild.setValue(userID)
-            
-            let alert = UIAlertController(title: "Alert", message: "Comment Posted Successfully", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        else
-        {
-            let alert = UIAlertController(title: "Alert", message: "Please Enter Text in the Comment Field to Post it", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
+        let refUser = Firebase(url: FIREBASE_URL)
+        refUser.authUser(email, password: password,
+                         withCompletionBlock: { error, authData in
+                            if error != nil {
+                                
+                                print("\(error)")
+                                let alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                //                                let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                                //                                    UIAlertAction in
+                                //                                    //print("OK Pressed")
+                                //                                    //self.dismissVC()
+                                //
+                                //                                    let signInSignUpVC=SignInSignUpViewController()
+                                //                                    let signInSignUpNavVC = UINavigationController()
+                                //                                    signInSignUpVC.pageTitle="Sign In"
+                                //                                    signInSignUpNavVC.viewControllers = [signInSignUpVC]
+                                //                                    self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+                                //                                }
+                                //
+                                //                                // Add the actions
+                                //                                alert.addAction(showMenuAction)
+                                //                                
+                                //                                
+                                self.presentViewController(alert, animated: true, completion: nil)
+                                
+                            }
+                            else
+                            {
+                                if(userID != "")
+                                {
+                                    print(POST_IDEAS_URL+"\(self.designID)/likes")
+                                    
+                                    let ref = Firebase(url: POST_IDEAS_URL+"\(self.designID)/likes")
+                                    //print(ref.childByAutoId())
+                                    //let autoID = ref.childByAutoId()
+                                    //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
+                                    let userChild = ref.childByAppendingPath(userID)
+                                    userChild.setValue(islike)
+                                    print(self.designID)
+                                    
+                                    let alert = UIAlertController(title: "Alert", message: "Liked Successfully", preferredStyle: UIAlertControllerStyle.Alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                }
+                                else
+                                {
+                                    let alert = UIAlertController(title: "Alert", message: "Please Sign In to like the Design", preferredStyle: UIAlertControllerStyle.Alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                }
+
+                            }
+        })
 
         
+        
     }
+    
+    func postLiketoObservation()
+    {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        var userID = String()
+        if(userDefaults.objectForKey("userID") != nil)
+        {
+            userID = (userDefaults.objectForKey("userID") as? String)!
+        }
+        
+        print(userID)
+        
+        let email = userDefaults.objectForKey("email") as? String
+        let password = userDefaults.objectForKey("password") as? String
+        
+        let refUser = Firebase(url: FIREBASE_URL)
+        refUser.authUser(email, password: password,
+                         withCompletionBlock: { error, authData in
+                            if error != nil {
+                                
+                                print("\(error)")
+                                let alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                                let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+//                                    UIAlertAction in
+//                                    //print("OK Pressed")
+//                                    //self.dismissVC()
+//                                    
+//                                    let signInSignUpVC=SignInSignUpViewController()
+//                                    let signInSignUpNavVC = UINavigationController()
+//                                    signInSignUpVC.pageTitle="Sign In"
+//                                    signInSignUpNavVC.viewControllers = [signInSignUpVC]
+//                                    self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+//                                }
+//                                
+//                                // Add the actions
+//                                alert.addAction(showMenuAction)
+//                                
+//                                
+                                self.presentViewController(alert, animated: true, completion: nil)
+                                
+                            }
+                            else
+                            {
+                                if(userID != "")
+                                {
+                                    
+                                    let ref = Firebase(url: POST_OBSERVATION_URL+"\(self.observationId)/likes")
+                                    //print(ref.childByAutoId())
+                                    //let autoID = ref.childByAutoId()
+                                    //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
+                                    let userChild = ref.childByAppendingPath(userID)
+                                    userChild.setValue("true")
+                                    print(self.observationId)
+                                    
+                                    let alert = UIAlertController(title: "Alert", message: "Liked Successfully", preferredStyle: UIAlertControllerStyle.Alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                }
+                                else
+                                {
+                                    let alert = UIAlertController(title: "Alert", message: "Please Sign In to like the Observation", preferredStyle: UIAlertControllerStyle.Alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                }
+
+                                
+                            }})
+
+        
+            }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

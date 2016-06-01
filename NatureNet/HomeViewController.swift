@@ -9,6 +9,10 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    
+    var isFromConsentForm: Bool = false
+    
+    @IBOutlet weak var joinNatureNetButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +34,18 @@ class HomeViewController: UIViewController {
         self.navigationController!.navigationBar.barTintColor = UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        
+        if(UIScreen.mainScreen().nativeBounds.height <= 1136)
+        {
+            joinNatureNetButton.hidden = true
+            let rightBarButtonItem = UIBarButtonItem(title: "Join", style: .Plain, target: self, action: #selector(joinNatureNet))
+            rightBarButtonItem.tintColor = UIColor.whiteColor()
+            navigationItem.rightBarButtonItem = rightBarButtonItem
+        }
+        else
+        {
+            joinNatureNetButton.hidden = false
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,9 +57,29 @@ class HomeViewController: UIViewController {
         
         let signInSignUpVC=SignInSignUpViewController()
         let signInSignUpNavVC = UINavigationController()
+        signInSignUpVC.isFromHomeVC = true
         signInSignUpVC.pageTitle="Join NatureNet"
         signInSignUpNavVC.viewControllers = [signInSignUpVC]
         self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        let userDefaults = NSUserDefaults()
+        
+        
+        if(userDefaults.objectForKey("isFromConsentForm") as? String == "true")
+        {
+            if self.revealViewController() != nil {
+                self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+                self.revealViewController().rearViewRevealWidth = 290
+                
+                self.revealViewController().revealToggleAnimated(true)
+                
+            }
+            userDefaults.setValue("false", forKey: "isFromConsentForm")
+        }
+        
     }
 
     /*

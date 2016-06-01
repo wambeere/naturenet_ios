@@ -121,25 +121,36 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                         if((json.objectForKey("avatar")) != nil)
                         {
                             let observerAvatar = json.objectForKey("avatar")
-                            if let observerAvatarUrl  = NSURL(string: observerAvatar as! String),
-                                observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
+                            print(observerAvatar)
+                            let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
+                            if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
                             {
-                                observerAvatarsArray.addObject(observerAvatarData)
+                                observerAvatarsArray.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
                                 observerAvatarsUrlArray.addObject(observerAvatar!)
                             }
+                            else
+                            {
+                                let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                                
+                                
+                                observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                                observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
+                            }
+                            //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
                         }
                         else
                         {
+                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
                             
-                            if let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png"),
-                                observerAvatarData = NSData(contentsOfURL: tempImageUrl)
-                            {
-                                observerAvatarsArray.addObject(observerAvatarData)
-                                observerAvatarsUrlArray.addObject(tempImageUrl)
-                                
-                            }
-                        }
+                            observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                            observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
+                           
+                    }
+
                     
+                    
+                            
+                            
                 }catch let error as NSError {
                     print("json error: \(error.localizedDescription)")
                     let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
@@ -199,6 +210,9 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ExploreCell", forIndexPath: indexPath) as! ExploreCollectionViewCell
+        
+        cell.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.layer.borderWidth = 1.0
         //        if let currentItem = beachDict[beachArray[indexPath.item]] {
         //            //Setting title for the images from description
         //            let title = currentItem.first?.description
@@ -224,9 +238,11 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         //            }
         //        }
         
+        let observerImageUrlString = exploreObservationsImagesArray[indexPath.row] as! String
+        let newimageURLString = observerImageUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
         
         
-        if let observerImageUrl  = NSURL(string: exploreObservationsImagesArray[indexPath.row] as! String),
+        if let observerImageUrl  = NSURL(string: newimageURLString),
             observerImageUrlData = NSData(contentsOfURL: observerImageUrl)
         {
             cell.exploreImageView.image = UIImage(data: observerImageUrlData)
@@ -265,7 +281,11 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         detailedObservationVC.observerDisplayName = observerNamesArray[indexPath.row] as! String;
         detailedObservationVC.observerAffiliation = observerAffiliationsArray[indexPath.row] as! String;
         detailedObservationVC.observationText = observationTextArray[indexPath.row] as! String;
-        detailedObservationVC.observationImageUrl = exploreObservationsImagesArray[indexPath.row] as! String;
+        
+        let observerImageUrlString = exploreObservationsImagesArray[indexPath.row] as! String
+        let newimageURLString = observerImageUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-large", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        detailedObservationVC.observationImageUrl = newimageURLString
         //detailedObservationVC.observationsIdsfromExploreView = observerIdsfromMapView
         detailedObservationVC.observationId = observationIdsfromMapView[indexPath.row] as! String
         detailedObservationVC.commentsDictfromExploreView = commentsDictArrayfromMapView[indexPath.row] as! NSDictionary

@@ -36,10 +36,22 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     var contentArray_ideas: NSMutableArray = []
     var contentArray_challenges: NSMutableArray = []
     
+    var commentsKeysArray: NSArray = []
+    var likesCount: Int = 0
+    var dislikesCount: Int = 0
     
-    var groupChallengeArray: NSMutableArray = []
-    var groupDesignArray: NSMutableArray = []
-    var groupArray: NSMutableArray = []
+    var commentsCountArray: NSMutableArray = []
+    var likesCountArray: NSMutableArray = []
+    var dislikesCountArray: NSMutableArray = []
+    
+    var statusArray:NSMutableArray = []
+    
+    
+    
+    
+    //var groupChallengeArray: NSMutableArray = []
+    //var groupDesignArray: NSMutableArray = []
+    var designIdsArray: NSMutableArray = []
     
     @IBOutlet weak var recentContributionsLabel: UILabel!
     override func viewDidLoad() {
@@ -54,7 +66,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             
         }
         
-        self.navigationItem.title="DESIGN IDEAS"
+        //self.navigationItem.title="DESIGN IDEAS"
         
         self.navigationController!.navigationBar.barTintColor = UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
@@ -74,6 +86,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         
         
         
+        //let ideasUrl = NSURL(string: "https://naturenet.firebaseio.com/ideas/-KFSFdMuw_jLEG9ZU-6v.json")
         let ideasUrl = NSURL(string: DESIGN_URL)
         
         var ideasData:NSData? = nil
@@ -91,13 +104,91 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
                 
                 print(json)
+                print(json.count)
                 
                 for i in 0 ..< json.count
                 {
-                    //print(i)
                     let ideasDetailData = json.allValues[i] as! NSDictionary
+                    
+                    if(ideasDetailData.objectForKey("comments") != nil)
+                    {
+                        let commentsDictionary = ideasDetailData.objectForKey("comments") as! NSDictionary
+                        print(commentsDictionary.allKeys)
+                        
+                        commentsKeysArray = commentsDictionary.allKeys as NSArray
+                        print(commentsKeysArray)
+                        
+                        commentsCountArray.addObject("\(commentsKeysArray.count)")
+                    }
+                    else
+                    {
+                        commentsCountArray.addObject("0")
+                    }
+                    
+                    if(ideasDetailData.objectForKey("status") != nil)
+                    {
+                        let status = ideasDetailData.objectForKey("status") as? String
+                        statusArray.addObject(status!)
+                    }
+                    else
+                    {
+                        statusArray.addObject("")
+                    }
+                    
+                    if(ideasDetailData.objectForKey("likes") != nil)
+                    {
+                        let likesDictionary = ideasDetailData.objectForKey("likes") as! NSDictionary
+                        print(likesDictionary.allValues)
+                        
+                        let likesArray = likesDictionary.allValues as NSArray
+                        print(likesArray)
+                        
+                        
+                        for l in 0 ..< likesArray.count
+                        {
+                            if(likesArray[l] as! NSObject == 1)
+                            {
+                                likesCount += 1
+                            }
+                            else
+                            {
+                                dislikesCount += 1
+                            }
+                        }
+                        print(likesCount)
+                        print(dislikesCount)
+                        
+                        likesCountArray.addObject("\(likesCount)")
+                        dislikesCountArray.addObject("\(dislikesCount)")
+
+                    }
+                    else
+                    {
+                        likesCountArray.addObject("0")
+                        dislikesCountArray.addObject("0")
+                    }
+                    
+                    
+                    
+                    //print(i)
+                    
                     print(ideasDetailData.objectForKey("content"))
                     print(ideasDetailData.objectForKey("group"))
+                    print(ideasDetailData.objectForKey("id"))
+                    //print(json.allKeys)
+                    
+                    //let likesDictionary = json.objectForKey("likes") as! NSDictionary
+                    //print(likesDictionary.allValues)
+
+                    
+                    let designId = ideasDetailData.objectForKey("id") as? String
+                    if(designId != nil)
+                    {
+                        designIdsArray.addObject(designId!)
+                    }
+                    
+                    
+                    //print(groupsArray)
                     //print(ideasDetailData.objectForKey("submitter"))
 //                    if(ideasDetailData.objectForKey("content") != nil)
 //                    {
@@ -262,18 +353,32 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                         //print(observerDisplayName)
                                         if((submitterjson.objectForKey("avatar")) != nil)
                                         {
-                                            let submitterAvatarString = submitterjson.objectForKey("avatar")
+                                            let submitterUrlString = submitterjson.objectForKey("avatar") as! String
+                                            print(submitterUrlString)
+                                            let newsubmitterUrlString = submitterUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                                            let submitterAvatarUrl  = NSURL(string: newsubmitterUrlString )
+                                            if(UIApplication.sharedApplication().canOpenURL(submitterAvatarUrl!) == true)
+                                            {
+                                            
+                                                let submitterAvatarString = newsubmitterUrlString
                                             //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
                                             //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
                                             //                                    {
                                             
-                                            submitterAvatar_ideas.addObject(submitterAvatarString!)
+                                                submitterAvatar_ideas.addObject(submitterAvatarString)
+                                            }
+                                            else
+                                            {
+                                                let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                                                submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
+                                            }
                                             
                                             //}
                                         }
                                         else
                                         {
-                                            submitterAvatar_ideas.addObject(NSBundle.mainBundle().URLForResource("user", withExtension: "png")!)
+                                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                                            submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
                                             
                                         }
                                         
@@ -326,6 +431,10 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             recentContributionsLabel.textAlignment = NSTextAlignment.Left
             recentContributionsLabel.textColor = UIColor.blackColor()
         }
+        
+        print(commentsCountArray)
+        print(likesCountArray)
+        print(dislikesCountArray)
 
         
     }
@@ -414,11 +523,36 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         cell.submitterDisplayName.text = submitterDisplayName[indexPath.row] as? String
         cell.submitterAffiliation.text = submitterAffiliation[indexPath.row] as? String
         
-        if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String),
-            submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
+        cell.likesLabel.text = likesCountArray[indexPath.row] as? String
+        cell.dislikesLabel.text = dislikesCountArray[indexPath.row] as? String
+        cell.commentsLabel.text = commentsCountArray[indexPath.row] as? String
+        
+        print(submitterAvatar[indexPath.row])
+        
+        //if (submitterAvatar[indexPath.row].lowercaseString.rangeOfString("http") != nil || submitterAvatar[indexPath.row].lowercaseString.rangeOfString("file") != nil) {
+            
+            if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String),
+                submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
+            {
+                cell.submitterAvatarView.image = UIImage(data: submitterAvatarData)
+            }
+        
+        if(statusArray[indexPath.row] as! String == "Done")
         {
-            cell.submitterAvatarView.image = UIImage(data: submitterAvatarData)
+            cell.statusImageView.image = UIImage(named: "completed.png")
         }
+        else
+        {
+            cell.statusImageView.image = UIImage(named: "4-5 discussing.png")
+        }
+            
+//        }
+//        else
+//        {
+//            cell.submitterAvatarView.image = UIImage(named: "user.png")
+//        }
+        
+        
         
         return cell
         
@@ -432,12 +566,13 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         detailedObservationVC.observerImageUrl = submitterAvatar[indexPath.row] as! String
         detailedObservationVC.observerDisplayName = submitterDisplayName[indexPath.row] as! String
         detailedObservationVC.observerAffiliation = submitterAffiliation[indexPath.row] as! String
-        detailedObservationVC.pageTitle = self.navigationItem.title!
-        detailedObservationVC.observationImageUrl = NSBundle.mainBundle().URLForResource("obs", withExtension: "png")!.absoluteString
+        //detailedObservationVC.pageTitle = self.navigationItem.title!
+        detailedObservationVC.observationImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")!.absoluteString
         detailedObservationVC.isfromDesignIdeasView = true
         detailedObservationVC.observationText = contentArray[indexPath.row] as! String
 //        detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
 //        detailedObservationVC.observationId = obsevationId
+        detailedObservationVC.designID = designIdsArray[indexPath.row] as! String
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
     }
     /*

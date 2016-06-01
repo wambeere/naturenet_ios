@@ -45,13 +45,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     let diAndCVC = DesignIdeasAndChallengesViewController()
     
     var obsevationIds : NSMutableArray = []
+    
     var obsevationId : String = ""
+    
+    var locValue = CLLocationCoordinate2D()
+    
+    var observationProjectNames : NSMutableArray = []
+    
+    var ProjectName : String = ""
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.bringSubviewToFront(exploreView);
         // Do any additional setup after loading the view.
         if self.revealViewController() != nil {
@@ -94,9 +101,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         
         self.view.addSubview(mapView)
         
-        mapAnnotationClickView.frame = CGRectMake(0,self.view.frame.size.height-mapAnnotationClickView.frame.size.height, mapAnnotationClickView.frame.size.width, mapAnnotationClickView.frame.size.height)
+        mapAnnotationClickView.frame = CGRectMake(0,UIScreen.mainScreen().bounds.size.height-mapAnnotationClickView.frame.size.height, mapAnnotationClickView.frame.size.width, mapAnnotationClickView.frame.size.height)
         mapAnnotationClickSubView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MapViewController.mapAnnotationClickSubViewtapped)))
         mapAnnotationClickSubView.userInteractionEnabled = true
+        
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
         
                 
         //declare this property where it won't go out of scope relative to your listener
@@ -117,8 +136,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             print("could not start reachability notifier")
         }
         
-        
-        newObsAndDIView.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView.view.frame.size.height-8 - 60, newObsAndDIView.view.frame.size.width, newObsAndDIView.view.frame.size.height)
+        if(UIScreen.mainScreen().nativeBounds.height <= 1136)
+        {
+            newObsAndDIView.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView.view.frame.size.height-8 - 60, UIScreen.mainScreen().bounds.size.width, newObsAndDIView.view.frame.size.height)
+            
+            newObsAndDIView.designIdeaButton.frame = CGRectMake(newObsAndDIView.designIdeaButton.frame.origin.x - newObsAndDIView.designIdeaButton.frame.size.width, newObsAndDIView.designIdeaButton.frame.origin.y, newObsAndDIView.designIdeaButton.frame.size.width, newObsAndDIView.designIdeaButton.frame.size.height)
+        }
+        else
+        {
+            newObsAndDIView.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView.view.frame.size.height-8 - 60, UIScreen.mainScreen().bounds.size.width, newObsAndDIView.view.frame.size.height)
+            
+        }
         self.view.addSubview(newObsAndDIView.view)
         //self.view.bringSubviewToFront(newObsAndDIView.view)
         newObsAndDIView.camButton.addTarget(self, action: #selector(MapViewController.openNewObsView), forControlEvents: .TouchUpInside)
@@ -129,17 +157,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         
         
     }
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locValue = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
     func openNewObsView()
     {
         //print("gverver")
         self.addChildViewController(cgVC)
         
-        cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - cgVC.view.frame.size.height+68, cgVC.view.frame.size.width, cgVC.view.frame.size.height)
+        cgVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - cgVC.view.frame.size.height+68, cgVC.view.frame.size.width, cgVC.view.frame.size.height)
         self.view.addSubview(cgVC.view)
         cgVC.closeButton.hidden = true
         UIView.animateWithDuration(0.3, animations: {
         
-            self.cgVC.view.frame = CGRectMake(0, self.view.frame.size.height - self.cgVC.view.frame.size.height+68, self.cgVC.view.frame.size.width, self.cgVC.view.frame.size.height)
+            self.cgVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.cgVC.view.frame.size.height+68, self.cgVC.view.frame.size.width, self.cgVC.view.frame.size.height)
         
         }) { (isComplete) in
         
@@ -151,13 +183,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     {
         //print("gverver")
         self.addChildViewController(diAndCVC)
-        diAndCVC.view.frame = CGRectMake(0, self.view.frame.size.height - diAndCVC.view.frame.size.height+68, diAndCVC.view.frame.size.width, diAndCVC.view.frame.size.height)
+        diAndCVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - diAndCVC.view.frame.size.height+68, diAndCVC.view.frame.size.width, diAndCVC.view.frame.size.height)
         diAndCVC.closeButton.hidden = true
         
         self.view.addSubview(diAndCVC.view)
         UIView.animateWithDuration(0.3, animations: {
             
-            self.diAndCVC.view.frame = CGRectMake(0, self.view.frame.size.height - self.diAndCVC.view.frame.size.height+68, self.diAndCVC.view.frame.size.width, self.diAndCVC.view.frame.size.height)
+            self.diAndCVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.diAndCVC.view.frame.size.height+68, self.diAndCVC.view.frame.size.width, self.diAndCVC.view.frame.size.height)
             
         }) { (isComplete) in
             
@@ -194,6 +226,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     {
         
         let observationUrl = NSURL(string: OBSERVATIONS_URL)
+        //let observationUrl = NSURL(string: "https://naturenet.firebaseio.com/observations/-KFRnObtgXwJXwnKF0yj.json")
         
         var userData:NSData? = nil
         do {
@@ -213,84 +246,227 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                 
                 for i in 0 ..< json.count
                 {
-                    //print(i)
-                    let observationData = json.allValues[i] as! NSDictionary
-                    let latAndLongs = observationData.objectForKey("l") as! NSArray
-                    print(observationData)
-                    let observationImageAndText = observationData.objectForKey("data") as! NSDictionary
-                    print(latAndLongs[0])
-                    print(latAndLongs[1])
+                    
+
+                    
+                    print(json.allValues[i])
+                    
+                        let observationData = json.allValues[i] as! NSDictionary
                     
                     
-                    if(observationData.objectForKey("comments") != nil)
+                    
+                    
+                    
+                        
+                        if(observationData.objectForKey("comments") != nil)
+                        {
+                            let tempcomments = observationData.objectForKey("comments") as! NSDictionary
+                            print(tempcomments)
+                            let commentsKeysArray = tempcomments.allKeys as NSArray
+                            commentsDictArray.addObject(commentsKeysArray)
+                            
+                            print(commentsDictArray)
+                        }
+                        else
+                        {
+                            let tempcomments = NSDictionary()
+                            commentsDictArray.addObject(tempcomments)
+                        }
+                        
+                        var latAndLongs: NSArray = []
+                        var observationImageAndText: NSDictionary = [:]
+                        
+                        if(observationData.objectForKey("l") != nil)
+                        {
+                            latAndLongs = observationData.objectForKey("l") as! NSArray
+                            //print(latAndLongs[0])
+                            //print(latAndLongs[1])
+                            print(latAndLongs)
+                            let annotationLatAndLong = CLLocation(latitude: latAndLongs[0].doubleValue, longitude: latAndLongs[1].doubleValue)
+                            
+                            mapViewCoordinate(annotationLatAndLong, tagForAnnotation: i)
+                            
+                        }
+                        else{
+                            
+                            let tempArr = NSArray()
+                            latAndLongs = tempArr
+                        }
+                        if(observationData.objectForKey("data") != nil)
+                        {
+                            observationImageAndText = observationData.objectForKey("data") as! NSDictionary
+                        }
+                        else
+                        {
+                            let tempDic = NSDictionary()
+                            observationImageAndText = tempDic
+                        }
+                    
+                    if(observationData.objectForKey("activity_location") != nil)
                     {
-                        let tempcomments = observationData.objectForKey("comments") as! NSDictionary
-                        print(tempcomments)
-                        commentsDictArray.addObject(tempcomments)
-                    }
-                    else
-                    {
-                        let tempcomments = NSDictionary()
-                        commentsDictArray.addObject(tempcomments)
+                        let actloc = observationData.objectForKey("activity_location") as! String
+                        print("*****"+actloc)
+                    
+                        let geoActivitiesUrl = NSURL(string: FIREBASE_URL + "geo/activities/\(actloc).json")
+                    
+                        
+                        var geoActivitiesData:NSData? = nil
+                        do {
+                            geoActivitiesData = try NSData(contentsOfURL: geoActivitiesUrl!, options: NSDataReadingOptions())
+                        //print(userData)
+                        }
+                        catch {
+                            print("Handle \(error) here")
+                        }
+                    
+                        if let geodata = geoActivitiesData {
+                            // Convert data to JSON here
+                            do{
+                                let geojson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(geodata, options: NSJSONReadingOptions()) as! NSDictionary
+                            
+                                let geoActivity = geojson.objectForKey("activity") as! String
+                                //let geoActivityId = geojson.objectForKey("id") as! String
+                                
+                                print("((((("+geoActivity)
+                                
+                               
+                                    
+                                    let activitiesUrl = NSURL(string: FIREBASE_URL + "activities.json")
+                                    
+                                    var activitiesData:NSData? = nil
+                                    do {
+                                        activitiesData = try NSData(contentsOfURL: activitiesUrl!, options: NSDataReadingOptions())
+                                        //print(userData)
+                                    }
+                                    catch {
+                                        print("Handle \(error) here")
+                                    }
+                                    
+                                    if let data = activitiesData {
+                                        // Convert data to JSON here
+                                        do{
+                                            let activitiesJson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+                                            
+                                            print(activitiesJson.allKeys)
+                                            
+                                            for j in 0 ..< activitiesJson.count
+                                            {
+                                                
+                                                let activity = activitiesJson.allKeys[j] as! String
+                                                let activityDictionary = activitiesJson.objectForKey(activity) as! NSDictionary
+                                                //print(activityDictionary.objectForKey("name"))
+                                                if(activityDictionary.objectForKey("name") != nil && actloc != "")
+                                                {
+                                                    //print(geoActivity)
+                                                    //print(activity)
+                                                    if(activity == geoActivity)
+                                                    {
+                                                        observationProjectNames.addObject(activityDictionary.objectForKey("name")!)
+                                                    }
+                                                }
+                                                
+                                            }
+                                        }
+                                        catch let error as NSError {
+                                            print("json error: \(error.localizedDescription)")
+                                            let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                            self.presentViewController(alert, animated: true, completion: nil)
+                                        }
+                                    }}
+                                    
+                                catch let error as NSError {
+                                print("json error: \(error.localizedDescription)")
+                                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                self.presentViewController(alert, animated: true, completion: nil)
+                            }
+                        
+
+                        }
+                    
                     }
                     
                     
-                    if(observationData.objectForKey("id") != nil)
-                    {
-                        let obsId = observationData.objectForKey("id") as! String
-                        print(obsId)
-                        obsevationIds.addObject(obsId)
-                    }
-                    else
-                    {
-                        obsevationIds.addObject("")
-                    }
+                    print(observationProjectNames)
+                        
+                        
+                        
+                        
+                        //                    if(observationData.objectForKey("comments") != nil)
+                        //                    {
+                        //                        let tempcomments = observationData.objectForKey("comments") as! NSDictionary
+                        //                        print(tempcomments)
+                        //                        commentsDictArray.addObject(tempcomments)
+                        //
+                        //                        print(commentsDictArray)
+                        //                    }
+                        //                    else
+                        //                    {
+                        //                        let tempcomments = NSDictionary()
+                        //                        commentsDictArray.addObject(tempcomments)
+                        //                    }
+                        
+                        
+                        if(observationData.objectForKey("id") != nil)
+                        {
+                            let obsId = observationData.objectForKey("id") as! String
+                            print(obsId)
+                            obsevationIds.addObject(obsId)
+                        }
+                        else
+                        {
+                            obsevationIds.addObject("")
+                        }
+                        
+                        
+                        //
+                        //                    commentsDictionaryArray.addObject(tempcomments)
+                        //
+                        //                    for j in 0 ..< tempcomments.count
+                        //                    {
+                        //                        let comments = tempcomments.allValues[j] as! NSDictionary
+                        //                        print(comments)
+                        //                    }
+                        
+                        if(observationImageAndText["image"] != nil)
+                        {
+                            
+                            print(observationImageAndText["image"])
+                            let imageURLString = observationImageAndText["image"] as! String
+                            //let aString: String = "This is my string"
+                            let newimageURLString = imageURLString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                            observationImagesArray.addObject(newimageURLString)
+                        }
+                        else
+                        {
+                            observationImagesArray.addObject("")
+                        }
+                        if(observationImageAndText["text"] != nil)
+                        {
+                            //print(observationImageAndText["text"])
+                            observationTextArray.addObject(observationImageAndText["text"]!)
+                        }
+                        else
+                        {
+                            observationTextArray.addObject("")
+                        }
+                        
+                        if(observationData.objectForKey("observer") != nil)
+                        {
+                            let observerId = observationData.objectForKey("observer") as! String
+                            //print(observerId)
+                            observerIds.addObject(observerId)
+                        }
+                        else
+                        {
+                            observerIds.addObject("")
+                        }
                     
                     
-//                    
-//                    commentsDictionaryArray.addObject(tempcomments)
-//                    
-//                    for j in 0 ..< tempcomments.count
-//                    {
-//                        let comments = tempcomments.allValues[j] as! NSDictionary
-//                        print(comments)
-//                    }
+
                     
-                    if(observationImageAndText["image"] != nil)
-                    {
-                        observationImagesArray.addObject(observationImageAndText["image"]!)
-                        print(observationImageAndText["image"])
-                    }
-                    else
-                    {
-                        observationImagesArray.addObject("")
-                    }
-                    if(observationImageAndText["text"] != nil)
-                    {
-                        //print(observationImageAndText["text"])
-                        observationTextArray.addObject(observationImageAndText["text"]!)
-                    }
-                    else
-                    {
-                        observationTextArray.addObject("")
-                    }
-                    
-                    if(observationData.objectForKey("observer") != nil)
-                    {
-                        let observerId = observationData.objectForKey("observer") as! String
-                        //print(observerId)
-                        observerIds.addObject(observerId)
-                    }
-                    else
-                    {
-                        observerIds.addObject("")
-                    }
-                    
-                   
-                    
-                    let annotationLatAndLong = CLLocation(latitude: latAndLongs[0].doubleValue, longitude: latAndLongs[1].doubleValue)
-                    
-                    mapViewCoordinate(annotationLatAndLong, tagForAnnotation: i)
+              
                 }
 
                 //print(observationImagesArray)
@@ -309,7 +485,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     }
     func mapTypes()
     {
-        mapTypeView.frame = CGRectMake(self.view.frame.size.width - mapTypeView.frame.size.width-mapTypeView.frame.size.width/12,64, mapTypeView.frame.size.width, mapTypeView.frame.size.height)
+        mapTypeView.frame = CGRectMake(UIScreen.mainScreen().bounds.size.width - mapTypeView.frame.size.width-mapTypeView.frame.size.width/12,64, mapTypeView.frame.size.width, mapTypeView.frame.size.height)
         //mapTypeView.layer.cornerRadius = 8.0
         //mapTypeView.clipsToBounds = true
         if(count%2 == 0)
@@ -343,7 +519,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             exploreViewWithTag.removeFromSuperview()
             
         }
-        newObsAndDIView.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView.view.frame.size.height-8 - 60, newObsAndDIView.view.frame.size.width, newObsAndDIView.view.frame.size.height)
+        newObsAndDIView.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView.view.frame.size.height-8 - 60, newObsAndDIView.view.frame.size.width, newObsAndDIView.view.frame.size.height)
         cgVC.view.removeFromSuperview()
         cgVC.removeFromParentViewController()
         diAndCVC.view.removeFromSuperview()
@@ -356,7 +532,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         
         let regionRadius: CLLocationDistance = 600
         func centerMapOnLocation(location: CLLocation) {
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(locValue,
                 regionRadius * 4.0, regionRadius * 4.0)
             mapView.setRegion(coordinateRegion, animated: true)
         }
@@ -377,8 +553,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     
     func tappedView(){
         
+        
         activityIndicator.hidden = false
         activityIndicator.startAnimating()
+        
+        exploreView.backgroundColor=UIColor.lightGrayColor()
+        exploreView.userInteractionEnabled = false
         let eVC = ExploreViewController() //change this to your class name
         eVC.exploreObservationsImagesArray = observationImagesArray
         eVC.observerIdsfromMapView = observerIds
@@ -390,6 +570,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         self.presentViewController(exploreNavVC, animated: true, completion: nil)
         //activityIndicator.stopAnimating()
         
+    }
+    override func viewWillAppear(animated: Bool) {
+        
+        exploreView.backgroundColor=UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
+        exploreView.userInteractionEnabled = true
+        activityIndicator.stopAnimating()
+        activityIndicator.hidden = true
     }
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
@@ -455,6 +642,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             
         })
         obsevationId = obsevationIds[view.tag] as! String
+        ProjectName = observationProjectNames[view.tag] as! String
 //            }, completion: nil)
 //        self.mapViewCoordinate()
         print(commentsDictArray.objectAtIndex(view.tag))
@@ -592,6 +780,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         detailedObservationVC.observationText = observationTextLabel.text!
         detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
         detailedObservationVC.observationId = obsevationId
+        detailedObservationVC.pageTitle = ProjectName
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
         
     }

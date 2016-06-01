@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>1.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -45,6 +45,8 @@
 			<string></string>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>NatureNet would like to use your current location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Requesting your current location</string>
 	<key>UILaunchStoryboardName</key>
