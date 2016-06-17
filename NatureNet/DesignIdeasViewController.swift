@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource{
 
@@ -63,6 +64,9 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             self.revealViewController().rearViewRevealWidth = 290
             let barButtonItem = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .Plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
             navigationItem.leftBarButtonItem = barButtonItem
+            
+            let cache = KingfisherManager.sharedManager.cache
+            cache.maxDiskCacheSize = 10 * 1024 * 1024
             
         }
         
@@ -530,12 +534,20 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         print(submitterAvatar[indexPath.row])
         
         //if (submitterAvatar[indexPath.row].lowercaseString.rangeOfString("http") != nil || submitterAvatar[indexPath.row].lowercaseString.rangeOfString("file") != nil) {
-            
+        //COMEBACK
+        /*
             if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String),
                 submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
             {
                 cell.submitterAvatarView.image = UIImage(data: submitterAvatarData)
             }
+        */
+        
+        
+        if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String){
+            cell.submitterAvatarView.kf_setImageWithURL(submitterAvatarUrl)
+        }
+        
         
         if(statusArray[indexPath.row] as! String == "Done")
         {

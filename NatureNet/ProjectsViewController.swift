@@ -379,11 +379,19 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         let cellImageView = UIImageView()
         cellImageView.contentMode = UIViewContentMode.ScaleAspectFit
         cellImageView.frame = CGRectMake(10, 2, 40, 40)
+        
+        if let projectIconUrl  = NSURL(string: projectIconKeys[indexPath.row] as! String)
+        {
+            cellImageView.kf_setImageWithURL(projectIconUrl)
+        }
+        
+        /*
         if let projectIconUrl  = NSURL(string: projectIconKeys[indexPath.row] as! String),
             projectIconData = NSData(contentsOfURL: projectIconUrl)
         {
             cellImageView.image = UIImage(data: projectIconData)
         }
+        */
         
         cellImageView.clipsToBounds = true
         

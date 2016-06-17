@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource{
 
@@ -203,7 +204,13 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
         //cellImageView.contentMode = UIViewContentMode.ScaleAspectFit
         //cellImageView.frame = CGRectMake(10, 2, 40, 40)
         
+        //COMEBACK
+        if let userIconUrl  = NSURL(string: userAvatarURLSArray[indexPath.row] as! String)
+        {
+            cell?.imageView?.kf_setImageWithURL(userIconUrl, placeholderImage: UIImage(named: "user.png"))
+        } //bug with image aspect ratios, fix with constraints?
         
+        /*
         if let userIconUrl  = NSURL(string: userAvatarURLSArray[indexPath.row] as! String),
             userIconData = NSData(contentsOfURL: userIconUrl)
         {
@@ -217,6 +224,7 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
             }
             
         }
+        */
         
         //cellImageView.clipsToBounds = true
         //cellImageView.layer.cornerRadius = 20.0
