@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
+		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
 		9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */; };
 		9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */; };
@@ -122,6 +124,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
+		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F14A7731C9B3EF400CAB0F6 /* NatureNet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NatureNet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
@@ -331,6 +335,7 @@
 				9F32D2111CB6E92100298E02 /* CommentsTableViewCell.swift */,
 				9F32D2231CBDBD6E00298E02 /* NewObsAndDIViewController.swift */,
 				9F32D2271CBDC73C00298E02 /* CameraAndGalleryViewController.swift */,
+				18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */,
 				9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */,
 				9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */,
 				9F4523591CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift */,
@@ -361,6 +366,7 @@
 				9F32D2121CB6E92100298E02 /* CommentsTableViewCell.xib */,
 				9F32D2241CBDBD6E00298E02 /* NewObsAndDIViewController.xib */,
 				9F32D2281CBDC73C00298E02 /* CameraAndGalleryViewController.xib */,
+				18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */,
 				9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */,
 				9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */,
 				9F45235A1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib */,
@@ -566,6 +572,7 @@
 				9F2222BE1CE2603A00A845E2 /* more.png in Resources */,
 				9F2222AD1CE25FA400A845E2 /* design ideas.png in Resources */,
 				9F32D2261CBDBD6E00298E02 /* NewObsAndDIViewController.xib in Resources */,
+				18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */,
 				9F2222B71CE25FA400A845E2 /* satellite.png in Resources */,
 				9F14A7821C9B53BF00CAB0F6 /* MenuTableViewCell.xib in Resources */,
 				9F2222AE1CE25FA400A845E2 /* dislike.png in Resources */,
@@ -715,6 +722,7 @@
 				9F4523551CC167C400D5D92C /* SWRevealViewController.m in Sources */,
 				9F32D2161CB6F6E100298E02 /* ConnectionManager.swift in Sources */,
 				9FC2D1A01CEB7749000B398B /* DesignIdeasAndChallengesTableViewCell.swift in Sources */,
+				18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */,
 				9F14A7811C9B53BF00CAB0F6 /* MenuTableViewCell.swift in Sources */,
 				9F32D22F1CBEB61900298E02 /* NewObsViewController.swift in Sources */,
 				9F32D2131CB6E92100298E02 /* CommentsTableViewCell.swift in Sources */,

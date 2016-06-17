@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -8,6 +8,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CameraAndGalleryViewController" customModule="NatureNet" customModuleProvider="target">
             <connections>
                 <outlet property="closeButton" destination="j8i-gc-s6L" id="d63-Rt-XbQ"/>
+                <outlet property="imagesCollectionView" destination="Ol3-rK-Pow" id="mvU-4B-apn"/>
+                <outlet property="imagesCollectionViewLayout" destination="5xf-At-xly" id="LDj-bl-LNN"/>
+                <outlet property="selectButton" destination="Yuw-6I-AWT" id="53j-VU-JQc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,13 +20,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hr-gE-Ggk">
-                    <rect key="frame" x="132" y="72" width="110" height="21"/>
+                    <rect key="frame" x="132" y="25" width="110" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUL-DF-3iL">
-                    <rect key="frame" x="132" y="113" width="110" height="30"/>
+                    <rect key="frame" x="132" y="54" width="110" height="30"/>
                     <color key="backgroundColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="Camera">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -33,7 +36,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nob-2K-eYT">
-                    <rect key="frame" x="132" y="161" width="110" height="30"/>
+                    <rect key="frame" x="132" y="92" width="110" height="30"/>
                     <color key="backgroundColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="Gallery">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -46,6 +49,24 @@
                     <rect key="frame" x="337" y="8" width="30" height="30"/>
                     <state key="normal" backgroundImage="2-5 cancel.png"/>
                 </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yuw-6I-AWT">
+                    <rect key="frame" x="323" y="104" width="44" height="30"/>
+                    <color key="tintColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="Select"/>
+                    <connections>
+                        <action selector="selectButtonPressed:" destination="-1" eventType="touchUpInside" id="gA2-pa-1A4"/>
+                    </connections>
+                </button>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Ol3-rK-Pow">
+                    <rect key="frame" x="8" y="142" width="359" height="190"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="0.0" id="5xf-At-xly">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
