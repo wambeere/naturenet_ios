@@ -219,7 +219,6 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
         let newObsNavVC = UINavigationController()
         newObsNavVC.viewControllers = [newObsVC]
         self.presentViewController(newObsNavVC, animated: true, completion: nil)
-        //send picture to cloudinary etc
         
     }
     
