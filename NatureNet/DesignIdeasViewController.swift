@@ -65,9 +65,6 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             let barButtonItem = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .Plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
             navigationItem.leftBarButtonItem = barButtonItem
             
-            let cache = KingfisherManager.sharedManager.cache
-            cache.maxDiskCacheSize = 10 * 1024 * 1024
-            
         }
         
         //self.navigationItem.title="DESIGN IDEAS"
