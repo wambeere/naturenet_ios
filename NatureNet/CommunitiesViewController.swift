@@ -205,9 +205,10 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
         if let userIconUrl  = NSURL(string: userAvatarURLSArray[indexPath.row] as! String)
         {
 
+
             cell.communitiesPersonImageView?.kf_setImageWithURL(userIconUrl, placeholderImage: UIImage(named: "user.png"))
 
-            //cell?.imageView?.kf_setImageWithURL(userIconUrl, placeholderImage: UIImage(named: "user.png"))
+            
 
         } //bug with image aspect ratios, fix with constraints?
         
