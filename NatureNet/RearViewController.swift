@@ -222,6 +222,11 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
     }
    
+    @IBAction func infoButtonTouched(sender: AnyObject) {
+        let alertController = UIAlertController(title: "test", message: "Hello Test!", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: nil, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
     
 
     /*
