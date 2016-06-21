@@ -30,6 +30,8 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     
     @IBOutlet weak var viewForHidingPickerView: UIView!
     var sitesArray : NSMutableArray = []
+    var sitesIdsArray : NSMutableArray = []
+    var AffiliationId : String = ""
     
    
     @IBAction func forgotPasswordButtonClicked(sender: UIButton) {
@@ -86,11 +88,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         }
         else if(pageTitle == "Join NatureNet")
         {
-            self.view.addSubview(consentForm)
-            buttonBorder(firstConsentButton)
-            buttonBorder(secondConsentButton)
-            buttonBorder(thirdConsentButton)
-            buttonBorder(fourthConsentButton)
+            self.addJoinScrollView()
         }
         
         affiliationPickerView.hidden = true
@@ -98,150 +96,6 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         
 
     }
-    
-    @IBAction func nextButtonClicked(sender: UIButton) {
-        
-        if(isFirstConsentChecked == true && isSecondConsentChecked == true)
-        {
-            UIView.animateWithDuration(0.3, animations: {
-                
-                self.consentForm.removeFromSuperview()
-                self.addJoinScrollView()
-                
-            })
-        }
-        else
-        {
-            let alert = UIAlertController(title: nil, message:"Please check the required fields or continue as a guest" ,preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-            let showMenuAction = UIAlertAction(title: "Continue As Guest", style: UIAlertActionStyle.Default) {
-                UIAlertAction in
-                
-                let userDefaults = NSUserDefaults()
-                
-                if(self.isFromHomeVC == true)
-                {
-                    userDefaults.setValue("true", forKey: "isFromConsentForm")
-                }
-                else
-                {
-                    userDefaults.setValue("false", forKey: "isFromConsentForm")
-                }
-                
-                
-                self.dismissVC()
-                
-//                if self.revealViewController() != nil {
-//                    self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-//                    self.revealViewController().rearViewRevealWidth = 290
-//                    
-//                   self.revealViewController().revealToggleAnimated(true)
-//                    
-//                }
-
-                
-//                self.dismissVC()
-//                
-//                let newFrontViewController = UINavigationController()
-//                let mapVC = MapViewController()
-//                newFrontViewController.viewControllers = [mapVC]
-//                self.navigationController?.pushViewController(newFrontViewController, animated: true)
-            }
-            
-            // Add the actions
-            alert.addAction(showMenuAction)
-            
-            
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        
-    }
-    
-    @IBAction func backButtonToConsentForm(sender: UIButton) {
-        
-        UIView.animateWithDuration(0.3, animations: {
-            
-            self.view.addSubview(self.consentForm)
-            self.sitesArray.removeAllObjects()
-            self.joinScrollView.removeFromSuperview()
-            
-        })
-        
-    }
-    
-    @IBAction func firstConsentChecked(sender: UIButton) {
-        
-        if(isFirstConsentChecked == true)
-        {
-            sender.setImage(nil, forState: .Normal)
-            buttonBorder(sender)
-            isFirstConsentChecked = false
-        }
-        else
-        {
-            sender.setImage(UIImage(named: "completed.png") as UIImage?, forState: .Normal)
-            sender.layer.borderColor = UIColor.clearColor().CGColor
-            isFirstConsentChecked = true
-        }
-        
-        
-        
-    }
-    
-    @IBAction func secondConsentChecked(sender: UIButton) {
-        
-        if(isSecondConsentChecked == true)
-        {
-            sender.setImage(nil, forState: .Normal)
-            buttonBorder(sender)
-            isSecondConsentChecked = false
-        }
-        else
-        {
-            sender.setImage(UIImage(named: "completed.png") as UIImage?, forState: .Normal)
-            sender.layer.borderColor = UIColor.clearColor().CGColor
-            isSecondConsentChecked = true
-        }
-
-        
-    }
-    
-    @IBAction func thirdConsentChecked(sender: UIButton) {
-        
-        if(isThirdConsentChecked == true)
-        {
-            sender.setImage(nil, forState: .Normal)
-            buttonBorder(sender)
-            isThirdConsentChecked = false
-        }
-        else
-        {
-            sender.setImage(UIImage(named: "completed.png") as UIImage?, forState: .Normal)
-            sender.layer.borderColor = UIColor.clearColor().CGColor
-            isThirdConsentChecked = true
-        }
-
-        
-    }
-    
-    @IBAction func fourthConsentChecked(sender: UIButton) {
-        
-        if(isFourthConsentChecked == true)
-        {
-            sender.setImage(nil, forState: .Normal)
-            buttonBorder(sender)
-            isFourthConsentChecked = false
-        }
-        else
-        {
-            sender.setImage(UIImage(named: "completed.png") as UIImage?, forState: .Normal)
-            sender.layer.borderColor = UIColor.clearColor().CGColor
-            isFourthConsentChecked = true
-        }
-
-        
-    }
-
     
     
     func addJoinScrollView()
@@ -302,6 +156,10 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                     {
                         sitesArray.addObject(sites.objectForKey("name")!)
                     }
+                    if(sites.objectForKey("id") != nil)
+                    {
+                        sitesIdsArray.addObject(sites.objectForKey("id")!)
+                    }
                     
                 }
             }
@@ -354,6 +212,8 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         joinAffliation.text = sitesArray[row] as? String
+        AffiliationId = sitesIdsArray[row] as! String
+        print(AffiliationId)
     }
     func showPicker()
     {
@@ -366,12 +226,8 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     @IBAction func joinButtonClickedFronSignInView(sender: UIButton) {
     
         signInView.removeFromSuperview()
-        //addJoinScrollView()
-        self.view.addSubview(consentForm)
-        buttonBorder(firstConsentButton)
-        buttonBorder(secondConsentButton)
-        buttonBorder(thirdConsentButton)
-        buttonBorder(fourthConsentButton)
+        addJoinScrollView()
+
         self.navigationItem.title="Join NatureNet"
     
     }
@@ -668,7 +524,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     print("Successfully logged in by user with uid: \(uid)")
                                                     let usersRef = ref.childByAppendingPath(uid)
                                                     //let usersPubReftoid = usersRef.childByAppendingPath("public")
-                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.joinAffliation.text as! AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
                                                     usersRef.setValue(usersPub)
                                                     
                                                     //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
@@ -680,9 +536,10 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     
                                                                 let usersPrivateRef = refPrivate.childByAppendingPath(uid)
                                                                 
-                                                                let usersConsentPrivate = ["upload": self.isFirstConsentChecked as AnyObject,"share": self.isSecondConsentChecked as AnyObject,"recording": self.isThirdConsentChecked as AnyObject,"survey": self.isFourthConsentChecked as AnyObject]
+                                                                //let usersConsentPrivate = ["upload": self.isFirstConsentChecked as AnyObject,"share": self.isSecondConsentChecked as AnyObject,"recording": self.isThirdConsentChecked as AnyObject,"survey": self.isFourthConsentChecked as AnyObject]
                                                                 //let usersPubReftoid = usersRef.childByAppendingPath("public")
-                                                                let usersPrivate = ["id": uid as! AnyObject,"name": self.joinName.text as! AnyObject,"consent": usersConsentPrivate as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                                                //let usersPrivate = ["id": uid as! AnyObject,"name": self.joinName.text as! AnyObject,"consent": usersConsentPrivate as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                                                let usersPrivate = ["id": uid as! AnyObject,"name": self.joinName.text as! AnyObject,"created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
                                                                 usersPrivateRef.setValue(usersPrivate)
                                                                 
                                                                 //let userConsent = usersPrivateRef.childByAppendingPath("consent")

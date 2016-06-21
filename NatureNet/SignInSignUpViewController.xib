@@ -267,16 +267,6 @@
                     <color key="textColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hdo-7f-fsu">
-                    <rect key="frame" x="8" y="72" width="61" height="21"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal" title="&lt;&lt; Back">
-                        <color key="titleColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="backButtonToConsentForm:" destination="-1" eventType="touchUpInside" id="CeV-x8-0ee"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XfY-5R-5Jq">
                     <rect key="frame" x="67" y="419" width="240" height="30"/>
                     <color key="backgroundColor" red="0.15686274510000001" green="0.22352941179999999" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>

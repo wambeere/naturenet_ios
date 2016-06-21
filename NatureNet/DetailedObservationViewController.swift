@@ -29,6 +29,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     
     var observationId : String = ""
     var commentsDictfromExploreView : NSDictionary = [:]
+    var observationCommentsArrayfromExploreView : NSArray = []
     
     var pageTitle: String = ""
     
@@ -36,7 +37,12 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     
     @IBOutlet weak var likedislikeView: UIView!
     
+    @IBOutlet weak var likesCountLabel: UILabel!
     
+    @IBOutlet weak var dislikesCountLabel: UILabel!
+    
+    var likesCountFromDesignIdeasView : Int = 0
+    var dislikesCountFromDesignIdeasView : Int = 0
     @IBOutlet weak var likeButtonBesidesCommentBox: UIButton!
     
     
@@ -65,12 +71,17 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         print(commentsDictfromExploreView)
         
+        print(observationCommentsArrayfromExploreView)
+        
         likedislikeView.hidden = true
         
         if(isfromDesignIdeasView)
         {
             likedislikeView.hidden = false
             likeButtonBesidesCommentBox.hidden = true
+            
+            likesCountLabel.text = "\(likesCountFromDesignIdeasView)"
+            dislikesCountLabel.text = "\(dislikesCountFromDesignIdeasView)"
         }
         
         
@@ -107,12 +118,27 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         commentsTableView.registerNib(UINib(nibName: "CommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentCell")
         
-        for j in 0 ..< commentsDictfromExploreView.count
+        for j in 0 ..< observationCommentsArrayfromExploreView.count
         {
-            let comments = commentsDictfromExploreView.allValues[j] as! NSDictionary
-            print(comments)
-            commentsArray.addObject(comments.objectForKey("comment")!)
-            commentersArray.addObject(comments.objectForKey("commenter")!)
+//            let comments = commentsDictfromExploreView.allValues[j] as! NSDictionary
+//            print(comments)
+//            commentsArray.addObject(comments.objectForKey("comment")!)
+//            commentersArray.addObject(comments.objectForKey("commenter")!)
+            
+            let myRootRef = Firebase(url:COMMENTS_URL+"\(observationCommentsArrayfromExploreView[j])")
+            myRootRef.observeEventType(.Value, withBlock: { snapshot in
+               
+                print(snapshot.value)
+                
+                self.commentsArray.addObject(snapshot.value["comment"] as! String)
+                self.commentersArray.addObject(snapshot.value["commenter"] as! String)
+                
+                self.commentsTableView.reloadData()
+                
+                }, withCancelBlock: { error in
+                    print(error.description)
+            })
+
         }
         commentTF.delegate = self
         
@@ -222,6 +248,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                         let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
                         print(json)
                         
+                        cell.commentorAvatarImageView.layer.cornerRadius = 20.0
+                        
                         //print(observerData.objectForKey("affiliation"))
                         //print(observerData.objectForKey("display_name"))
                         //print(observerData)
@@ -253,13 +281,31 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                         if((json.objectForKey("avatar")) != nil)
                         {
                             let observerAvatar = json.objectForKey("avatar")
-                            if let observerAvatarUrl  = NSURL(string: observerAvatar as! String),
-                                observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
+                            let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
+                            if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
                             {
-                                cell.commentorAvatarImageView.image = UIImage(data: observerAvatarData)
-                                //observerAvatarsArray.addObject(observerAvatar!)
-                                //self.observerAvatarUrlString = observerAvatar as! String
+                                let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
+                                cell.commentorAvatarImageView.image = UIImage(data: observerAvatarData!)
                             }
+                            else
+                            {
+                                cell.commentorAvatarImageView.image = UIImage(named:"user.png")
+                            }
+//                            if let observerAvatarUrl  = NSURL(string: observerAvatar as! String),
+//                                observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
+//                            {
+//                                if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl) == true)
+//                                {
+//                                    cell.commentorAvatarImageView.image = UIImage(data: observerAvatarData)
+//                                }
+//                                else
+//                                {
+//                                     cell.commentorAvatarImageView.image = UIImage(named:"user.png")
+//                                }
+//                                
+//                                //observerAvatarsArray.addObject(observerAvatar!)
+//                                //self.observerAvatarUrlString = observerAvatar as! String
+//                            }
                         }
                         else
                         {
@@ -290,38 +336,63 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     @IBAction func postComment(sender: UIButton) {
         
         
-//        let userDefaults = NSUserDefaults.standardUserDefaults()
-//        var userID = String()
-//        if(userDefaults.objectForKey("userID") != nil)
-//        {
-//            userID = (userDefaults.objectForKey("userID") as? String)!
-//        }
-//     
-//        print(userID)
-//        
-//        if(commentTF.text != "")
-//        {
-//        
-//            let ref = Firebase(url: POST_OBSERVATION_URL+"\(observationId)/comments")
-//            print(ref.childByAutoId())
-//            let autoID = ref.childByAutoId()
-//            //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
-//            let commentChild = autoID.childByAppendingPath("comment")
-//            commentChild.setValue(commentTF.text)
-//        
-//            let commenterChild = autoID.childByAppendingPath("commenter")
-//            commenterChild.setValue(userID)
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        var userID = String()
+        if(userDefaults.objectForKey("userID") != nil)
+        {
+            userID = (userDefaults.objectForKey("userID") as? String)!
+        }
+     
+        print(userID)
         
+        if(commentTF.text != "")
+        {
+            
+            let commentsRef = Firebase(url: COMMENTS_URL)
+            let autoID = commentsRef.childByAutoId()
+            
+            print(autoID.key)
+            
+            
+            let commentChild = autoID.childByAppendingPath("comment")
+            commentChild.setValue(commentTF.text)
+            
+            let commenterChild = autoID.childByAppendingPath("commenter")
+            commenterChild.setValue(userID)
+            
+            let idChild = autoID.childByAppendingPath("id")
+            idChild.setValue(autoID.key)
+            
+            let parentChild = autoID.childByAppendingPath("parent")
+            parentChild.setValue(userID)
+
+            let createdAtChild = autoID.childByAppendingPath("created_at")
+            createdAtChild.setValue(FirebaseServerValue.timestamp())
+            
+            let updatedAtChild = autoID.childByAppendingPath("updated_at")
+            updatedAtChild.setValue(FirebaseServerValue.timestamp())
+
+        
+            
+            
+            let ref = Firebase(url: POST_OBSERVATION_URL+"\(observationId)/comments")
+            //print(ref.childByAutoId())
+            //let autoID = ref.childByAutoId()
+            //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
+            let commentidChild = ref.childByAppendingPath(autoID.key)
+            commentidChild.setValue(true)
+
+
             let alert = UIAlertController(title: "Alert", message: "Comment Posted Successfully", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
-//        }
-//        else
-//        {
-//            let alert = UIAlertController(title: "Alert", message: "Please Enter Text in the Comment Field to Post it", preferredStyle: UIAlertControllerStyle.Alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-//            self.presentViewController(alert, animated: true, completion: nil)
-//        }
+        }
+        else
+        {
+            let alert = UIAlertController(title: "Alert", message: "Please Enter Text in the Comment Field to Post it", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
 
         
     }

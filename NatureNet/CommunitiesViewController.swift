@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource{
 
@@ -47,6 +48,8 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
         peopleTable.separatorColor = UIColor.clearColor()
         peopleTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         peopleTable.contentInset = UIEdgeInsetsMake(-1.0, 0.0, 0.0, 0.0)
+        
+        peopleTable.registerNib(UINib(nibName: "CommunitiesTableViewCell", bundle: nil), forCellReuseIdentifier: "communityCell")
     
         
         
@@ -191,19 +194,24 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         //let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         
-        var cell:UITableViewCell? =
-            tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
-        if (cell != nil)
-        {
-            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle,
-                                   reuseIdentifier: "cell")
-        }
+        //let cell = tableView.dequeueReusableCellWithIdentifier("communityCell")! as? CommunitiesTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("communityCell", forIndexPath: indexPath) as! CommunitiesTableViewCell
                 
         //let cellImageView = UIImageView()
         //cellImageView.contentMode = UIViewContentMode.ScaleAspectFit
         //cellImageView.frame = CGRectMake(10, 2, 40, 40)
         
+        //COMEBACK
+        if let userIconUrl  = NSURL(string: userAvatarURLSArray[indexPath.row] as! String)
+        {
+
+            cell.communitiesPersonImageView?.kf_setImageWithURL(userIconUrl, placeholderImage: UIImage(named: "user.png"))
+
+            //cell?.imageView?.kf_setImageWithURL(userIconUrl, placeholderImage: UIImage(named: "user.png"))
+
+        } //bug with image aspect ratios, fix with constraints?
         
+        /*
         if let userIconUrl  = NSURL(string: userAvatarURLSArray[indexPath.row] as! String),
             userIconData = NSData(contentsOfURL: userIconUrl)
         {
@@ -217,29 +225,30 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
             }
             
         }
+        */
         
         //cellImageView.clipsToBounds = true
         //cellImageView.layer.cornerRadius = 20.0
         
         //cell!.contentView.addSubview(cellImageView)
         
-        cell?.imageView?.layer.cornerRadius = 20.0
+        cell.communitiesPersonImageView?.layer.cornerRadius = 20.0
         
-        cell!.textLabel?.textAlignment = NSTextAlignment.Center
-        cell!.detailTextLabel?.textAlignment = NSTextAlignment.Center
+        //cell.communitiesPersonNameLabel?.textAlignment = NSTextAlignment.Center
+        //cell.communitiesPersonAffiliationLabel?.textAlignment = NSTextAlignment.Center
         
-        cell!.textLabel?.text = userDisplayNamesArray[indexPath.row] as? String
-        cell!.detailTextLabel?.text = userAffiliationsArray[indexPath.row] as? String
+        cell.communitiesPersonNameLabel?.text = userDisplayNamesArray[indexPath.row] as? String
+        cell.communitiesPersonAffiliationLabel?.text = userAffiliationsArray[indexPath.row] as? String
         
         //cell.imageView!.image = UIImage(named: projIcons[indexPath.row])
         //cell.imageView!.image = imageWithImage(UIImage(named: projIcons[indexPath.row])!, scaledToSize: CGSize(width: 30, height: 30))
         
-        let additionalSeparator = UIView()
-        additionalSeparator.frame = CGRectMake(0,cell!.frame.size.height,self.view.frame.size.width,6)
-        additionalSeparator.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
-        cell!.addSubview(additionalSeparator)
+//        let additionalSeparator = UIView()
+//        additionalSeparator.frame = CGRectMake(0,cell.frame.size.height,self.view.frame.size.width,3)
+//        additionalSeparator.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+//        cell.addSubview(additionalSeparator)
         
-        return cell!
+        return cell
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         

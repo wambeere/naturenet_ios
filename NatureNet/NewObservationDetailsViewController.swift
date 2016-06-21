@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewObservationDetailsViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
+class NewObservationDetailsViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate,UITextViewDelegate{
     
     var isDescription : Bool = false
 
@@ -37,6 +37,14 @@ class NewObservationDetailsViewController: UIViewController ,UITableViewDataSour
         if(isDescription == true)
         {
             self.view.addSubview(obsDescriptionTextView)
+            
+            obsDescriptionTextView.delegate = self
+            
+            obsDescriptionTextView.text = "Description for Observation"
+            obsDescriptionTextView.textColor = UIColor.lightGrayColor()
+
+            
+            
         }
         else
         {
@@ -51,6 +59,21 @@ class NewObservationDetailsViewController: UIViewController ,UITableViewDataSour
         
         
         self.view.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+    }
+    override func viewWillAppear(animated: Bool) {
+        obsDescriptionTextView.becomeFirstResponder()
+    }
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.textColor == UIColor.lightGrayColor() {
+            textView.text = nil
+            textView.textColor = UIColor.blackColor()
+        }
+    }
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Placeholder"
+            textView.textColor = UIColor.lightGrayColor()
+        }
     }
     func dismissVC(){
         

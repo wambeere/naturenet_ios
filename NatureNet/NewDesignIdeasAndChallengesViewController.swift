@@ -51,8 +51,23 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
         picker!.delegate=self
         textView.delegate = self
         
+        textView.text = "Please Enter Description here"
+        textView.textColor = UIColor.lightGrayColor()
+        
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewDesignIdeasAndChallengesViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewDesignIdeasAndChallengesViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    }
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.textColor == UIColor.lightGrayColor() {
+            textView.text = nil
+            textView.textColor = UIColor.blackColor()
+        }
+    }
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Placeholder"
+            textView.textColor = UIColor.lightGrayColor()
+        }
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -100,6 +115,9 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
         //self.view.window!.rootViewController?.dismissViewControllerAnimated(false, completion: nil)
         //print("abhi")
         
+    }
+    override func viewWillAppear(animated: Bool) {
+        textView.becomeFirstResponder()
     }
     func postDesign()
     {

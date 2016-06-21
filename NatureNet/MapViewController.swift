@@ -54,6 +54,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     
     var ProjectName : String = ""
     
+    var observationCommentsArray : NSArray = []
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -95,8 +97,46 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         mapView.mapType = .Satellite
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
         
-        //mapViewCoordinate()
+        // For use in foreground
+        //self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        else
+        {
+            //if (mapView.userLocation.location == nil)
+            let userDefaults = NSUserDefaults()
+            print(userDefaults.objectForKey("userAffiliation"))
+            if let userAffiliation = userDefaults.objectForKey("userAffiliation"){
+                
+                let myRootRef = Firebase(url:"https://naturenet-staging.firebaseio.com/sites/\(userAffiliation)")
+                myRootRef.observeEventType(.Value, withBlock: { snapshot in
+                    print(snapshot.value["l"])
+                    let siteLocationArray = snapshot.value["l"] as! NSArray
+                    print(siteLocationArray[0])
+                    print(siteLocationArray[1])
+                    
+                    var locCoord = CLLocationCoordinate2D()
+                    locCoord.latitude = siteLocationArray[0] as! Double
+                    locCoord.longitude = siteLocationArray[1] as! Double
+                    
+                    self.setMapViewCoordinates(locCoord)
+                    
+                    
+                    }, withCancelBlock: { error in
+                        print(error.description)
+                })
+
+                
+            }
+            
+        }
         
         
         self.view.addSubview(mapView)
@@ -105,17 +145,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         mapAnnotationClickSubView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MapViewController.mapAnnotationClickSubViewtapped)))
         mapAnnotationClickSubView.userInteractionEnabled = true
         
-        // Ask for Authorisation from the User.
-        self.locationManager.requestAlwaysAuthorization()
-        
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
+       
         
                 
         //declare this property where it won't go out of scope relative to your listener
@@ -157,9 +187,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         
         
     }
+    
+    func setMapViewCoordinates(locationCoord: CLLocationCoordinate2D)
+    {
+        let regionRadius: CLLocationDistance = 600
+        
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(locationCoord,
+                                                                      regionRadius * 4.0, regionRadius * 4.0)
+        self.mapView.setRegion(coordinateRegion, animated: true)
+        
+    }
+    
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        locValue = manager.location!.coordinate
+        
+        
+//        if let location = locations.first {
+//            // implement logic upon location change and stop updating location until it is subsequently updated
+        locationManager.stopUpdatingLocation()
+        locValue = locations.last!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
+        
+        self.setMapViewCoordinates(locValue)
+            
+        
+//        }
     }
     func openNewObsView()
     {
@@ -266,10 +317,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                             commentsDictArray.addObject(commentsKeysArray)
                             
                             print(commentsDictArray)
+                            
+                            print(observationData.objectForKey("id"))
                         }
                         else
                         {
-                            let tempcomments = NSDictionary()
+                            let tempcomments = NSArray()
                             commentsDictArray.addObject(tempcomments)
                         }
                         
@@ -526,18 +579,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         diAndCVC.removeFromParentViewController()
         
     }
+    
     func mapViewCoordinate(annotationLocation: CLLocation, tagForAnnotation : Int)
     {
         let initialLocation = CLLocation(latitude: annotationLocation.coordinate.latitude, longitude: annotationLocation.coordinate.longitude)
         
-        let regionRadius: CLLocationDistance = 600
-        func centerMapOnLocation(location: CLLocation) {
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(locValue,
-                regionRadius * 4.0, regionRadius * 4.0)
-            mapView.setRegion(coordinateRegion, animated: true)
-        }
-        
-        centerMapOnLocation(initialLocation)
+        self.setMapViewCoordinates(locValue)
         let annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2DMake(initialLocation.coordinate.latitude, initialLocation.coordinate.longitude)
         annotation.title = String(tagForAnnotation)
@@ -646,7 +693,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
 //            }, completion: nil)
 //        self.mapViewCoordinate()
         print(commentsDictArray.objectAtIndex(view.tag))
-        commentsDicttoDetailVC = commentsDictArray.objectAtIndex(view.tag)  as! NSDictionary
+        //commentsDicttoDetailVC = commentsDictArray.objectAtIndex(view.tag)  as! NSDictionary
+        observationCommentsArray = commentsDictArray.objectAtIndex(view.tag)  as! NSArray
         
         observationTextLabel.text = (observationTextArray[view.tag] as! String)
         
@@ -778,7 +826,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         detailedObservationVC.observerAffiliation = observerAffiliation.text!
         detailedObservationVC.observationImageUrl = observervationUrlString
         detailedObservationVC.observationText = observationTextLabel.text!
-        detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
+        detailedObservationVC.observationCommentsArrayfromExploreView = observationCommentsArray
         detailedObservationVC.observationId = obsevationId
         detailedObservationVC.pageTitle = ProjectName
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)

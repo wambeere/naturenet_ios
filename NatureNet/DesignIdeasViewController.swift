@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource{
 
@@ -530,12 +531,20 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         print(submitterAvatar[indexPath.row])
         
         //if (submitterAvatar[indexPath.row].lowercaseString.rangeOfString("http") != nil || submitterAvatar[indexPath.row].lowercaseString.rangeOfString("file") != nil) {
-            
+        //COMEBACK
+        /*
             if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String),
                 submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
             {
                 cell.submitterAvatarView.image = UIImage(data: submitterAvatarData)
             }
+        */
+        
+        
+        if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String){
+            cell.submitterAvatarView.kf_setImageWithURL(submitterAvatarUrl)
+        }
+        
         
         if(statusArray[indexPath.row] as! String == "Done")
         {
@@ -573,6 +582,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
 //        detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
 //        detailedObservationVC.observationId = obsevationId
         detailedObservationVC.designID = designIdsArray[indexPath.row] as! String
+        detailedObservationVC.likesCountFromDesignIdeasView = likesCountArray[indexPath.row].integerValue
+        detailedObservationVC.dislikesCountFromDesignIdeasView = dislikesCountArray[indexPath.row].integerValue
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
     }
     /*

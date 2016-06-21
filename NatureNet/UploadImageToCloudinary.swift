@@ -31,14 +31,54 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     
     func uploadToCloudinary(image: UIImage) {
         
-        let forUpload = UIImageJPEGRepresentation(image, 0.6)! as NSData
         Cloudinary = CLCloudinary(url: "cloudinary://893246586645466:8Liy-YcDCvHZpokYZ8z3cUxCtyk@university-of-colorado")
+        let uploader = CLUploader(Cloudinary, delegate: self)
+        
+        let maxSide = CGFloat(1920)
+        let originalWidth = image.size.width
+        let originalHeight = image.size.height
+        var forUpload = NSData()
+        
+
+        if(originalWidth > maxSide || originalHeight > maxSide)
+
+        {
+            //one of the two has to be 1920, so this is an easy way to give initial values
+            var newWidth = maxSide
+            var newHeight = maxSide
+            
+            if(originalWidth >= originalHeight)
+            {
+                let scaleRatio = originalWidth / maxSide
+                newHeight = originalHeight / scaleRatio
+            } else {
+                let scaleRatio = originalHeight / maxSide
+                newWidth = originalWidth / scaleRatio
+            }
+            
+            let rect = CGRectMake(0.0, 0.0, newWidth, newHeight)
+            UIGraphicsBeginImageContext(rect.size)
+            image.drawInRect(rect)
+            let smallerImage = UIGraphicsGetImageFromCurrentImageContext()
+            forUpload = UIImageJPEGRepresentation(smallerImage, 0.6)! as NSData
+            
+        
+        } else {
+            //less compression on the already smaller images
+            forUpload = UIImageJPEGRepresentation(image, 0.7)! as NSData
+        }
+        
+        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        
+        
+        
+        
         //Cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
         //Cloudinary.config().setValue("893246586645466", forKey: "api_key")
         //Cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
         
-        let uploader = CLUploader(Cloudinary, delegate: self)
-        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        
+        
         
         
     }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -34,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.rootViewController = self.viewController
         self.window?.makeKeyAndVisible()
+        
+        let cache = KingfisherManager.sharedManager.cache
+        cache.maxDiskCacheSize = 10 * 1024 * 1024
 
         
         return true

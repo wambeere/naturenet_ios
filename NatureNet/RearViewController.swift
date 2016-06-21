@@ -195,6 +195,8 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                 
                 //print(userAffiliation)
                 profileAffliationLabel.text = userAffiliation
+                
+                
             
             }
             if let userDisplayName = userDefaults.stringForKey("userDisplayName"){

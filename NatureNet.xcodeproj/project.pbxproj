@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
+		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
 		9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */; };
 		9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */; };
@@ -26,6 +28,8 @@
 		9F14A79F1C9F15BB00CAB0F6 /* CommunitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A79D1C9F15BB00CAB0F6 /* CommunitiesViewController.swift */; };
 		9F14A7A01C9F15BB00CAB0F6 /* CommunitiesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A79E1C9F15BB00CAB0F6 /* CommunitiesViewController.xib */; };
 		9F14A7A21C9F216600CAB0F6 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7A11C9F216600CAB0F6 /* profile_icon.png */; };
+		9F1B6DDB1D16FE650012F66E /* CommunitiesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */; };
+		9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */; };
 		9F2222951CE25E9100A845E2 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222941CE25E9100A845E2 /* user.png */; };
 		9F2222A71CE25FA400A845E2 /* add design challenges.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222961CE25FA400A845E2 /* add design challenges.png */; };
 		9F2222A81CE25FA400A845E2 /* add design ideas.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222971CE25FA400A845E2 /* add design ideas.png */; };
@@ -122,6 +126,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
+		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F14A7731C9B3EF400CAB0F6 /* NatureNet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NatureNet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +149,8 @@
 		9F14A79D1C9F15BB00CAB0F6 /* CommunitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunitiesViewController.swift; sourceTree = "<group>"; };
 		9F14A79E1C9F15BB00CAB0F6 /* CommunitiesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunitiesViewController.xib; sourceTree = "<group>"; };
 		9F14A7A11C9F216600CAB0F6 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
+		9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommunitiesTableViewCell.swift; path = NatureNet/CommunitiesTableViewCell.swift; sourceTree = "<group>"; };
+		9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommunitiesTableViewCell.xib; path = NatureNet/CommunitiesTableViewCell.xib; sourceTree = "<group>"; };
 		9F2222941CE25E9100A845E2 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		9F2222961CE25FA400A845E2 /* add design challenges.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add design challenges.png"; sourceTree = "<group>"; };
 		9F2222971CE25FA400A845E2 /* add design ideas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add design ideas.png"; sourceTree = "<group>"; };
@@ -331,6 +339,7 @@
 				9F32D2111CB6E92100298E02 /* CommentsTableViewCell.swift */,
 				9F32D2231CBDBD6E00298E02 /* NewObsAndDIViewController.swift */,
 				9F32D2271CBDC73C00298E02 /* CameraAndGalleryViewController.swift */,
+				18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */,
 				9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */,
 				9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */,
 				9F4523591CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift */,
@@ -361,6 +370,7 @@
 				9F32D2121CB6E92100298E02 /* CommentsTableViewCell.xib */,
 				9F32D2241CBDBD6E00298E02 /* NewObsAndDIViewController.xib */,
 				9F32D2281CBDC73C00298E02 /* CameraAndGalleryViewController.xib */,
+				18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */,
 				9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */,
 				9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */,
 				9F45235A1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib */,
@@ -382,6 +392,8 @@
 		9F9BB3AF1C9B214C0076E68E = {
 			isa = PBXGroup;
 			children = (
+				9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */,
+				9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */,
 				9F9BB3BA1C9B214C0076E68E /* NatureNet */,
 				9F9BB3CF1C9B214C0076E68E /* NatureNetTests */,
 				9F9BB3DA1C9B214C0076E68E /* NatureNetUITests */,
@@ -566,6 +578,7 @@
 				9F2222BE1CE2603A00A845E2 /* more.png in Resources */,
 				9F2222AD1CE25FA400A845E2 /* design ideas.png in Resources */,
 				9F32D2261CBDBD6E00298E02 /* NewObsAndDIViewController.xib in Resources */,
+				18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */,
 				9F2222B71CE25FA400A845E2 /* satellite.png in Resources */,
 				9F14A7821C9B53BF00CAB0F6 /* MenuTableViewCell.xib in Resources */,
 				9F2222AE1CE25FA400A845E2 /* dislike.png in Resources */,
@@ -581,6 +594,7 @@
 				9F7C59BC1CF0C24100371F88 /* 2-5 cancel.png in Resources */,
 				9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */,
 				9F7C59B01CEF67E800371F88 /* Logo_GreenTransp.png in Resources */,
+				9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */,
 				9F14A7981C9F158000CAB0F6 /* ProjectsViewController.xib in Resources */,
 				9F32D2301CBEB61900298E02 /* NewObsViewController.xib in Resources */,
 				9F2222AA1CE25FA400A845E2 /* community.png in Resources */,
@@ -715,11 +729,13 @@
 				9F4523551CC167C400D5D92C /* SWRevealViewController.m in Sources */,
 				9F32D2161CB6F6E100298E02 /* ConnectionManager.swift in Sources */,
 				9FC2D1A01CEB7749000B398B /* DesignIdeasAndChallengesTableViewCell.swift in Sources */,
+				18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */,
 				9F14A7811C9B53BF00CAB0F6 /* MenuTableViewCell.swift in Sources */,
 				9F32D22F1CBEB61900298E02 /* NewObsViewController.swift in Sources */,
 				9F32D2131CB6E92100298E02 /* CommentsTableViewCell.swift in Sources */,
 				9F14A79F1C9F15BB00CAB0F6 /* CommunitiesViewController.swift in Sources */,
 				9F32D20E1CB587FD00298E02 /* Reachability.swift in Sources */,
+				9F1B6DDB1D16FE650012F66E /* CommunitiesTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     var collectionView: UICollectionView!
     var observerIdsfromMapView : NSMutableArray = []
     var commentsDictArrayfromMapView : NSMutableArray = []
+    var observationCommentsArrayfromMapView : NSArray = []
     var observationIdsfromMapView : NSMutableArray = []
     
     var exploreObservationsImagesArray : NSArray!
@@ -288,7 +289,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         detailedObservationVC.observationImageUrl = newimageURLString
         //detailedObservationVC.observationsIdsfromExploreView = observerIdsfromMapView
         detailedObservationVC.observationId = observationIdsfromMapView[indexPath.row] as! String
-        detailedObservationVC.commentsDictfromExploreView = commentsDictArrayfromMapView[indexPath.row] as! NSDictionary
+        detailedObservationVC.observationCommentsArrayfromExploreView = commentsDictArrayfromMapView[indexPath.row] as! NSArray
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
     }
 
