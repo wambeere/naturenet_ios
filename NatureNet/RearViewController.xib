@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -11,7 +11,7 @@
                 <outlet property="menuTableView" destination="X6D-mK-DU3" id="w7x-rA-Px5"/>
                 <outlet property="profileAffliationLabel" destination="xys-DH-SQu" id="jve-VZ-E9v"/>
                 <outlet property="profileDetailsView" destination="Hjf-IE-x6g" id="ehq-7G-dxo"/>
-                <outlet property="profileImageView" destination="Mwg-Kx-qBj" id="nIg-uv-Z6N"/>
+                <outlet property="profileImageView" destination="Mwg-Kx-qBj" id="azk-Xj-wam"/>
                 <outlet property="profileNameLabel" destination="wrb-Us-My8" id="uZY-bt-dSK"/>
                 <outlet property="profileView" destination="22V-Fd-TkZ" id="ac8-3C-HG8"/>
                 <outlet property="signInButton" destination="ay3-qu-cWd" id="G0S-Hi-bVN"/>
@@ -23,8 +23,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="X6D-mK-DU3">
-                    <rect key="frame" x="0.0" y="180" width="375" height="431"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="X6D-mK-DU3">
+                    <rect key="frame" x="0.0" y="180" width="375" height="487"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="375" id="Lh3-mB-i16"/>
@@ -57,7 +57,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="um9-9a-nlZ">
-                            <rect key="frame" x="93" y="132" width="120" height="30"/>
+                            <rect key="frame" x="92.5" y="132" width="120" height="30"/>
                             <color key="backgroundColor" red="0.15686274509803921" green="0.22352941176470589" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="XzP-jd-wIf"/>
@@ -81,7 +81,7 @@
                                         <constraint firstAttribute="height" constant="37" id="eJv-ae-VWE"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Affiliation" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xys-DH-SQu">
@@ -92,7 +92,7 @@
                                         <constraint firstAttribute="height" constant="37" id="q5w-Qq-Xku"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
@@ -121,22 +121,11 @@
                         <constraint firstItem="Mwg-Kx-qBj" firstAttribute="top" secondItem="22V-Fd-TkZ" secondAttribute="top" constant="20" id="vb9-jg-3xB"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QLR-Il-t4M">
-                    <rect key="frame" x="13" y="629" width="258" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <state key="normal" title="ⓘ Licenses">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="infoButtonTouched:" destination="-1" eventType="touchUpInside" id="IA1-m0-ogJ"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="22V-Fd-TkZ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="3L2-Pc-Nbn"/>
                 <constraint firstItem="22V-Fd-TkZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Htk-JK-Uhx"/>
-                <constraint firstAttribute="bottom" secondItem="QLR-Il-t4M" secondAttribute="bottom" constant="8" id="JtM-pb-3eY"/>
                 <constraint firstAttribute="trailing" secondItem="22V-Fd-TkZ" secondAttribute="trailing" id="beH-su-Nnu"/>
                 <constraint firstItem="X6D-mK-DU3" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="c78-dn-oH1"/>
                 <constraint firstAttribute="bottom" secondItem="X6D-mK-DU3" secondAttribute="bottom" id="dXN-HC-fFV"/>

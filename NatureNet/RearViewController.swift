@@ -19,7 +19,8 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
 
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
-    @IBOutlet weak var profileImageView: UIView!
+    
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileView: UIView!
     @IBOutlet weak var menuTableView: UITableView!
     @IBOutlet var profileDetailsView: UIView!
@@ -40,6 +41,7 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         //Registering custom cell
         menuTableView.registerNib(UINib(nibName: "MenuTableViewCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
         menuTableView.separatorColor = UIColor.clearColor()
+        menuTableView.scrollEnabled = false
         
         profileView.backgroundColor=UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         
@@ -131,6 +133,7 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             {
                 menuItems.removeAtIndex(4)
                 menuItemsImages.removeAtIndex(4)
+                profileImageView.image = UIImage(named:"user.png")
             }
             menuTableView.reloadData()
             allowOnce = true
@@ -184,7 +187,7 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             {
                 allowOnce = false
                 menuItems.insert("Logout", atIndex: 4)
-                menuItemsImages.insert("exit.png", atIndex: 4)
+                menuItemsImages.insert("shutdown.png", atIndex: 4)
                 
                 menuTableView.reloadData()
             }
@@ -205,6 +208,25 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                 //print(userDisplayName)
                 
             }
+            if let usersAvatar = userDefaults.stringForKey("usersAvatar"){
+                
+                
+                let usersAvatarUrl  = NSURL(string: usersAvatar )
+                if(UIApplication.sharedApplication().canOpenURL(usersAvatarUrl!) == true)
+                {
+                    let usersAvatarData = NSData(contentsOfURL: usersAvatarUrl!)
+                    profileImageView.image = UIImage(data: usersAvatarData!)
+                }
+                else
+                {
+                    profileImageView.image = UIImage(named:"user.png")
+                }
+
+                
+            }
+            
+            
+            
         }
         else
         {
@@ -223,29 +245,7 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             
         }
     }
-    
-    
    
-    @IBAction func infoButtonTouched(sender: AnyObject) {
-        
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Left
-        
-        var licenseString = "Various third party software was used in the creation of this app. They are as follow:"
-        
-        licenseString += "\n\nAlamofire\nhttps://github.com/Alamofire/Alamofire"
-        
-        licenseString += "\n\nCloudinary\nhttps://github.com/cloudinary/cloudinary_ios"
-        
-        licenseString += "\n\nFirebase\nhttps://www.firebase.com"
-        
-        licenseString += "\n\nKingfisher\nhttps://github.com/onevcat/Kingfisher"
-        
-        let alertController = UIAlertController(title: "License Information", message: licenseString, preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
     
 
     /*

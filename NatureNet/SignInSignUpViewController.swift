@@ -9,9 +9,10 @@
 import UIKit
 import Alamofire
 import Firebase
+import Cloudinary
 //import SWRevealViewController
 
-class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource{
+class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
     var pageTitle :String!
 
@@ -32,6 +33,9 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     var sitesArray : NSMutableArray = []
     var sitesIdsArray : NSMutableArray = []
     var AffiliationId : String = ""
+    
+    var picker:UIImagePickerController?=UIImagePickerController()
+    var popover:UIPopoverController?=nil
     
    
     @IBAction func forgotPasswordButtonClicked(sender: UIButton) {
@@ -186,8 +190,96 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         //joinAffliation.inputView = affiliationPickerView
         //affiliationPickerView.removeFromSuperview()
         //joinAffliation.becomeFirstResponder()
-
+        
+//        let iconGesture = UITapGestureRecognizer(target: self, action: #selector(self.showCamAndGalleryView))
+//        profileIconImageView.addGestureRecognizer(iconGesture)
+        
+        
+        
     }
+    
+    
+    @IBAction func showCamAndGallery(sender: UIButton) {
+        
+        let alert:UIAlertController=UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default)
+        {
+            UIAlertAction in
+            self.openCamera()
+            
+        }
+        let gallaryAction = UIAlertAction(title: "Gallary", style: UIAlertActionStyle.Default)
+        {
+            UIAlertAction in
+            self.openGallary()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
+        {
+            UIAlertAction in
+            
+        }
+        
+        // Add the actions
+        picker?.delegate = self
+        alert.addAction(cameraAction)
+        alert.addAction(gallaryAction)
+        alert.addAction(cancelAction)
+        // Present the controller
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+        {
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else
+        {
+            popover=UIPopoverController(contentViewController: alert)
+            popover!.presentPopoverFromRect(self.view.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+        }
+
+        
+    }
+    
+    func openCamera()
+    {
+        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
+        {
+            picker!.sourceType = UIImagePickerControllerSourceType.Camera
+            self .presentViewController(picker!, animated: true, completion: nil)
+        }
+        else
+        {
+            openGallary()
+        }
+    }
+    
+    func openGallary()
+    {
+        picker!.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+        {
+            self.presentViewController(picker!, animated: true, completion: nil)
+        }
+        else
+        {
+            popover=UIPopoverController(contentViewController: picker!)
+            popover!.presentPopoverFromRect(self.view.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+        }
+    }
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
+        picker .dismissViewControllerAnimated(true, completion: nil)
+        profileIconImageView.image=info[UIImagePickerControllerOriginalImage] as? UIImage
+        //print(info[UIImagePickerControllerOriginalImage])
+        
+        
+    }
+    func imagePickerControllerDidCancel(picker: UIImagePickerController)
+    {
+        print("picker cancel.")
+        picker .dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
     
     @IBAction func hidePickerView(sender: UIButton) {
         
@@ -439,6 +531,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                             
                                             let userAffiliation = json.objectForKey("affiliation")
                                             let userDisplayName = json.objectForKey("display_name")
+                                            let usersAvatar = json.objectForKey("avatar")
                                             
                                             let userDefaults = NSUserDefaults.standardUserDefaults()
                                             userDefaults.setValue(userAffiliation, forKey: "userAffiliation")
@@ -447,6 +540,11 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                             userDefaults.setValue(authData.uid, forKey: "userID")
                                             userDefaults.setValue(self.username.text, forKey: "email")
                                             userDefaults.setValue(self.password.text, forKey: "password")
+                                            
+                                            if(usersAvatar != nil)
+                                            {
+                                                userDefaults.setValue(usersAvatar, forKey: "usersAvatar")
+                                            }
                                             
                                             self.dismissVC()
                                             
@@ -494,6 +592,11 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         
         if(joinUsername.text != "" || joinPassword.text != "" || joinName.text != "" || joinEmail.text != "" || joinAffliation.text != "" )
         {
+            
+            
+            let upImage = UploadImageToCloudinary()
+            upImage.uploadToCloudinary(profileIconImageView.image!)
+
                         
             let myRootRef = Firebase(url:FIREBASE_URL)
             // Write data to Firebase
@@ -522,9 +625,13 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                 else
                                                 {
                                                     print("Successfully logged in by user with uid: \(uid)")
+                                                    
+                                                    let userDefaults = NSUserDefaults.standardUserDefaults()
+                                                    let usersAvatarUrl = userDefaults.objectForKey("observationImageUrl") as? String
+                                                    
                                                     let usersRef = ref.childByAppendingPath(uid)
                                                     //let usersPubReftoid = usersRef.childByAppendingPath("public")
-                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp(),"avatar":usersAvatarUrl as! AnyObject]
                                                     usersRef.setValue(usersPub)
                                                     
                                                     //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
@@ -557,13 +664,15 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                 
 
                                                     
-                                                    let userDefaults = NSUserDefaults.standardUserDefaults()
+                                                    //let userDefaults = NSUserDefaults.standardUserDefaults()
                                                     userDefaults.setValue(self.joinAffliation.text, forKey: "userAffiliation")
                                                     userDefaults.setValue(self.joinUsername.text, forKey: "userDisplayName")
                                                     userDefaults.setValue("true", forKey: "isSignedIn")
                                                     userDefaults.setValue(uid, forKey: "userID")
                                                     userDefaults.setValue(self.joinEmail.text, forKey: "email")
                                                     userDefaults.setValue(self.joinPassword.text, forKey: "password")
+                                                    
+                                                    userDefaults.setValue(usersAvatarUrl, forKey: "usersAvatar")
                                                     
                                                     self.dismissVC()
 

@@ -30,6 +30,7 @@
 		9F14A7A21C9F216600CAB0F6 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7A11C9F216600CAB0F6 /* profile_icon.png */; };
 		9F1B6DDB1D16FE650012F66E /* CommunitiesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */; };
 		9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */; };
+		9F1B6DDE1D1AF4040012F66E /* shutdown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDD1D1AF4040012F66E /* shutdown.png */; };
 		9F2222951CE25E9100A845E2 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222941CE25E9100A845E2 /* user.png */; };
 		9F2222A71CE25FA400A845E2 /* add design challenges.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222961CE25FA400A845E2 /* add design challenges.png */; };
 		9F2222A81CE25FA400A845E2 /* add design ideas.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222971CE25FA400A845E2 /* add design ideas.png */; };
@@ -151,6 +152,7 @@
 		9F14A7A11C9F216600CAB0F6 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
 		9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommunitiesTableViewCell.swift; path = NatureNet/CommunitiesTableViewCell.swift; sourceTree = "<group>"; };
 		9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommunitiesTableViewCell.xib; path = NatureNet/CommunitiesTableViewCell.xib; sourceTree = "<group>"; };
+		9F1B6DDD1D1AF4040012F66E /* shutdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shutdown.png; sourceTree = "<group>"; };
 		9F2222941CE25E9100A845E2 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		9F2222961CE25FA400A845E2 /* add design challenges.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add design challenges.png"; sourceTree = "<group>"; };
 		9F2222971CE25FA400A845E2 /* add design ideas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add design ideas.png"; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 		9F0ECB951CA5D03A00594B2C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				9F1B6DDD1D1AF4040012F66E /* shutdown.png */,
 				9F69057F1CFDC73A00EEE241 /* 4-5 discussing.png */,
 				9F6905801CFDC73A00EEE241 /* 4-6 like-grey.png */,
 				9F6905811CFDC73A00EEE241 /* 4-7 dislike-grey.png */,
@@ -619,6 +622,7 @@
 				9F32D2221CB7F90900298E02 /* share.png in Resources */,
 				9F14A77E1C9B425E00CAB0F6 /* MapViewController.xib in Resources */,
 				9F2222B51CE25FA400A845E2 /* photo.png in Resources */,
+				9F1B6DDE1D1AF4040012F66E /* shutdown.png in Resources */,
 				9F32D2181CB7F22500298E02 /* logout.png in Resources */,
 				9F2222B01CE25FA400A845E2 /* group.png in Resources */,
 				9F2222C51CE26E0B00A845E2 /* Image_960px.png in Resources */,

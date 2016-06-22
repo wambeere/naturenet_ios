@@ -44,7 +44,7 @@
                 <outlet property="commentorDateLabel" destination="fWw-72-Y51" id="6Xc-Kf-8Bb"/>
                 <outlet property="commentorNameLabel" destination="q4R-mq-ggC" id="QQP-Wc-BJ7"/>
             </connections>
-            <point key="canvasLocation" x="94" y="172"/>
+            <point key="canvasLocation" x="210" y="166"/>
         </tableViewCell>
     </objects>
 </document>

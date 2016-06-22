@@ -38,6 +38,11 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
     var commentsCountArray_projects: NSMutableArray = []
     var commentsKeysArray_projects: NSArray = []
     
+    
+    var commentsDictArray : NSMutableArray = []
+    
+    var obsIdsArray : NSMutableArray = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -116,6 +121,8 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                         {
                             if(activity_location == projectIdFromProjectVC)
                             {
+                                print(obsDictionary)
+                                print(obsDictionary.objectForKey("id"))
                                 print(obsDictionary.objectForKey("activity_location"))
                                 print(obsDictionary.objectForKey("created_at"))
                                 print(obsDictionary.objectForKey("observer"))
@@ -131,11 +138,22 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                     commentsKeysArray_projects = commentsDictionary.allKeys as NSArray
                                     print(commentsKeysArray_projects)
                                     
+                                    commentsDictArray.addObject(commentsKeysArray_projects)
+                                    
+                                    print(commentsDictArray)
+
+                                    
+                                    commentsKeysArray_projects = commentsDictionary.allKeys as NSArray
+                                    print(commentsKeysArray_projects)
+                                    
                                     commentsCountArray_projects.addObject("\(commentsKeysArray_projects.count)")
                                 }
                                 else
                                 {
                                     commentsCountArray_projects.addObject("0")
+                                    
+                                    let tempcomments = NSArray()
+                                    commentsDictArray.addObject(tempcomments)
                                 }
 
                                 
@@ -165,6 +183,12 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                 else
                                 {
                                     likesCountArray_projects.addObject("0")
+                                }
+                                
+                                if(obsDictionary.objectForKey("id") != nil)
+                                {
+                                    let obsId = obsDictionary.objectForKey("id") as! String
+                                    obsIdsArray.addObject(obsId)
                                 }
                                 
                                 if(observationData.objectForKey("image") != nil)
@@ -348,6 +372,8 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         detailedObsVC.observerImageUrl = observersAvatarUrls_proj[indexPath.row] as! String
         detailedObsVC.observationText = observationsTextArray[indexPath.row] as! String
         detailedObsVC.observationImageUrl = observationsImagesArray[indexPath.row] as! String
+        detailedObsVC.observationCommentsArrayfromExploreView = commentsDictArray[indexPath.row] as! NSArray
+        detailedObsVC.observationId = obsIdsArray[indexPath.row] as! String
         self.navigationController?.pushViewController(detailedObsVC, animated: true)
         
     

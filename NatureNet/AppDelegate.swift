@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -38,6 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let cache = KingfisherManager.sharedManager.cache
         cache.maxDiskCacheSize = 10 * 1024 * 1024
+        
+        Firebase.defaultConfig().persistenceEnabled = true
 
         
         return true

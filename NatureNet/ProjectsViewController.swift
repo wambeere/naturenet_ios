@@ -53,13 +53,13 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
             navigationItem.leftBarButtonItem = barButtonItem
         }
         
-        projectsTableView.delegate=self
-        projectsTableView.dataSource=self
+        self.projectsTableView.delegate=self
+        self.projectsTableView.dataSource=self
         
         //Registering custom cell
         //menuTableView.registerNib(UINib(nibName: "MenuTableViewCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
-        projectsTableView.separatorColor = UIColor.clearColor()
-        projectsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.projectsTableView.separatorColor = UIColor.clearColor()
+        self.projectsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         self.view.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
         
@@ -76,96 +76,45 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         
         
-        let geoActivitiesUrl = NSURL(string: FIREBASE_URL + "geo/activities.json")
-        
-        
-        
-        var geoActivitiesData:NSData? = nil
-        do {
-            geoActivitiesData = try NSData(contentsOfURL: geoActivitiesUrl!, options: NSDataReadingOptions())
-            //print(userData)
-        }
-        catch {
-            print("Handle \(error) here")
-        }
-        
-        if let data = geoActivitiesData {
-            // Convert data to JSON here
-            do{
-                let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                
-                //print(json.allKeys)
-                
-                for i in 0 ..< json.count
+        let geoActivitiesRootRef = Firebase(url:FIREBASE_URL + "geo/activities")
+        geoActivitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
+            
+            print(geoActivitiesRootRef)
+            print(snapshot.value.count)
+            
+            if !(snapshot.value is NSNull)
+            {
+                for i in 0 ..< snapshot.value.count
                 {
-//                    //print(i)
-                    print(json)
-                    let geoActivities = json.allValues[i] as! NSDictionary
+                    let geoActivities = snapshot.value.allValues[i] as! NSDictionary
                     print(geoActivities)
                     let geoActivity = geoActivities.objectForKey("activity") as! String
                     let geoActivityId = geoActivities.objectForKey("id") as! String
                     
                     print(geoActivity)
-                    
-//                    let ref = Firebase(url: FIREBASE_URL + "activities/\(geoActivity)")
-//                    //print(ref.queryOrderedByKey())
-//                    
-//                    ref.observeEventType(.Value, withBlock: { snapshot in
-//                                                print(snapshot.value)
-//                        let proj_name = snapshot.value.objectForKey("name")
-//                        print(proj_name)
-//                        let proj_desc = snapshot.value.objectForKey("description")
-//                        print(proj_desc)
-//                        let proj_icon_url = snapshot.value.objectForKey("icon_url")
-//                        print(proj_icon_url)
-//                        let proj_status = snapshot.value.objectForKey("status")
-//                        print(proj_status)
-//                        let proj_id = snapshot.value.objectForKey("id")
-//                        print(proj_id)
-//                        
-//                                                }, withCancelBlock: { error in
-//                                                    print(error.description)
-//                                            })
-
-                    
-
-                    
                     if(geoActivityId != "")
                     {
-                        projectGeoIds.addObject(geoActivityId)
+                        self.projectGeoIds.addObject(geoActivityId)
                     }
                     else
                     {
-                        projectGeoIds.addObject("")
-                    }
-                
-//                    if(sites.objectForKey("name") != nil)
-//                    {
-//                        //sitesArray.addObject(sites.objectForKey("name")!)
-//                    }
-                    let activitiesUrl = NSURL(string: FIREBASE_URL + "activities.json")
-                    
-                    var activitiesData:NSData? = nil
-                    do {
-                        activitiesData = try NSData(contentsOfURL: activitiesUrl!, options: NSDataReadingOptions())
-                        //print(userData)
-                    }
-                    catch {
-                        print("Handle \(error) here")
+                        self.projectGeoIds.addObject("")
                     }
                     
-                    if let data = activitiesData {
-                        // Convert data to JSON here
-                        do{
-                            let activitiesJson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                            
-                            print(activitiesJson.allKeys)
-                            
-                            for j in 0 ..< activitiesJson.count
+                    let activitiesRootRef = Firebase(url:FIREBASE_URL + "activities")
+                    activitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
+                        
+                        print(activitiesRootRef)
+                        print(snapshot.value)
+                        
+                        if !(snapshot.value is NSNull)
+                        {
+                            for j in 0 ..< snapshot.value.count
                             {
                                 
-                                let activity = activitiesJson.allKeys[j] as! String
-                                let activityDictionary = activitiesJson.objectForKey(activity) as! NSDictionary
+                                
+                                let activity = snapshot.value.allKeys[j] as! String
+                                let activityDictionary = snapshot.value.objectForKey(activity) as! NSDictionary
                                 //print(activityDictionary.objectForKey("name"))
                                 if(activityDictionary.objectForKey("name") != nil && geoActivity != "")
                                 {
@@ -215,61 +164,183 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                         self.projectIds.addObject(activityDictionary.objectForKey("id")!)
                                     }
                                 }
-
+                                
+                                
                                 
 
-                                
                             }
+                            print(self.projectKeys)
+                            
+                            self.projectsTableView.reloadData()
+
+                            
                         }
-                        catch let error as NSError {
-                            print("json error: \(error.localizedDescription)")
-                            let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                            self.presentViewController(alert, animated: true, completion: nil)
-                        }
-                    }
-//                    let activities = Firebase(url:FIREBASE_URL + "activities")
-//                    //orderBy=activity&equalTo=\(json.allKeys[i])")
-//                    //let allkeys = geoActivitesUrl.queryOrderedByChild(json.allKeys[i] as! String)
-//                    //print(allkeys)
-//                    activities.observeEventType(.Value, withBlock: { snapshot in
-//                        print(snapshot.value.allKeys)
-//                        for j in 0 ..< snapshot.value.count
-//                        {
-//                            let activity = snapshot.value.allKeys[j] as! String
-//                            let activityDictionary = snapshot.value.objectForKey(activity) as! NSDictionary
-//                            //print(activityDictionary.objectForKey("name"))
-//                            if(activityDictionary.objectForKey("name") != nil && geoActivity != "")
-//                            {
-//                                print(geoActivity)
-//                                print(activity)
-//                                if(activity == geoActivity)
-//                                {
-//                                    self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
-//                                }
-//                            }
-//                        }
-//                        
-//                        }, withCancelBlock: { error in
-//                            print(error.description)
-//                    })
+                        
+                        
+                        
+                        }, withCancelBlock: { error in
+                            print(error.description)
+                    })
+                    
+
 
                     
-//                    var geoAactivitesData:NSData? = nil
+                }
+            }
+            
+            
+            
+            }, withCancelBlock: { error in
+                print(error.description)
+        })
+
+        
+        
+        
+//        let geoActivitiesUrl = NSURL(string: FIREBASE_URL + "geo/activities.json")
+//        
+//        
+//        
+//        var geoActivitiesData:NSData? = nil
+//        do {
+//            geoActivitiesData = try NSData(contentsOfURL: geoActivitiesUrl!, options: NSDataReadingOptions())
+//            //print(userData)
+//        }
+//        catch {
+//            print("Handle \(error) here")
+//        }
+//        
+//        if let data = geoActivitiesData {
+//            // Convert data to JSON here
+//            do{
+//                let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+//                
+//                //print(json.allKeys)
+//                
+//                for i in 0 ..< json.count
+//                {
+////                    //print(i)
+//                    print(json)
+//                    let geoActivities = json.allValues[i] as! NSDictionary
+//                    print(geoActivities)
+//                    let geoActivity = geoActivities.objectForKey("activity") as! String
+//                    let geoActivityId = geoActivities.objectForKey("id") as! String
+//                    
+//                    print(geoActivity)
+//                    
+////                    let ref = Firebase(url: FIREBASE_URL + "activities/\(geoActivity)")
+////                    //print(ref.queryOrderedByKey())
+////                    
+////                    ref.observeEventType(.Value, withBlock: { snapshot in
+////                                                print(snapshot.value)
+////                        let proj_name = snapshot.value.objectForKey("name")
+////                        print(proj_name)
+////                        let proj_desc = snapshot.value.objectForKey("description")
+////                        print(proj_desc)
+////                        let proj_icon_url = snapshot.value.objectForKey("icon_url")
+////                        print(proj_icon_url)
+////                        let proj_status = snapshot.value.objectForKey("status")
+////                        print(proj_status)
+////                        let proj_id = snapshot.value.objectForKey("id")
+////                        print(proj_id)
+////                        
+////                                                }, withCancelBlock: { error in
+////                                                    print(error.description)
+////                                            })
+//
+//                    
+//
+//                    
+//                    if(geoActivityId != "")
+//                    {
+//                        projectGeoIds.addObject(geoActivityId)
+//                    }
+//                    else
+//                    {
+//                        projectGeoIds.addObject("")
+//                    }
+//                
+////                    if(sites.objectForKey("name") != nil)
+////                    {
+////                        //sitesArray.addObject(sites.objectForKey("name")!)
+////                    }
+//                    let activitiesUrl = NSURL(string: FIREBASE_URL + "activities.json")
+//                    
+//                    var activitiesData:NSData? = nil
 //                    do {
-//                        geoAactivitesData = try NSData(contentsOfURL: geoActivitesUrl!, options: NSDataReadingOptions())
+//                        activitiesData = try NSData(contentsOfURL: activitiesUrl!, options: NSDataReadingOptions())
 //                        //print(userData)
 //                    }
 //                    catch {
 //                        print("Handle \(error) here")
 //                    }
 //                    
-//                    if let data = geoAactivitesData {
+//                    if let data = activitiesData {
 //                        // Convert data to JSON here
 //                        do{
-//                            let geoActivitiesJson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+//                            let activitiesJson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
 //                            
-//                            print(geoActivitiesJson.allKeys)
+//                            print(activitiesJson.allKeys)
+//                            
+//                            for j in 0 ..< activitiesJson.count
+//                            {
+//                                
+//                                let activity = activitiesJson.allKeys[j] as! String
+//                                let activityDictionary = activitiesJson.objectForKey(activity) as! NSDictionary
+//                                //print(activityDictionary.objectForKey("name"))
+//                                if(activityDictionary.objectForKey("name") != nil && geoActivity != "")
+//                                {
+//                                    //print(geoActivity)
+//                                    //print(activity)
+//                                    if(activity == geoActivity)
+//                                    {
+//                                        self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
+//                                    }
+//                                }
+//                                if(activityDictionary.objectForKey("description") != nil && geoActivity != "")
+//                                {
+//                                    //print(geoActivity)
+//                                    //print(activity)
+//                                    if(activity == geoActivity)
+//                                    {
+//                                        self.projectDescriptionKeys.addObject(activityDictionary.objectForKey("description")!)
+//                                    }
+//                                }
+//                                if(activityDictionary.objectForKey("icon_url") != nil && geoActivity != "")
+//                                {
+//                                    //print(geoActivity)
+//                                    //print(activity)
+//                                    if(activity == geoActivity)
+//                                    {
+//                                        
+//                                        let iconUrlString = activityDictionary.objectForKey("icon_url") as! String
+//                                        let newiconUrlString = iconUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//                                        self.projectIconKeys.addObject(newiconUrlString)
+//                                    }
+//                                }
+//                                if(activityDictionary.objectForKey("status") != nil && geoActivity != "")
+//                                {
+//                                    //print(geoActivity)
+//                                    //print(activity)
+//                                    if(activity == geoActivity)
+//                                    {
+//                                        self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
+//                                    }
+//                                }
+//                                if(activityDictionary.objectForKey("id") != nil && geoActivity != "")
+//                                {
+//                                    //print(geoActivity)
+//                                    //print(activity)
+//                                    if(activity == geoActivity)
+//                                    {
+//                                        self.projectIds.addObject(activityDictionary.objectForKey("id")!)
+//                                    }
+//                                }
+//
+//                                
+//
+//                                
+//                            }
 //                        }
 //                        catch let error as NSError {
 //                            print("json error: \(error.localizedDescription)")
@@ -278,17 +349,67 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
 //                            self.presentViewController(alert, animated: true, completion: nil)
 //                        }
 //                    }
-                    
-                }
-                
-            }
-            catch let error as NSError {
-                print("json error: \(error.localizedDescription)")
-                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-            }
-        }
+////                    let activities = Firebase(url:FIREBASE_URL + "activities")
+////                    //orderBy=activity&equalTo=\(json.allKeys[i])")
+////                    //let allkeys = geoActivitesUrl.queryOrderedByChild(json.allKeys[i] as! String)
+////                    //print(allkeys)
+////                    activities.observeEventType(.Value, withBlock: { snapshot in
+////                        print(snapshot.value.allKeys)
+////                        for j in 0 ..< snapshot.value.count
+////                        {
+////                            let activity = snapshot.value.allKeys[j] as! String
+////                            let activityDictionary = snapshot.value.objectForKey(activity) as! NSDictionary
+////                            //print(activityDictionary.objectForKey("name"))
+////                            if(activityDictionary.objectForKey("name") != nil && geoActivity != "")
+////                            {
+////                                print(geoActivity)
+////                                print(activity)
+////                                if(activity == geoActivity)
+////                                {
+////                                    self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
+////                                }
+////                            }
+////                        }
+////                        
+////                        }, withCancelBlock: { error in
+////                            print(error.description)
+////                    })
+//
+//                    
+////                    var geoAactivitesData:NSData? = nil
+////                    do {
+////                        geoAactivitesData = try NSData(contentsOfURL: geoActivitesUrl!, options: NSDataReadingOptions())
+////                        //print(userData)
+////                    }
+////                    catch {
+////                        print("Handle \(error) here")
+////                    }
+////                    
+////                    if let data = geoAactivitesData {
+////                        // Convert data to JSON here
+////                        do{
+////                            let geoActivitiesJson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+////                            
+////                            print(geoActivitiesJson.allKeys)
+////                        }
+////                        catch let error as NSError {
+////                            print("json error: \(error.localizedDescription)")
+////                            let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+////                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+////                            self.presentViewController(alert, animated: true, completion: nil)
+////                        }
+////                    }
+//                    
+//                }
+//                
+//            }
+//            catch let error as NSError {
+//                print("json error: \(error.localizedDescription)")
+//                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                self.presentViewController(alert, animated: true, completion: nil)
+//            }
+//        }
 
         //let sitesUrl = NSURL(string: FIREBASE_URL + "geo/activities.json")
         //let ref = Firebase(url:FIREBASE_URL+"geo/activities.json")
@@ -404,7 +525,7 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         //cell.imageView!.image = imageWithImage(UIImage(named: projIcons[indexPath.row])!, scaledToSize: CGSize(width: 30, height: 30))
         
         let additionalSeparator = UIView()
-        additionalSeparator.frame = CGRectMake(0,cell.frame.size.height,self.view.frame.size.width,6)
+        additionalSeparator.frame = CGRectMake(0,cell.frame.size.height,self.view.frame.size.width,3)
         additionalSeparator.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
         cell.addSubview(additionalSeparator)
         

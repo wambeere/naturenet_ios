@@ -8,7 +8,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapViewController" customModule="NatureNet" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicator" destination="Cu6-WJ-s51" id="m8Z-bO-nOM"/>
+                <outlet property="commentsCountLabel" destination="AGQ-p7-N0X" id="owC-SG-dyn"/>
                 <outlet property="exploreView" destination="YAV-5K-HdU" id="00v-PX-0I9"/>
+                <outlet property="likesCountLabel" destination="pQq-FE-gQf" id="wZd-Kz-ezp"/>
                 <outlet property="mapAnnotationClickSubView" destination="kai-y9-dth" id="zAb-CI-sVL"/>
                 <outlet property="mapAnnotationClickView" destination="23x-Yg-tKM" id="Sd2-AM-gdh"/>
                 <outlet property="mapTypeView" destination="EYK-OQ-1Qk" id="qFc-PZ-Nv3"/>
@@ -115,13 +117,18 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default-no-image.png" translatesAutoresizingMaskIntoConstraints="NO" id="nGA-uk-LJR">
                             <rect key="frame" x="8" y="4" width="85" height="131"/>
                         </imageView>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEl-w1-xrn">
-                            <rect key="frame" x="337" y="105" width="30" height="30"/>
-                            <state key="normal" backgroundImage="share.png"/>
-                            <connections>
-                                <action selector="shareButtonClicked:" destination="-1" eventType="touchUpInside" id="4eu-Tb-cAz"/>
-                            </connections>
-                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pQq-FE-gQf">
+                            <rect key="frame" x="139" y="109" width="30" height="20"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGQ-p7-N0X">
+                            <rect key="frame" x="257" y="109" width="30" height="20"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.16078431369999999" green="0.22352941179999999" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -131,7 +138,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="1177.5" y="-624.5"/>
+            <point key="canvasLocation" x="1254.5" y="-606.5"/>
         </view>
         <view tag="9" contentMode="scaleToFill" id="EYK-OQ-1Qk">
             <rect key="frame" x="0.0" y="0.0" width="150" height="88"/>
@@ -179,7 +186,6 @@
         <image name="like.png" width="512" height="512"/>
         <image name="map.png" width="512" height="512"/>
         <image name="satellite.png" width="512" height="512"/>
-        <image name="share.png" width="25" height="25"/>
         <image name="user.png" width="512" height="512"/>
     </resources>
 </document>

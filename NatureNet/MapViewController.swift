@@ -36,8 +36,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     let mapView = MKMapView(frame: UIScreen.mainScreen().bounds)
     var tempAnnotationView : MKAnnotationView!
     
+    var likesCount: Int = 0
+    var likesCountArray: NSMutableArray = []
+    
     var commentsDictArray : NSMutableArray = []
     var commentsDicttoDetailVC : NSDictionary = [:]
+    var commentsCountArray: NSMutableArray = []
     
     let newObsAndDIView = NewObsAndDIViewController()
     
@@ -57,6 +61,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     var observationCommentsArray : NSArray = []
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
+    @IBOutlet weak var likesCountLabel: UILabel!
+    
+    @IBOutlet weak var commentsCountLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -303,11 +312,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     print(json.allValues[i])
                     
                         let observationData = json.allValues[i] as! NSDictionary
-                    
-                    
-                    
-                    
-                    
+                  
                         
                         if(observationData.objectForKey("comments") != nil)
                         {
@@ -319,16 +324,49 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                             print(commentsDictArray)
                             
                             print(observationData.objectForKey("id"))
+                            
+                            commentsCountArray.addObject("\(commentsKeysArray.count)")
                         }
                         else
                         {
                             let tempcomments = NSArray()
                             commentsDictArray.addObject(tempcomments)
+                            
+                            commentsCountArray.addObject("0")
                         }
+                    
+                    if(observationData.objectForKey("likes") != nil)
+                    {
+                        let likesDictionary = observationData.objectForKey("likes") as! NSDictionary
+                        print(likesDictionary.allValues)
                         
+                        let likesArray = likesDictionary.allValues as NSArray
+                        print(likesArray)
+                        
+                        
+                        for l in 0 ..< likesArray.count
+                        {
+                            if(likesArray[l] as! NSObject == 1)
+                            {
+                                likesCount += 1
+                            }
+                        }
+                        print(likesCount)
+                        
+                        
+                        likesCountArray.addObject("\(likesCount)")
+                        
+                        
+                    }
+                    else
+                    {
+                        likesCountArray.addObject("0")
+                    }
+
+                    
                         var latAndLongs: NSArray = []
                         var observationImageAndText: NSDictionary = [:]
-                        
+                    
                         if(observationData.objectForKey("l") != nil)
                         {
                             latAndLongs = observationData.objectForKey("l") as! NSArray
@@ -688,6 +726,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             self.view.addSubview(self.mapAnnotationClickView)
             
         })
+        likesCountLabel.text = "\(likesCountArray[view.tag])"
+        commentsCountLabel.text = "\(commentsCountArray[view.tag])"
+        
         obsevationId = obsevationIds[view.tag] as! String
         ProjectName = observationProjectNames[view.tag] as! String
 //            }, completion: nil)

@@ -137,7 +137,16 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
                             if error != nil {
                                 
                                 print("\(error)")
-                                let alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                var alert = UIAlertController()
+                                if(email == nil)
+                                {
+                                    alert = UIAlertController(title: "Alert", message:"Please Login to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                }
+                                else
+                                {
+                                    alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                }
+
                                 //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                 let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
                                     UIAlertAction in

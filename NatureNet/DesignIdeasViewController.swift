@@ -47,6 +47,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     
     var statusArray:NSMutableArray = []
     
+    var commentsDictArray : NSMutableArray = []
+    
     
     
     
@@ -119,11 +121,21 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         commentsKeysArray = commentsDictionary.allKeys as NSArray
                         print(commentsKeysArray)
                         
+                        commentsDictArray.addObject(commentsKeysArray)
+                        
+                        print(commentsDictArray)
+                        
                         commentsCountArray.addObject("\(commentsKeysArray.count)")
+                        
+                        
+                        print(ideasDetailData.objectForKey("id"))
                     }
                     else
                     {
                         commentsCountArray.addObject("0")
+                        
+                        let tempcomments = NSArray()
+                        commentsDictArray.addObject(tempcomments)
                     }
                     
                     if(ideasDetailData.objectForKey("status") != nil)
@@ -584,6 +596,10 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         detailedObservationVC.designID = designIdsArray[indexPath.row] as! String
         detailedObservationVC.likesCountFromDesignIdeasView = likesCountArray[indexPath.row].integerValue
         detailedObservationVC.dislikesCountFromDesignIdeasView = dislikesCountArray[indexPath.row].integerValue
+        
+        detailedObservationVC.observationCommentsArrayfromExploreView = commentsDictArray[indexPath.row] as! NSArray
+        
+        detailedObservationVC.observationId = designIdsArray[indexPath.row] as! String
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
     }
     /*
