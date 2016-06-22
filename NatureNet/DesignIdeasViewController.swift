@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import Firebase
 
 class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource{
 
@@ -90,62 +91,51 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         
         
         //let ideasUrl = NSURL(string: "https://naturenet.firebaseio.com/ideas/-KFSFdMuw_jLEG9ZU-6v.json")
-        let ideasUrl = NSURL(string: DESIGN_URL)
+        //let ideasUrl = NSURL(string: DESIGN_URL)
         
-        var ideasData:NSData? = nil
-        do {
-            ideasData = try NSData(contentsOfURL: ideasUrl!, options: NSDataReadingOptions())
-            //print(userData)
-        }
-        catch {
-            print("Handle \(error) here")
-        }
+        let ideasDataRoot = Firebase(url: FIREBASE_URL + "/ideas")
         
-        if let data = ideasData {
-            // Convert data to JSON here
-            do{
-                let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                
-                print(json)
-                print(json.count)
-                
-                for i in 0 ..< json.count
+        ideasDataRoot.queryOrderedByChild("updated_at").queryLimitedToLast(10).observeEventType(.Value, withBlock: { snapshot in
+        
+            if !(snapshot.value is NSNull)
+            {
+                for i in 0 ..< snapshot.value.count
                 {
-                    let ideasDetailData = json.allValues[i] as! NSDictionary
+                    let ideasDetailData = snapshot.value.allValues[i] as! NSDictionary
                     
                     if(ideasDetailData.objectForKey("comments") != nil)
                     {
                         let commentsDictionary = ideasDetailData.objectForKey("comments") as! NSDictionary
                         print(commentsDictionary.allKeys)
                         
-                        commentsKeysArray = commentsDictionary.allKeys as NSArray
-                        print(commentsKeysArray)
+                        self.commentsKeysArray = commentsDictionary.allKeys as NSArray
+                        print(self.commentsKeysArray)
                         
-                        commentsDictArray.addObject(commentsKeysArray)
+                        self.commentsDictArray.addObject(self.commentsKeysArray)
                         
-                        print(commentsDictArray)
+                        print(self.commentsDictArray)
                         
-                        commentsCountArray.addObject("\(commentsKeysArray.count)")
+                        self.commentsCountArray.addObject("\(self.commentsKeysArray.count)")
                         
                         
                         print(ideasDetailData.objectForKey("id"))
                     }
                     else
                     {
-                        commentsCountArray.addObject("0")
+                        self.commentsCountArray.addObject("0")
                         
                         let tempcomments = NSArray()
-                        commentsDictArray.addObject(tempcomments)
+                        self.commentsDictArray.addObject(tempcomments)
                     }
                     
                     if(ideasDetailData.objectForKey("status") != nil)
                     {
                         let status = ideasDetailData.objectForKey("status") as? String
-                        statusArray.addObject(status!)
+                        self.statusArray.addObject(status!)
                     }
                     else
                     {
-                        statusArray.addObject("")
+                        self.statusArray.addObject("")
                     }
                     
                     if(ideasDetailData.objectForKey("likes") != nil)
@@ -161,24 +151,24 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         {
                             if(likesArray[l] as! NSObject == 1)
                             {
-                                likesCount += 1
+                                self.likesCount += 1
                             }
                             else
                             {
-                                dislikesCount += 1
+                                self.dislikesCount += 1
                             }
                         }
-                        print(likesCount)
-                        print(dislikesCount)
+                        print(self.likesCount)
+                        print(self.dislikesCount)
                         
-                        likesCountArray.addObject("\(likesCount)")
-                        dislikesCountArray.addObject("\(dislikesCount)")
-
+                        self.likesCountArray.addObject("\(self.likesCount)")
+                        self.dislikesCountArray.addObject("\(self.dislikesCount)")
+                        
                     }
                     else
                     {
-                        likesCountArray.addObject("0")
-                        dislikesCountArray.addObject("0")
+                        self.likesCountArray.addObject("0")
+                        self.dislikesCountArray.addObject("0")
                     }
                     
                     
@@ -188,29 +178,16 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     print(ideasDetailData.objectForKey("content"))
                     print(ideasDetailData.objectForKey("group"))
                     print(ideasDetailData.objectForKey("id"))
-                    //print(json.allKeys)
-                    
-                    //let likesDictionary = json.objectForKey("likes") as! NSDictionary
-                    //print(likesDictionary.allValues)
 
+                    
                     
                     let designId = ideasDetailData.objectForKey("id") as? String
                     if(designId != nil)
                     {
-                        designIdsArray.addObject(designId!)
+                        self.designIdsArray.addObject(designId!)
                     }
                     
                     
-                    //print(groupsArray)
-                    //print(ideasDetailData.objectForKey("submitter"))
-//                    if(ideasDetailData.objectForKey("content") != nil)
-//                    {
-//                        contentArray.addObject(ideasDetailData.objectForKey("content")!)
-//                    }
-//                    else
-//                    {
-//                        contentArray.addObject("No Content")
-//                    }
                     let submitter = ideasDetailData.objectForKey("submitter") as! String
                     //print(submitter)
                     
@@ -223,11 +200,11 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         {
                             if(ideasDetailData.objectForKey("content") != nil)
                             {
-                                contentArray_challenges.addObject(ideasDetailData.objectForKey("content")!)
+                                self.contentArray_challenges.addObject(ideasDetailData.objectForKey("content")!)
                             }
                             else
                             {
-                                contentArray_challenges.addObject("No Content")
+                                self.contentArray_challenges.addObject("No Content")
                             }
                             
                             if(submitter != "")
@@ -255,23 +232,23 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                         {
                                             let submiterAffiliationString = submitterjson.objectForKey("affiliation") as! String
                                             
-                                            submitterAffiliation_challenges.addObject(submiterAffiliationString)
+                                            self.submitterAffiliation_challenges.addObject(submiterAffiliationString)
                                             
                                         }
                                         else
                                         {
-                                            submitterAffiliation_challenges.addObject("")
+                                            self.submitterAffiliation_challenges.addObject("")
                                         }
                                         
                                         if((submitterjson.objectForKey("display_name")) != nil)
                                         {
                                             let submitterDisplayNameString = submitterjson.objectForKey("display_name") as! String
                                             
-                                            submitterDisplayName_challenges.addObject(submitterDisplayNameString)
+                                            self.submitterDisplayName_challenges.addObject(submitterDisplayNameString)
                                         }
                                         else
                                         {
-                                            submitterDisplayName_challenges.addObject("")
+                                            self.submitterDisplayName_challenges.addObject("")
                                         }
                                         
                                         //print(observerAffiliation)
@@ -283,13 +260,13 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                             //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
                                             //                                    {
                                             
-                                            submitterAvatar_challenges.addObject(submitterAvatarString!)
+                                            self.submitterAvatar_challenges.addObject(submitterAvatarString!)
                                             
                                             //}
                                         }
                                         else
                                         {
-                                            submitterAvatar_challenges.addObject(NSBundle.mainBundle().URLForResource("user", withExtension: "png")!)
+                                            self.submitterAvatar_challenges.addObject(NSBundle.mainBundle().URLForResource("user", withExtension: "png")!)
                                             
                                         }
                                         
@@ -305,17 +282,17 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                 }
                                 
                             }
-
+                            
                         }
                         else
                         {
                             if(ideasDetailData.objectForKey("content") != nil)
                             {
-                                contentArray_ideas.addObject(ideasDetailData.objectForKey("content")!)
+                                self.contentArray_ideas.addObject(ideasDetailData.objectForKey("content")!)
                             }
                             else
                             {
-                                contentArray_ideas.addObject("No Content")
+                                self.contentArray_ideas.addObject("No Content")
                             }
                             
                             if(submitter != "")
@@ -343,23 +320,23 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                         {
                                             let submiterAffiliationString = submitterjson.objectForKey("affiliation") as! String
                                             
-                                            submitterAffiliation_ideas.addObject(submiterAffiliationString)
+                                            self.submitterAffiliation_ideas.addObject(submiterAffiliationString)
                                             
                                         }
                                         else
                                         {
-                                            submitterAffiliation_ideas.addObject("")
+                                            self.submitterAffiliation_ideas.addObject("")
                                         }
                                         
                                         if((submitterjson.objectForKey("display_name")) != nil)
                                         {
                                             let submitterDisplayNameString = submitterjson.objectForKey("display_name") as! String
                                             
-                                            submitterDisplayName_ideas.addObject(submitterDisplayNameString)
+                                            self.submitterDisplayName_ideas.addObject(submitterDisplayNameString)
                                         }
                                         else
                                         {
-                                            submitterDisplayName_ideas.addObject("")
+                                            self.submitterDisplayName_ideas.addObject("")
                                         }
                                         
                                         //print(observerAffiliation)
@@ -372,18 +349,18 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                             let submitterAvatarUrl  = NSURL(string: newsubmitterUrlString )
                                             if(UIApplication.sharedApplication().canOpenURL(submitterAvatarUrl!) == true)
                                             {
-                                            
+                                                
                                                 let submitterAvatarString = newsubmitterUrlString
-                                            //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
-                                            //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
-                                            //                                    {
-                                            
-                                                submitterAvatar_ideas.addObject(submitterAvatarString)
+                                                //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
+                                                //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
+                                                //                                    {
+                                                
+                                                self.submitterAvatar_ideas.addObject(submitterAvatarString)
                                             }
                                             else
                                             {
                                                 let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                                submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
+                                                self.submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
                                             }
                                             
                                             //}
@@ -391,7 +368,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                         else
                                         {
                                             let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                            submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
+                                            self.submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
                                             
                                         }
                                         
@@ -407,7 +384,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                 }
                                 
                             }
-
+                            
                         }
                     }
                     else
@@ -415,17 +392,12 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         
                     }
                     
-                    
-                    
+                    self.designTableView.reloadData()
                 }
+                
             }
-            catch let error as NSError {
-                print("json error: \(error.localizedDescription)")
-                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-            }
-        }
+            
+        })
         
         contentArray = contentArray_ideas
         submitterAvatar = submitterAvatar_ideas
@@ -449,7 +421,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         print(likesCountArray)
         print(dislikesCountArray)
 
-        
+
     }
 
     override func didReceiveMemoryWarning() {
