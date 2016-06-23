@@ -94,6 +94,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         //let ideasUrl = NSURL(string: DESIGN_URL)
         
         let ideasDataRoot = Firebase(url: FIREBASE_URL + "/ideas")
+        let userDataRoot = Firebase(url: FIREBASE_URL + "/users")
         
         ideasDataRoot.queryOrderedByChild("updated_at").queryLimitedToLast(10).observeEventType(.Value, withBlock: { snapshot in
         
@@ -218,7 +219,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                 catch {
                                     print("Handle \(error) here")
                                 }
-                                
+                                print("\n\n\nSUBSUB\(submitter)\n\n\n")
+                                userDataRoot.queryOrderedByChild("").queryEqualToValue(submitter)
                                 if let data = submitterData {
                                     // Convert data to JSON here
                                     do{
@@ -294,9 +296,16 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                             {
                                 self.contentArray_ideas.addObject("No Content")
                             }
+
                             
                             if(submitter != "")
                             {
+                                print("\n\n\nSUBSUB\(submitter)\n\n\n")
+                                userDataRoot.queryOrderedByChild("id").queryEqualToValue(submitter).observeEventType(.Value, withBlock: { snapshot in
+                                    print("did it")
+                                    
+                                })
+                                
                                 let submitterurl = NSURL(string: USERS_URL+"\(submitter).json")
                                 var submitterData:NSData? = nil
                                 do {
@@ -382,17 +391,13 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                     }
                                     
                                 }
-                                
+                                self.designTableView.reloadData()
                             }
                             
                         }
-                    }
-                    else
-                    {
                         
                     }
                     
-                    self.designTableView.reloadData()
                 }
                 
             }
