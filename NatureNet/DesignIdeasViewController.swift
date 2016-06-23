@@ -122,11 +122,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 for i in 0 ..< snapshot.value.count
                 {
                     let designData = snapshot.value.allValues[i] as! NSDictionary
-                    
-                    
-                    
-                    
-                    
+                
                     //print(i)
                     
                     print(designData.objectForKey("content"))
@@ -534,7 +530,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 }
                 
                 
-                //self.finishedDataGathering()
+                self.updateTable(self.IDEA)
                 
                 
             })
@@ -614,7 +610,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 }
                 
                
-                self.updateTable(self.IDEA)
+                //self.updateTable(self.IDEA)
                 
                 
             })
