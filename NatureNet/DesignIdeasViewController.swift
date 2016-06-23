@@ -115,79 +115,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         //let ideasUrl = NSURL(string: "https://naturenet.firebaseio.com/ideas/-KFSFdMuw_jLEG9ZU-6v.json")
         //let ideasUrl = NSURL(string: DESIGN_URL)
         
-        ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).observeEventType(.Value, withBlock: { snapshot in
-            
-            if !(snapshot.value is NSNull)
-            {
-                for i in 0 ..< snapshot.value.count
-                {
-                    let designData = snapshot.value.allValues[i] as! NSDictionary
-                    
-                    //print(i)
-                    
-                    print(designData.objectForKey("content"))
-                    print(designData.objectForKey("group"))
-                    print(designData.objectForKey("id"))
-                    
-                    
-                    let submitter = designData.objectForKey("submitter") as! String
-                    //print(submitter)
-                    
-                    let designGroup = designData.objectForKey("group") as? String
-                    
-                    if(designData.objectForKey("group") != nil)
-                    {
-                        
-                        if(designGroup == "challenge" || designGroup == "Challenge")
-                        {
-                            self.parseDesignChallenge(designData)
-                            
-                            if(designData.objectForKey("content") != nil)
-                            {
-                                self.contentArray_challenges.addObject(designData.objectForKey("content")!)
-                            }
-                            else
-                            {
-                                self.contentArray_challenges.addObject("No Content")
-                            }
-                            
-                            self.parseChallengeUser(submitter)
-                            
-                        }
-                        else
-                        {
-                            self.parseDesignIdea(designData)
-                            
-                            if(designData.objectForKey("content") != nil)
-                            {
-                                self.contentArray_ideas.addObject(designData.objectForKey("content")!)
-                            }
-                            else
-                            {
-                                self.contentArray_ideas.addObject("No Content")
-                            }
-                            
-                            self.parseIdeaUser(submitter)
-                            
-                            
-                        }
-                        
-                    }
-                    
-                    if i == self.ideaNumber - 1 {
-                        // self.finishedDataGathering()
-                    }
-                    
-                }
-                
-            }
-            
-            
-        })
-        /*
-         
-         */
-        
+        firebaseForIdeas()
+        firebaseForChallenges()
         
     }
     
@@ -206,6 +135,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         designLabel.text = "DESIGN IDEAS"
         designDescrptionLabel.text = "Your design ideas can be a new way of using NatureNet in your community, and new mobile technology for learning about sustainability or changes in the environment, or a new feature for the app."
         
+        firebaseForIdeas()
         updateTable(IDEA)
     }
     
@@ -219,6 +149,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         designLabel.text = "DESIGN CHALLENGES"
         designDescrptionLabel.text = "A design challenge is a question – for example: How can the NatureNet app collect temperature data?"
         
+        firebaseForChallenges()
         updateTable(CHALLENGE)
     }
     
@@ -304,6 +235,111 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
      // Pass the selected object to the new view controller.
      }
      */
+    
+    func firebaseForChallenges() -> Void {
+        ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).queryOrderedByChild("group").queryEqualToValue("challenge").observeEventType(.Value, withBlock: { snapshot in
+            
+            if !(snapshot.value is NSNull)
+            {
+                for i in 0 ..< snapshot.value.count
+                {
+                    let designData = snapshot.value.allValues[i] as! NSDictionary
+                    
+                    //print(i)
+                    
+                    print(designData.objectForKey("content"))
+                    print(designData.objectForKey("group"))
+                    print(designData.objectForKey("id"))
+                    
+                    
+                    let submitter = designData.objectForKey("submitter") as! String
+                    //print(submitter)
+                    
+                    if(designData.objectForKey("group") != nil)
+                    {
+                        
+                     
+                            self.parseDesignChallenge(designData)
+                            
+                            if(designData.objectForKey("content") != nil)
+                            {
+                                self.contentArray_challenges.addObject(designData.objectForKey("content")!)
+                            }
+                            else
+                            {
+                                self.contentArray_challenges.addObject("No Content")
+                            }
+                            
+                            self.parseChallengeUser(submitter)
+                            
+                        
+                        
+                    }
+                    
+                    if i == self.ideaNumber - 1 {
+                        // self.finishedDataGathering()
+                    }
+                    
+                }
+                
+            }
+            
+            
+        })
+    }
+    
+    func firebaseForIdeas() -> Void {
+        ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).queryOrderedByChild("group").queryEqualToValue("idea").observeEventType(.Value, withBlock: { snapshot in
+            
+            if !(snapshot.value is NSNull)
+            {
+                print("not null")
+                for i in 0 ..< snapshot.value.count
+                {
+                    let designData = snapshot.value.allValues[i] as! NSDictionary
+                    
+                    //print(i)
+                    
+                    print(designData.objectForKey("content"))
+                    print(designData.objectForKey("group"))
+                    print(designData.objectForKey("id"))
+                    
+                    
+                    let submitter = designData.objectForKey("submitter") as! String
+                    //print(submitter)
+                    
+                    print(designData.objectForKey("group"))
+                    
+                    
+                    if(designData.objectForKey("group") != nil)
+                    {
+                        
+                        self.parseDesignIdea(designData)
+                            
+                        if(designData.objectForKey("content") != nil)
+                        {
+                            self.contentArray_ideas.addObject(designData.objectForKey("content")!)
+                        }
+                        else
+                        {
+                            self.contentArray_ideas.addObject("No Content")
+                        }
+                            
+                        self.parseIdeaUser(submitter)
+                        
+                    }
+                    
+                    if i == self.ideaNumber - 1 {
+                        // self.finishedDataGathering()
+                    }
+                    
+                }
+                
+            }
+            print("null")
+            
+        })
+    }
     
     func parseDesignChallenge(challenge: NSDictionary) -> Void {
         
@@ -530,7 +566,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 }
                 
                 
-                self.updateTable(self.IDEA)
+                //self.updateTable(self.CHALLENGE)
                 
                 
             })
@@ -610,7 +646,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 }
                 
                 
-                //self.updateTable(self.IDEA)
+                self.updateTable(self.IDEA)
                 
                 
             })
