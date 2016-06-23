@@ -14,7 +14,7 @@ import Kingfisher
 import Firebase
 
 class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource{
-
+    
     @IBOutlet weak var designIdeasButton: UIButton!
     @IBOutlet weak var designChallengesButton: UIButton!
     
@@ -82,7 +82,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     @IBOutlet weak var recentContributionsLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         if self.revealViewController() != nil {
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
@@ -116,20 +116,20 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         //let ideasUrl = NSURL(string: DESIGN_URL)
         
         ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).observeEventType(.Value, withBlock: { snapshot in
-        
+            
             if !(snapshot.value is NSNull)
             {
                 for i in 0 ..< snapshot.value.count
                 {
                     let designData = snapshot.value.allValues[i] as! NSDictionary
-                
+                    
                     //print(i)
                     
                     print(designData.objectForKey("content"))
                     print(designData.objectForKey("group"))
                     print(designData.objectForKey("id"))
-
-
+                    
+                    
                     let submitter = designData.objectForKey("submitter") as! String
                     //print(submitter)
                     
@@ -175,7 +175,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     }
                     
                     if i == self.ideaNumber - 1 {
-                       // self.finishedDataGathering()
+                        // self.finishedDataGathering()
                     }
                     
                 }
@@ -185,12 +185,12 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             
         })
         /*
+         
+         */
         
- */
-
-
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -208,7 +208,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         
         updateTable(IDEA)
     }
-
+    
     @IBAction func getDesignChallenges(sender: UIButton) {
         
         designChallengesButton.selected = true
@@ -259,12 +259,12 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         {
             cell.statusImageView.image = UIImage(named: "4-5 discussing.png")
         }
-            
-//        }
-//        else
-//        {
-//            cell.submitterAvatarView.image = UIImage(named: "user.png")
-//        }
+        
+        //        }
+        //        else
+        //        {
+        //            cell.submitterAvatarView.image = UIImage(named: "user.png")
+        //        }
         
         
         
@@ -284,8 +284,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         detailedObservationVC.observationImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")!.absoluteString
         detailedObservationVC.isfromDesignIdeasView = true
         detailedObservationVC.observationText = contentArray[indexPath.row] as! String
-//        detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
-//        detailedObservationVC.observationId = obsevationId
+        //        detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
+        //        detailedObservationVC.observationId = obsevationId
         detailedObservationVC.designID = designIdsArray[indexPath.row] as! String
         detailedObservationVC.likesCountFromDesignIdeasView = likesCountArray[indexPath.row].integerValue
         detailedObservationVC.dislikesCountFromDesignIdeasView = dislikesCountArray[indexPath.row].integerValue
@@ -296,14 +296,14 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
     }
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
     
     func parseDesignChallenge(challenge: NSDictionary) -> Void {
         
@@ -549,7 +549,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         {
             userDataRoot.queryOrderedByChild("id").queryEqualToValue(id).observeEventType(.Value, withBlock: { snapshot in
                 if !(snapshot.value is NSNull) {
-        
+                    
                     let submitterInfo = snapshot.value.allValues[0]
                     
                     if((submitterInfo.objectForKey("affiliation")) != nil)
@@ -609,7 +609,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     }
                 }
                 
-               
+                
                 //self.updateTable(self.IDEA)
                 
                 
@@ -648,7 +648,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             commentsDictArray = commentsDictArray_ideas
             
         }
-    
+        
         
         if(contentArray.count == 0)
         {
@@ -669,5 +669,5 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         
         self.designTableView.reloadData()
     }
-
+    
 }
