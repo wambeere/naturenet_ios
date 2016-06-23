@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import Firebase
 
 class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
     
@@ -198,7 +199,34 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             if let userAffiliation = userDefaults.stringForKey("userAffiliation"){
                 
                 //print(userAffiliation)
-                profileAffliationLabel.text = userAffiliation
+                //profileAffliationLabel.text = userAffiliation
+                
+                let sitesRootRef = Firebase(url:FIREBASE_URL + "sites/"+userAffiliation)
+                sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+                    
+                    print(sitesRootRef)
+                    print(snapshot.value)
+                    
+                    if !(snapshot.value is NSNull)
+                    {
+                        
+                        
+                        print(snapshot.value.objectForKey("name"))
+                        if(snapshot.value.objectForKey("name") != nil)
+                        {
+                            self.profileAffliationLabel.text = snapshot.value.objectForKey("name") as? String
+                        }
+                        
+                    }
+                    else
+                    {
+                        self.profileAffliationLabel.text = userAffiliation
+                    }
+                   
+                    }, withCancelBlock: { error in
+                        print(error.description)
+                })
+
                 
                 
             

@@ -695,7 +695,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
 
                                                     
                                                     //let userDefaults = NSUserDefaults.standardUserDefaults()
-                                                    userDefaults.setValue(self.joinAffliation.text, forKey: "userAffiliation")
+                                                    userDefaults.setValue(self.AffiliationId, forKey: "userAffiliation")
                                                     userDefaults.setValue(self.joinUsername.text, forKey: "userDisplayName")
                                                     userDefaults.setValue("true", forKey: "isSignedIn")
                                                     userDefaults.setValue(uid, forKey: "userID")
