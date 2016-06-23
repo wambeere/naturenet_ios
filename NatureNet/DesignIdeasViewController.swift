@@ -177,9 +177,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         print(submitterAvatar[indexPath.row])
         
         
-        if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String){
-            cell.submitterAvatarView.kf_setImageWithURL(submitterAvatarUrl)
-        }
+        let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String)
+        cell.submitterAvatarView.kf_setImageWithURL(submitterAvatarUrl!, placeholderImage: UIImage(named: "user.png"))
         
         
         if(statusArray[indexPath.row] as! String == "Done")

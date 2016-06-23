@@ -108,14 +108,11 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             commentContext = "observations"
         }
         
-        
-        if((observerImageUrl) != "")
-        {
-            let observerAvatarUrl  = NSURL(string: observerImageUrl )
+        let observerAvatarUrl  = NSURL(string: observerImageUrl )
 
-            observerAvatarImageView?.kf_setImageWithURL(observerAvatarUrl!, placeholderImage: UIImage(named: "user.png"))
+        observerAvatarImageView?.kf_setImageWithURL(observerAvatarUrl!, placeholderImage: UIImage(named: "user.png"))
             
-        }
+        
         print(observationImageUrl)
         if((observationImageUrl) != "")
         {
@@ -123,7 +120,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             observationImageView.kf_setImageWithURL(obsImageUrl! , placeholderImage: UIImage(named: "default-no-image.png"))
         } else
         {
-            observationImageView.hidden = true
+            print("in")
+            observationImageView.removeFromSuperview()
+            view.updateConstraints()
         }
         
         observerDisplayNameLabel.text = observerDisplayName
