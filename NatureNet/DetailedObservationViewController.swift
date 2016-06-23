@@ -40,7 +40,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     var likesCount: Int = 0
     var dislikesCount: Int = 0
     
+    @IBOutlet weak var likeButtonForDesign: UIButton!
     
+    @IBOutlet weak var dislikeButtonForDesign: UIButton!
     
     @IBOutlet weak var likedislikeView: UIView!
     
@@ -354,6 +356,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     {
         let observationRootRef = Firebase(url:POST_IDEAS_URL + observationId)
         observationRootRef.observeEventType(.Value, withBlock: { snapshot in
+            
+            self.likesCount = 0
+            self.dislikesCount = 0
             
             print(observationRootRef)
             print(snapshot.value)
@@ -732,6 +737,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         sender.selected = true
         sender.userInteractionEnabled = false
+        dislikeButtonForDesign.userInteractionEnabled = true
         postLiketoDesign(true)
         
     }
@@ -741,6 +747,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         sender.selected = true
         sender.userInteractionEnabled = false
+        likeButtonForDesign.userInteractionEnabled = true
         postLiketoDesign(false)
         
     }

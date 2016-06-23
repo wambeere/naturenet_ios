@@ -81,6 +81,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         print(observerIdsfromMapView)
         print(observerIdsfromMapView.count)
         
+        
+        
         for i in 0 ..< observerIdsfromMapView.count
         {
             let usersRootRef = Firebase(url:USERS_URL+"\(observerIdsfromMapView[i])")
@@ -88,6 +90,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                 
                 print(usersRootRef)
                 //print(snapshot.value.count)
+                //self.observerNamesArray = []
                 
                 if !(snapshot.value is NSNull)
                 {
@@ -146,10 +149,10 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                     }
                     self.observationsCount = self.observationIdsfromMapView.count
                     print(self.observationsCount)
-                    
+                    self.collectionView.reloadData()
                     
                 }
-                self.collectionView.reloadData()
+                
                 }, withCancelBlock: { error in
                     print(error.description)
             })

@@ -16,7 +16,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
 
     @IBOutlet weak var observationDetailsTableView: UITableView!
     @IBOutlet weak var observationImageView: UIImageView!
-    var obsImage : UIImage = UIImage(named: "profile_icon.png")!
+    var obsImage : UIImage = UIImage(named: "default-no-image.png")!
     
     var items: [String] = ["Description", "Project"]
     
@@ -169,6 +169,9 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             let ref = Firebase(url: POST_OBSERVATION_URL)
                             print(ref.childByAutoId())
                             let autoID = ref.childByAutoId()
+                            
+                            
+                            
                             //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
                             //let obsData = autoID.childByAppendingPath("data")
 //                            let obsDataDetails = obsData.childByAppendingPath("text")
@@ -202,10 +205,18 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                                 print(autoID)
                                 
                                 let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                
+                                let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
+                                {
+                                    UIAlertAction in
+                                    self.dismissVC()
+                                    
+                                }
+                                alert.addAction(dismissAction)
                                 self.presentViewController(alert, animated: true, completion: nil)
                                 
-                                //self.dismissVC()
+                                
 
                             }
                             else

@@ -48,9 +48,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     let cgVC = CameraAndGalleryViewController()
     let diAndCVC = DesignIdeasAndChallengesViewController()
     
-    var obsevationIds : NSMutableArray = []
+    var observationIds : NSMutableArray = []
     
-    var obsevationId : String = ""
+    var observationId : String = ""
     
     var locValue = CLLocationCoordinate2D()
     
@@ -287,8 +287,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     func getObservations()
     {
         
+        
         let observationsRootRef = Firebase(url:ALL_OBSERVATIONS_URL)
-        observationsRootRef.queryOrderedByChild("updated_at").queryLimitedToLast(observationsLimit).observeEventType(.Value, withBlock: { snapshot in
+        observationsRootRef.queryOrderedByChild("key").queryLimitedToLast(observationsLimit).observeEventType(.Value, withBlock: { snapshot in
+            
+            self.commentsDictArray.removeAllObjects()
+            self.commentsCountArray.removeAllObjects()
+            self.likesCount = 0
+            self.likesCountArray.removeAllObjects()
+            self.observerIds.removeAllObjects()
+            self.observationProjectNames.removeAllObjects()
+            self.observationTextArray.removeAllObjects()
+            self.observationImagesArray.removeAllObjects()
+            self.observationIds.removeAllObjects()
+
             
             print(observationsRootRef)
             print(snapshot.value.count)
@@ -440,13 +452,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     {
                         let obsId = observationData.objectForKey("id") as! String
                         print(obsId)
-                        self.obsevationIds.addObject(obsId)
+                        self.observationIds.addObject(obsId)
                     }
                     else
                     {
-                        self.obsevationIds.addObject("")
+                        self.observationIds.addObject("")
                     }
-                    
+                    print(self.observationIds)
                     
                     //
                     //                    commentsDictionaryArray.addObject(tempcomments)
@@ -866,7 +878,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         eVC.observerIdsfromMapView = observerIds
         eVC.observationTextArray = observationTextArray
         eVC.commentsDictArrayfromMapView = commentsDictArray
-        eVC.observationIdsfromMapView = obsevationIds
+        eVC.observationIdsfromMapView = observationIds
         let exploreNavVC = UINavigationController()
         exploreNavVC.viewControllers = [eVC]
         self.presentViewController(exploreNavVC, animated: true, completion: nil)
@@ -879,6 +891,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         exploreView.userInteractionEnabled = true
         activityIndicator.stopAnimating()
         activityIndicator.hidden = true
+        
+        //self.view.setNeedsDisplay()
+        self.getObservations()
     }
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
@@ -946,7 +961,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         likesCountLabel.text = "\(likesCountArray[view.tag])"
         commentsCountLabel.text = "\(commentsCountArray[view.tag])"
         
-        obsevationId = obsevationIds[view.tag] as! String
+        observationId = observationIds[view.tag] as! String
         ProjectName = observationProjectNames[view.tag] as! String
 //            }, completion: nil)
 //        self.mapViewCoordinate()
@@ -1148,7 +1163,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         detailedObservationVC.observationImageUrl = observervationUrlString
         detailedObservationVC.observationText = observationTextLabel.text!
         detailedObservationVC.observationCommentsArrayfromExploreView = observationCommentsArray
-        detailedObservationVC.observationId = obsevationId
+        detailedObservationVC.observationId = observationId
         detailedObservationVC.pageTitle = ProjectName
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
         

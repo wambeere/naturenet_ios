@@ -11,8 +11,10 @@
                 <outlet property="commentTF" destination="Rmo-Em-tTT" id="iI4-My-1bB"/>
                 <outlet property="commentView" destination="lrV-7L-obF" id="Pyr-nw-OS3"/>
                 <outlet property="commentsTableView" destination="WS0-Xj-v0Y" id="cOP-3l-eB9"/>
+                <outlet property="dislikeButtonForDesign" destination="M8I-R6-GSh" id="bfC-Zd-3ka"/>
                 <outlet property="dislikesCountLabel" destination="Qht-Lr-CQC" id="j51-YK-TaL"/>
                 <outlet property="likeButtonBesidesCommentBox" destination="Jp8-3Q-AUC" id="2qA-2C-50y"/>
+                <outlet property="likeButtonForDesign" destination="Fv2-8h-ngr" id="z95-hx-TMT"/>
                 <outlet property="likedislikeView" destination="kmy-df-DL7" id="eM9-Se-g2D"/>
                 <outlet property="likesCountLabel" destination="D6m-tl-3hK" id="aCt-df-1Zj"/>
                 <outlet property="observationImageView" destination="xsP-CB-11Q" id="VQr-h4-Gaz"/>
