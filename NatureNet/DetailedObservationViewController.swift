@@ -111,19 +111,19 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         if((observerImageUrl) != "")
         {
-            if let observerAvatarUrl  = NSURL(string: observerImageUrl ),
-                observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
-            {
-                observerAvatarImageView.image = UIImage(data: observerAvatarData)
-            }
+            let observerAvatarUrl  = NSURL(string: observerImageUrl )
+
+            observerAvatarImageView?.kf_setImageWithURL(observerAvatarUrl!, placeholderImage: UIImage(named: "user.png"))
+            
         }
+        print(observationImageUrl)
         if((observationImageUrl) != "")
         {
-            if let obsImageUrl  = NSURL(string: observationImageUrl ),
-                obsImgData = NSData(contentsOfURL: obsImageUrl)
-            {
-                observationImageView.image = UIImage(data: obsImgData)
-            }
+            let obsImageUrl  = NSURL(string: observationImageUrl )
+            observationImageView.kf_setImageWithURL(obsImageUrl! , placeholderImage: UIImage(named: "default-no-image.png"))
+        } else
+        {
+            observationImageView.hidden = true
         }
         
         observerDisplayNameLabel.text = observerDisplayName

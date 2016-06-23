@@ -212,7 +212,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         detailedObservationVC.observerDisplayName = submitterDisplayName[indexPath.row] as! String
         detailedObservationVC.observerAffiliation = submitterAffiliation[indexPath.row] as! String
         //detailedObservationVC.pageTitle = self.navigationItem.title!
-        detailedObservationVC.observationImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")!.absoluteString
+        //detailedObservationVC.observationImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")!.absoluteString
+        detailedObservationVC.observationImageUrl = ""
         detailedObservationVC.isfromDesignIdeasView = true
         detailedObservationVC.observationText = contentArray[indexPath.row] as! String
         //        detailedObservationVC.commentsDictfromExploreView = commentsDicttoDetailVC
@@ -538,29 +539,13 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         let submitterUrlString = submitterInfo.objectForKey("avatar") as! String
                         print(submitterUrlString)
                         let newsubmitterUrlString = submitterUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                        let submitterAvatarUrl  = NSURL(string: newsubmitterUrlString )
-                        if(UIApplication.sharedApplication().canOpenURL(submitterAvatarUrl!) == true)
-                        {
-                            
-                            let submitterAvatarString = newsubmitterUrlString
-                            //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
-                            //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
-                            //                                    {
-                            
-                            self.submitterAvatar_challenges.addObject(submitterAvatarString)
-                        }
-                        else
-                        {
-                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                            self.submitterAvatar_challenges.addObject((tempImageUrl?.absoluteString)!)
-                        }
                         
-                        //}
+                        self.submitterAvatar_challenges.addObject(newsubmitterUrlString)
                     }
                     else
                     {
-                        let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                        self.submitterAvatar_challenges.addObject((tempImageUrl?.absoluteString)!)
+                        let tempImageUrl = ""//NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                        self.submitterAvatar_challenges.addObject(tempImageUrl)
                         
                     }
                 }
@@ -618,29 +603,13 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         let submitterUrlString = submitterInfo.objectForKey("avatar") as! String
                         print(submitterUrlString)
                         let newsubmitterUrlString = submitterUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                        let submitterAvatarUrl  = NSURL(string: newsubmitterUrlString )
-                        if(UIApplication.sharedApplication().canOpenURL(submitterAvatarUrl!) == true)
-                        {
-                            
-                            let submitterAvatarString = newsubmitterUrlString
-                            //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
-                            //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
-                            //                                    {
-                            
-                            self.submitterAvatar_ideas.addObject(submitterAvatarString)
-                        }
-                        else
-                        {
-                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                            self.submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
-                        }
                         
-                        //}
+                        self.submitterAvatar_ideas.addObject(newsubmitterUrlString)
                     }
                     else
                     {
-                        let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                        self.submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
+                        let tempImageUrl = ""//NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                        self.submitterAvatar_ideas.addObject(tempImageUrl)
                         
                     }
                 }
