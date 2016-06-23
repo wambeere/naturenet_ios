@@ -92,7 +92,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         
         //let geoObservationUrl = NSURL(string: OBSERVATIONS_URL)
         
-        let geoObservationsRootRef = Firebase(url:"https://naturenet.firebaseio.com/observations")
+        let geoObservationsRootRef = Firebase(url:ALL_OBSERVATIONS_URL)
         //geoObservationsRootRef.queryLimitedToLast(4)
         //geoObservationsRootRef.queryOrderedByChild("updated_at")
         

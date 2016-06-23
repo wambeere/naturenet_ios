@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
     
@@ -212,15 +213,16 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                 
                 
                 let usersAvatarUrl  = NSURL(string: usersAvatar )
-                if(UIApplication.sharedApplication().canOpenURL(usersAvatarUrl!) == true)
-                {
-                    let usersAvatarData = NSData(contentsOfURL: usersAvatarUrl!)
-                    profileImageView.image = UIImage(data: usersAvatarData!)
-                }
-                else
-                {
-                    profileImageView.image = UIImage(named:"user.png")
-                }
+                //if(UIApplication.sharedApplication().canOpenURL(usersAvatarUrl!) == true)
+                //{
+                    //let usersAvatarData = NSData(contentsOfURL: usersAvatarUrl!)
+                    //profileImageView.image = UIImage(data: usersAvatarData!)
+                    profileImageView.kf_setImageWithURL(usersAvatarUrl!, placeholderImage: UIImage(named: "user.png"))
+//                }
+//                else
+//                {
+//                    profileImageView.image = UIImage(named:"user.png")
+//                }
 
                 
             }

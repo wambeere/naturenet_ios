@@ -32,6 +32,7 @@ let POST_IDEAS_URL = "https://naturenet.firebaseio.com/ideas/"
 var OBSERVATION_IMAGE_UPLOAD_URL = ""
 let DESIGN_URL = "https://naturenet.firebaseio.com/ideas.json?orderBy=%22updated_at%22&limitToLast=10"
 let COMMENTS_URL = "https://naturenet.firebaseio.com/comments/"
+let SITES_URL = "https://naturenet-staging.firebaseio.com/sites/"
 
 class ConnectionManager{
     

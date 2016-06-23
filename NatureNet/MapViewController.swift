@@ -126,7 +126,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             print(userDefaults.objectForKey("userAffiliation"))
             if let userAffiliation = userDefaults.objectForKey("userAffiliation"){
                 
-                let myRootRef = Firebase(url:"https://naturenet-staging.firebaseio.com/sites/\(userAffiliation)")
+                let myRootRef = Firebase(url:SITES_URL+"\(userAffiliation)")
                 myRootRef.observeEventType(.Value, withBlock: { snapshot in
                     print(snapshot.value["l"])
                     let siteLocationArray = snapshot.value["l"] as! NSArray
