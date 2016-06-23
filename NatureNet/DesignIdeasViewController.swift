@@ -50,6 +50,10 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     
     var commentsDictArray : NSMutableArray = []
     
+    let ideasDataRoot = Firebase(url: FIREBASE_URL + "/ideas")
+    let userDataRoot = Firebase(url: FIREBASE_URL + "/users")
+    let ideaNumber = 10
+    
     
     
     
@@ -93,10 +97,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         //let ideasUrl = NSURL(string: "https://naturenet.firebaseio.com/ideas/-KFSFdMuw_jLEG9ZU-6v.json")
         //let ideasUrl = NSURL(string: DESIGN_URL)
         
-        let ideasDataRoot = Firebase(url: FIREBASE_URL + "/ideas")
-        let userDataRoot = Firebase(url: FIREBASE_URL + "/users")
-        
-        ideasDataRoot.queryOrderedByChild("updated_at").queryLimitedToLast(10).observeEventType(.Value, withBlock: { snapshot in
+        ideasDataRoot.queryOrderedByChild("updated_at").queryLimitedToLast(UInt(ideaNumber)).observeEventType(.Value, withBlock: { snapshot in
         
             if !(snapshot.value is NSNull)
             {
@@ -197,7 +198,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     if(ideasDetailData.objectForKey("group") != nil)
                     {
                         
-                        if(designGroup == "Challenge")
+                        if(designGroup == "challenge" || designGroup == "Challenge")
                         {
                             if(ideasDetailData.objectForKey("content") != nil)
                             {
@@ -208,82 +209,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                 self.contentArray_challenges.addObject("No Content")
                             }
                             
-                            if(submitter != "")
-                            {
-                                let submitterurl = NSURL(string: USERS_URL+"\(submitter).json")
-                                var submitterData:NSData? = nil
-                                do {
-                                    submitterData = try NSData(contentsOfURL: submitterurl!, options: NSDataReadingOptions())
-                                    print(submitterData)
-                                }
-                                catch {
-                                    print("Handle \(error) here")
-                                }
-                                print("\n\n\nSUBSUB\(submitter)\n\n\n")
-                                userDataRoot.queryOrderedByChild("").queryEqualToValue(submitter)
-                                if let data = submitterData {
-                                    // Convert data to JSON here
-                                    do{
-                                        let submitterjson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                                        print(submitterjson)
-                                        
-                                        //print(observerData.objectForKey("affiliation"))
-                                        //print(observerData.objectForKey("display_name"))
-                                        //print(observerData)
-                                        if((submitterjson.objectForKey("affiliation")) != nil)
-                                        {
-                                            let submiterAffiliationString = submitterjson.objectForKey("affiliation") as! String
-                                            
-                                            self.submitterAffiliation_challenges.addObject(submiterAffiliationString)
-                                            
-                                        }
-                                        else
-                                        {
-                                            self.submitterAffiliation_challenges.addObject("")
-                                        }
-                                        
-                                        if((submitterjson.objectForKey("display_name")) != nil)
-                                        {
-                                            let submitterDisplayNameString = submitterjson.objectForKey("display_name") as! String
-                                            
-                                            self.submitterDisplayName_challenges.addObject(submitterDisplayNameString)
-                                        }
-                                        else
-                                        {
-                                            self.submitterDisplayName_challenges.addObject("")
-                                        }
-                                        
-                                        //print(observerAffiliation)
-                                        //print(observerDisplayName)
-                                        if((submitterjson.objectForKey("avatar")) != nil)
-                                        {
-                                            let submitterAvatarString = submitterjson.objectForKey("avatar")
-                                            //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
-                                            //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
-                                            //                                    {
-                                            
-                                            self.submitterAvatar_challenges.addObject(submitterAvatarString!)
-                                            
-                                            //}
-                                        }
-                                        else
-                                        {
-                                            self.submitterAvatar_challenges.addObject(NSBundle.mainBundle().URLForResource("user", withExtension: "png")!)
-                                            
-                                        }
-                                        
-                                        
-                                        
-                                    }catch let error as NSError {
-                                        print("json error: \(error.localizedDescription)")
-                                        let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                        self.presentViewController(alert, animated: true, completion: nil)
-                                    }
-                                    
-                                }
-                                
-                            }
+                            self.parseChallengeUser(submitter)
                             
                         }
                         else
@@ -296,135 +222,27 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                             {
                                 self.contentArray_ideas.addObject("No Content")
                             }
-
                             
-                            if(submitter != "")
-                            {
-                                print("\n\n\nSUBSUB\(submitter)\n\n\n")
-                                userDataRoot.queryOrderedByChild("id").queryEqualToValue(submitter).observeEventType(.Value, withBlock: { snapshot in
-                                    print("did it")
-                                    
-                                })
-                                
-                                let submitterurl = NSURL(string: USERS_URL+"\(submitter).json")
-                                var submitterData:NSData? = nil
-                                do {
-                                    submitterData = try NSData(contentsOfURL: submitterurl!, options: NSDataReadingOptions())
-                                    print(submitterData)
-                                }
-                                catch {
-                                    print("Handle \(error) here")
-                                }
-                                
-                                if let data = submitterData {
-                                    // Convert data to JSON here
-                                    do{
-                                        let submitterjson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                                        print(submitterjson)
-                                        
-                                        //print(observerData.objectForKey("affiliation"))
-                                        //print(observerData.objectForKey("display_name"))
-                                        //print(observerData)
-                                        if((submitterjson.objectForKey("affiliation")) != nil)
-                                        {
-                                            let submiterAffiliationString = submitterjson.objectForKey("affiliation") as! String
-                                            
-                                            self.submitterAffiliation_ideas.addObject(submiterAffiliationString)
-                                            
-                                        }
-                                        else
-                                        {
-                                            self.submitterAffiliation_ideas.addObject("")
-                                        }
-                                        
-                                        if((submitterjson.objectForKey("display_name")) != nil)
-                                        {
-                                            let submitterDisplayNameString = submitterjson.objectForKey("display_name") as! String
-                                            
-                                            self.submitterDisplayName_ideas.addObject(submitterDisplayNameString)
-                                        }
-                                        else
-                                        {
-                                            self.submitterDisplayName_ideas.addObject("")
-                                        }
-                                        
-                                        //print(observerAffiliation)
-                                        //print(observerDisplayName)
-                                        if((submitterjson.objectForKey("avatar")) != nil)
-                                        {
-                                            let submitterUrlString = submitterjson.objectForKey("avatar") as! String
-                                            print(submitterUrlString)
-                                            let newsubmitterUrlString = submitterUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                                            let submitterAvatarUrl  = NSURL(string: newsubmitterUrlString )
-                                            if(UIApplication.sharedApplication().canOpenURL(submitterAvatarUrl!) == true)
-                                            {
-                                                
-                                                let submitterAvatarString = newsubmitterUrlString
-                                                //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
-                                                //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
-                                                //                                    {
-                                                
-                                                self.submitterAvatar_ideas.addObject(submitterAvatarString)
-                                            }
-                                            else
-                                            {
-                                                let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                                self.submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
-                                            }
-                                            
-                                            //}
-                                        }
-                                        else
-                                        {
-                                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                            self.submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
-                                            
-                                        }
-                                        
-                                        
-                                        
-                                    }catch let error as NSError {
-                                        print("json error: \(error.localizedDescription)")
-                                        let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                        self.presentViewController(alert, animated: true, completion: nil)
-                                    }
-                                    
-                                }
-                                self.designTableView.reloadData()
-                            }
+                            self.parseIdeaUser(submitter)
+                            
                             
                         }
                         
+                    }
+                    
+                    if i == self.ideaNumber - 1 {
+                       // self.finishedDataGathering()
                     }
                     
                 }
                 
             }
             
+            
         })
+        /*
         
-        contentArray = contentArray_ideas
-        submitterAvatar = submitterAvatar_ideas
-        submitterAffiliation = submitterAffiliation_ideas
-        submitterDisplayName = submitterDisplayName_ideas
-        
-        if(contentArray.count == 0)
-        {
-            recentContributionsLabel.text = "No Recent Contributions"
-            recentContributionsLabel.textAlignment = NSTextAlignment.Center
-            recentContributionsLabel.textColor = UIColor.redColor()
-        }
-        else
-        {
-            recentContributionsLabel.text = "Recent Contributions"
-            recentContributionsLabel.textAlignment = NSTextAlignment.Left
-            recentContributionsLabel.textColor = UIColor.blackColor()
-        }
-        
-        print(commentsCountArray)
-        print(likesCountArray)
-        print(dislikesCountArray)
+ */
 
 
     }
@@ -519,16 +337,6 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         
         print(submitterAvatar[indexPath.row])
         
-        //if (submitterAvatar[indexPath.row].lowercaseString.rangeOfString("http") != nil || submitterAvatar[indexPath.row].lowercaseString.rangeOfString("file") != nil) {
-        //COMEBACK
-        /*
-            if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String),
-                submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
-            {
-                cell.submitterAvatarView.image = UIImage(data: submitterAvatarData)
-            }
-        */
-        
         
         if let submitterAvatarUrl  = NSURL(string: submitterAvatar[indexPath.row] as! String){
             cell.submitterAvatarView.kf_setImageWithURL(submitterAvatarUrl)
@@ -588,5 +396,190 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func parseChallengeUser(id: String) -> Void {
+        
+        if(id != "")
+        {
+            print("\n\n\nSUBSUB\(id)\n\n\n")
+            userDataRoot.queryOrderedByChild("id").queryEqualToValue(id).observeEventType(.Value, withBlock: { snapshot in
+                if !(snapshot.value is NSNull) {
+                    print("not null yo")
+                    let submitterInfo = snapshot.value.allValues[0]
+                    
+                    if((submitterInfo.objectForKey("affiliation")) != nil)
+                    {
+                        let submiterAffiliationString = submitterInfo.objectForKey("affiliation") as! String
+                        
+                        self.submitterAffiliation_challenges.addObject(submiterAffiliationString)
+                        
+                    }
+                    else
+                    {
+                        self.submitterAffiliation_challenges.addObject("")
+                    }
+                    
+                    if((submitterInfo.objectForKey("display_name")) != nil)
+                    {
+                        let submitterDisplayNameString = submitterInfo.objectForKey("display_name") as! String
+                        
+                        self.submitterDisplayName_challenges.addObject(submitterDisplayNameString)
+                    }
+                    else
+                    {
+                        self.submitterDisplayName_challenges.addObject("")
+                    }
+                    
+                    //print(observerAffiliation)
+                    //print(observerDisplayName)
+                    if((submitterInfo.objectForKey("avatar")) != nil)
+                    {
+                        let submitterUrlString = submitterInfo.objectForKey("avatar") as! String
+                        print(submitterUrlString)
+                        let newsubmitterUrlString = submitterUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                        let submitterAvatarUrl  = NSURL(string: newsubmitterUrlString )
+                        if(UIApplication.sharedApplication().canOpenURL(submitterAvatarUrl!) == true)
+                        {
+                            
+                            let submitterAvatarString = newsubmitterUrlString
+                            //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
+                            //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
+                            //                                    {
+                            
+                            self.submitterAvatar_challenges.addObject(submitterAvatarString)
+                        }
+                        else
+                        {
+                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                            self.submitterAvatar_challenges.addObject((tempImageUrl?.absoluteString)!)
+                        }
+                        
+                        //}
+                    }
+                    else
+                    {
+                        let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                        self.submitterAvatar_challenges.addObject((tempImageUrl?.absoluteString)!)
+                        
+                    }
+                }
+                
+                
+                //self.finishedDataGathering()
+                
+                
+            })
+            
+            
+        }
+        
+    }
+    
+    func parseIdeaUser(id: String) -> Void {
+        //let greeting = "Hello, " + id + "!"
+        //return greeting
+        
+        
+        if(id != "")
+        {
+            print("\n\n\nSUBSUB\(id)\n\n\n")
+            userDataRoot.queryOrderedByChild("id").queryEqualToValue(id).observeEventType(.Value, withBlock: { snapshot in
+                if !(snapshot.value is NSNull) {
+                    print("not null yo")
+                    let submitterInfo = snapshot.value.allValues[0]
+                    
+                    if((submitterInfo.objectForKey("affiliation")) != nil)
+                    {
+                        let submiterAffiliationString = submitterInfo.objectForKey("affiliation") as! String
+                        
+                        self.submitterAffiliation_ideas.addObject(submiterAffiliationString)
+                        
+                    }
+                    else
+                    {
+                        self.submitterAffiliation_ideas.addObject("")
+                    }
+                    
+                    if((submitterInfo.objectForKey("display_name")) != nil)
+                    {
+                        let submitterDisplayNameString = submitterInfo.objectForKey("display_name") as! String
+                        
+                        self.submitterDisplayName_ideas.addObject(submitterDisplayNameString)
+                    }
+                    else
+                    {
+                        self.submitterDisplayName_ideas.addObject("")
+                    }
+                    
+                    //print(observerAffiliation)
+                    //print(observerDisplayName)
+                    if((submitterInfo.objectForKey("avatar")) != nil)
+                    {
+                        let submitterUrlString = submitterInfo.objectForKey("avatar") as! String
+                        print(submitterUrlString)
+                        let newsubmitterUrlString = submitterUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                        let submitterAvatarUrl  = NSURL(string: newsubmitterUrlString )
+                        if(UIApplication.sharedApplication().canOpenURL(submitterAvatarUrl!) == true)
+                        {
+                            
+                            let submitterAvatarString = newsubmitterUrlString
+                            //                                    if let submitterAvatarUrl  = NSURL(string: submitterAvatarString as! String),
+                            //                                        submitterAvatarData = NSData(contentsOfURL: submitterAvatarUrl)
+                            //                                    {
+                            
+                            self.submitterAvatar_ideas.addObject(submitterAvatarString)
+                        }
+                        else
+                        {
+                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                            self.submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
+                        }
+                        
+                        //}
+                    }
+                    else
+                    {
+                        let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                        self.submitterAvatar_ideas.addObject((tempImageUrl?.absoluteString)!)
+                        
+                    }
+                }
+                
+               
+                self.finishedDataGathering()
+                
+                
+            })
+            
+            
+        }
+    }
+    
+    func finishedDataGathering() -> Void {
+        contentArray = contentArray_ideas
+        submitterAvatar = submitterAvatar_ideas
+        submitterAffiliation = submitterAffiliation_ideas
+        submitterDisplayName = submitterDisplayName_ideas
+        
+        if(contentArray.count == 0)
+        {
+            recentContributionsLabel.text = "No Recent Contributions"
+            recentContributionsLabel.textAlignment = NSTextAlignment.Center
+            recentContributionsLabel.textColor = UIColor.redColor()
+        }
+        else
+        {
+            recentContributionsLabel.text = "Recent Contributions"
+            recentContributionsLabel.textAlignment = NSTextAlignment.Left
+            recentContributionsLabel.textColor = UIColor.blackColor()
+        }
+        
+        print(commentsCountArray)
+        print(likesCountArray)
+        print(dislikesCountArray)
+        
+        self.designTableView.reloadData()
+        print("yo")
+    }
 
 }
