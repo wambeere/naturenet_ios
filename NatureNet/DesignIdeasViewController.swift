@@ -6,6 +6,9 @@
 //  Copyright © 2016 NatureNet. All rights reserved.
 //
 
+//should be rewritten using 2d arrays where someArray[0] is challenge and someArray[1] is idea
+//for reading and editing simplicity
+
 import UIKit
 import Kingfisher
 import Firebase
@@ -39,20 +42,33 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     var contentArray_challenges: NSMutableArray = []
     
     var commentsKeysArray: NSArray = []
-    var likesCount: Int = 0
-    var dislikesCount: Int = 0
     
     var commentsCountArray: NSMutableArray = []
-    var likesCountArray: NSMutableArray = []
-    var dislikesCountArray: NSMutableArray = []
+    var commentsCountArray_ideas: NSMutableArray = []
+    var commentsCountArray_challenges: NSMutableArray = []
     
-    var statusArray:NSMutableArray = []
+    var likesCountArray: NSMutableArray = []
+    var likesCountArray_ideas: NSMutableArray = []
+    var likesCountArray_challenges: NSMutableArray = []
+    
+    var dislikesCountArray: NSMutableArray = []
+    var dislikesCountArray_ideas: NSMutableArray = []
+    var dislikesCountArray_challenges: NSMutableArray = []
+    
+    var statusArray: NSMutableArray = []
+    var statusArray_ideas: NSMutableArray = []
+    var statusArray_challenges: NSMutableArray = []
     
     var commentsDictArray : NSMutableArray = []
+    var commentsDictArray_ideas : NSMutableArray = []
+    var commentsDictArray_challenges : NSMutableArray = []
     
     let ideasDataRoot = Firebase(url: FIREBASE_URL + "/ideas")
     let userDataRoot = Firebase(url: FIREBASE_URL + "/users")
     let ideaNumber = 10
+    
+    let CHALLENGE = 0
+    let IDEA = 1
     
     
     
@@ -60,6 +76,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     //var groupChallengeArray: NSMutableArray = []
     //var groupDesignArray: NSMutableArray = []
     var designIdsArray: NSMutableArray = []
+    var designIdsArray_ideas: NSMutableArray = []
+    var designIdsArray_challenges: NSMutableArray = []
     
     @IBOutlet weak var recentContributionsLabel: UILabel!
     override func viewDidLoad() {
@@ -97,112 +115,40 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         //let ideasUrl = NSURL(string: "https://naturenet.firebaseio.com/ideas/-KFSFdMuw_jLEG9ZU-6v.json")
         //let ideasUrl = NSURL(string: DESIGN_URL)
         
-        ideasDataRoot.queryOrderedByChild("updated_at").queryLimitedToLast(UInt(ideaNumber)).observeEventType(.Value, withBlock: { snapshot in
+        ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).observeEventType(.Value, withBlock: { snapshot in
         
             if !(snapshot.value is NSNull)
             {
                 for i in 0 ..< snapshot.value.count
                 {
-                    let ideasDetailData = snapshot.value.allValues[i] as! NSDictionary
+                    let designData = snapshot.value.allValues[i] as! NSDictionary
                     
-                    if(ideasDetailData.objectForKey("comments") != nil)
-                    {
-                        let commentsDictionary = ideasDetailData.objectForKey("comments") as! NSDictionary
-                        print(commentsDictionary.allKeys)
-                        
-                        self.commentsKeysArray = commentsDictionary.allKeys as NSArray
-                        print(self.commentsKeysArray)
-                        
-                        self.commentsDictArray.addObject(self.commentsKeysArray)
-                        
-                        print(self.commentsDictArray)
-                        
-                        self.commentsCountArray.addObject("\(self.commentsKeysArray.count)")
-                        
-                        
-                        print(ideasDetailData.objectForKey("id"))
-                    }
-                    else
-                    {
-                        self.commentsCountArray.addObject("0")
-                        
-                        let tempcomments = NSArray()
-                        self.commentsDictArray.addObject(tempcomments)
-                    }
                     
-                    if(ideasDetailData.objectForKey("status") != nil)
-                    {
-                        let status = ideasDetailData.objectForKey("status") as? String
-                        self.statusArray.addObject(status!)
-                    }
-                    else
-                    {
-                        self.statusArray.addObject("")
-                    }
-                    
-                    if(ideasDetailData.objectForKey("likes") != nil)
-                    {
-                        let likesDictionary = ideasDetailData.objectForKey("likes") as! NSDictionary
-                        print(likesDictionary.allValues)
-                        
-                        let likesArray = likesDictionary.allValues as NSArray
-                        print(likesArray)
-                        
-                        
-                        for l in 0 ..< likesArray.count
-                        {
-                            if(likesArray[l] as! NSObject == 1)
-                            {
-                                self.likesCount += 1
-                            }
-                            else
-                            {
-                                self.dislikesCount += 1
-                            }
-                        }
-                        print(self.likesCount)
-                        print(self.dislikesCount)
-                        
-                        self.likesCountArray.addObject("\(self.likesCount)")
-                        self.dislikesCountArray.addObject("\(self.dislikesCount)")
-                        
-                    }
-                    else
-                    {
-                        self.likesCountArray.addObject("0")
-                        self.dislikesCountArray.addObject("0")
-                    }
                     
                     
                     
                     //print(i)
                     
-                    print(ideasDetailData.objectForKey("content"))
-                    print(ideasDetailData.objectForKey("group"))
-                    print(ideasDetailData.objectForKey("id"))
+                    print(designData.objectForKey("content"))
+                    print(designData.objectForKey("group"))
+                    print(designData.objectForKey("id"))
 
-                    
-                    
-                    let designId = ideasDetailData.objectForKey("id") as? String
-                    if(designId != nil)
-                    {
-                        self.designIdsArray.addObject(designId!)
-                    }
-                    
-                    
-                    let submitter = ideasDetailData.objectForKey("submitter") as! String
+
+                    let submitter = designData.objectForKey("submitter") as! String
                     //print(submitter)
                     
-                    let designGroup = ideasDetailData.objectForKey("group") as? String
+                    let designGroup = designData.objectForKey("group") as? String
                     
-                    if(ideasDetailData.objectForKey("group") != nil)
+                    if(designData.objectForKey("group") != nil)
                     {
                         
                         if(designGroup == "challenge" || designGroup == "Challenge")
                         {
-                            if(ideasDetailData.objectForKey("content") != nil)
+                            self.parseDesignChallenge(designData)
+                            
+                            if(designData.objectForKey("content") != nil)
                             {
-                                self.contentArray_challenges.addObject(ideasDetailData.objectForKey("content")!)
+                                self.contentArray_challenges.addObject(designData.objectForKey("content")!)
                             }
                             else
                             {
@@ -214,9 +160,11 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         }
                         else
                         {
-                            if(ideasDetailData.objectForKey("content") != nil)
+                            self.parseDesignIdea(designData)
+                            
+                            if(designData.objectForKey("content") != nil)
                             {
-                                self.contentArray_ideas.addObject(ideasDetailData.objectForKey("content")!)
+                                self.contentArray_ideas.addObject(designData.objectForKey("content")!)
                             }
                             else
                             {
@@ -262,25 +210,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         designLabel.text = "DESIGN IDEAS"
         designDescrptionLabel.text = "Your design ideas can be a new way of using NatureNet in your community, and new mobile technology for learning about sustainability or changes in the environment, or a new feature for the app."
         
-        contentArray = contentArray_ideas
-        submitterAvatar = submitterAvatar_ideas
-        submitterAffiliation = submitterAffiliation_ideas
-        submitterDisplayName = submitterDisplayName_ideas
-        
-        if(contentArray.count == 0)
-        {
-            recentContributionsLabel.text = "No Recent Contributions"
-            recentContributionsLabel.textAlignment = NSTextAlignment.Center
-            recentContributionsLabel.textColor = UIColor.redColor()
-        }
-        else
-        {
-            recentContributionsLabel.text = "Recent Contributions"
-            recentContributionsLabel.textAlignment = NSTextAlignment.Left
-            recentContributionsLabel.textColor = UIColor.blackColor()
-        }
-        
-        designTableView.reloadData()
+        updateTable(IDEA)
     }
 
     @IBAction func getDesignChallenges(sender: UIButton) {
@@ -293,25 +223,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         designLabel.text = "DESIGN CHALLENGES"
         designDescrptionLabel.text = "A design challenge is a question – for example: How can the NatureNet app collect temperature data?"
         
-        contentArray = contentArray_challenges
-        submitterAvatar = submitterAvatar_challenges
-        submitterAffiliation = submitterAffiliation_challenges
-        submitterDisplayName = submitterDisplayName_challenges
-        
-        if(contentArray.count == 0)
-        {
-            recentContributionsLabel.text = "No Recent Contributions"
-            recentContributionsLabel.textAlignment = NSTextAlignment.Center
-            recentContributionsLabel.textColor = UIColor.redColor()
-        }
-        else
-        {
-            recentContributionsLabel.text = "Recent Contributions"
-            recentContributionsLabel.textAlignment = NSTextAlignment.Left
-            recentContributionsLabel.textColor = UIColor.blackColor()
-        }
-        
-        designTableView.reloadData()
+        updateTable(CHALLENGE)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -397,14 +309,171 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     }
     */
     
+    func parseDesignChallenge(challenge: NSDictionary) -> Void {
+        
+        let designId = challenge.objectForKey("id") as? String
+        if(designId != nil)
+        {
+            self.designIdsArray_challenges.addObject(designId!)
+        }
+        
+        if(challenge.objectForKey("comments") != nil)
+        {
+            let commentsDictionary = challenge.objectForKey("comments") as! NSDictionary
+            print(commentsDictionary.allKeys)
+            
+            self.commentsKeysArray = commentsDictionary.allKeys as NSArray
+            print(self.commentsKeysArray)
+            
+            self.commentsDictArray_challenges.addObject(self.commentsKeysArray)
+            
+            print(self.commentsDictArray_challenges)
+            
+            self.commentsCountArray_challenges.addObject("\(self.commentsKeysArray.count)")
+            
+            
+            print(challenge.objectForKey("id"))
+        }
+        else
+        {
+            self.commentsCountArray_challenges.addObject("0")
+            
+            let tempcomments = NSArray()
+            self.commentsDictArray_challenges.addObject(tempcomments)
+        }
+        
+        if(challenge.objectForKey("status") != nil)
+        {
+            let status = challenge.objectForKey("status") as? String
+            self.statusArray_challenges.addObject(status!)
+        }
+        else
+        {
+            self.statusArray_challenges.addObject("")
+        }
+        
+        if(challenge.objectForKey("likes") != nil)
+        {
+            let likesDictionary = challenge.objectForKey("likes") as! NSDictionary
+            print(likesDictionary.allValues)
+            
+            let likesArray = likesDictionary.allValues as NSArray
+            print(likesArray)
+            
+            var likesCount: Int = 0
+            var dislikesCount: Int = 0
+            
+            for l in 0 ..< likesArray.count
+            {
+                if(likesArray[l] as! NSObject == 1)
+                {
+                    likesCount += 1
+                }
+                else
+                {
+                    dislikesCount += 1
+                }
+            }
+            print(likesCount)
+            print(dislikesCount)
+            
+            self.likesCountArray_challenges.addObject("\(likesCount)")
+            self.dislikesCountArray_challenges.addObject("\(dislikesCount)")
+            
+        }
+        else
+        {
+            self.likesCountArray_challenges.addObject("0")
+            self.dislikesCountArray_challenges.addObject("0")
+        }
+    }
+    
+    func parseDesignIdea(idea: NSDictionary) -> Void {
+        
+        let designId = idea.objectForKey("id") as? String
+        if(designId != nil)
+        {
+            self.designIdsArray_ideas.addObject(designId!)
+        }
+        
+        if(idea.objectForKey("comments") != nil)
+        {
+            let commentsDictionary = idea.objectForKey("comments") as! NSDictionary
+            print(commentsDictionary.allKeys)
+            
+            self.commentsKeysArray = commentsDictionary.allKeys as NSArray
+            print(self.commentsKeysArray)
+            
+            self.commentsDictArray_ideas.addObject(self.commentsKeysArray)
+            
+            print(self.commentsDictArray_ideas)
+            
+            self.commentsCountArray_ideas.addObject("\(self.commentsKeysArray.count)")
+            
+            
+            print(idea.objectForKey("id"))
+        }
+        else
+        {
+            self.commentsCountArray_ideas.addObject("0")
+            
+            let tempcomments = NSArray()
+            self.commentsDictArray_ideas.addObject(tempcomments)
+        }
+        
+        if(idea.objectForKey("status") != nil)
+        {
+            let status = idea.objectForKey("status") as? String
+            self.statusArray_ideas.addObject(status!)
+        }
+        else
+        {
+            self.statusArray_ideas.addObject("")
+        }
+        
+        if(idea.objectForKey("likes") != nil)
+        {
+            let likesDictionary = idea.objectForKey("likes") as! NSDictionary
+            print(likesDictionary.allValues)
+            
+            let likesArray = likesDictionary.allValues as NSArray
+            print(likesArray)
+            
+            var likesCount: Int = 0
+            var dislikesCount: Int = 0
+            
+            for l in 0 ..< likesArray.count
+            {
+                if(likesArray[l] as! NSObject == 1)
+                {
+                    likesCount += 1
+                }
+                else
+                {
+                    dislikesCount += 1
+                }
+            }
+            print(likesCount)
+            print(dislikesCount)
+            
+            self.likesCountArray_ideas.addObject("\(likesCount)")
+            self.dislikesCountArray_ideas.addObject("\(dislikesCount)")
+            
+        }
+        else
+        {
+            self.likesCountArray_ideas.addObject("0")
+            self.dislikesCountArray_ideas.addObject("0")
+        }
+    }
+    
     func parseChallengeUser(id: String) -> Void {
         
         if(id != "")
         {
-            print("\n\n\nSUBSUB\(id)\n\n\n")
             userDataRoot.queryOrderedByChild("id").queryEqualToValue(id).observeEventType(.Value, withBlock: { snapshot in
                 if !(snapshot.value is NSNull) {
-                    print("not null yo")
+                    
                     let submitterInfo = snapshot.value.allValues[0]
                     
                     if((submitterInfo.objectForKey("affiliation")) != nil)
@@ -482,10 +551,9 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         
         if(id != "")
         {
-            print("\n\n\nSUBSUB\(id)\n\n\n")
             userDataRoot.queryOrderedByChild("id").queryEqualToValue(id).observeEventType(.Value, withBlock: { snapshot in
                 if !(snapshot.value is NSNull) {
-                    print("not null yo")
+        
                     let submitterInfo = snapshot.value.allValues[0]
                     
                     if((submitterInfo.objectForKey("affiliation")) != nil)
@@ -546,7 +614,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 }
                 
                
-                self.finishedDataGathering()
+                self.updateTable(self.IDEA)
                 
                 
             })
@@ -555,11 +623,36 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         }
     }
     
-    func finishedDataGathering() -> Void {
-        contentArray = contentArray_ideas
-        submitterAvatar = submitterAvatar_ideas
-        submitterAffiliation = submitterAffiliation_ideas
-        submitterDisplayName = submitterDisplayName_ideas
+    func updateTable(designType: Int) -> Void {
+        
+        if(designType == CHALLENGE) {
+            contentArray = contentArray_challenges
+            submitterAvatar = submitterAvatar_challenges
+            submitterAffiliation = submitterAffiliation_challenges
+            submitterDisplayName = submitterDisplayName_challenges
+            
+            designIdsArray = designIdsArray_challenges
+            commentsCountArray = commentsCountArray_challenges
+            likesCountArray = likesCountArray_challenges
+            dislikesCountArray = dislikesCountArray_challenges
+            statusArray = statusArray_challenges
+            commentsDictArray = commentsDictArray_challenges
+            
+        } else {
+            contentArray = contentArray_ideas
+            submitterAvatar = submitterAvatar_ideas
+            submitterAffiliation = submitterAffiliation_ideas
+            submitterDisplayName = submitterDisplayName_ideas
+            
+            designIdsArray = designIdsArray_ideas
+            commentsCountArray = commentsCountArray_ideas
+            likesCountArray = likesCountArray_ideas
+            dislikesCountArray = dislikesCountArray_ideas
+            statusArray = statusArray_ideas
+            commentsDictArray = commentsDictArray_ideas
+            
+        }
+    
         
         if(contentArray.count == 0)
         {
@@ -579,7 +672,6 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         print(dislikesCountArray)
         
         self.designTableView.reloadData()
-        print("yo")
     }
 
 }
