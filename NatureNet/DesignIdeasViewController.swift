@@ -63,8 +63,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     var commentsDictArray_ideas : NSMutableArray = []
     var commentsDictArray_challenges : NSMutableArray = []
     
-    let ideasDataRoot = Firebase(url: FIREBASE_URL + "/ideas")
-    let userDataRoot = Firebase(url: FIREBASE_URL + "/users")
+    let ideasDataRoot = Firebase(url: FIREBASE_URL + "ideas")
+    let userDataRoot = Firebase(url: FIREBASE_URL + "users")
     let ideaNumber = 10
     
     let CHALLENGE = 0
@@ -228,7 +228,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contentArray.count
+        return submitterDisplayName.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -639,6 +639,10 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             submitterAvatar = submitterAvatar_ideas
             submitterAffiliation = submitterAffiliation_ideas
             submitterDisplayName = submitterDisplayName_ideas
+            
+            print(contentArray)
+            print(submitterDisplayName)
+            
             
             designIdsArray = designIdsArray_ideas
             commentsCountArray = commentsCountArray_ideas
