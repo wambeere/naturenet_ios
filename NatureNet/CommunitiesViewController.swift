@@ -80,7 +80,34 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
                     if(userJsonData.objectForKey("affiliation") != nil)
                     {
                         let aff = userJsonData.objectForKey("affiliation") as? String
-                        self.userAffiliationsArray.addObject(aff!)
+                        
+                        
+                        let sitesRootRef = Firebase(url:FIREBASE_URL + "sites/"+aff!)
+                        sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+                            
+                            print(aff)
+                            print(sitesRootRef)
+                            print(snapshot.value)
+                            
+                            if !(snapshot.value is NSNull)
+                            {
+                                
+                                
+                                    print(snapshot.value.objectForKey("name"))
+                                    if(snapshot.value.objectForKey("name") != nil)
+                                    {
+                                        self.userAffiliationsArray.addObject(snapshot.value.objectForKey("name")!)
+                                    }
+                                    
+                                
+                                
+                            }
+                            self.peopleTable.reloadData()
+                            }, withCancelBlock: { error in
+                                print(error.description)
+                        })
+
+                        
                     }
                     else
                     {
@@ -243,7 +270,7 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return usersCount
+        return userAffiliationsArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

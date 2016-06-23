@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
@@ -122,7 +123,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                         let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
                         if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
                         {
-                            self.observerAvatarsArray.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
+                            //self.observerAvatarsArray.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
                             self.observerAvatarsUrlArray.addObject(observerAvatar!)
                         }
                         else
@@ -130,7 +131,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                             let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
                             
                             
-                            self.observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                            //self.observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
                             self.observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
                         }
                         //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
@@ -139,7 +140,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                     {
                         let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
                         
-                        self.observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                        //self.observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
                         self.observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
                         
                     }
@@ -243,7 +244,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         }
         print(observerAffiliationsArray)
         print(observerNamesArray)
-        print(observerAvatarsArray)
+        //print(observerAvatarsArray)
         
 //        newObsAndDIViewtemp.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIViewtemp.view.frame.size.height-8 - 60, newObsAndDIViewtemp.view.frame.size.width, newObsAndDIViewtemp.view.frame.size.height)
 //        self.view.addSubview(newObsAndDIViewtemp.view)
@@ -318,19 +319,22 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         //            }
         //        }
         
-        let observerImageUrlString = exploreObservationsImagesArray[indexPath.row] as! String
-        let newimageURLString = observerImageUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        let observationsImageUrlString = exploreObservationsImagesArray[indexPath.row] as! String
+        let newimageURLString = observationsImageUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        //observerImageUrlData = NSData(contentsOfURL: observerImageUrl)
         
-        
-        if let observerImageUrl  = NSURL(string: newimageURLString),
-            observerImageUrlData = NSData(contentsOfURL: observerImageUrl)
+        if let observationsImageUrl  = NSURL(string: newimageURLString)
         {
-            cell.exploreImageView.image = UIImage(data: observerImageUrlData)
+            //cell.exploreImageView.image = UIImage(data: observerImageUrlData)
+            print(observationsImageUrl)
+            cell.exploreImageView.kf_setImageWithURL(observationsImageUrl, placeholderImage: UIImage(named: "default-no-image.png"))
         }
         cell.bringSubviewToFront(cell.exploreProfileSubView)
         cell.exploreImageView.contentMode = UIViewContentMode.ScaleAspectFit
         
-        cell.exploreProfileIcon.image = UIImage(data: observerAvatarsArray[indexPath.row] as! NSData)
+        //cell.exploreProfileIcon.image = UIImage(data: observerAvatarsArray[indexPath.row] as! NSData)
+        cell.exploreProfileIcon.kf_setImageWithURL(NSURL.fileURLWithPath(observerAvatarsUrlArray[indexPath.row] as! String), placeholderImage: UIImage(named: "user.png"))
+        
         if(observerNamesArray[indexPath.row] as! String != "")
         {
             cell.exploreProfileName.text = (observerNamesArray[indexPath.row] as! String)

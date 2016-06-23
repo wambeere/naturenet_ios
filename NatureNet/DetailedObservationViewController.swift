@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 
 class DetailedObservationViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
@@ -111,18 +112,20 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         if((observerImageUrl) != "")
         {
-            if let observerAvatarUrl  = NSURL(string: observerImageUrl ),
-                observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
+            if let observerAvatarUrl  = NSURL(string: observerImageUrl )
+                //observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
             {
-                observerAvatarImageView.image = UIImage(data: observerAvatarData)
+                //observerAvatarImageView.image = UIImage(data: observerAvatarData)
+                observerAvatarImageView.kf_setImageWithURL(observerAvatarUrl, placeholderImage: UIImage(named: "user.png"))
             }
         }
         if((observationImageUrl) != "")
         {
-            if let obsImageUrl  = NSURL(string: observationImageUrl ),
-                obsImgData = NSData(contentsOfURL: obsImageUrl)
+            if let obsImageUrl  = NSURL(string: observationImageUrl )
+                //obsImgData = NSData(contentsOfURL: obsImageUrl)
             {
-                observationImageView.image = UIImage(data: obsImgData)
+                //observationImageView.image = UIImage(data: obsImgData)
+                observationImageView.kf_setImageWithURL(obsImageUrl, placeholderImage: UIImage(named: "default-no-image.png"))
             }
         }
         
@@ -468,15 +471,17 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                 {
                     let observerAvatar = snapshot.value.objectForKey("avatar")
                     let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
-                    if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
-                    {
-                        let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
-                        cell.commentorAvatarImageView.image = UIImage(data: observerAvatarData!)
-                    }
-                    else
-                    {
-                        cell.commentorAvatarImageView.image = UIImage(named:"user.png")
-                    }
+                    //if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
+                    //{
+                        //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
+                        //cell.commentorAvatarImageView.image = UIImage(data: observerAvatarData!)
+                        cell.commentorAvatarImageView.kf_setImageWithURL(observerAvatarUrl!, placeholderImage: UIImage(named: "user.png"))
+                        
+//                    }
+//                    else
+//                    {
+//                        cell.commentorAvatarImageView.image = UIImage(named:"user.png")
+//                    }
                     //                            if let observerAvatarUrl  = NSURL(string: observerAvatar as! String),
                     //                                observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
                     //                            {

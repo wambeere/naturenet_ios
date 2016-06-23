@@ -55,11 +55,11 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         
         print(projectIcon)
         
-        if let projectIconUrl  = NSURL(string: projectIcon),
-            projectIconData = NSData(contentsOfURL: projectIconUrl)
+        if let projectIconUrl  = NSURL(string: projectIcon)
+            //projectIconData = NSData(contentsOfURL: projectIconUrl)
         {
-            projectIconImageView.image = UIImage(data: projectIconData)
-            //projectIconImageView?.kf_setImageWithURL(projectIconUrl, placeholderImage: UIImage(named: "project.png"))
+            //projectIconImageView.image = UIImage(data: projectIconData)
+            projectIconImageView?.kf_setImageWithURL(projectIconUrl, placeholderImage: UIImage(named: "project.png"))
         }
         
         projectTitleLabel.text = projectTitle
@@ -267,7 +267,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                                 //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
                                                 if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
                                                 {
-                                                    self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
+                                                    //self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
                                                     //observerAvatarsArray.addObject(observerAvatar!)
                                                     //self.observerAvatarUrlString = observerAvatar as! String
                                                     self.observersAvatarUrls_proj.addObject(observerAvatar)
@@ -275,7 +275,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                                 else
                                                 {
                                                     let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                                    self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                                                    //self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
                                                     self.observersAvatarUrls_proj.addObject((tempImageUrl?.absoluteString)!)
                                                 }
                                                 
@@ -283,11 +283,17 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                             else
                                             {
                                                 let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                                self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                                                //self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
                                                 self.observersAvatarUrls_proj.addObject((tempImageUrl?.absoluteString)!)
                                                 
                                             }
+                                        
+                                        
                                         }
+                                    print(self.observationsImagesArray.count)
+                                    print(self.observersNamesArray_proj.count)
+                                    self.showHideRecentContributionsLabel()
+                                    self.projectsCollectionView.reloadData()
                                     
                                     }, withCancelBlock: { error in
                                         print(error.description)
@@ -296,263 +302,279 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                 
                                 
                             }
+                            self.showHideRecentContributionsLabel()
                     }
                 }
+                
+                
             }
-            
+            //self.showHideRecentContributionsLabel()
             
             }, withCancelBlock: { error in
                 print(error.description)
         })
-
-        
-        let geoObservationUrl = NSURL(string: "https://naturenet-staging.firebaseio.com/observations.json?orderBy=%22$key%22&limitToFirst=4")
-        
-        var geoObservationData:NSData? = nil
-        do {
-            geoObservationData = try NSData(contentsOfURL: geoObservationUrl!, options: NSDataReadingOptions())
-            //print(userData)
-        }
-        catch {
-            print("Handle \(error) here")
-        }
         
         
-            if let data = geoObservationData {
-                // Convert data to JSON here
-                do{
-                    let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                    
-                    print(json.allKeys)
-                    print(json.count)
-                    
-                    for i in 0 ..< json.count
-                    {
-                        //print(json.allKeys[i])
-                        let obs = json.allKeys[i] as! String
-                        let obsDictionary = json.objectForKey(obs) as! NSDictionary
-                        print(obsDictionary)
-                        
-                        let activity_location = obsDictionary.objectForKey("activity_location") as! String
-                        
-                        print(activity_location)
-                        print(projectIdFromProjectVC)
-                        
-                        if(activity_location != "")
-                        {
-                            if(activity_location == projectIdFromProjectVC)
-                            {
-                                print(obsDictionary)
-                                print(obsDictionary.objectForKey("id"))
-                                print(obsDictionary.objectForKey("activity_location"))
-                                print(obsDictionary.objectForKey("created_at"))
-                                print(obsDictionary.objectForKey("observer"))
-                                let observationData = obsDictionary.objectForKey("data") as! NSDictionary
-                                
-                                print(observationData.objectForKey("image"))
-                                
-                                if(obsDictionary.objectForKey("comments") != nil)
-                                {
-                                    let commentsDictionary = obsDictionary.objectForKey("comments") as! NSDictionary
-                                    print(commentsDictionary.allKeys)
-                                    
-                                    commentsKeysArray_projects = commentsDictionary.allKeys as NSArray
-                                    print(commentsKeysArray_projects)
-                                    
-                                    commentsDictArray.addObject(commentsKeysArray_projects)
-                                    
-                                    print(commentsDictArray)
 
-                                    
-                                    commentsKeysArray_projects = commentsDictionary.allKeys as NSArray
-                                    print(commentsKeysArray_projects)
-                                    
-                                    commentsCountArray_projects.addObject("\(commentsKeysArray_projects.count)")
-                                }
-                                else
-                                {
-                                    commentsCountArray_projects.addObject("0")
-                                    
-                                    let tempcomments = NSArray()
-                                    commentsDictArray.addObject(tempcomments)
-                                }
-
-                                
-                                if(obsDictionary.objectForKey("likes") != nil)
-                                {
-                                    let likesDictionary = obsDictionary.objectForKey("likes") as! NSDictionary
-                                    print(likesDictionary.allValues)
-                                    
-                                    let likesArray = likesDictionary.allValues as NSArray
-                                    print(likesArray)
-                                    
-                                    
-                                    for l in 0 ..< likesArray.count
-                                    {
-                                        if(likesArray[l] as! NSObject == 1)
-                                        {
-                                            likesCount_projects += 1
-                                        }
-                                    }
-                                    print(likesCount_projects)
-                                    
-                                    
-                                    likesCountArray_projects.addObject("\(likesCount_projects)")
-                                    
-                                    
-                                }
-                                else
-                                {
-                                    likesCountArray_projects.addObject("0")
-                                }
-                                
-                                if(obsDictionary.objectForKey("id") != nil)
-                                {
-                                    let obsId = obsDictionary.objectForKey("id") as! String
-                                    obsIdsArray.addObject(obsId)
-                                }
-                                
-                                if(observationData.objectForKey("image") != nil)
-                                {
-                                    let observationUrlString = observationData.objectForKey("image") as! String
-                                    let newobservationUrlString = observationUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                                    let observationAvatarUrl  = NSURL(string: newobservationUrlString )
-                                    //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
-                                if(UIApplication.sharedApplication().canOpenURL(observationAvatarUrl!) == true)
-                                    {
-                                        observationsImagesArray.addObject(newobservationUrlString)
-                                    }
-                                    else
-                                    {
-                                        let tempImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")
-                                        observationsImagesArray.addObject((tempImageUrl?.absoluteString)!)
-                                    }
-                                }
-                                else
-                                {
-                                    let tempImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")
-                                    observationsImagesArray.addObject((tempImageUrl?.absoluteString)!)
-                                }
-                                if(observationData.objectForKey("text") != nil)
-                                {
-                                    observationsTextArray.addObject(observationData.objectForKey("text")!)
-                                }
-                                else
-                                {
-                                    observationsTextArray.addObject("")
-                                }
-                                print(observationData.objectForKey("text"))
-                                
-                                let obdId = obsDictionary.objectForKey("observer") as! String
-                                let url = NSURL(string: USERS_URL+"\(obdId).json")
-                                var userData:NSData? = nil
-                                do {
-                                    userData = try NSData(contentsOfURL: url!, options: NSDataReadingOptions())
-                                    print(userData)
-                                }
-                                catch {
-                                    print("Handle \(error) here")
-                                }
-                                
-                                if let observerdata = userData {
-                                    // Convert data to JSON here
-                                    do{
-                                        let observerjson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(observerdata, options: NSJSONReadingOptions()) as! NSDictionary
-                                        print(observerjson)
-                                        
-                                        //print(observerData.objectForKey("affiliation"))
-                                        //print(observerData.objectForKey("display_name"))
-                                        //print(observerData)
-                                        if((observerjson.objectForKey("affiliation")) != nil)
-                                        {
-                                            let observerAffiliationString = observerjson.objectForKey("affiliation") as! String
-                                            observersAffiliationsArray_proj.addObject(observerAffiliationString)
-                                            //observerAffiliationsArray.addObject(observerAffiliationString)
-                                            print(observerAffiliationString)
-                                        }
-                                        else
-                                        {
-                                            observersAffiliationsArray_proj.addObject("")
-                                        }
-                                        
-                                        if((observerjson.objectForKey("display_name")) != nil)
-                                        {
-                                            let observerDisplayNameString = observerjson.objectForKey("display_name") as! String
-                                            observersNamesArray_proj.addObject(observerDisplayNameString)
-                                            //observerNamesArray.addObject(observerDisplayNameString)
-                                        }
-                                        else
-                                        {
-                                            observersNamesArray_proj.addObject("")
-                                        }
-                                        
-                                        //print(observerAffiliation)
-                                        //print(observerDisplayName)
-                                        if((observerjson.objectForKey("avatar")) != nil)
-                                        {
-                                            let avatarUrlString = observerjson.objectForKey("avatar") as! String
-                                            let newavatarUrlString = avatarUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                                            
-                                            let observerAvatar = newavatarUrlString
-                                            let observerAvatarUrl  = NSURL(string: observerAvatar )
-                                            //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
-                                            if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
-                                            {
-                                                observersAvatarArray_proj.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
-                                                //observerAvatarsArray.addObject(observerAvatar!)
-                                                //self.observerAvatarUrlString = observerAvatar as! String
-                                                observersAvatarUrls_proj.addObject(observerAvatar)
-                                            }
-                                            else
-                                            {
-                                                let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                                observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
-                                                observersAvatarUrls_proj.addObject((tempImageUrl?.absoluteString)!)
-                                            }
-                                            
-                                        }
-                                        else
-                                        {
-                                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                            observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
-                                            observersAvatarUrls_proj.addObject((tempImageUrl?.absoluteString)!)
-                                            
-                                        }
-                                        
-                                        
-                                        
-                                    }catch let error as NSError {
-                                        print("json error: \(error.localizedDescription)")
-                                        let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                        self.presentViewController(alert, animated: true, completion: nil)
-                                    }
-                                    
-                                }
-
-                                
-                            }
-                        }
-                    }
-                }
-                    
-                catch let error as NSError {
-                    print("json error: \(error.localizedDescription)")
-                    let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
-                }
-            }
+        
+//        let geoObservationUrl = NSURL(string: "https://naturenet-staging.firebaseio.com/observations.json?orderBy=%22$key%22&limitToFirst=4")
+//        
+//        var geoObservationData:NSData? = nil
+//        do {
+//            geoObservationData = try NSData(contentsOfURL: geoObservationUrl!, options: NSDataReadingOptions())
+//            //print(userData)
+//        }
+//        catch {
+//            print("Handle \(error) here")
+//        }
+//        
+//        
+//            if let data = geoObservationData {
+//                // Convert data to JSON here
+//                do{
+//                    let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+//                    
+//                    print(json.allKeys)
+//                    print(json.count)
+//                    
+//                    for i in 0 ..< json.count
+//                    {
+//                        //print(json.allKeys[i])
+//                        let obs = json.allKeys[i] as! String
+//                        let obsDictionary = json.objectForKey(obs) as! NSDictionary
+//                        print(obsDictionary)
+//                        
+//                        let activity_location = obsDictionary.objectForKey("activity_location") as! String
+//                        
+//                        print(activity_location)
+//                        print(projectIdFromProjectVC)
+//                        
+//                        if(activity_location != "")
+//                        {
+//                            if(activity_location == projectIdFromProjectVC)
+//                            {
+//                                print(obsDictionary)
+//                                print(obsDictionary.objectForKey("id"))
+//                                print(obsDictionary.objectForKey("activity_location"))
+//                                print(obsDictionary.objectForKey("created_at"))
+//                                print(obsDictionary.objectForKey("observer"))
+//                                let observationData = obsDictionary.objectForKey("data") as! NSDictionary
+//                                
+//                                print(observationData.objectForKey("image"))
+//                                
+//                                if(obsDictionary.objectForKey("comments") != nil)
+//                                {
+//                                    let commentsDictionary = obsDictionary.objectForKey("comments") as! NSDictionary
+//                                    print(commentsDictionary.allKeys)
+//                                    
+//                                    commentsKeysArray_projects = commentsDictionary.allKeys as NSArray
+//                                    print(commentsKeysArray_projects)
+//                                    
+//                                    commentsDictArray.addObject(commentsKeysArray_projects)
+//                                    
+//                                    print(commentsDictArray)
+//
+//                                    
+//                                    commentsKeysArray_projects = commentsDictionary.allKeys as NSArray
+//                                    print(commentsKeysArray_projects)
+//                                    
+//                                    commentsCountArray_projects.addObject("\(commentsKeysArray_projects.count)")
+//                                }
+//                                else
+//                                {
+//                                    commentsCountArray_projects.addObject("0")
+//                                    
+//                                    let tempcomments = NSArray()
+//                                    commentsDictArray.addObject(tempcomments)
+//                                }
+//
+//                                
+//                                if(obsDictionary.objectForKey("likes") != nil)
+//                                {
+//                                    let likesDictionary = obsDictionary.objectForKey("likes") as! NSDictionary
+//                                    print(likesDictionary.allValues)
+//                                    
+//                                    let likesArray = likesDictionary.allValues as NSArray
+//                                    print(likesArray)
+//                                    
+//                                    
+//                                    for l in 0 ..< likesArray.count
+//                                    {
+//                                        if(likesArray[l] as! NSObject == 1)
+//                                        {
+//                                            likesCount_projects += 1
+//                                        }
+//                                    }
+//                                    print(likesCount_projects)
+//                                    
+//                                    
+//                                    likesCountArray_projects.addObject("\(likesCount_projects)")
+//                                    
+//                                    
+//                                }
+//                                else
+//                                {
+//                                    likesCountArray_projects.addObject("0")
+//                                }
+//                                
+//                                if(obsDictionary.objectForKey("id") != nil)
+//                                {
+//                                    let obsId = obsDictionary.objectForKey("id") as! String
+//                                    obsIdsArray.addObject(obsId)
+//                                }
+//                                
+//                                if(observationData.objectForKey("image") != nil)
+//                                {
+//                                    let observationUrlString = observationData.objectForKey("image") as! String
+//                                    let newobservationUrlString = observationUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//                                    let observationAvatarUrl  = NSURL(string: newobservationUrlString )
+//                                    //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
+//                                if(UIApplication.sharedApplication().canOpenURL(observationAvatarUrl!) == true)
+//                                    {
+//                                        observationsImagesArray.addObject(newobservationUrlString)
+//                                    }
+//                                    else
+//                                    {
+//                                        let tempImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")
+//                                        observationsImagesArray.addObject((tempImageUrl?.absoluteString)!)
+//                                    }
+//                                }
+//                                else
+//                                {
+//                                    let tempImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")
+//                                    observationsImagesArray.addObject((tempImageUrl?.absoluteString)!)
+//                                }
+//                                if(observationData.objectForKey("text") != nil)
+//                                {
+//                                    observationsTextArray.addObject(observationData.objectForKey("text")!)
+//                                }
+//                                else
+//                                {
+//                                    observationsTextArray.addObject("")
+//                                }
+//                                print(observationData.objectForKey("text"))
+//                                
+//                                let obdId = obsDictionary.objectForKey("observer") as! String
+//                                let url = NSURL(string: USERS_URL+"\(obdId).json")
+//                                var userData:NSData? = nil
+//                                do {
+//                                    userData = try NSData(contentsOfURL: url!, options: NSDataReadingOptions())
+//                                    print(userData)
+//                                }
+//                                catch {
+//                                    print("Handle \(error) here")
+//                                }
+//                                
+//                                if let observerdata = userData {
+//                                    // Convert data to JSON here
+//                                    do{
+//                                        let observerjson: NSDictionary = try NSJSONSerialization.JSONObjectWithData(observerdata, options: NSJSONReadingOptions()) as! NSDictionary
+//                                        print(observerjson)
+//                                        
+//                                        //print(observerData.objectForKey("affiliation"))
+//                                        //print(observerData.objectForKey("display_name"))
+//                                        //print(observerData)
+//                                        if((observerjson.objectForKey("affiliation")) != nil)
+//                                        {
+//                                            let observerAffiliationString = observerjson.objectForKey("affiliation") as! String
+//                                            observersAffiliationsArray_proj.addObject(observerAffiliationString)
+//                                            //observerAffiliationsArray.addObject(observerAffiliationString)
+//                                            print(observerAffiliationString)
+//                                        }
+//                                        else
+//                                        {
+//                                            observersAffiliationsArray_proj.addObject("")
+//                                        }
+//                                        
+//                                        if((observerjson.objectForKey("display_name")) != nil)
+//                                        {
+//                                            let observerDisplayNameString = observerjson.objectForKey("display_name") as! String
+//                                            observersNamesArray_proj.addObject(observerDisplayNameString)
+//                                            //observerNamesArray.addObject(observerDisplayNameString)
+//                                        }
+//                                        else
+//                                        {
+//                                            observersNamesArray_proj.addObject("")
+//                                        }
+//                                        
+//                                        //print(observerAffiliation)
+//                                        //print(observerDisplayName)
+//                                        if((observerjson.objectForKey("avatar")) != nil)
+//                                        {
+//                                            let avatarUrlString = observerjson.objectForKey("avatar") as! String
+//                                            let newavatarUrlString = avatarUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//                                            
+//                                            let observerAvatar = newavatarUrlString
+//                                            let observerAvatarUrl  = NSURL(string: observerAvatar )
+//                                            //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
+//                                            if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
+//                                            {
+//                                                observersAvatarArray_proj.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
+//                                                //observerAvatarsArray.addObject(observerAvatar!)
+//                                                //self.observerAvatarUrlString = observerAvatar as! String
+//                                                observersAvatarUrls_proj.addObject(observerAvatar)
+//                                            }
+//                                            else
+//                                            {
+//                                                let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+//                                                observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+//                                                observersAvatarUrls_proj.addObject((tempImageUrl?.absoluteString)!)
+//                                            }
+//                                            
+//                                        }
+//                                        else
+//                                        {
+//                                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+//                                            observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+//                                            observersAvatarUrls_proj.addObject((tempImageUrl?.absoluteString)!)
+//                                            
+//                                        }
+//                                        
+//                                        
+//                                        
+//                                    }catch let error as NSError {
+//                                        print("json error: \(error.localizedDescription)")
+//                                        let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+//                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                                        self.presentViewController(alert, animated: true, completion: nil)
+//                                    }
+//                                    
+//                                }
+//
+//                                
+//                            }
+//                        }
+//                    }
+//                }
+//                    
+//                catch let error as NSError {
+//                    print("json error: \(error.localizedDescription)")
+//                    let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+//                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                    self.presentViewController(alert, animated: true, completion: nil)
+//                }
+//            }
 
             
-        if(observationsImagesArray.count == 0)
+        
+        
+        
+    }
+    
+    func showHideRecentContributionsLabel()
+    {
+        if(self.observersNamesArray_proj.count == 0)
         {
-            recentContributionLabel.text = "No Recent Contributions"
-            recentContributionLabel.textAlignment = NSTextAlignment.Center
-            recentContributionLabel.textColor = UIColor.redColor()
+            self.recentContributionLabel.text = "No Recent Contributions"
+            self.recentContributionLabel.textAlignment = NSTextAlignment.Center
+            self.recentContributionLabel.textColor = UIColor.redColor()
         }
-        
-        
+        else
+        {
+            self.recentContributionLabel.text = "Recent Contributions"
+            self.recentContributionLabel.textAlignment = NSTextAlignment.Left
+            self.recentContributionLabel.textColor = UIColor.blackColor()
+        }
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -560,7 +582,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return observationsImagesArray.count
+        return observersNamesArray_proj.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -570,13 +592,16 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         cell.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.layer.borderWidth = 1.0
         
-        if let projectObservationImageUrl  = NSURL(string: observationsImagesArray[indexPath.row] as! String),
-            projectObservationImageData = NSData(contentsOfURL: projectObservationImageUrl)
+        if let projectObservationImageUrl  = NSURL(string: observationsImagesArray[indexPath.row] as! String)
+            //projectObservationImageData = NSData(contentsOfURL: projectObservationImageUrl)
         {
-            cell.observationProjectImageView.image = UIImage(data: projectObservationImageData)
+            //cell.observationProjectImageView.image = UIImage(data: projectObservationImageData)
+            cell.observationProjectImageView.kf_setImageWithURL(projectObservationImageUrl, placeholderImage: UIImage(named: "default-no-image.png"))
         }
         
-        cell.observerAvatarImageView.image = UIImage(data:observersAvatarArray_proj[indexPath.row] as! NSData)
+        //cell.observerAvatarImageView.image = UIImage(data:observersAvatarArray_proj[indexPath.row] as! NSData)
+        cell.observerAvatarImageView.kf_setImageWithURL(NSURL.fileURLWithPath((observersAvatarUrls_proj[indexPath.row] as? String)!), placeholderImage: UIImage(named: "user.png"))
+        
         cell.observerNameLabel.text = observersNamesArray_proj[indexPath.row] as? String
         cell.observerAffiliationLabel.text = observersAffiliationsArray_proj [indexPath.row] as? String
         
