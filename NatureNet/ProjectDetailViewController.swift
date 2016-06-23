@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import Kingfisher
 
 class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
@@ -43,16 +45,21 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
     
     var obsIdsArray : NSMutableArray = []
     
+    var projectObservationsNumber : Int = 4
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.navigationItem.title=projectTitle
         
+        print(projectIcon)
+        
         if let projectIconUrl  = NSURL(string: projectIcon),
             projectIconData = NSData(contentsOfURL: projectIconUrl)
         {
             projectIconImageView.image = UIImage(data: projectIconData)
+            //projectIconImageView?.kf_setImageWithURL(projectIconUrl, placeholderImage: UIImage(named: "project.png"))
         }
         
         projectTitleLabel.text = projectTitle
@@ -84,6 +91,220 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         projectsCollectionView!.decelerationRate = UIScrollViewDecelerationRateFast
         
         //let geoObservationUrl = NSURL(string: OBSERVATIONS_URL)
+        
+        let geoObservationsRootRef = Firebase(url:"https://naturenet.firebaseio.com/observations")
+        //geoObservationsRootRef.queryLimitedToLast(4)
+        //geoObservationsRootRef.queryOrderedByChild("updated_at")
+        
+        geoObservationsRootRef.queryOrderedByChild("updated_at").queryLimitedToLast(UInt(projectObservationsNumber)).observeEventType(.Value, withBlock: { snapshot in
+            
+            print(geoObservationsRootRef)
+            print(snapshot.value.count)
+            
+            if !(snapshot.value is NSNull)
+            {
+                for i in 0 ..< snapshot.value.count
+                {
+                    
+                        //print(json.allKeys[i])
+                        let obs = snapshot.value.allKeys[i] as! String
+                        let obsDictionary = snapshot.value.objectForKey(obs) as! NSDictionary
+                        print(obsDictionary)
+                        
+                        let activity_location = obsDictionary.objectForKey("activity_location") as! String
+                        
+                        print(activity_location)
+                        print(self.projectIdFromProjectVC)
+                        
+                        if(activity_location != "")
+                        {
+                            if(activity_location == self.projectIdFromProjectVC)
+                            {
+                                print(obsDictionary)
+                                print(obsDictionary.objectForKey("id"))
+                                print(obsDictionary.objectForKey("activity_location"))
+                                print(obsDictionary.objectForKey("created_at"))
+                                print(obsDictionary.objectForKey("observer"))
+                                let observationData = obsDictionary.objectForKey("data") as! NSDictionary
+                                
+                                print(observationData.objectForKey("image"))
+                                
+                                if(obsDictionary.objectForKey("comments") != nil)
+                                {
+                                    let commentsDictionary = obsDictionary.objectForKey("comments") as! NSDictionary
+                                    print(commentsDictionary.allKeys)
+                                    
+                                    self.commentsKeysArray_projects = commentsDictionary.allKeys as NSArray
+                                    print(self.commentsKeysArray_projects)
+                                    
+                                    self.commentsDictArray.addObject(self.commentsKeysArray_projects)
+                                    
+                                    print(self.commentsDictArray)
+                                    
+                                    
+                                    self.commentsKeysArray_projects = commentsDictionary.allKeys as NSArray
+                                    print(self.commentsKeysArray_projects)
+                                    
+                                    self.commentsCountArray_projects.addObject("\(self.commentsKeysArray_projects.count)")
+                                }
+                                else
+                                {
+                                    self.commentsCountArray_projects.addObject("0")
+                                    
+                                    let tempcomments = NSArray()
+                                    self.commentsDictArray.addObject(tempcomments)
+                                }
+                                
+                                
+                                if(obsDictionary.objectForKey("likes") != nil)
+                                {
+                                    let likesDictionary = obsDictionary.objectForKey("likes") as! NSDictionary
+                                    print(likesDictionary.allValues)
+                                    
+                                    let likesArray = likesDictionary.allValues as NSArray
+                                    print(likesArray)
+                                    
+                                    
+                                    for l in 0 ..< likesArray.count
+                                    {
+                                        if(likesArray[l] as! NSObject == 1)
+                                        {
+                                            self.likesCount_projects += 1
+                                        }
+                                    }
+                                    print(self.likesCount_projects)
+                                    
+                                    
+                                    self.likesCountArray_projects.addObject("\(self.likesCount_projects)")
+                                    
+                                    
+                                }
+                                else
+                                {
+                                    self.likesCountArray_projects.addObject("0")
+                                }
+                                
+                                if(obsDictionary.objectForKey("id") != nil)
+                                {
+                                    let obsId = obsDictionary.objectForKey("id") as! String
+                                    self.obsIdsArray.addObject(obsId)
+                                }
+                                
+                                if(observationData.objectForKey("image") != nil)
+                                {
+                                    let observationUrlString = observationData.objectForKey("image") as! String
+                                    let newobservationUrlString = observationUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                                    let observationAvatarUrl  = NSURL(string: newobservationUrlString )
+                                    //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
+                                    if(UIApplication.sharedApplication().canOpenURL(observationAvatarUrl!) == true)
+                                    {
+                                        self.observationsImagesArray.addObject(newobservationUrlString)
+                                    }
+                                    else
+                                    {
+                                        let tempImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")
+                                        self.observationsImagesArray.addObject((tempImageUrl?.absoluteString)!)
+                                    }
+                                }
+                                else
+                                {
+                                    let tempImageUrl = NSBundle.mainBundle().URLForResource("default-no-image", withExtension: "png")
+                                    self.observationsImagesArray.addObject((tempImageUrl?.absoluteString)!)
+                                }
+                                if(observationData.objectForKey("text") != nil)
+                                {
+                                    self.observationsTextArray.addObject(observationData.objectForKey("text")!)
+                                }
+                                else
+                                {
+                                    self.observationsTextArray.addObject("")
+                                }
+                                print(observationData.objectForKey("text"))
+                                
+                                let obdId = obsDictionary.objectForKey("observer") as! String
+                                
+                                let usersRootRef = Firebase(url:USERS_URL+obdId)
+                                usersRootRef.observeEventType(.Value, withBlock: { snapshot in
+                                    
+                                    print(usersRootRef)
+                                    print(snapshot.value)
+                                    
+                                    if !(snapshot.value is NSNull)
+                                    {
+                                        
+                                            if((snapshot.value.objectForKey("affiliation")) != nil)
+                                            {
+                                                let observerAffiliationString = snapshot.value.objectForKey("affiliation") as! String
+                                                self.observersAffiliationsArray_proj.addObject(observerAffiliationString)
+                                                //observerAffiliationsArray.addObject(observerAffiliationString)
+                                                print(observerAffiliationString)
+                                            }
+                                            else
+                                            {
+                                                self.observersAffiliationsArray_proj.addObject("")
+                                            }
+                                            
+                                            if((snapshot.value.objectForKey("display_name")) != nil)
+                                            {
+                                                let observerDisplayNameString = snapshot.value.objectForKey("display_name") as! String
+                                                self.observersNamesArray_proj.addObject(observerDisplayNameString)
+                                                //observerNamesArray.addObject(observerDisplayNameString)
+                                            }
+                                            else
+                                            {
+                                                self.observersNamesArray_proj.addObject("")
+                                            }
+                                            
+                                            //print(observerAffiliation)
+                                            //print(observerDisplayName)
+                                            if((snapshot.value.objectForKey("avatar")) != nil)
+                                            {
+                                                let avatarUrlString = snapshot.value.objectForKey("avatar") as! String
+                                                let newavatarUrlString = avatarUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                                                
+                                                let observerAvatar = newavatarUrlString
+                                                let observerAvatarUrl  = NSURL(string: observerAvatar )
+                                                //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
+                                                if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
+                                                {
+                                                    self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
+                                                    //observerAvatarsArray.addObject(observerAvatar!)
+                                                    //self.observerAvatarUrlString = observerAvatar as! String
+                                                    self.observersAvatarUrls_proj.addObject(observerAvatar)
+                                                }
+                                                else
+                                                {
+                                                    let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                                                    self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                                                    self.observersAvatarUrls_proj.addObject((tempImageUrl?.absoluteString)!)
+                                                }
+                                                
+                                            }
+                                            else
+                                            {
+                                                let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                                                self.observersAvatarArray_proj.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                                                self.observersAvatarUrls_proj.addObject((tempImageUrl?.absoluteString)!)
+                                                
+                                            }
+                                        }
+                                    
+                                    }, withCancelBlock: { error in
+                                        print(error.description)
+                                })
+                                
+                                
+                                
+                            }
+                    }
+                }
+            }
+            
+            
+            }, withCancelBlock: { error in
+                print(error.description)
+        })
+
         
         let geoObservationUrl = NSURL(string: "https://naturenet-staging.firebaseio.com/observations.json?orderBy=%22$key%22&limitToFirst=4")
         

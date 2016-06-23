@@ -133,47 +133,77 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         joinScrollView.userInteractionEnabled = true
         
-        let sitesUrl = NSURL(string: FIREBASE_URL + "sites.json")
-        
-        var sitesData:NSData? = nil
-        do {
-            sitesData = try NSData(contentsOfURL: sitesUrl!, options: NSDataReadingOptions())
-            //print(userData)
-        }
-        catch {
-            print("Handle \(error) here")
-        }
-        
-        if let data = sitesData {
-            // Convert data to JSON here
-            do{
-                let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                
-                print(json)
-                
-                for i in 0 ..< json.count
+        let sitesRootRef = Firebase(url:FIREBASE_URL + "sites")
+        sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+            
+            print(sitesRootRef)
+            print(snapshot.value.count)
+            
+            if !(snapshot.value is NSNull)
+            {
+                for i in 0 ..< snapshot.value.count
                 {
                     //print(i)
-                    let sites = json.allValues[i] as! NSDictionary
+                    let sites = snapshot.value.allValues[i] as! NSDictionary
                     print(sites.objectForKey("name"))
                     if(sites.objectForKey("name") != nil)
                     {
-                        sitesArray.addObject(sites.objectForKey("name")!)
+                        self.sitesArray.addObject(sites.objectForKey("name")!)
                     }
                     if(sites.objectForKey("id") != nil)
                     {
-                        sitesIdsArray.addObject(sites.objectForKey("id")!)
+                        self.sitesIdsArray.addObject(sites.objectForKey("id")!)
                     }
-                    
+
                 }
+                self.affiliationPickerView.reloadAllComponents()
+                
             }
-            catch let error as NSError {
-                print("json error: \(error.localizedDescription)")
-                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-            }
-        }
+            }, withCancelBlock: { error in
+                print(error.description)
+        })
+        
+//        let sitesUrl = NSURL(string: FIREBASE_URL + "sites.json")
+//        
+//        var sitesData:NSData? = nil
+//        do {
+//            sitesData = try NSData(contentsOfURL: sitesUrl!, options: NSDataReadingOptions())
+//            //print(userData)
+//        }
+//        catch {
+//            print("Handle \(error) here")
+//        }
+//        
+//        if let data = sitesData {
+//            // Convert data to JSON here
+//            do{
+//                let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+//                
+//                print(json)
+//                
+//                for i in 0 ..< json.count
+//                {
+//                    //print(i)
+//                    let sites = json.allValues[i] as! NSDictionary
+//                    print(sites.objectForKey("name"))
+//                    if(sites.objectForKey("name") != nil)
+//                    {
+//                        sitesArray.addObject(sites.objectForKey("name")!)
+//                    }
+//                    if(sites.objectForKey("id") != nil)
+//                    {
+//                        sitesIdsArray.addObject(sites.objectForKey("id")!)
+//                    }
+//                    
+//                }
+//            }
+//            catch let error as NSError {
+//                print("json error: \(error.localizedDescription)")
+//                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                self.presentViewController(alert, animated: true, completion: nil)
+//            }
+//        }
         
         //self.view.addSubview(affiliationPickerView)
         

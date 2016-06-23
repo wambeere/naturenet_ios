@@ -24,13 +24,14 @@ import Firebase
 //let COMMENTS_URL = "https://naturenet-staging.firebaseio.com/comments/"
 
 let OBSERVATIONS_URL = "https://naturenet.firebaseio.com/observations.json?orderBy=%22updated_at%22&limitToLast=4"
+let ALL_OBSERVATIONS_URL = "https://naturenet.firebaseio.com/observations/"
 let USERS_URL = "https://naturenet.firebaseio.com/users/"
 let FIREBASE_URL = "https://naturenet.firebaseio.com/"
 let POST_OBSERVATION_URL = "https://naturenet.firebaseio.com/observations/"
 let POST_IDEAS_URL = "https://naturenet.firebaseio.com/ideas/"
 var OBSERVATION_IMAGE_UPLOAD_URL = ""
 let DESIGN_URL = "https://naturenet.firebaseio.com/ideas.json?orderBy=%22updated_at%22&limitToLast=10"
-let COMMENTS_URL = "https://naturenet-staging.firebaseio.com/comments/"
+let COMMENTS_URL = "https://naturenet.firebaseio.com/comments/"
 
 class ConnectionManager{
     

@@ -25,7 +25,7 @@
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTr-hh-jg0">
                     <rect key="frame" x="8" y="68" width="359" height="140"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Npr-Rp-qIn">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="project.png" translatesAutoresizingMaskIntoConstraints="NO" id="Npr-Rp-qIn">
                             <rect key="frame" x="8" y="8" width="44" height="44"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ngd-ye-XnG">
@@ -76,5 +76,6 @@
     </objects>
     <resources>
         <image name="completed.png" width="512" height="512"/>
+        <image name="project.png" width="512" height="512"/>
     </resources>
 </document>

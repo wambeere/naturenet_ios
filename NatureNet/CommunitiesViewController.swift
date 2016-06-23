@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import Firebase
 
 class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource{
 
@@ -51,53 +52,39 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
         
         peopleTable.registerNib(UINib(nibName: "CommunitiesTableViewCell", bundle: nil), forCellReuseIdentifier: "communityCell")
     
-        
-        
-        let usersUrl = NSURL(string: FIREBASE_URL+"users.json")
-        
-        
-        var userData:NSData? = nil
-        do {
-            userData = try NSData(contentsOfURL: usersUrl!, options: NSDataReadingOptions())
-            //print(userData)
-        }
-        catch {
-            print("Handle \(error) here")
-        }
-        
-        if let data = userData {
-            // Convert data to JSON here
-            do{
-                let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                
-                print(json)
-                
-                for i in 0 ..< json.count
+        let communitiesRootRef = Firebase(url:FIREBASE_URL+"users")
+        communitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
+            
+            print(communitiesRootRef)
+            print(snapshot.value.count)
+            
+            if !(snapshot.value is NSNull)
+            {
+                for i in 0 ..< snapshot.value.count
                 {
-             
                     //print(json.allValues[i])
-                    let userJsonData = json.allValues[i] as! NSDictionary
+                    let userJsonData = snapshot.value.allValues[i] as! NSDictionary
                     print(userJsonData)
-                    usersCount = json.count
-                    peopleCountLabel.text = "People" + "(" + "\(usersCount)" + ")"
+                    self.usersCount = snapshot.value.count
+                    self.peopleCountLabel.text = "People" + "(" + "\(self.usersCount)" + ")"
                     
                     if(userJsonData.objectForKey("display_name") != nil)
                     {
                         let dn = userJsonData.objectForKey("display_name") as? String
-                        userDisplayNamesArray.addObject(dn!)
+                        self.userDisplayNamesArray.addObject(dn!)
                     }
                     else
                     {
-                        userDisplayNamesArray.addObject("NO Display Name")
+                        self.userDisplayNamesArray.addObject("NO Display Name")
                     }
                     if(userJsonData.objectForKey("affiliation") != nil)
                     {
                         let aff = userJsonData.objectForKey("affiliation") as? String
-                        userAffiliationsArray.addObject(aff!)
+                        self.userAffiliationsArray.addObject(aff!)
                     }
                     else
                     {
-                        userAffiliationsArray.addObject("NO Affiliation")
+                        self.userAffiliationsArray.addObject("NO Affiliation")
                     }
                     if(userJsonData.objectForKey("avatar") != nil)
                     {
@@ -105,23 +92,91 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
                         //print(avatarUrlString)
                         //let newavatarUrlString = avatarUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
                         let av = userJsonData.objectForKey("avatar") as! String
-                        userAvatarURLSArray.addObject(av)
+                        self.userAvatarURLSArray.addObject(av)
                     }
                     else
                     {
-                        userAvatarURLSArray.addObject(NSBundle.mainBundle().URLForResource("user", withExtension: "png")!.absoluteString)
+                        self.userAvatarURLSArray.addObject(NSBundle.mainBundle().URLForResource("user", withExtension: "png")!.absoluteString)
                     }
-                }
-            }
-            
-            catch let error as NSError {
-                print("json error: \(error.localizedDescription)")
-                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-            }
 
-        }
+                }
+                self.peopleTable.reloadData()
+            }
+        }, withCancelBlock: { error in
+            print(error.description)
+        })
+    
+
+    
+//        let usersUrl = NSURL(string: FIREBASE_URL+"users.json")
+//        
+//        
+//        var userData:NSData? = nil
+//        do {
+//            userData = try NSData(contentsOfURL: usersUrl!, options: NSDataReadingOptions())
+//            //print(userData)
+//        }
+//        catch {
+//            print("Handle \(error) here")
+//        }
+//        
+//        if let data = userData {
+//            // Convert data to JSON here
+//            do{
+//                let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+//                
+//                print(json)
+//                
+//                for i in 0 ..< json.count
+//                {
+//             
+//                    //print(json.allValues[i])
+//                    let userJsonData = json.allValues[i] as! NSDictionary
+//                    print(userJsonData)
+//                    usersCount = json.count
+//                    peopleCountLabel.text = "People" + "(" + "\(usersCount)" + ")"
+//                    
+//                    if(userJsonData.objectForKey("display_name") != nil)
+//                    {
+//                        let dn = userJsonData.objectForKey("display_name") as? String
+//                        userDisplayNamesArray.addObject(dn!)
+//                    }
+//                    else
+//                    {
+//                        userDisplayNamesArray.addObject("NO Display Name")
+//                    }
+//                    if(userJsonData.objectForKey("affiliation") != nil)
+//                    {
+//                        let aff = userJsonData.objectForKey("affiliation") as? String
+//                        userAffiliationsArray.addObject(aff!)
+//                    }
+//                    else
+//                    {
+//                        userAffiliationsArray.addObject("NO Affiliation")
+//                    }
+//                    if(userJsonData.objectForKey("avatar") != nil)
+//                    {
+//                        //let avatarUrlString = userJsonData.objectForKey("avatar") as! String
+//                        //print(avatarUrlString)
+//                        //let newavatarUrlString = avatarUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//                        let av = userJsonData.objectForKey("avatar") as! String
+//                        userAvatarURLSArray.addObject(av)
+//                    }
+//                    else
+//                    {
+//                        userAvatarURLSArray.addObject(NSBundle.mainBundle().URLForResource("user", withExtension: "png")!.absoluteString)
+//                    }
+//                }
+//            }
+//            
+//            catch let error as NSError {
+//                print("json error: \(error.localizedDescription)")
+//                let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                self.presentViewController(alert, animated: true, completion: nil)
+//            }
+//
+//        }
         
         
         newObsAndDIView_communities.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView_communities.view.frame.size.height-8, newObsAndDIView_communities.view.frame.size.width, newObsAndDIView_communities.view.frame.size.height)

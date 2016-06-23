@@ -109,7 +109,9 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8BT-RR-BAC">
                             <rect key="frame" x="101" y="105" width="30" height="30"/>
-                            <state key="normal" backgroundImage="like.png"/>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <state key="normal" backgroundImage="4-6 like-grey.png"/>
+                            <state key="selected" backgroundImage="like.png"/>
                             <connections>
                                 <action selector="likesButtonClicked:" destination="-1" eventType="touchUpInside" id="KTg-n5-Thr"/>
                             </connections>
@@ -181,6 +183,7 @@
         </view>
     </objects>
     <resources>
+        <image name="4-6 like-grey.png" width="512" height="512"/>
         <image name="comment.png" width="512" height="512"/>
         <image name="default-no-image.png" width="1490" height="1080"/>
         <image name="like.png" width="512" height="512"/>

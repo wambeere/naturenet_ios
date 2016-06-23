@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
@@ -23,6 +24,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     var observerNamesArray : NSMutableArray = []
     var observerAffiliationsArray : NSMutableArray = []
     var observationTextArray : NSMutableArray = []
+    
+    var observationsCount : Int = 0
     
     let newObsAndDIViewtemp = NewObsAndDIViewController()
 
@@ -72,95 +75,171 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         collectionView!.decelerationRate = UIScrollViewDecelerationRateFast
         
         self.view.addSubview(collectionView)
+        print(observationIdsfromMapView)
+        print(observationIdsfromMapView.count)
+        print(observerIdsfromMapView)
+        print(observerIdsfromMapView.count)
         
         for i in 0 ..< observerIdsfromMapView.count
         {
-            let url = NSURL(string: USERS_URL+"\(observerIdsfromMapView[i]).json")
-            var userData:NSData? = nil
-            do {
-                userData = try NSData(contentsOfURL: url!, options: NSDataReadingOptions())
-                print(userData)
-            }
-            catch {
-                print("Handle \(error) here")
-            }
-            
-            if let data = userData {
-                // Convert data to JSON here
-                do{
-                    let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                    print(json)
+            let usersRootRef = Firebase(url:USERS_URL+"\(observerIdsfromMapView[i])")
+            usersRootRef.observeEventType(.Value, withBlock: { snapshot in
+                
+                print(usersRootRef)
+                //print(snapshot.value.count)
+                
+                if !(snapshot.value is NSNull)
+                {
+                    if((snapshot.value.objectForKey("affiliation")) != nil)
+                    {
+                        let observerAffiliationString = snapshot.value.objectForKey("affiliation") as! String
                         
-                        //print(observerData.objectForKey("affiliation"))
-                        //print(observerData.objectForKey("display_name"))
-                        //print(observerData)
-                        if((json.objectForKey("affiliation")) != nil)
+                        self.observerAffiliationsArray.addObject(observerAffiliationString)
+                    }
+                    else
+                    {
+                        self.observerAffiliationsArray.addObject("")
+                    }
+                    if((snapshot.value.objectForKey("display_name")) != nil)
+                    {
+                        let observerDisplayNameString = snapshot.value.objectForKey("display_name") as! String
+                        self.observerNamesArray.addObject(observerDisplayNameString)
+                    }
+                    else
+                    {
+                        self.observerNamesArray.addObject("")
+                    }
+                    
+                    
+                    
+                    
+                    //print(observerAffiliation)
+                    //print(observerDisplayName)
+                    if((snapshot.value.objectForKey("avatar")) != nil)
+                    {
+                        let observerAvatar = snapshot.value.objectForKey("avatar")
+                        print(observerAvatar)
+                        let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
+                        if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
                         {
-                            let observerAffiliationString = json.objectForKey("affiliation") as! String
-                            
-                            observerAffiliationsArray.addObject(observerAffiliationString)
-                        }
-                        else
-                        {
-                            observerAffiliationsArray.addObject("")
-                        }
-                        if((json.objectForKey("display_name")) != nil)
-                        {
-                            let observerDisplayNameString = json.objectForKey("display_name") as! String
-                            observerNamesArray.addObject(observerDisplayNameString)
-                        }
-                        else
-                        {
-                            observerNamesArray.addObject("")
-                        }
-                        
-                        
-                        
-                        
-                        //print(observerAffiliation)
-                        //print(observerDisplayName)
-                        if((json.objectForKey("avatar")) != nil)
-                        {
-                            let observerAvatar = json.objectForKey("avatar")
-                            print(observerAvatar)
-                            let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
-                            if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
-                            {
-                                observerAvatarsArray.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
-                                observerAvatarsUrlArray.addObject(observerAvatar!)
-                            }
-                            else
-                            {
-                                let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
-                                
-                                
-                                observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
-                                observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
-                            }
-                            //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
+                            self.observerAvatarsArray.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
+                            self.observerAvatarsUrlArray.addObject(observerAvatar!)
                         }
                         else
                         {
                             let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
                             
-                            observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
-                            observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
-                           
+                            
+                            self.observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                            self.observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
+                        }
+                        //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
                     }
-
+                    else
+                    {
+                        let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+                        
+                        self.observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+                        self.observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
+                        
+                    }
+                    self.observationsCount = self.observationIdsfromMapView.count
+                    print(self.observationsCount)
                     
                     
-                            
-                            
-                }catch let error as NSError {
-                    print("json error: \(error.localizedDescription)")
-                    let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
                 }
-                
-            }
+                self.collectionView.reloadData()
+                }, withCancelBlock: { error in
+                    print(error.description)
+            })
 
+            
+//            let url = NSURL(string: USERS_URL+"\(observerIdsfromMapView[i]).json")
+//            var userData:NSData? = nil
+//            do {
+//                userData = try NSData(contentsOfURL: url!, options: NSDataReadingOptions())
+//                print(userData)
+//            }
+//            catch {
+//                print("Handle \(error) here")
+//            }
+//            
+//            if let data = userData {
+//                // Convert data to JSON here
+//                do{
+//                    let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+//                    print(json)
+//                        
+//                        //print(observerData.objectForKey("affiliation"))
+//                        //print(observerData.objectForKey("display_name"))
+//                        //print(observerData)
+//                        if((json.objectForKey("affiliation")) != nil)
+//                        {
+//                            let observerAffiliationString = json.objectForKey("affiliation") as! String
+//                            
+//                            observerAffiliationsArray.addObject(observerAffiliationString)
+//                        }
+//                        else
+//                        {
+//                            observerAffiliationsArray.addObject("")
+//                        }
+//                        if((json.objectForKey("display_name")) != nil)
+//                        {
+//                            let observerDisplayNameString = json.objectForKey("display_name") as! String
+//                            observerNamesArray.addObject(observerDisplayNameString)
+//                        }
+//                        else
+//                        {
+//                            observerNamesArray.addObject("")
+//                        }
+//                        
+//                        
+//                        
+//                        
+//                        //print(observerAffiliation)
+//                        //print(observerDisplayName)
+//                        if((json.objectForKey("avatar")) != nil)
+//                        {
+//                            let observerAvatar = json.objectForKey("avatar")
+//                            print(observerAvatar)
+//                            let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
+//                            if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
+//                            {
+//                                observerAvatarsArray.addObject(NSData(contentsOfURL: observerAvatarUrl!)!)
+//                                observerAvatarsUrlArray.addObject(observerAvatar!)
+//                            }
+//                            else
+//                            {
+//                                let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+//                                
+//                                
+//                                observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+//                                observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
+//                            }
+//                            //let observerAvatarData = NSData(contentsOfURL: observerAvatarUrl!)
+//                        }
+//                        else
+//                        {
+//                            let tempImageUrl = NSBundle.mainBundle().URLForResource("user", withExtension: "png")
+//                            
+//                            observerAvatarsArray.addObject(NSData(contentsOfURL: tempImageUrl!)!)
+//                            observerAvatarsUrlArray.addObject((tempImageUrl?.absoluteString)!)
+//                           
+//                    }
+//
+//                    
+//                    
+//                            
+//                            
+//                }catch let error as NSError {
+//                    print("json error: \(error.localizedDescription)")
+//                    let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+//                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                    self.presentViewController(alert, animated: true, completion: nil)
+//                }
+//
+//            }
+            print(observationsCount)
         }
         print(observerAffiliationsArray)
         print(observerNamesArray)
@@ -205,7 +284,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return observerIdsfromMapView.count
+        return observerNamesArray.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
