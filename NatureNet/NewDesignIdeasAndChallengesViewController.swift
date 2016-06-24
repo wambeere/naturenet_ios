@@ -131,9 +131,9 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
         let password = userDefaults.objectForKey("password") as? String
         
         print(userID)
-        let refUser = Firebase(url: FIREBASE_URL)
-        refUser.authUser(email, password: password,
-                         withCompletionBlock: { error, authData in
+        let refUser = FIRAuth.auth()!
+        refUser.signInWithEmail(email!, password: password!,
+                         completion: { error, authData in
                             if error != nil {
                                 
                                 print("\(error)")
@@ -144,7 +144,7 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
                                 }
                                 else
                                 {
-                                    alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                    alert = UIAlertController(title: "Alert", message:error.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                                 }
 
                                 //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
@@ -169,12 +169,12 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
                             }
                             else
                             {
-                                let ref = Firebase(url: POST_IDEAS_URL)
+                                let ref = FIRDatabase.database().referenceWithPath("ideas")//(url: POST_IDEAS_URL)
                                 print(ref.childByAutoId())
                                 let autoID = ref.childByAutoId()
                                 //let id = autoID as String
                                 print(autoID.key)
-                                let designData = ["id": autoID.key as AnyObject,"content": self.textView.text as AnyObject,"group": self.design as AnyObject, "status": "Doing" ,"submitter": userID as AnyObject,"created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                let designData = ["id": autoID.key as AnyObject,"content": self.textView.text as AnyObject,"group": self.design as AnyObject, "status": "Doing" ,"submitter": userID as AnyObject,"created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
                                 autoID.setValue(designData)
                             }
                             

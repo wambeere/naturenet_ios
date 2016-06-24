@@ -52,20 +52,20 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
         
         peopleTable.registerNib(UINib(nibName: "CommunitiesTableViewCell", bundle: nil), forCellReuseIdentifier: "communityCell")
     
-        let communitiesRootRef = Firebase(url:FIREBASE_URL+"users")
+        let communitiesRootRef = FIRDatabase.database().referenceWithPath("users") //Firebase(url:FIREBASE_URL+"users")
         communitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
             
             print(communitiesRootRef)
-            print(snapshot.value.count)
+            //print(snapshot.value.count)
             
             if !(snapshot.value is NSNull)
             {
-                for i in 0 ..< snapshot.value.count
+                for i in 0 ..< snapshot.value!.count
                 {
                     //print(json.allValues[i])
-                    let userJsonData = snapshot.value.allValues[i] as! NSDictionary
+                    let userJsonData = snapshot.value!.allValues[i] as! NSDictionary
                     print(userJsonData)
-                    self.usersCount = snapshot.value.count
+                    self.usersCount = snapshot.value!.count
                     self.peopleCountLabel.text = "People" + "(" + "\(self.usersCount)" + ")"
                     
                     if(userJsonData.objectForKey("display_name") != nil)
@@ -82,7 +82,8 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
                         let aff = userJsonData.objectForKey("affiliation") as? String
                         
                         
-                        let sitesRootRef = Firebase(url:FIREBASE_URL + "sites/"+aff!)
+                        let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+aff!)
+                        //Firebase(url:FIREBASE_URL + "sites/"+aff!)
                         sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
                             
                             print(aff)
@@ -93,10 +94,10 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
                             {
                                 
                                 
-                                    print(snapshot.value.objectForKey("name"))
-                                    if(snapshot.value.objectForKey("name") != nil)
+                                    print(snapshot.value!.objectForKey("name"))
+                                    if(snapshot.value!.objectForKey("name") != nil)
                                     {
-                                        self.userAffiliationsArray.addObject(snapshot.value.objectForKey("name")!)
+                                        self.userAffiliationsArray.addObject(snapshot.value!.objectForKey("name")!)
                                     }
                                     
                                 

@@ -126,10 +126,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
             print(userDefaults.objectForKey("userAffiliation"))
             if let userAffiliation = userDefaults.objectForKey("userAffiliation"){
                 
-                let myRootRef = Firebase(url:SITES_URL+"\(userAffiliation)")
+                let myRootRef = FIRDatabase.database().referenceWithPath("sites/\(userAffiliation)")
+                //Firebase(url:SITES_URL+"\(userAffiliation)")
                 myRootRef.observeEventType(.Value, withBlock: { snapshot in
-                    print(snapshot.value["l"])
-                    let siteLocationArray = snapshot.value["l"] as! NSArray
+                    print(snapshot.value!["l"])
+                    let siteLocationArray = snapshot.value!["l"] as! NSArray
                     print(siteLocationArray[0])
                     print(siteLocationArray[1])
                     
@@ -288,7 +289,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     {
         
         
-        let observationsRootRef = Firebase(url:ALL_OBSERVATIONS_URL)
+        let observationsRootRef = FIRDatabase.database().referenceWithPath("observations")
+        //Firebase(url:ALL_OBSERVATIONS_URL)
         observationsRootRef.queryOrderedByChild("key").queryLimitedToLast(observationsLimit).observeEventType(.Value, withBlock: { snapshot in
             
             self.commentsDictArray.removeAllObjects()
@@ -303,13 +305,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
 
             
             print(observationsRootRef)
-            print(snapshot.value.count)
+            //print(snapshot.value!.count)
             
             if !(snapshot.value is NSNull)
             {
-                for i in 0 ..< snapshot.value.count
+                for i in 0 ..< snapshot.value!.count
                 {
-                    let observationData = snapshot.value.allValues[i] as! NSDictionary
+                    let observationData = snapshot.value!.allValues[i] as! NSDictionary
                     
                     
                     if(observationData.objectForKey("comments") != nil)
@@ -395,29 +397,31 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     {
                         let actloc = observationData.objectForKey("activity_location") as! String
                         
-                        let geoObservationsRootRef = Firebase(url:FIREBASE_URL + "geo/activities/\(actloc)")
+                        let geoObservationsRootRef = FIRDatabase.database().referenceWithPath("geo/activities/\(actloc)")
+                        //Firebase(url:FIREBASE_URL + "geo/activities/\(actloc)")
                         geoObservationsRootRef.observeEventType(.Value, withBlock: { snapshot in
                             
                             print(geoObservationsRootRef)
-                            print(snapshot.value.count)
+                            //print(snapshot.value!.count)
                             
                             if !(snapshot.value is NSNull)
                             {
-                                let geoActivity = snapshot.value.objectForKey("activity") as! String
+                                let geoActivity = snapshot.value!.objectForKey("activity") as! String
                                 
-                                let activitiesRootRef = Firebase(url:FIREBASE_URL + "activities")
+                                let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities")
+                                //Firebase(url:FIREBASE_URL + "activities")
                                 activitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
                                     
                                     print(activitiesRootRef)
-                                    print(snapshot.value.count)
+                                    print(snapshot.value!.count)
                                     
                                     if !(snapshot.value is NSNull)
                                     {
-                                        for j in 0 ..< snapshot.value.count
+                                        for j in 0 ..< snapshot.value!.count
                                         {
                                             
-                                            let activity = snapshot.value.allKeys[j] as! String
-                                            let activityDictionary = snapshot.value.objectForKey(activity) as! NSDictionary
+                                            let activity = snapshot.value!.allKeys[j] as! String
+                                            let activityDictionary = snapshot.value!.objectForKey(activity) as! NSDictionary
                                             //print(activityDictionary.objectForKey("name"))
                                             if(activityDictionary.objectForKey("name") != nil && actloc != "")
                                             {
@@ -998,18 +1002,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                 //                }
                 
                 
-                let usersRootRef = Firebase(url:USERS_URL+"\(self.observerIds[view.tag])")
+                let usersRootRef = FIRDatabase.database().referenceWithPath("\(self.observerIds[view.tag])")
+                //Firebase(url:USERS_URL+"\(self.observerIds[view.tag])")
                 usersRootRef.observeEventType(.Value, withBlock: { snapshot in
                     
                     print(usersRootRef)
-                    print(snapshot.value.count)
+                    print(snapshot.value!.count)
                     
                     if !(snapshot.value is NSNull)
                     {
                         
-                        if((snapshot.value.objectForKey("affiliation")) != nil)
+                        if((snapshot.value!.objectForKey("affiliation")) != nil)
                         {
-                            let observerAffiliationString = snapshot.value.objectForKey("affiliation") as! String
+                            let observerAffiliationString = snapshot.value!.objectForKey("affiliation") as! String
                             self.observerAffiliation.text = observerAffiliationString
                             //observerAffiliationsArray.addObject(observerAffiliationString)
                             print(observerAffiliationString)
@@ -1019,9 +1024,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                             self.observerAffiliation.text = ""
                         }
                         
-                        if((snapshot.value.objectForKey("display_name")) != nil)
+                        if((snapshot.value!.objectForKey("display_name")) != nil)
                         {
-                            let observerDisplayNameString = snapshot.value.objectForKey("display_name") as! String
+                            let observerDisplayNameString = snapshot.value!.objectForKey("display_name") as! String
                             self.observerDisplayName.text = observerDisplayNameString
                             //observerNamesArray.addObject(observerDisplayNameString)
                         }
@@ -1032,9 +1037,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                         
                         //print(observerAffiliation)
                         //print(observerDisplayName)
-                        if((snapshot.value.objectForKey("avatar")) != nil)
+                        if((snapshot.value!.objectForKey("avatar")) != nil)
                         {
-                            let observerAvatar = snapshot.value.objectForKey("avatar")
+                            let observerAvatar = snapshot.value!.objectForKey("avatar")
                             if let observerAvatarUrl  = NSURL(string: observerAvatar as! String),
                                 observerAvatarData = NSData(contentsOfURL: observerAvatarUrl)
                             {

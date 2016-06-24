@@ -201,7 +201,7 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                 //print(userAffiliation)
                 //profileAffliationLabel.text = userAffiliation
                 
-                let sitesRootRef = Firebase(url:FIREBASE_URL + "sites/"+userAffiliation)
+                let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/" + userAffiliation) //.queryEqualToValue(userAffiliation)//(url:FIREBASE_URL + "sites/"+userAffiliation)
                 sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
                     
                     print(sitesRootRef)
@@ -211,10 +211,10 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                     {
                         
                         
-                        print(snapshot.value.objectForKey("name"))
-                        if(snapshot.value.objectForKey("name") != nil)
+                        print(snapshot.value!.objectForKey("name"))
+                        if(snapshot.value!.objectForKey("name") != nil)
                         {
-                            self.profileAffliationLabel.text = snapshot.value.objectForKey("name") as? String
+                            self.profileAffliationLabel.text = snapshot.value!.objectForKey("name") as? String
                         }
                         
                     }

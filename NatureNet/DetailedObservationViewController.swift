@@ -229,7 +229,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             //            commentsArray.addObject(comments.objectForKey("comment")!)
             //            commentersArray.addObject(comments.objectForKey("commenter")!)
             
-            let myRootRef = Firebase(url:COMMENTS_URL+"\(obsCommentsArray[j])")
+            let myRootRef = FIRDatabase.database().referenceWithPath("comments/\(obsCommentsArray[j])") //Firebase(url:COMMENTS_URL+"\(obsCommentsArray[j])")
             myRootRef.observeEventType(.Value, withBlock: { snapshot in
                 
                 print(myRootRef)
@@ -237,9 +237,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                 
                 if !(snapshot.value is NSNull)
                 {
-                    if(snapshot.value["comment"] != nil)
+                    if(snapshot.value!["comment"] != nil)
                     {
-                        self.commentsArray.addObject(snapshot.value["comment"] as! String)
+                        self.commentsArray.addObject(snapshot.value!["comment"] as! String)
                     }
                     else
                     {
@@ -248,7 +248,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                     
                     //if(snapshot.value["commenter"] != nil)
                     //{
-                    self.commentersArray.addObject(snapshot.value["commenter"] as! String)
+                    self.commentersArray.addObject(snapshot.value!["commenter"] as! String)
                     //                    }
                     //                    else
                     //                    {
@@ -271,11 +271,11 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     
     func getUpdatedComments()
     {
-        let observationRootRef = Firebase(url:ALL_OBSERVATIONS_URL + observationId)
+        let observationRootRef = FIRDatabase.database().referenceWithPath("observations/" + String(observationId)) //Firebase(url:ALL_OBSERVATIONS_URL + observationId)
         observationRootRef.observeEventType(.Value, withBlock: { snapshot in
             
             print(observationRootRef)
-            print(snapshot.value.count)
+            print(snapshot.value!.count)
             
             if !(snapshot.value is NSNull)
             {
@@ -283,9 +283,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                     //let observationData = snapshot.value.allValues[i] as! NSDictionary
                     
                     
-                    if(snapshot.value.objectForKey("comments") != nil)
+                    if(snapshot.value!.objectForKey("comments") != nil)
                     {
-                        let tempcomments = snapshot.value.objectForKey("comments") as! NSDictionary
+                        let tempcomments = snapshot.value!.objectForKey("comments") as! NSDictionary
                         print(tempcomments)
                         let commentsKeysArray = tempcomments.allKeys as NSArray
                         self.detailed_commentsDictArray.addObject(commentsKeysArray)
@@ -350,7 +350,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     }
     func getUpdatedlikestoDesignIdeas()
     {
-        let observationRootRef = Firebase(url:POST_IDEAS_URL + observationId)
+        let observationRootRef = FIRDatabase.database().referenceWithPath("ideas/" + String(observationId)) //Firebase(url:POST_IDEAS_URL + observationId)
         observationRootRef.observeEventType(.Value, withBlock: { snapshot in
             
             self.likesCount = 0
@@ -362,9 +362,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             if !(snapshot.value is NSNull)
             {
                 
-                if(snapshot.value.objectForKey("likes") != nil)
+                if(snapshot.value!.objectForKey("likes") != nil)
                 {
-                    let likesDictionary = snapshot.value.objectForKey("likes") as! NSDictionary
+                    let likesDictionary = snapshot.value!.objectForKey("likes") as! NSDictionary
                     print(likesDictionary.allValues)
                     
                     let likesArray = likesDictionary.allValues as NSArray
@@ -430,11 +430,11 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         //cell.commentorAvatarImageView.layer.cornerRadius = 20.0
         
         
-        let geoActivitiesRootRef = Firebase(url:USERS_URL+(self.commentersArray[indexPath.row] as! String))
+        let geoActivitiesRootRef = FIRDatabase.database().referenceWithPath("users/" + String(self.commentersArray[indexPath.row])) //Firebase(url:USERS_URL+(self.commentersArray[indexPath.row] as! String))
         geoActivitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
             
             print(geoActivitiesRootRef)
-            print(snapshot.value.count)
+            //print(snapshot.value!.count)
             
             if !(snapshot.value is NSNull)
             {
@@ -443,9 +443,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                 //print(observerData.objectForKey("affiliation"))
                 //print(observerData.objectForKey("display_name"))
                 //print(observerData)
-                if((snapshot.value.objectForKey("affiliation")) != nil)
+                if((snapshot.value!.objectForKey("affiliation")) != nil)
                 {
-                    let observerAffiliationString = snapshot.value.objectForKey("affiliation") as! String
+                    let observerAffiliationString = snapshot.value!.objectForKey("affiliation") as! String
                     cell.commentorDateLabel.text = observerAffiliationString
                     //observerAffiliationsArray.addObject(observerAffiliationString)
                     print(observerAffiliationString)
@@ -455,9 +455,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                     cell.commentorDateLabel.text = "No Affiliation"
                 }
                 
-                if((snapshot.value.objectForKey("display_name")) != nil)
+                if((snapshot.value!.objectForKey("display_name")) != nil)
                 {
-                    let observerDisplayNameString = snapshot.value.objectForKey("display_name") as! String
+                    let observerDisplayNameString = snapshot.value!.objectForKey("display_name") as! String
                     cell.commentorNameLabel.text = observerDisplayNameString
                     //observerNamesArray.addObject(observerDisplayNameString)
                 }
@@ -468,9 +468,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                 
                 //print(observerAffiliation)
                 //print(observerDisplayName)
-                if((snapshot.value.objectForKey("avatar")) != nil)
+                if((snapshot.value!.objectForKey("avatar")) != nil)
                 {
-                    let observerAvatar = snapshot.value.objectForKey("avatar")
+                    let observerAvatar = snapshot.value!.objectForKey("avatar")
                     let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
                     //if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)
                     //{
@@ -634,9 +634,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             print(email)
             print(password)
             
-            let refUser = Firebase(url: FIREBASE_URL)
-            refUser.authUser(email, password: password,
-                             withCompletionBlock: { error, authData in
+            let refUser = FIRAuth.auth()
+            refUser!.signInWithEmail(email!, password: password!,
+                             completion: { error, authData in
                                 if error != nil {
                                     
                                     print("\(error)")
@@ -648,7 +648,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                     }
                                     else
                                     {
-                                        alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                        alert = UIAlertController(title: "Alert", message:error.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                                     }
 
                                     
@@ -658,12 +658,12 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                 else
                                 {
                                     
-                                    let commentsRef = Firebase(url: COMMENTS_URL)
+                                    let commentsRef = FIRDatabase.database().referenceWithPath("comments/")
                                     let autoID = commentsRef.childByAutoId()
                                     
                                     print(autoID.key)
                                     
-                                    let commentData = ["id": autoID.key as AnyObject,"context": self.commentContext as AnyObject,"commenter": userID as AnyObject,"comment": self.commentTF.text as! AnyObject,"parent": self.observationId as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                    let commentData = ["id": autoID.key as AnyObject,"context": self.commentContext as AnyObject,"commenter": userID as AnyObject,"comment": self.commentTF.text as! AnyObject,"parent": self.observationId as AnyObject, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
                                     autoID.setValue(commentData)
                                     
                                     
@@ -688,22 +688,23 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
 //                                    let updatedAtChild = autoID.childByAppendingPath("updated_at")
 //                                    updatedAtChild.setValue(FirebaseServerValue.timestamp())
                                     
-                                    var ref = Firebase()
+                                    let ref = FIRDatabase.database()
                                     
                                     if(self.isfromDesignIdeasView == true)
                                     {
-                                        ref = Firebase(url: POST_IDEAS_URL+"\(self.observationId)/comments")
+                                        ref.referenceWithPath("ideas/\(self.observationId)/comments")
+                                        //Firebase(url: POST_IDEAS_URL+"\(self.observationId)/comments")
                                     }
                                     else
                                     {
-                                        ref = Firebase(url: POST_OBSERVATION_URL+"\(self.observationId)/comments")
+                                        ref.referenceWithPath("observations/\(self.observationId)/comments")
                                     }
                                     
                                     
                                     //print(ref.childByAutoId())
                                     //let autoID = ref.childByAutoId()
                                     //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
-                                    let commentidChild = ref.childByAppendingPath(autoID.key)
+                                    let commentidChild = ref.reference().child(autoID.key) //childByAppendingPath(autoID.key)
                                     commentidChild.setValue(true)
                                     
                                     
@@ -774,9 +775,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         print(userID)
         
-        let refUser = Firebase(url: FIREBASE_URL)
-        refUser.authUser(email, password: password,
-                         withCompletionBlock: { error, authData in
+        let refUser = FIRAuth.auth()
+        refUser!.signInWithEmail(email!, password: password!,
+                         completion: { error, authData in
                             if error != nil {
                                 
                                 print("\(error)")
@@ -787,7 +788,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                 }
                                 else
                                 {
-                                    alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                    alert = UIAlertController(title: "Alert", message:error.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                                 }
 
                                 //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
@@ -816,7 +817,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                 {
                                     print(POST_IDEAS_URL+"\(self.designID)/likes")
                                     
-                                    let ref = Firebase(url: POST_IDEAS_URL+"\(self.designID)/likes")
+                                    let ref = FIRDatabase.database().referenceWithPath("ideas/"+"\(self.designID)/likes")
+                                    //Firebase(url: POST_IDEAS_URL+"\(self.designID)/likes")
                                     //print(ref.childByAutoId())
                                     //let autoID = ref.childByAutoId()
                                     //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
@@ -869,9 +871,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         let email = userDefaults.objectForKey("email") as? String
         let password = userDefaults.objectForKey("password") as? String
         
-        let refUser = Firebase(url: FIREBASE_URL)
-        refUser.authUser(email, password: password,
-                         withCompletionBlock: { error, authData in
+        let refUser = FIRAuth.auth()
+        refUser!.signInWithEmail(email!, password: password!,
+                         completion: { error, authData in
                             if error != nil {
                                 
                                 print("\(error)")
@@ -883,7 +885,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                 }
                                 else
                                 {
-                                    alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                    alert = UIAlertController(title: "Alert", message:error.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                                 }
                                 
                                 //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
@@ -914,7 +916,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                 if(userID != "" )
                                 {
                                     
-                                    let ref = Firebase(url: POST_OBSERVATION_URL+"\(self.observationId)/likes")
+                                    let ref = FIRDatabase.database().referenceWithPath("observations/\(self.observationId)/likes") //Firebase(url: POST_OBSERVATION_URL+"\(self.observationId)/likes")
                                     //print(ref.childByAutoId())
                                     //let autoID = ref.childByAutoId()
                                     //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())

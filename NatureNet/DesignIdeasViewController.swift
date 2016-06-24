@@ -63,8 +63,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     var commentsDictArray_ideas : NSMutableArray = []
     var commentsDictArray_challenges : NSMutableArray = []
     
-    let ideasDataRoot = Firebase(url: FIREBASE_URL + "ideas")
-    let userDataRoot = Firebase(url: FIREBASE_URL + "users")
+    let ideasDataRoot = FIRDatabase.database().referenceWithPath("ideas") //Firebase(url: FIREBASE_URL + "ideas")
+    let userDataRoot = FIRDatabase.database().referenceWithPath("users") //Firebase(url: FIREBASE_URL + "users")
     let ideaNumber = 10
     
     let CHALLENGE = 0
@@ -241,9 +241,9 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             
             if !(snapshot.value is NSNull)
             {
-                for i in 0 ..< snapshot.value.count
+                for i in 0 ..< snapshot.value!.count
                 {
-                    let designData = snapshot.value.allValues[i] as! NSDictionary
+                    let designData = snapshot.value!.allValues[i] as! NSDictionary
                     
                     //print(i)
                     
@@ -294,9 +294,9 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             if !(snapshot.value is NSNull)
             {
                 print("not null")
-                for i in 0 ..< snapshot.value.count
+                for i in 0 ..< snapshot.value!.count
                 {
-                    let designData = snapshot.value.allValues[i] as! NSDictionary
+                    let designData = snapshot.value!.allValues[i] as! NSDictionary
                     
                     //print(i)
                     
@@ -506,7 +506,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             userDataRoot.queryOrderedByChild("id").queryEqualToValue(id).observeEventType(.Value, withBlock: { snapshot in
                 if !(snapshot.value is NSNull) {
                     
-                    let submitterInfo = snapshot.value.allValues[0]
+                    let submitterInfo = snapshot.value!.allValues[0]
                     
                     if((submitterInfo.objectForKey("affiliation")) != nil)
                     {
@@ -570,7 +570,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             userDataRoot.queryOrderedByChild("id").queryEqualToValue(id).observeEventType(.Value, withBlock: { snapshot in
                 if !(snapshot.value is NSNull) {
                     
-                    let submitterInfo = snapshot.value.allValues[0]
+                    let submitterInfo = snapshot.value!.allValues[0]
                     
                     if((submitterInfo.objectForKey("affiliation")) != nil)
                     {

@@ -76,17 +76,18 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         
         
-        let geoActivitiesRootRef = Firebase(url:FIREBASE_URL + "geo/activities")
+        let geoActivitiesRootRef = FIRDatabase.database().referenceWithPath("geo/activities/")
+        //Firebase(url:FIREBASE_URL + "geo/activities")
         geoActivitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
             
             print(geoActivitiesRootRef)
-            print(snapshot.value.count)
+            //print(snapshot.value!.count)
             
             if !(snapshot.value is NSNull)
             {
-                for i in 0 ..< snapshot.value.count
+                for i in 0 ..< snapshot.value!.count
                 {
-                    let geoActivities = snapshot.value.allValues[i] as! NSDictionary
+                    let geoActivities = snapshot.value!.allValues[i] as! NSDictionary
                     print(geoActivities)
                     let geoActivity = geoActivities.objectForKey("activity") as! String
                     let geoActivityId = geoActivities.objectForKey("id") as! String
@@ -101,7 +102,8 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                         self.projectGeoIds.addObject("")
                     }
                     
-                    let activitiesRootRef = Firebase(url:FIREBASE_URL + "activities")
+                    let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities/")
+                    //Firebase(url:FIREBASE_URL + "activities")
                     activitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
                         
                         print(activitiesRootRef)
@@ -109,12 +111,12 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                         
                         if !(snapshot.value is NSNull)
                         {
-                            for j in 0 ..< snapshot.value.count
+                            for j in 0 ..< snapshot.value!.count
                             {
                                 
                                 
-                                let activity = snapshot.value.allKeys[j] as! String
-                                let activityDictionary = snapshot.value.objectForKey(activity) as! NSDictionary
+                                let activity = snapshot.value!.allKeys[j] as! String
+                                let activityDictionary = snapshot.value!.objectForKey(activity) as! NSDictionary
                                 //print(activityDictionary.objectForKey("name"))
                                 if(activityDictionary.objectForKey("name") != nil && geoActivity != "")
                                 {

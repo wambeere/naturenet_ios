@@ -85,7 +85,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         
         for i in 0 ..< observerIdsfromMapView.count
         {
-            let usersRootRef = Firebase(url:USERS_URL+"\(observerIdsfromMapView[i])")
+            let usersRootRef = FIRDatabase.database().referenceWithPath("users/\(observerIdsfromMapView[i])")
+            //Firebase(url:USERS_URL+"\(observerIdsfromMapView[i])")
             usersRootRef.observeEventType(.Value, withBlock: { snapshot in
                 
                 print(usersRootRef)
@@ -94,9 +95,9 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                 
                 if !(snapshot.value is NSNull)
                 {
-                    if((snapshot.value.objectForKey("affiliation")) != nil)
+                    if((snapshot.value!.objectForKey("affiliation")) != nil)
                     {
-                        let observerAffiliationString = snapshot.value.objectForKey("affiliation") as! String
+                        let observerAffiliationString = snapshot.value!.objectForKey("affiliation") as! String
                         
                         self.observerAffiliationsArray.addObject(observerAffiliationString)
                     }
@@ -104,9 +105,9 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                     {
                         self.observerAffiliationsArray.addObject("")
                     }
-                    if((snapshot.value.objectForKey("display_name")) != nil)
+                    if((snapshot.value!.objectForKey("display_name")) != nil)
                     {
-                        let observerDisplayNameString = snapshot.value.objectForKey("display_name") as! String
+                        let observerDisplayNameString = snapshot.value!.objectForKey("display_name") as! String
                         self.observerNamesArray.addObject(observerDisplayNameString)
                     }
                     else
@@ -119,9 +120,9 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                     
                     //print(observerAffiliation)
                     //print(observerDisplayName)
-                    if((snapshot.value.objectForKey("avatar")) != nil)
+                    if((snapshot.value!.objectForKey("avatar")) != nil)
                     {
-                        let observerAvatar = snapshot.value.objectForKey("avatar")
+                        let observerAvatar = snapshot.value!.objectForKey("avatar")
                         print(observerAvatar)
                         let observerAvatarUrl  = NSURL(string: observerAvatar as! String)
                         if(UIApplication.sharedApplication().canOpenURL(observerAvatarUrl!) == true)

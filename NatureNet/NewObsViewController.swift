@@ -128,9 +128,9 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         //print(email)
         //print(password)
     
-        let refUser = Firebase(url: FIREBASE_URL)
-        refUser.authUser(email, password: password,
-                     withCompletionBlock: { error, authData in
+        let refUser = FIRAuth.auth() //Firebase(url: FIREBASE_URL)
+        refUser!.signInWithEmail(email!, password: password!,
+                     completion: { error, authData in
                         if error != nil {
                             
                             print("\(error)")
@@ -141,7 +141,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             }
                             else
                             {
-                                alert = UIAlertController(title: "Alert", message:error.localizedDescription.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                alert = UIAlertController(title: "Alert", message:error.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                             }
 
                             //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
@@ -166,7 +166,8 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                         }
                         else
                         {
-                            let ref = Firebase(url: POST_OBSERVATION_URL)
+                            let ref = FIRDatabase.database().referenceWithPath("observations")
+                            //Firebase(url: POST_OBSERVATION_URL)
                             print(ref.childByAutoId())
                             let autoID = ref.childByAutoId()
                             
@@ -199,7 +200,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             print(userDefaults.objectForKey("progress"))
                             if(userDefaults.objectForKey("progress") as? String == "100.0")
                             {
-                                let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectName,"observer":self.userID, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectName,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
                                 autoID.setValue(obsDetails)
                                 
                                 print(autoID)

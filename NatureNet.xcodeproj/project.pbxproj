@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
 		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
+		1888863D1D1DA25D00E915DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1888863C1D1DA25D00E915DE /* GoogleService-Info.plist */; };
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
 		9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */; };
 		9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */; };
@@ -123,6 +124,7 @@
 /* Begin PBXFileReference section */
 		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
+		1888863C1D1DA25D00E915DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F14A7731C9B3EF400CAB0F6 /* NatureNet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NatureNet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 				9F4523561CC167CA00D5D92C /* SlideView */,
 				9F9BB3C21C9B214C0076E68E /* Assets.xcassets */,
 				9F9BB3C71C9B214C0076E68E /* Info.plist */,
+				1888863C1D1DA25D00E915DE /* GoogleService-Info.plist */,
 				9F0ECB971CA5D0AC00594B2C /* Views */,
 				9F0ECB961CA5D06200594B2C /* Controllers */,
 				9F0ECB951CA5D03A00594B2C /* Images */,
@@ -573,6 +576,7 @@
 				9F32D21E1CB7F33100298E02 /* marker.png in Resources */,
 				9F25D38B1CCA65AF00342B56 /* ProjectDetailCollectionViewCell.xib in Resources */,
 				9F25D3871CCA619000342B56 /* ProjectDetailViewController.xib in Resources */,
+				1888863D1D1DA25D00E915DE /* GoogleService-Info.plist in Resources */,
 				9F2222AB1CE25FA400A845E2 /* completed.png in Resources */,
 				9F14A7941C9E65B800CAB0F6 /* DetailedObservationViewController.xib in Resources */,
 				9F2222AC1CE25FA400A845E2 /* design ideas navy.png in Resources */,

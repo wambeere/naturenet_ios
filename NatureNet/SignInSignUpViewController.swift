@@ -133,18 +133,18 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         joinScrollView.userInteractionEnabled = true
         
-        let sitesRootRef = Firebase(url:FIREBASE_URL + "sites")
+        let sitesRootRef = FIRDatabase.database().referenceWithPath("sites")//(url:FIREBASE_URL + "sites")
         sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
             
             print(sitesRootRef)
-            print(snapshot.value.count)
+            print(snapshot.value!.count)
             
             if !(snapshot.value is NSNull)
             {
-                for i in 0 ..< snapshot.value.count
+                for i in 0 ..< snapshot.value!.count
                 {
                     //print(i)
-                    let sites = snapshot.value.allValues[i] as! NSDictionary
+                    let sites = snapshot.value!.allValues[i] as! NSDictionary
                     print(sites.objectForKey("name"))
                     if(sites.objectForKey("name") != nil)
                     {
@@ -513,23 +513,23 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         if(username.text != "" || password.text != "")
         {
         
-            let ref = Firebase(url: FIREBASE_URL)
-            ref.authUser(username.text, password: password.text,
-                         withCompletionBlock: { error, authData in
+            let ref = FIRAuth.auth()
+            ref!.signInWithEmail(username.text!, password: password.text!,
+                         completion: { error, authData in
                             if error != nil {
                                 // There was an error logging in to this account
                                 print("\(error)")
-                                let alert = UIAlertController(title: "Alert", message:error.userInfo.description ,preferredStyle: UIAlertControllerStyle.Alert)
+                                let alert = UIAlertController(title: "Alert", message:error!.description ,preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                 self.presentViewController(alert, animated: true, completion: nil)
                                 
                             } else {
                                 // We are now logged in
                                 print("We are now logged in")
-                                print(authData.providerData)
-                                print(authData.uid)
+                                //print(authData.providerData)
+                                //print(authData.uid)
                                
-                                let endpoint = NSURL(string: USERS_URL+"\(authData.uid).json")
+                                let endpoint = NSURL(string: USERS_URL+"\(authData?.code).json")
                                 
                                 //let endpoint = NSURL(string:"https://naturenet-testing.firebaseio.com/observations.json?orderBy='$key'&limitToFirst=4")
                                 //var data = NSData(contentsOfURL: endpoint!)
@@ -567,7 +567,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                             userDefaults.setValue(userAffiliation, forKey: "userAffiliation")
                                             userDefaults.setValue(userDisplayName, forKey: "userDisplayName")
                                             userDefaults.setValue("true", forKey: "isSignedIn")
-                                            userDefaults.setValue(authData.uid, forKey: "userID")
+                                            userDefaults.setValue(authData?.code, forKey: "userID")
                                             userDefaults.setValue(self.username.text, forKey: "email")
                                             userDefaults.setValue(self.password.text, forKey: "password")
                                             
@@ -627,28 +627,28 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
             let upImage = UploadImageToCloudinary()
             upImage.uploadToCloudinary(profileIconImageView.image!)
 
-                        
-            let myRootRef = Firebase(url:FIREBASE_URL)
+            
+            let myRootRef = FIRAuth.auth()
             // Write data to Firebase
            
-            myRootRef.createUser(joinEmail.text, password: joinPassword.text,
-                                 withValueCompletionBlock: { error, result in
+            myRootRef!.createUserWithEmail(joinEmail.text!, password: joinPassword.text!,
+                                 completion: { error, result in
                                     if error != nil {
                                         // There was an error creating the account
-                                        let alert = UIAlertController(title: "Alert", message:error.userInfo.description ,preferredStyle: UIAlertControllerStyle.Alert)
+                                        let alert = UIAlertController(title: "Alert", message:error!.description ,preferredStyle: UIAlertControllerStyle.Alert)
                                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                         self.presentViewController(alert, animated: true, completion: nil)
-                                        print(error.userInfo.description)
+                                        //print(error.description)
                                         
                                     } else {
-                                        let uid = result["uid"] as? String
+                                        let uid = result?.code
                                         print("Successfully created user account with uid: \(uid)")
 //                                        let alert = UIAlertController(title: "Alert", message:"Successfully created user account with uid: \(uid)" ,preferredStyle: UIAlertControllerStyle.Alert)
 //                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
 //                                        self.presentViewController(alert, animated: true, completion: nil)
-                                        let ref = Firebase(url: FIREBASE_URL+"users/")
-                                        ref.authUser(self.joinEmail.text, password: self.joinPassword.text,
-                                            withCompletionBlock: { error, authData in
+                                        let authref = FIRAuth.auth()//Firebase(url: FIREBASE_URL+"users/")
+                                        authref!.signInWithEmail(self.joinEmail.text!, password: self.joinPassword.text!,
+                                            completion: { error, authData in
                                                 if error != nil {
                                                     
                                                 }
@@ -659,24 +659,26 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     let userDefaults = NSUserDefaults.standardUserDefaults()
                                                     let usersAvatarUrl = userDefaults.objectForKey("observationImageUrl") as? String
                                                     
-                                                    let usersRef = ref.childByAppendingPath(uid)
+                                                    let ref = FIRDatabase.database().referenceWithPath("users")
+                                                    
+                                                    let usersRef = ref.childByAppendingPath("\(uid)")
                                                     //let usersPubReftoid = usersRef.childByAppendingPath("public")
-                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp(),"avatar":usersAvatarUrl as! AnyObject]
+                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp(),"avatar":usersAvatarUrl as! AnyObject]
                                                     usersRef.setValue(usersPub)
                                                     
                                                     //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
                                                     //let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
                                                     //usersRef.setValue(usersPub)
                                                     
-                                                    let refPrivate = Firebase(url: FIREBASE_URL+"users-private/")
+                                                    let refPrivate = FIRDatabase.database().referenceWithPath("users-private/")//Firebase(url: FIREBASE_URL+"users-private/")
                                                     
                                                     
-                                                                let usersPrivateRef = refPrivate.childByAppendingPath(uid)
+                                                                let usersPrivateRef = refPrivate.childByAppendingPath("\(uid)")
                                                                 
                                                                 //let usersConsentPrivate = ["upload": self.isFirstConsentChecked as AnyObject,"share": self.isSecondConsentChecked as AnyObject,"recording": self.isThirdConsentChecked as AnyObject,"survey": self.isFourthConsentChecked as AnyObject]
                                                                 //let usersPubReftoid = usersRef.childByAppendingPath("public")
                                                                 //let usersPrivate = ["id": uid as! AnyObject,"name": self.joinName.text as! AnyObject,"consent": usersConsentPrivate as AnyObject, "created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
-                                                                let usersPrivate = ["id": uid as! AnyObject,"name": self.joinName.text as! AnyObject,"created_at": FirebaseServerValue.timestamp(),"updated_at": FirebaseServerValue.timestamp()]
+                                                                let usersPrivate = ["id": uid as! AnyObject,"name": self.joinName.text as! AnyObject,"created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
                                                                 usersPrivateRef.setValue(usersPrivate)
                                                                 
                                                                 //let userConsent = usersPrivateRef.childByAppendingPath("consent")

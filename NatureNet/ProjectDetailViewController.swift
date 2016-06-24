@@ -92,23 +92,24 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         
         //let geoObservationUrl = NSURL(string: OBSERVATIONS_URL)
         
-        let geoObservationsRootRef = Firebase(url:ALL_OBSERVATIONS_URL)
+        let geoObservationsRootRef = FIRDatabase.database().referenceWithPath("observations")
+        //Firebase(url:ALL_OBSERVATIONS_URL)
         //geoObservationsRootRef.queryLimitedToLast(4)
         //geoObservationsRootRef.queryOrderedByChild("updated_at")
         
         geoObservationsRootRef.queryOrderedByChild("updated_at").queryLimitedToLast(UInt(projectObservationsNumber)).observeEventType(.Value, withBlock: { snapshot in
             
             print(geoObservationsRootRef)
-            print(snapshot.value.count)
+            //print(snapshot.value!.count)
             
             if !(snapshot.value is NSNull)
             {
-                for i in 0 ..< snapshot.value.count
+                for i in 0 ..< snapshot.value!.count
                 {
                     
                         //print(json.allKeys[i])
-                        let obs = snapshot.value.allKeys[i] as! String
-                        let obsDictionary = snapshot.value.objectForKey(obs) as! NSDictionary
+                        let obs = snapshot.value!.allKeys[i] as! String
+                        let obsDictionary = snapshot.value!.objectForKey(obs) as! NSDictionary
                         print(obsDictionary)
                         
                         let activity_location = obsDictionary.objectForKey("activity_location") as! String
@@ -223,7 +224,8 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                 
                                 let obdId = obsDictionary.objectForKey("observer") as! String
                                 
-                                let usersRootRef = Firebase(url:USERS_URL+obdId)
+                                let usersRootRef = FIRDatabase.database().referenceWithPath("users/\(obdId)")
+                                //Firebase(url:USERS_URL+obdId)
                                 usersRootRef.observeEventType(.Value, withBlock: { snapshot in
                                     
                                     print(usersRootRef)
@@ -232,9 +234,9 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                     if !(snapshot.value is NSNull)
                                     {
                                         
-                                            if((snapshot.value.objectForKey("affiliation")) != nil)
+                                            if((snapshot.value!.objectForKey("affiliation")) != nil)
                                             {
-                                                let observerAffiliationString = snapshot.value.objectForKey("affiliation") as! String
+                                                let observerAffiliationString = snapshot.value!.objectForKey("affiliation") as! String
                                                 self.observersAffiliationsArray_proj.addObject(observerAffiliationString)
                                                 //observerAffiliationsArray.addObject(observerAffiliationString)
                                                 print(observerAffiliationString)
@@ -244,9 +246,9 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                                 self.observersAffiliationsArray_proj.addObject("")
                                             }
                                             
-                                            if((snapshot.value.objectForKey("display_name")) != nil)
+                                            if((snapshot.value!.objectForKey("display_name")) != nil)
                                             {
-                                                let observerDisplayNameString = snapshot.value.objectForKey("display_name") as! String
+                                                let observerDisplayNameString = snapshot.value!.objectForKey("display_name") as! String
                                                 self.observersNamesArray_proj.addObject(observerDisplayNameString)
                                                 //observerNamesArray.addObject(observerDisplayNameString)
                                             }
@@ -257,9 +259,9 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                             
                                             //print(observerAffiliation)
                                             //print(observerDisplayName)
-                                            if((snapshot.value.objectForKey("avatar")) != nil)
+                                            if((snapshot.value!.objectForKey("avatar")) != nil)
                                             {
-                                                let avatarUrlString = snapshot.value.objectForKey("avatar") as! String
+                                                let avatarUrlString = snapshot.value!.objectForKey("avatar") as! String
                                                 let newavatarUrlString = avatarUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
                                                 
                                                 let observerAvatar = newavatarUrlString

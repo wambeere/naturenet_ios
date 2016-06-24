@@ -31,7 +31,11 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     
     func uploadToCloudinary(image: UIImage) {
         
-        Cloudinary = CLCloudinary(url: "cloudinary://893246586645466:8Liy-YcDCvHZpokYZ8z3cUxCtyk@university-of-colorado")
+        let infoPath = NSBundle.mainBundle().pathForResource("Info.plist", ofType: nil)!
+        let info = NSDictionary(contentsOfFile: infoPath)!
+        //print(info.objectForKey("CloudinaryAccessUrl"))
+        
+        Cloudinary = CLCloudinary(url: info.objectForKey("CloudinaryAccessUrl") as! String)
         let uploader = CLUploader(Cloudinary, delegate: self)
         
         let maxSide = CGFloat(1920)
