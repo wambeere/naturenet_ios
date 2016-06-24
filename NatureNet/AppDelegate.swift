@@ -46,6 +46,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRDatabase.database().persistenceEnabled = true
         
         
+        
+//        let myRootRef = FIRAuth.auth()
+//        // Write data to Firebase
+//        
+//        myRootRef!.createUserWithEmail("abhi@yahoooo.com", password: "password",
+//                                       completion: { result, error in
+//                                        
+//                                        if(error != nil)
+//                                        {
+//                                            print(error?.debugDescription.localizedLowercaseString)
+//                                            
+//                                        }
+//                                        else{
+//                                            print(result?.uid)
+//                                        }
+//                                        
+//            })
+        
+        
 
         
         return true

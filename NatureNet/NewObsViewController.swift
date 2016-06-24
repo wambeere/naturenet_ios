@@ -130,7 +130,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     
         let refUser = FIRAuth.auth() //Firebase(url: FIREBASE_URL)
         refUser!.signInWithEmail(email!, password: password!,
-                     completion: { error, authData in
+                     completion: { authData, error in
                         if error != nil {
                             
                             print("\(error)")

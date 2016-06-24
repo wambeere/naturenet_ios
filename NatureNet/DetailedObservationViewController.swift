@@ -636,7 +636,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             
             let refUser = FIRAuth.auth()
             refUser!.signInWithEmail(email!, password: password!,
-                             completion: { error, authData in
+                             completion: { authData, error in
                                 if error != nil {
                                     
                                     print("\(error)")
@@ -777,7 +777,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         let refUser = FIRAuth.auth()
         refUser!.signInWithEmail(email!, password: password!,
-                         completion: { error, authData in
+                         completion: { authData, error in
                             if error != nil {
                                 
                                 print("\(error)")
@@ -873,7 +873,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         let refUser = FIRAuth.auth()
         refUser!.signInWithEmail(email!, password: password!,
-                         completion: { error, authData in
+                         completion: { authData, error in
                             if error != nil {
                                 
                                 print("\(error)")

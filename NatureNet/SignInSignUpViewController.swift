@@ -515,7 +515,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         
             let ref = FIRAuth.auth()
             ref!.signInWithEmail(username.text!, password: password.text!,
-                         completion: { error, authData in
+                         completion: { authData, error in
                             if error != nil {
                                 // There was an error logging in to this account
                                 print("\(error)")
@@ -528,46 +528,29 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                 print("We are now logged in")
                                 //print(authData.providerData)
                                 //print(authData.uid)
-                               
-                                let endpoint = NSURL(string: USERS_URL+"\(authData?.code).json")
+                                print(authData?.uid)
+                                let userID = (authData?.uid)!
+                               let userRef = FIRDatabase.database().referenceWithPath("users/\(userID)")
                                 
-                                //let endpoint = NSURL(string:"https://naturenet-testing.firebaseio.com/observations.json?orderBy='$key'&limitToFirst=4")
-                                //var data = NSData(contentsOfURL: endpoint!)
-                                print(endpoint)
-                                
-                                var userData:NSData? = nil
-                                do {
-                                    userData = try NSData(contentsOfURL: endpoint!, options: NSDataReadingOptions())
-                                    print(userData)
-                                }
-                                catch {
-                                    print("Handle \(error) here")
-                                }
-                                
-                                if let data = userData {
-                                    // Convert data to JSON here
-                                    do{
-                                        let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
-                                        print(json)
-                                    //let userPublicData = json.objectForKey("public")! as! nsar
-                                        //print(userPublicData)
-//                                        for (key, value) in json {
-//                                            print("\(key) -> \(value)")
-//                                        }
-                                        //print(json["public"]!["affliation"])
+                                userRef.observeEventType(.Value, withBlock: { snapshot in
+                                    
+                                    print(userRef)
+                                    print(snapshot.value)
+                                    
+                                    if !(snapshot.value is NSNull)
+                                    {
                                         
-                                        //let userPublicData = json["public"] as! NSArray
-                                        if(json != ""){
+                                        
                                             
-                                            let userAffiliation = json.objectForKey("affiliation")
-                                            let userDisplayName = json.objectForKey("display_name")
-                                            let usersAvatar = json.objectForKey("avatar")
+                                            let userAffiliation = snapshot.value!.objectForKey("affiliation")
+                                            let userDisplayName = snapshot.value!.objectForKey("display_name")
+                                            let usersAvatar = snapshot.value!.objectForKey("avatar")
                                             
                                             let userDefaults = NSUserDefaults.standardUserDefaults()
                                             userDefaults.setValue(userAffiliation, forKey: "userAffiliation")
                                             userDefaults.setValue(userDisplayName, forKey: "userDisplayName")
                                             userDefaults.setValue("true", forKey: "isSignedIn")
-                                            userDefaults.setValue(authData?.code, forKey: "userID")
+                                            userDefaults.setValue(authData?.uid, forKey: "userID")
                                             userDefaults.setValue(self.username.text, forKey: "email")
                                             userDefaults.setValue(self.password.text, forKey: "password")
                                             
@@ -578,19 +561,76 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                             
                                             self.dismissVC()
                                             
-                                        }
                                         
-                                    
-                                        
-                                        
-                                    }catch let error as NSError {
-                                        print("json error: \(error.localizedDescription)")
-                                        let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                        self.presentViewController(alert, animated: true, completion: nil)
-                                    }
 
-                                }
+                                        
+                                    }
+                                    }, withCancelBlock: { error in
+                                        print(error.description)
+                                })
+                                
+//                                let endpoint = NSURL(string: USERS_URL+"\(authData?.uid).json")
+//                                
+//                                //let endpoint = NSURL(string:"https://naturenet-testing.firebaseio.com/observations.json?orderBy='$key'&limitToFirst=4")
+//                                //var data = NSData(contentsOfURL: endpoint!)
+//                                print(endpoint)
+//                                
+//                                var userData:NSData? = nil
+//                                do {
+//                                    userData = try NSData(contentsOfURL: endpoint!, options: NSDataReadingOptions())
+//                                    print(userData)
+//                                }
+//                                catch {
+//                                    print("Handle \(error) here")
+//                                }
+//                                
+//                                if let data = userData {
+//                                    // Convert data to JSON here
+//                                    do{
+//                                        let json: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary
+//                                        print(json)
+//                                    //let userPublicData = json.objectForKey("public")! as! nsar
+//                                        //print(userPublicData)
+////                                        for (key, value) in json {
+////                                            print("\(key) -> \(value)")
+////                                        }
+//                                        //print(json["public"]!["affliation"])
+//                                        
+//                                        //let userPublicData = json["public"] as! NSArray
+//                                        if(json != ""){
+//                                            
+//                                            let userAffiliation = json.objectForKey("affiliation")
+//                                            let userDisplayName = json.objectForKey("display_name")
+//                                            let usersAvatar = json.objectForKey("avatar")
+//                                            
+//                                            let userDefaults = NSUserDefaults.standardUserDefaults()
+//                                            userDefaults.setValue(userAffiliation, forKey: "userAffiliation")
+//                                            userDefaults.setValue(userDisplayName, forKey: "userDisplayName")
+//                                            userDefaults.setValue("true", forKey: "isSignedIn")
+//                                            userDefaults.setValue(authData?.uid, forKey: "userID")
+//                                            userDefaults.setValue(self.username.text, forKey: "email")
+//                                            userDefaults.setValue(self.password.text, forKey: "password")
+//                                            
+//                                            if(usersAvatar != nil)
+//                                            {
+//                                                userDefaults.setValue(usersAvatar, forKey: "usersAvatar")
+//                                            }
+//                                            
+//                                            self.dismissVC()
+//                                            
+//                                        }
+//                                        
+//                                    
+//                                        
+//                                        
+//                                    }catch let error as NSError {
+//                                        print("json error: \(error.localizedDescription)")
+//                                        let alert = UIAlertController(title: "Alert", message:error.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+//                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//                                        self.presentViewController(alert, animated: true, completion: nil)
+//                                    }
+//
+//                                }
                                 
                                 
 //                                Alamofire.request(.GET, "https://naturenet-testing.firebaseio.com/users/\(authData.uid).json")
@@ -630,25 +670,28 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
             
             let myRootRef = FIRAuth.auth()
             // Write data to Firebase
+            
            
             myRootRef!.createUserWithEmail(joinEmail.text!, password: joinPassword.text!,
-                                 completion: { error, result in
+                                 completion: { result, error in
                                     if error != nil {
                                         // There was an error creating the account
-                                        let alert = UIAlertController(title: "Alert", message:error!.description ,preferredStyle: UIAlertControllerStyle.Alert)
+                                        let alert = UIAlertController(title: "Alert", message:error!.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                         self.presentViewController(alert, animated: true, completion: nil)
                                         //print(error.description)
                                         
                                     } else {
-                                        let uid = result?.code
+                                       
+                                        
+                                        let uid = result?.uid
                                         print("Successfully created user account with uid: \(uid)")
 //                                        let alert = UIAlertController(title: "Alert", message:"Successfully created user account with uid: \(uid)" ,preferredStyle: UIAlertControllerStyle.Alert)
 //                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
 //                                        self.presentViewController(alert, animated: true, completion: nil)
                                         let authref = FIRAuth.auth()//Firebase(url: FIREBASE_URL+"users/")
                                         authref!.signInWithEmail(self.joinEmail.text!, password: self.joinPassword.text!,
-                                            completion: { error, authData in
+                                            completion: { authData, error in
                                                 if error != nil {
                                                     
                                                 }
@@ -657,13 +700,28 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     print("Successfully logged in by user with uid: \(uid)")
                                                     
                                                     let userDefaults = NSUserDefaults.standardUserDefaults()
-                                                    let usersAvatarUrl = userDefaults.objectForKey("observationImageUrl") as? String
+                                                    var usersAvatarUrl = userDefaults.objectForKey("observationImageUrl") as? String
                                                     
                                                     let ref = FIRDatabase.database().referenceWithPath("users")
                                                     
                                                     let usersRef = ref.childByAppendingPath("\(uid)")
                                                     //let usersPubReftoid = usersRef.childByAppendingPath("public")
+                                                    
+                                                    print(uid)
+                                                    print(self.joinUsername.text)
+                                                    print(self.AffiliationId)
+                                                    print(FIRServerValue.timestamp())
+                                                    print(usersAvatarUrl)
+                                                    //print(uid)
+                                                    
+                                                    if(usersAvatarUrl == nil)
+                                                    {
+                                                        usersAvatarUrl = ""
+                                                    }
+                                                    
                                                     let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp(),"avatar":usersAvatarUrl as! AnyObject]
+                                                    
+                                                    
                                                     usersRef.setValue(usersPub)
                                                     
                                                     //let usersPrivateReftoid = usersRef.childByAppendingPath("private")

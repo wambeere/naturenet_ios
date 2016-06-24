@@ -133,7 +133,7 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
         print(userID)
         let refUser = FIRAuth.auth()!
         refUser.signInWithEmail(email!, password: password!,
-                         completion: { error, authData in
+                         completion: { authData, error in
                             if error != nil {
                                 
                                 print("\(error)")
@@ -170,7 +170,7 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
                             else
                             {
                                 let ref = FIRDatabase.database().referenceWithPath("ideas")//(url: POST_IDEAS_URL)
-                                print(ref.childByAutoId())
+                                //print(ref.childByAutoId())
                                 let autoID = ref.childByAutoId()
                                 //let id = autoID as String
                                 print(autoID.key)
