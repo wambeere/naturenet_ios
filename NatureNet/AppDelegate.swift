@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FIRApp.configure()
         
+        //persistent data
         FIRDatabase.database().persistenceEnabled = true
         
         

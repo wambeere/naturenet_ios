@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
 		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
-		1888863D1D1DA25D00E915DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1888863C1D1DA25D00E915DE /* GoogleService-Info.plist */; };
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
 		9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */; };
 		9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */; };
@@ -31,6 +30,8 @@
 		9F1B6DDB1D16FE650012F66E /* CommunitiesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */; };
 		9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */; };
 		9F1B6DDE1D1AF4040012F66E /* shutdown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDD1D1AF4040012F66E /* shutdown.png */; };
+		9F1B6DE11D1DAC2E0012F66E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDF1D1DAC2E0012F66E /* GoogleService-Info.plist */; };
+		9F1B6DE21D1DAC2E0012F66E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DE01D1DAC2E0012F66E /* Info.plist */; };
 		9F2222951CE25E9100A845E2 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222941CE25E9100A845E2 /* user.png */; };
 		9F2222A71CE25FA400A845E2 /* add design challenges.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222961CE25FA400A845E2 /* add design challenges.png */; };
 		9F2222A81CE25FA400A845E2 /* add design ideas.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222971CE25FA400A845E2 /* add design ideas.png */; };
@@ -124,7 +125,6 @@
 /* Begin PBXFileReference section */
 		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
-		1888863C1D1DA25D00E915DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F14A7731C9B3EF400CAB0F6 /* NatureNet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NatureNet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +148,8 @@
 		9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunitiesTableViewCell.swift; sourceTree = "<group>"; };
 		9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunitiesTableViewCell.xib; sourceTree = "<group>"; };
 		9F1B6DDD1D1AF4040012F66E /* shutdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shutdown.png; sourceTree = "<group>"; };
+		9F1B6DDF1D1DAC2E0012F66E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9F1B6DE01D1DAC2E0012F66E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F2222941CE25E9100A845E2 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		9F2222961CE25FA400A845E2 /* add design challenges.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add design challenges.png"; sourceTree = "<group>"; };
 		9F2222971CE25FA400A845E2 /* add design ideas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add design ideas.png"; sourceTree = "<group>"; };
@@ -214,7 +216,6 @@
 		9F9BB3C01C9B214C0076E68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9F9BB3C21C9B214C0076E68E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F9BB3C51C9B214C0076E68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9F9BB3C71C9B214C0076E68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F9BB3CC1C9B214C0076E68E /* NatureNetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NatureNetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F9BB3D01C9B214C0076E68E /* NatureNetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatureNetTests.swift; sourceTree = "<group>"; };
 		9F9BB3D21C9B214C0076E68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -404,14 +405,14 @@
 		9F9BB3BA1C9B214C0076E68E /* NatureNet */ = {
 			isa = PBXGroup;
 			children = (
+				9F1B6DDF1D1DAC2E0012F66E /* GoogleService-Info.plist */,
+				9F1B6DE01D1DAC2E0012F66E /* Info.plist */,
 				9F32D20D1CB587FD00298E02 /* Reachability.swift */,
 				9F32D2151CB6F6E100298E02 /* ConnectionManager.swift */,
 				9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */,
 				9F25D3721CC7CF2200342B56 /* UploadImageToCloudinary.swift */,
 				9F4523561CC167CA00D5D92C /* SlideView */,
 				9F9BB3C21C9B214C0076E68E /* Assets.xcassets */,
-				9F9BB3C71C9B214C0076E68E /* Info.plist */,
-				1888863C1D1DA25D00E915DE /* GoogleService-Info.plist */,
 				9F0ECB971CA5D0AC00594B2C /* Views */,
 				9F0ECB961CA5D06200594B2C /* Controllers */,
 				9F0ECB951CA5D03A00594B2C /* Images */,
@@ -576,7 +577,7 @@
 				9F32D21E1CB7F33100298E02 /* marker.png in Resources */,
 				9F25D38B1CCA65AF00342B56 /* ProjectDetailCollectionViewCell.xib in Resources */,
 				9F25D3871CCA619000342B56 /* ProjectDetailViewController.xib in Resources */,
-				1888863D1D1DA25D00E915DE /* GoogleService-Info.plist in Resources */,
+				9F1B6DE11D1DAC2E0012F66E /* GoogleService-Info.plist in Resources */,
 				9F2222AB1CE25FA400A845E2 /* completed.png in Resources */,
 				9F14A7941C9E65B800CAB0F6 /* DetailedObservationViewController.xib in Resources */,
 				9F2222AC1CE25FA400A845E2 /* design ideas navy.png in Resources */,
@@ -604,6 +605,7 @@
 				9FC2D1A11CEB7749000B398B /* DesignIdeasAndChallengesTableViewCell.xib in Resources */,
 				9F2222B41CE25FA400A845E2 /* observations navy.png in Resources */,
 				9F14A77E1C9B425E00CAB0F6 /* MapViewController.xib in Resources */,
+				9F1B6DE21D1DAC2E0012F66E /* Info.plist in Resources */,
 				9F2222B51CE25FA400A845E2 /* photo.png in Resources */,
 				9F1B6DDE1D1AF4040012F66E /* shutdown.png in Resources */,
 				9F2222B01CE25FA400A845E2 /* group.png in Resources */,
