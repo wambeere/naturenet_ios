@@ -43,7 +43,7 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         let originalHeight = image.size.height
         var forUpload = NSData()
         
-        if(originalWidth > maxSide || originalWidth > maxSide)
+        if(originalWidth > maxSide || originalHeight > maxSide)
         {
             //one of the two has to be 1920, so this is an easy way to give initial values
             var newWidth = maxSide
