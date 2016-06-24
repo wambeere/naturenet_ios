@@ -40,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let cache = KingfisherManager.sharedManager.cache
         cache.maxDiskCacheSize = 10 * 1024 * 1024
         
+        FIRApp.configure()
+        
         Firebase.defaultConfig().persistenceEnabled = true
 
         
