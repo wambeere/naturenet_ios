@@ -397,6 +397,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     {
                         let actloc = observationData.objectForKey("activity_location") as! String
                         
+                        print(observationData)
+                        print(actloc)
+                        
                         let geoObservationsRootRef = FIRDatabase.database().referenceWithPath("geo/activities/\(actloc)")
                         //Firebase(url:FIREBASE_URL + "geo/activities/\(actloc)")
                         geoObservationsRootRef.observeEventType(.Value, withBlock: { snapshot in
@@ -883,6 +886,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         eVC.observationTextArray = observationTextArray
         eVC.commentsDictArrayfromMapView = commentsDictArray
         eVC.observationIdsfromMapView = observationIds
+        
+        eVC.projectNames = observationProjectNames
+        
         let exploreNavVC = UINavigationController()
         exploreNavVC.viewControllers = [eVC]
         self.presentViewController(exploreNavVC, animated: true, completion: nil)
@@ -1007,7 +1013,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                 usersRootRef.observeEventType(.Value, withBlock: { snapshot in
                     
                     print(usersRootRef)
-                    print(snapshot.value!.count)
+                    //print(snapshot.value!.count)
                     
                     if !(snapshot.value is NSNull)
                     {

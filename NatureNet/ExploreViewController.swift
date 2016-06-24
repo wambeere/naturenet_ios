@@ -26,6 +26,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     var observerAffiliationsArray : NSMutableArray = []
     var observationTextArray : NSMutableArray = []
     
+    var projectNames : NSArray = []
+    
     var observationsCount : Int = 0
     
     let newObsAndDIViewtemp = NewObsAndDIViewController()
@@ -369,6 +371,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         detailedObservationVC.observerDisplayName = observerNamesArray[indexPath.row] as! String;
         detailedObservationVC.observerAffiliation = observerAffiliationsArray[indexPath.row] as! String;
         detailedObservationVC.observationText = observationTextArray[indexPath.row] as! String;
+        
+        detailedObservationVC.pageTitle = projectNames[indexPath.row] as! String
         
         let observerImageUrlString = exploreObservationsImagesArray[indexPath.row] as! String
         let newimageURLString = observerImageUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-large", options: NSStringCompareOptions.LiteralSearch, range: nil)
