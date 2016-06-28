@@ -17,7 +17,8 @@ class NewObservationDetailsViewController: UIViewController ,UITableViewDataSour
     
     let newObsVC = NewObsViewController()
     
-    var project : String = ""
+    var projectKey : String = ""
+    var projectName : String = ""
     
     var projItems: [String] = ["Red Mountain", "Native or Not?","How many Mallards?", "Heron Spotting","Who's Who?", "Tracks"]
     var projIcons: [String] = ["RedMountain.png", "Native.png","Mallard.png", "Heron.png","Who.png", "Tracks.png"]
@@ -77,20 +78,23 @@ class NewObservationDetailsViewController: UIViewController ,UITableViewDataSour
     }
     func dismissVC(){
         
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        if(self.isDescription == true)
+        {
+            userDefaults.setValue(self.obsDescriptionTextView.text, forKey: "ObservationDescription")
+        }
+        else
+        {
+            userDefaults.setValue(self.projectKey, forKey: "ProjectKey")
+            userDefaults.setValue(self.projectName, forKey: "ProjectName")
+        }
+
+        
         //self.navigationController!.dismissViewControllerAnimated(true, completion: {})
         self.presentingViewController?.dismissViewControllerAnimated(true, completion: {
             
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-
-            if(self.isDescription == true)
-            {
-                userDefaults.setValue(self.obsDescriptionTextView.text, forKey: "ObservationDescription")
-            }
-            else
-            {
-                userDefaults.setValue(self.project, forKey: "Project")
-            }
-        
+            
         })
         //self.view.window!.rootViewController?.dismissViewControllerAnimated(false, completion: nil)
         //print("abhi")
@@ -125,7 +129,7 @@ class NewObservationDetailsViewController: UIViewController ,UITableViewDataSour
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        self.project = projItems[indexPath.row]
+        self.projectKey = projItems[indexPath.row]
         
     }
 

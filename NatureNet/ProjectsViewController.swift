@@ -549,7 +549,8 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         else
         {
             let userDefaults = NSUserDefaults.standardUserDefaults()
-            userDefaults.setValue(projectGeoIds[indexPath.row] as! String, forKey: "Project")
+            userDefaults.setValue(projectGeoIds[indexPath.row] as! String, forKey: "ProjectKey")
+            userDefaults.setValue(projectKeys[indexPath.row] as! String, forKey: "ProjectName")
             self.dismissVC()
         }
         

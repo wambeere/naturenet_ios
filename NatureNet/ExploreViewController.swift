@@ -18,6 +18,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     var observationCommentsArrayfromMapView : NSArray = []
     var observationIdsfromMapView : NSMutableArray = []
     
+    var observationUpdatedAtTimestampsArrayFromMapview = []
+    
     var exploreObservationsImagesArray : NSArray!
     
     var observerAvatarsArray : NSMutableArray = []
@@ -100,12 +102,39 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                     if((snapshot.value!.objectForKey("affiliation")) != nil)
                     {
                         let observerAffiliationString = snapshot.value!.objectForKey("affiliation") as! String
+                        let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+observerAffiliationString)
+                        //Firebase(url:FIREBASE_URL + "sites/"+aff!)
+                        sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+                            
+                            
+                            print(sitesRootRef)
+                            print(snapshot.value)
+                            
+                            if !(snapshot.value is NSNull)
+                            {
+                                
+                                
+                                print(snapshot.value!.objectForKey("name"))
+                                if(snapshot.value!.objectForKey("name") != nil)
+                                {
+                                    //cell.exploreDate.text = snapshot.value!.objectForKey("name") as? String
+                                    self.observerAffiliationsArray.addObject((snapshot.value!.objectForKey("name") as? String)!)
+                                }
+                                
+                                
+                                
+                            }
+                            self.collectionView.reloadData()
+                            }, withCancelBlock: { error in
+                                print(error.description)
+                        })
+
                         
-                        self.observerAffiliationsArray.addObject(observerAffiliationString)
+                        //self.observerAffiliationsArray.addObject(observerAffiliationString)
                     }
                     else
                     {
-                        self.observerAffiliationsArray.addObject("")
+                        self.observerAffiliationsArray.addObject("No Affiliation")
                     }
                     if((snapshot.value!.objectForKey("display_name")) != nil)
                     {
@@ -291,7 +320,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return observerNamesArray.count
+        return observerAffiliationsArray.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -352,6 +381,33 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         
         if(observerAffiliationsArray[indexPath.row] as! String != "")
         {
+//            let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+(observerAffiliationsArray[indexPath.row] as! String))
+//            //Firebase(url:FIREBASE_URL + "sites/"+aff!)
+//            sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+//                
+//                
+//                print(sitesRootRef)
+//                print(snapshot.value)
+//                
+//                if !(snapshot.value is NSNull)
+//                {
+//                    
+//                    
+//                    print(snapshot.value!.objectForKey("name"))
+//                    if(snapshot.value!.objectForKey("name") != nil)
+//                    {
+//                        cell.exploreDate.text = snapshot.value!.objectForKey("name") as? String
+//                        //self.observerAffiliationsArray.addObject((snapshot.value!.objectForKey("name") as? String)!)
+//                    }
+//                    
+//                    
+//                    
+//                }
+//                
+//                }, withCancelBlock: { error in
+//                    print(error.description)
+//            })
+
             cell.exploreDate.text = (observerAffiliationsArray[indexPath.row] as! String)
         }
         else
@@ -373,6 +429,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         detailedObservationVC.observationText = observationTextArray[indexPath.row] as! String;
         
         detailedObservationVC.pageTitle = projectNames[indexPath.row] as! String
+        detailedObservationVC.obsupdateddate = observationUpdatedAtTimestampsArrayFromMapview[indexPath.row] as! NSNumber
         
         let observerImageUrlString = exploreObservationsImagesArray[indexPath.row] as! String
         let newimageURLString = observerImageUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-large", options: NSStringCompareOptions.LiteralSearch, range: nil)

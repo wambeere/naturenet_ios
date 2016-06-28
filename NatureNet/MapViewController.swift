@@ -60,6 +60,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     
     var observationCommentsArray : NSArray = []
     
+    var observationUpdatedTimestampsArray : NSMutableArray = []
+    var observationUpdatedTimestamp: NSNumber = 0
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
@@ -312,7 +315,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                 for i in 0 ..< snapshot.value!.count
                 {
                     let observationData = snapshot.value!.allValues[i] as! NSDictionary
+                    print(observationData)
                     
+                    if(observationData.objectForKey("updated_at") != nil)
+                    {
+                        let obsUpdatedAt = observationData.objectForKey("updated_at") as! NSNumber
+                        self.observationUpdatedTimestampsArray.addObject(obsUpdatedAt)
+                        
+                    }
+                    else
+                    {
+                        self.observationUpdatedTimestampsArray.addObject(0)
+                    }
                     
                     if(observationData.objectForKey("comments") != nil)
                     {
@@ -367,9 +381,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                     var latAndLongs: NSArray = []
                     var observationImageAndText: NSDictionary = [:]
                     
-                    if(observationData.objectForKey("l") != nil)
+                    if(observationData.objectForKey("l") != nil || !(observationData.objectForKey("l") is NSNull))
                     {
-                        latAndLongs = observationData.objectForKey("l") as! NSArray
+                        latAndLongs = (observationData.objectForKey("l") as? NSArray)!
                         //print(latAndLongs[0])
                         //print(latAndLongs[1])
                         print(latAndLongs)
@@ -886,6 +900,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         eVC.observationTextArray = observationTextArray
         eVC.commentsDictArrayfromMapView = commentsDictArray
         eVC.observationIdsfromMapView = observationIds
+        eVC.observationUpdatedAtTimestampsArrayFromMapview = observationUpdatedTimestampsArray
         
         eVC.projectNames = observationProjectNames
         
@@ -973,6 +988,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         
         observationId = observationIds[view.tag] as! String
         ProjectName = observationProjectNames[view.tag] as! String
+        observationUpdatedTimestamp = observationUpdatedTimestampsArray[view.tag] as! NSNumber
 //            }, completion: nil)
 //        self.mapViewCoordinate()
         print(commentsDictArray.objectAtIndex(view.tag))
@@ -1006,11 +1022,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                 //                } else {
                 //                    print("Reachable via Cellular")
                 //                }
+                print(self.observerIds[view.tag])
                 
-                
-                let usersRootRef = FIRDatabase.database().referenceWithPath("\(self.observerIds[view.tag])")
+            let usersRootRef = FIRDatabase.database().referenceWithPath("users/\(self.observerIds[view.tag])")
+                print(usersRootRef)
                 //Firebase(url:USERS_URL+"\(self.observerIds[view.tag])")
-                usersRootRef.observeEventType(.Value, withBlock: { snapshot in
+            usersRootRef.observeEventType(.Value, withBlock: { snapshot in
                     
                     print(usersRootRef)
                     //print(snapshot.value!.count)
@@ -1021,13 +1038,40 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                         if((snapshot.value!.objectForKey("affiliation")) != nil)
                         {
                             let observerAffiliationString = snapshot.value!.objectForKey("affiliation") as! String
-                            self.observerAffiliation.text = observerAffiliationString
+                            let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+observerAffiliationString)
+                            //Firebase(url:FIREBASE_URL + "sites/"+aff!)
+                            sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+                                
+                                
+                                print(sitesRootRef)
+                                print(snapshot.value)
+                                
+                                if !(snapshot.value is NSNull)
+                                {
+                                    
+                                    
+                                    print(snapshot.value!.objectForKey("name"))
+                                    if(snapshot.value!.objectForKey("name") != nil)
+                                    {
+                                        self.observerAffiliation.text = snapshot.value!.objectForKey("name") as? String
+                                    }
+                                    
+                                    
+                                    
+                                }
+                                
+                                }, withCancelBlock: { error in
+                                    print(error.description)
+                            })
+
+                            
+                            //self.observerAffiliation.text = observerAffiliationString
                             //observerAffiliationsArray.addObject(observerAffiliationString)
-                            print(observerAffiliationString)
+                            //print(observerAffiliationString)
                         }
                         else
                         {
-                            self.observerAffiliation.text = ""
+                            self.observerAffiliation.text = "No Affiliation"
                         }
                         
                         if((snapshot.value!.objectForKey("display_name")) != nil)
@@ -1171,11 +1215,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         detailedObservationVC.observerImageUrl = observerAvatarUrlString
         detailedObservationVC.observerDisplayName = observerDisplayName.text!
         detailedObservationVC.observerAffiliation = observerAffiliation.text!
+        print(observerAffiliation.text)
         detailedObservationVC.observationImageUrl = observervationUrlString
         detailedObservationVC.observationText = observationTextLabel.text!
         detailedObservationVC.observationCommentsArrayfromExploreView = observationCommentsArray
         detailedObservationVC.observationId = observationId
         detailedObservationVC.pageTitle = ProjectName
+        detailedObservationVC.obsupdateddate = observationUpdatedTimestamp
         self.navigationController?.pushViewController(detailedObservationVC, animated: true)
         
     }

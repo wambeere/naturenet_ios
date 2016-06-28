@@ -27,7 +27,10 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     let locationManager = CLLocationManager()
     var locValue = CLLocationCoordinate2D()
     
+    @IBOutlet weak var obsDescAndProjectView: UIView!
     
+    @IBOutlet weak var obsProjectLabel: UILabel!
+    @IBOutlet weak var obsDescTextView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -71,6 +74,21 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if(userDefaults.objectForKey("ObservationDescription") != nil)
+        {
+            userDefaults.setValue("", forKey:"ObservationDescription")
+        }
+        if(userDefaults.objectForKey("Project") != nil)
+        {
+            //projectName = (userDefaults.objectForKey("Project") as? String)!
+            userDefaults.setValue("", forKey:"ProjectKey")
+            userDefaults.setValue("", forKey:"ProjectName")
+        }
+        
+        obsDescAndProjectView.hidden = true
+        observationDetailsTableView.hidden = false
 
 
     }
@@ -79,6 +97,24 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     override func viewWillAppear(animated: Bool) {
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if(userDefaults.objectForKey("ObservationDescription") as! String != "")
+        {
+            print(userDefaults.objectForKey("ObservationDescription"))
+            obsDescTextView.text = (userDefaults.objectForKey("ObservationDescription") as? String)!
+            
+            obsDescAndProjectView.hidden = false
+            //observationDetailsTableView.hidden = true
+        }
+        if(userDefaults.objectForKey("ProjectName") as! String != "")
+        {
+            obsProjectLabel.text = (userDefaults.objectForKey("ProjectName") as? String)!
+            
+            obsDescAndProjectView.hidden = false
+            //observationDetailsTableView.hidden = true
+        }
+        
         
     }
     
@@ -102,9 +138,9 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         {
             descText = (userDefaults.objectForKey("ObservationDescription") as? String)!
         }
-        if(userDefaults.objectForKey("Project") != nil)
+        if(userDefaults.objectForKey("ProjectKey") != nil)
         {
-            projectName = (userDefaults.objectForKey("Project") as? String)!
+            projectName = (userDefaults.objectForKey("ProjectKey") as? String)!
         }
         if(userDefaults.objectForKey("userID") != nil)
         {
@@ -207,6 +243,17 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                                 
                                 let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
                                 //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                
+                                if(userDefaults.objectForKey("ObservationDescription") != nil)
+                                {
+                                    userDefaults.setValue("", forKey:"ObservationDescription")
+                                }
+                                if(userDefaults.objectForKey("Project") != nil)
+                                {
+                                    //projectName = (userDefaults.objectForKey("Project") as? String)!
+                                    userDefaults.setValue("", forKey:"ProjectKey")
+                                    userDefaults.setValue("", forKey:"ProjectName")
+                                }
                                 
                                 let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
                                 {

@@ -40,6 +40,9 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
     var commentsCountArray_projects: NSMutableArray = []
     var commentsKeysArray_projects: NSArray = []
     
+    var observationUpdatedTimestampsArray_proj : NSMutableArray = []
+    var observationUpdatedTimestamp_proj: NSNumber = 0
+    
     
     var commentsDictArray : NSMutableArray = []
     
@@ -185,6 +188,18 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                     self.likesCountArray_projects.addObject("0")
                                 }
                                 
+                                if(obsDictionary.objectForKey("updated_at") != nil)
+                                {
+                                    print(obsDictionary.objectForKey("updated_at"))
+                                    let obsUpdatedAt = obsDictionary.objectForKey("updated_at") as! NSNumber
+                                    self.observationUpdatedTimestampsArray_proj.addObject(obsUpdatedAt)
+                                    
+                                }
+                                else
+                                {
+                                    self.observationUpdatedTimestampsArray_proj.addObject(0)
+                                }
+                                
                                 if(obsDictionary.objectForKey("id") != nil)
                                 {
                                     let obsId = obsDictionary.objectForKey("id") as! String
@@ -237,13 +252,42 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                             if((snapshot.value!.objectForKey("affiliation")) != nil)
                                             {
                                                 let observerAffiliationString = snapshot.value!.objectForKey("affiliation") as! String
-                                                self.observersAffiliationsArray_proj.addObject(observerAffiliationString)
+                                                //self.observersAffiliationsArray_proj.addObject(observerAffiliationString)
+                                                
+                                                let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+observerAffiliationString)
+                                                //Firebase(url:FIREBASE_URL + "sites/"+aff!)
+                                                sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+                                                    
+                                                    
+                                                    print(sitesRootRef)
+                                                    print(snapshot.value)
+                                                    
+                                                    if !(snapshot.value is NSNull)
+                                                    {
+                                                        
+                                                        
+                                                        print(snapshot.value!.objectForKey("name"))
+                                                        if(snapshot.value!.objectForKey("name") != nil)
+                                                        {
+                                                            //self.observerAffiliationLabel.text = snapshot.value!.objectForKey("name") as? String
+                                                            self.observersAffiliationsArray_proj.addObject((snapshot.value!.objectForKey("name") as? String)!)
+                                                        }
+                                                        
+                                                        
+                                                        
+                                                    }
+                                                    self.projectsCollectionView.reloadData()
+                                                    }, withCancelBlock: { error in
+                                                        print(error.description)
+                                                })
+
+                                                
                                                 //observerAffiliationsArray.addObject(observerAffiliationString)
                                                 print(observerAffiliationString)
                                             }
                                             else
                                             {
-                                                self.observersAffiliationsArray_proj.addObject("")
+                                                self.observersAffiliationsArray_proj.addObject("No Affiliation")
                                             }
                                             
                                             if((snapshot.value!.objectForKey("display_name")) != nil)
@@ -295,7 +339,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                     print(self.observationsImagesArray.count)
                                     print(self.observersNamesArray_proj.count)
                                     self.showHideRecentContributionsLabel()
-                                    self.projectsCollectionView.reloadData()
+                                    
                                     
                                     }, withCancelBlock: { error in
                                         print(error.description)
@@ -584,7 +628,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return observersNamesArray_proj.count
+        return observersAffiliationsArray_proj.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -602,6 +646,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         }
         
         //cell.observerAvatarImageView.image = UIImage(data:observersAvatarArray_proj[indexPath.row] as! NSData)
+        print(observersAvatarUrls_proj[indexPath.row])
         cell.observerAvatarImageView.kf_setImageWithURL(NSURL.fileURLWithPath((observersAvatarUrls_proj[indexPath.row] as? String)!), placeholderImage: UIImage(named: "user.png"))
         
         cell.observerNameLabel.text = observersNamesArray_proj[indexPath.row] as? String
@@ -618,9 +663,11 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         detailedObsVC.observerDisplayName = observersNamesArray_proj[indexPath.row] as! String
         detailedObsVC.observerAffiliation = observersAffiliationsArray_proj[indexPath.row] as! String
         detailedObsVC.observerImageUrl = observersAvatarUrls_proj[indexPath.row] as! String
+        print(observersAvatarUrls_proj[indexPath.row])
         detailedObsVC.observationText = observationsTextArray[indexPath.row] as! String
         detailedObsVC.observationImageUrl = observationsImagesArray[indexPath.row] as! String
         detailedObsVC.observationCommentsArrayfromExploreView = commentsDictArray[indexPath.row] as! NSArray
+        detailedObsVC.obsupdateddate = observationUpdatedTimestampsArray_proj[indexPath.row] as! NSNumber
         detailedObsVC.observationId = obsIdsArray[indexPath.row] as! String
         self.navigationController?.pushViewController(detailedObsVC, animated: true)
         

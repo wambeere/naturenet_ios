@@ -14,6 +14,8 @@ import Kingfisher
 class DetailedObservationViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
     
     @IBOutlet weak var observationImageView: UIImageView!
+    @IBOutlet weak var observationPostedDateLabel: UILabel!
+    var obsupdateddate: NSNumber = 0
     @IBOutlet weak var observationTextLabel: UILabel!
     @IBOutlet weak var observerAffiliationLabel: UILabel!
     @IBOutlet weak var observerDisplayNameLabel: UILabel!
@@ -80,6 +82,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         print(observerImageUrl)
         print(observerDisplayName)
         print(observerAffiliation)
+        
+        
+        
         print(observationImageUrl)
         
         print(commentsDictfromExploreView)
@@ -87,6 +92,32 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         print(observationCommentsArrayfromExploreView)
         
         likedislikeView.hidden = true
+        
+        observationPostedDateLabel.text = ""
+        
+        if(obsupdateddate != 0)
+        {
+            let date = NSDate(timeIntervalSince1970:Double(obsupdateddate)/1000)
+            print(date)
+            let formatter = NSDateFormatter()
+            formatter.locale = NSLocale.currentLocale()
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            //formatter.dateFormat = "EEEE, MMMM dd yyyy"
+            formatter.dateStyle = NSDateFormatterStyle.FullStyle
+            formatter.timeStyle = .ShortStyle
+            
+            let dateString = formatter.stringFromDate(date)
+            
+            print(dateString)
+            
+            observationPostedDateLabel.text = dateString
+
+        }
+        else
+        {
+            observationPostedDateLabel.text = ""
+        }
+        
         
         if(isfromDesignIdeasView)
         {
@@ -128,6 +159,36 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         }
         
         observerDisplayNameLabel.text = observerDisplayName
+        
+        
+//        let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+observerAffiliation)
+//        //Firebase(url:FIREBASE_URL + "sites/"+aff!)
+//        sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+//            
+//            
+//            print(sitesRootRef)
+//            print(snapshot.value)
+//            
+//            if !(snapshot.value is NSNull)
+//            {
+//                
+//                
+//                print(snapshot.value!.objectForKey("name"))
+//                if(snapshot.value!.objectForKey("name") != nil)
+//                {
+//                    self.observerAffiliationLabel.text = snapshot.value!.objectForKey("name") as? String
+//                    //self.observerAffiliationsArray.addObject((snapshot.value!.objectForKey("name") as? String)!)
+//                }
+//                
+//                
+//                
+//            }
+//            
+//            }, withCancelBlock: { error in
+//                print(error.description)
+//        })
+
+        
         observerAffiliationLabel.text = observerAffiliation
         observationTextLabel.text = observationText
         

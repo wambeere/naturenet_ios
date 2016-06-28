@@ -42,15 +42,15 @@
                                 <rect key="frame" x="149" y="0.0" width="22" height="20"/>
                                 <state key="normal" backgroundImage="like.png"/>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="dUx-Ky-vlr">
-                                <rect key="frame" x="4" y="0.0" width="34" height="37"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="50" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGP-Wg-Xk4">
                                 <rect key="frame" x="133" y="21" width="13" height="13"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user.png" translatesAutoresizingMaskIntoConstraints="NO" id="dUx-Ky-vlr">
+                                <rect key="frame" x="4" y="0.0" width="34" height="37"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -94,6 +94,6 @@
         <image name="comment.png" width="512" height="512"/>
         <image name="default-no-image.png" width="1490" height="1080"/>
         <image name="like.png" width="512" height="512"/>
-        <image name="profile_icon.png" width="600" height="600"/>
+        <image name="user.png" width="512" height="512"/>
     </resources>
 </document>

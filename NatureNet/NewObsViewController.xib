@@ -7,6 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewObsViewController" customModule="NatureNet" customModuleProvider="target">
             <connections>
+                <outlet property="obsDescAndProjectView" destination="40c-db-EOY" id="9jM-bW-vw7"/>
+                <outlet property="obsDescTextView" destination="fug-fY-aQq" id="eYe-UZ-tSW"/>
+                <outlet property="obsProjectLabel" destination="S8h-Qc-yr7" id="eXy-14-aed"/>
                 <outlet property="observationDetailsTableView" destination="0Tn-jf-cig" id="e5P-x4-pHv"/>
                 <outlet property="observationImageView" destination="oYW-tp-73h" id="vw9-RI-RKe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -21,9 +24,27 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
                 </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0Tn-jf-cig">
-                    <rect key="frame" x="0.0" y="408" width="375" height="251"/>
+                    <rect key="frame" x="0.0" y="381" width="375" height="148"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="40c-db-EOY">
+                    <rect key="frame" x="0.0" y="501" width="375" height="166"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fug-fY-aQq">
+                            <rect key="frame" x="8" y="0.0" width="359" height="120"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S8h-Qc-yr7">
+                            <rect key="frame" x="10" y="128" width="354" height="30"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>

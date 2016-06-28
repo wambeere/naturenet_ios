@@ -63,6 +63,11 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     var commentsDictArray_ideas : NSMutableArray = []
     var commentsDictArray_challenges : NSMutableArray = []
     
+    var observationUpdatedTimestampsArray_ideas : NSMutableArray = []
+    var observationUpdatedTimestampsArray_challenges : NSMutableArray = []
+    var observationUpdatedTimestampsArray : NSMutableArray = []
+    var observationUpdatedTimestamp_ideas: NSNumber = 0
+    
     let ideasDataRoot = FIRDatabase.database().referenceWithPath("ideas") //Firebase(url: FIREBASE_URL + "ideas")
     let userDataRoot = FIRDatabase.database().referenceWithPath("users") //Firebase(url: FIREBASE_URL + "users")
     let ideaNumber = 10
@@ -159,7 +164,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return submitterDisplayName.count
+        return submitterAffiliation.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -220,6 +225,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         detailedObservationVC.designID = designIdsArray[indexPath.row] as! String
         detailedObservationVC.likesCountFromDesignIdeasView = likesCountArray[indexPath.row].integerValue
         detailedObservationVC.dislikesCountFromDesignIdeasView = dislikesCountArray[indexPath.row].integerValue
+        
+        detailedObservationVC.obsupdateddate = observationUpdatedTimestampsArray[indexPath.row] as! NSNumber
         
         detailedObservationVC.observationCommentsArrayfromExploreView = commentsDictArray[indexPath.row] as! NSArray
         
@@ -384,6 +391,16 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             self.statusArray_challenges.addObject("")
         }
         
+        if(challenge.objectForKey("updated_at") != nil)
+        {
+            let obsUpdatedAt = challenge.objectForKey("updated_at") as! NSNumber
+            self.observationUpdatedTimestampsArray_challenges.addObject(obsUpdatedAt)
+        }
+        else
+        {
+            self.observationUpdatedTimestampsArray_challenges.addObject(0)
+        }
+        
         if(challenge.objectForKey("likes") != nil)
         {
             let likesDictionary = challenge.objectForKey("likes") as! NSDictionary
@@ -463,6 +480,16 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             self.statusArray_ideas.addObject("")
         }
         
+        if(idea.objectForKey("updated_at") != nil)
+        {
+            let obsUpdatedAt = idea.objectForKey("updated_at") as! NSNumber
+            self.observationUpdatedTimestampsArray_ideas.addObject(obsUpdatedAt)
+        }
+        else
+        {
+            self.observationUpdatedTimestampsArray_ideas.addObject(0)
+        }
+        
         if(idea.objectForKey("likes") != nil)
         {
             let likesDictionary = idea.objectForKey("likes") as! NSDictionary
@@ -511,13 +538,41 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     if((submitterInfo.objectForKey("affiliation")) != nil)
                     {
                         let submiterAffiliationString = submitterInfo.objectForKey("affiliation") as! String
+                        let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+submiterAffiliationString)
+                        //Firebase(url:FIREBASE_URL + "sites/"+aff!)
+                        sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+                            
+                            
+                            print(sitesRootRef)
+                            print(snapshot.value)
+                            
+                            if !(snapshot.value is NSNull)
+                            {
+                                
+                                
+                                print(snapshot.value!.objectForKey("name"))
+                                if(snapshot.value!.objectForKey("name") != nil)
+                                {
+                                    //self.observerAffiliationLabel.text = snapshot.value!.objectForKey("name") as? String
+                                    self.submitterAffiliation_challenges.addObject((snapshot.value!.objectForKey("name") as? String)!)
+                                }
+                                
+                                
+                                
+                            }
+                            //self.designTableView.reloadData()
+                            }, withCancelBlock: { error in
+                                print(error.description)
+                        })
                         
-                        self.submitterAffiliation_challenges.addObject(submiterAffiliationString)
+
+                        
+                        //self.submitterAffiliation_challenges.addObject(submiterAffiliationString)
                         
                     }
                     else
                     {
-                        self.submitterAffiliation_challenges.addObject("")
+                        self.submitterAffiliation_challenges.addObject("No Affiliation")
                     }
                     
                     if((submitterInfo.objectForKey("display_name")) != nil)
@@ -576,12 +631,40 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     {
                         let submiterAffiliationString = submitterInfo.objectForKey("affiliation") as! String
                         
-                        self.submitterAffiliation_ideas.addObject(submiterAffiliationString)
+                        let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+submiterAffiliationString)
+                        //Firebase(url:FIREBASE_URL + "sites/"+aff!)
+                        sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
+                            
+                            
+                            print(sitesRootRef)
+                            print(snapshot.value)
+                            
+                            if !(snapshot.value is NSNull)
+                            {
+                                
+                                
+                                print(snapshot.value!.objectForKey("name"))
+                                if(snapshot.value!.objectForKey("name") != nil)
+                                {
+                                    //self.observerAffiliationLabel.text = snapshot.value!.objectForKey("name") as? String
+                                    self.submitterAffiliation_ideas.addObject((snapshot.value!.objectForKey("name") as? String)!)
+                                }
+                                
+                                
+                                
+                            }
+                            self.designTableView.reloadData()
+                            }, withCancelBlock: { error in
+                                print(error.description)
+                        })
+
+                        
+                        //self.submitterAffiliation_ideas.addObject(submiterAffiliationString)
                         
                     }
                     else
                     {
-                        self.submitterAffiliation_ideas.addObject("")
+                        self.submitterAffiliation_ideas.addObject("No Affiliation")
                     }
                     
                     if((submitterInfo.objectForKey("display_name")) != nil)
@@ -631,6 +714,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             submitterAffiliation = submitterAffiliation_challenges
             submitterDisplayName = submitterDisplayName_challenges
             
+            observationUpdatedTimestampsArray = observationUpdatedTimestampsArray_challenges
+            
             designIdsArray = designIdsArray_challenges
             commentsCountArray = commentsCountArray_challenges
             likesCountArray = likesCountArray_challenges
@@ -643,6 +728,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             submitterAvatar = submitterAvatar_ideas
             submitterAffiliation = submitterAffiliation_ideas
             submitterDisplayName = submitterDisplayName_ideas
+            
+            observationUpdatedTimestampsArray = observationUpdatedTimestampsArray_ideas
             
             print(contentArray)
             print(submitterDisplayName)

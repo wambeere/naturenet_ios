@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let date = NSDate(timeIntervalSince1970:Double(1460408776050)/1000)
         print(date)
         
-<<<<<<< Updated upstream
+
         
 //        let myRootRef = FIRAuth.auth()
 //        // Write data to Firebase
@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            })
         
         
-=======
+
         /***** NSDateFormatter Part *****/
         
         let formatter = NSDateFormatter()
@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dateString = formatter.stringFromDate(date)
         
         print(dateString)
->>>>>>> Stashed changes
+
 
         
         return true
