@@ -58,7 +58,8 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         //Registering custom cell
         //menuTableView.registerNib(UINib(nibName: "MenuTableViewCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
-        self.projectsTableView.separatorColor = UIColor.clearColor()
+        self.projectsTableView.separatorColor = UIColor.grayColor()
+        self.projectsTableView.tableFooterView = UIView(frame: CGRectZero)
         self.projectsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         self.view.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
@@ -515,7 +516,9 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         if let projectIconUrl  = NSURL(string: projectIconKeys[indexPath.row] as! String)
         {
-            cellImageView.kf_setImageWithURL(projectIconUrl)
+            //cellImageView.kf_setImageWithURL(NSURL.fileURLWithPath(projectIconUrl, placeholderImage: UIImage(named: "user.png")))
+            //cellImageView.kf_setImageWithURL(NSURL.fileURLWithPath(projectIconUrl, placeholderImage: UIImage(named: "user.png"))
+            cellImageView.kf_setImageWithURL(projectIconUrl, placeholderImage: UIImage(named: "project.png"))
         }
         
         /*
@@ -536,10 +539,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         //cell.imageView!.image = UIImage(named: projIcons[indexPath.row])
         //cell.imageView!.image = imageWithImage(UIImage(named: projIcons[indexPath.row])!, scaledToSize: CGSize(width: 30, height: 30))
         
-        let additionalSeparator = UIView()
-        additionalSeparator.frame = CGRectMake(0,cell.frame.size.height,self.view.frame.size.width,3)
-        additionalSeparator.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
-        cell.addSubview(additionalSeparator)
+//        let additionalSeparator = UIView()
+//        additionalSeparator.frame = CGRectMake(0,cell.frame.size.height,self.view.frame.size.width,3)
+//        additionalSeparator.backgroundColor = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+//        cell.addSubview(additionalSeparator)
         
         return cell
     }

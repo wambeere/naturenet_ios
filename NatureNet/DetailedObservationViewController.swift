@@ -56,7 +56,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     var dislikesCountFromDesignIdeasView : Int = 0
     @IBOutlet weak var likeButtonBesidesCommentBox: UIButton!
     
-    
+    var isUserLiked : Bool = false
+    var isUserDisLiked : Bool = false
     
     @IBOutlet weak var commentTF: UITextField!
     
@@ -129,6 +130,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             
             commentContext = "ideas"
             
+            getUpdatedlikestoDesignIdeas()
             //observationImageView.hidden = true
             
 //            likedislikeView.frame = CGRectMake(likedislikeView.frame.origin.x, observationTextLabel.frame.origin.y+observationTextLabel.frame.size.height+8, likedislikeView.frame.size.width, likedislikeView.frame.size.height)
@@ -140,6 +142,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         else
         {
             commentContext = "observations"
+            getLikesToObservations()
         }
         
         let observerAvatarUrl  = NSURL(string: observerImageUrl )
@@ -151,12 +154,13 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         {
             let obsImageUrl  = NSURL(string: observationImageUrl )
             observationImageView.kf_setImageWithURL(obsImageUrl! , placeholderImage: UIImage(named: "default-no-image.png"))
-        } else
-        {
-            print("in")
-            observationImageView.removeFromSuperview()
-            view.updateConstraints()
         }
+//        else
+//        {
+//            print("in")
+//            observationImageView.removeFromSuperview()
+//            view.updateConstraints()
+//        }
         
         observerDisplayNameLabel.text = observerDisplayName
         
@@ -215,7 +219,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         
 
-
+        
 
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool // called when 'return' key pressed. return NO to ignore.
@@ -280,6 +284,94 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
 //        
 //        
 //    }
+    
+    func getLikesToObservations()
+    {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        var userID = String()
+        if(userDefaults.objectForKey("userID") != nil)
+        {
+            userID = (userDefaults.objectForKey("userID") as? String)!
+        }
+        if(userID != "" || self.observationId != "")
+        {
+            let observationRootRef = FIRDatabase.database().referenceWithPath("observations/" + String(self.observationId)) //Firebase(url:POST_IDEAS_URL + observationId)
+            observationRootRef.observeEventType(.Value, withBlock: { snapshot in
+                
+                print(observationRootRef)
+                print(snapshot.value)
+                
+                if !(snapshot.value is NSNull)
+                {
+                    
+                    if(snapshot.value!.objectForKey("likes") != nil)
+                    {
+                        let likesDictionary = snapshot.value!.objectForKey("likes") as! NSDictionary
+                        print(likesDictionary.allValues)
+                        
+                        let likesArray = likesDictionary.allValues as NSArray
+                        print(likesArray)
+                        
+                        let userKeys = likesDictionary.allKeys as NSArray
+                        print(userKeys)
+                        
+                        //let userDefaults = NSUserDefaults.standardUserDefaults()
+                        //var userID = String()
+                        
+                        if((userDefaults.stringForKey("isSignedIn")) == "true")
+                        {
+                            if(userKeys.containsObject(userID))
+                            {
+                                if(likesDictionary.objectForKey(userID) as! NSObject == 1)
+                                {
+                                    self.isObservationLiked = true
+                                    
+                                    self.likeButtonBesidesCommentBox.selected = true
+                                    self.likeButtonBesidesCommentBox.userInteractionEnabled = false
+                                    
+                                }
+                                else
+                                {
+                                    self.isObservationLiked = false
+                                    
+                                    self.likeButtonBesidesCommentBox.selected = false
+                                    self.likeButtonBesidesCommentBox.userInteractionEnabled = true
+                                }
+                            }
+                            else
+                            {
+                                self.isObservationLiked = false
+                                
+                                self.likeButtonBesidesCommentBox.selected = false
+                                self.likeButtonBesidesCommentBox.userInteractionEnabled = true
+                                
+                            }
+                            
+                        }
+                        else{
+                            
+                            self.isObservationLiked = false
+                            
+                            self.likeButtonBesidesCommentBox.selected = false
+                            self.likeButtonBesidesCommentBox.userInteractionEnabled = false
+                        }
+                        
+                        
+                    }
+                }
+                
+                }, withCancelBlock: { error in
+                    print(error.description)
+                    let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                    let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                    alert.addAction(action)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+            })
+        }
+        
+
+    }
     
     func getCommentsDetails(obsCommentsArray: NSArray)
     {
@@ -440,6 +532,62 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                     
                     let likesArray = likesDictionary.allValues as NSArray
                     print(likesArray)
+                    
+                    let userKeys = likesDictionary.allKeys as NSArray
+                    print(userKeys)
+                    
+                    let userDefaults = NSUserDefaults.standardUserDefaults()
+                    var userID = String()
+                    if(userDefaults.objectForKey("userID") != nil)
+                    {
+                        userID = (userDefaults.objectForKey("userID") as? String)!
+                    }
+
+                    if((userDefaults.stringForKey("isSignedIn")) == "true")
+                    {
+                        if(userKeys.containsObject(userID))
+                        {
+                            if(likesDictionary.objectForKey(userID) as! NSObject == 1)
+                            {
+                                self.isUserLiked = true
+                                self.isUserDisLiked = false
+                                self.likeButtonForDesign.selected = true
+                                self.dislikeButtonForDesign.selected = false
+                                
+                                self.likeButtonForDesign.userInteractionEnabled = false
+                                self.dislikeButtonForDesign.userInteractionEnabled = true
+                            }
+                            else
+                            {
+                                self.isUserDisLiked = true
+                                self.isUserLiked = false
+                                
+                                self.likeButtonForDesign.selected = false
+                                self.dislikeButtonForDesign.selected = true
+                                
+                                self.likeButtonForDesign.userInteractionEnabled = true
+                                self.dislikeButtonForDesign.userInteractionEnabled = false
+                            }
+                        }
+                        else
+                        {
+                            self.likeButtonForDesign.selected = false
+                            self.dislikeButtonForDesign.selected = false
+                            
+                            self.likeButtonForDesign.userInteractionEnabled = true
+                            self.dislikeButtonForDesign.userInteractionEnabled = true
+
+                        }
+
+                    }
+                    else{
+                        
+                        self.likeButtonForDesign.selected = false
+                        self.dislikeButtonForDesign.selected = false
+                        
+                        self.likeButtonForDesign.userInteractionEnabled = false
+                        self.dislikeButtonForDesign.userInteractionEnabled = false
+                    }
                     
                     
                     for l in 0 ..< likesArray.count
@@ -813,28 +961,97 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     }
     @IBAction func likeButtonClicked(sender: UIButton) {
         
-        sender.selected = true
-        sender.userInteractionEnabled = false
-        dislikeButtonForDesign.userInteractionEnabled = true
-        postLiketoDesign(true)
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if((userDefaults.stringForKey("isSignedIn")) == "true")
+        {
+            if(isUserLiked == true)
+            {
+                
+                let alert = UIAlertController(title: "Alert", message: "You Already liked this post", preferredStyle: UIAlertControllerStyle.Alert)
+                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                alert.addAction(action)
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+            }
+            else
+            {
+                postLiketoDesign(true)
+            }
+            
+        }
+        else{
+            let alert = UIAlertController(title: "Alert", message: "Please Sign In to like", preferredStyle: UIAlertControllerStyle.Alert)
+            let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+            alert.addAction(action)
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
         
     }
     
     
     @IBAction func dislikeButtonClicked(sender: UIButton) {
         
-        sender.selected = true
-        sender.userInteractionEnabled = false
-        likeButtonForDesign.userInteractionEnabled = true
-        postLiketoDesign(false)
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if((userDefaults.stringForKey("isSignedIn")) == "true")
+        {
+            if(isUserDisLiked == true)
+            {
+                let alert = UIAlertController(title: "Alert", message: "You Already disliked this post", preferredStyle: UIAlertControllerStyle.Alert)
+                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                alert.addAction(action)
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            else
+            {
+                postLiketoDesign(false)
+            }
+//            sender.selected = true
+//            sender.userInteractionEnabled = false
+//            likeButtonForDesign.userInteractionEnabled = true
+            
+        }
+        else{
+            
+            let alert = UIAlertController(title: "Alert", message: "Please Sign In to dislike", preferredStyle: UIAlertControllerStyle.Alert)
+            let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+            alert.addAction(action)
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        }
         
     }
     
     @IBAction func likeButtonBesidesCommentBoxClicked(sender: UIButton) {
         
         //sender.setImage(UIImage(named: "4-6 like-grey.png") as UIImage?, forState: .Selected)
-        sender.selected = true
-        postLiketoObservation()
+        //sender.selected = true
+        //postLiketoObservation()
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if((userDefaults.stringForKey("isSignedIn")) == "true")
+        {
+            if(isObservationLiked == true)
+            {
+                let alert = UIAlertController(title: "Alert", message: "You Already liked this post", preferredStyle: UIAlertControllerStyle.Alert)
+                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                alert.addAction(action)
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            else
+            {
+                postLiketoObservation()
+            }
+            
+        }
+        else{
+            
+            let alert = UIAlertController(title: "Alert", message: "Please Sign In to like this post", preferredStyle: UIAlertControllerStyle.Alert)
+            let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+            alert.addAction(action)
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        }
+
         
     }
     func postLiketoDesign(islike: Bool)
@@ -993,10 +1210,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                             {
                                 //let userDefaults = NSUserDefaults.standardUserDefaults()
                                 //userDefaults.setValue("false", forKey: "isObservationLiked")
-                                
-                                if(userID != "" )
+                                if(userID != "" || self.observationId != "")
                                 {
-                                    
                                     let ref = FIRDatabase.database().referenceWithPath("observations/\(self.observationId)/likes") //Firebase(url: POST_OBSERVATION_URL+"\(self.observationId)/likes")
                                     //print(ref.childByAutoId())
                                     //let autoID = ref.childByAutoId()
@@ -1005,11 +1220,15 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                     userChild.setValue(true)
                                     print(self.observationId)
                                     
+                                    
+                                    
                                     //userDefaults.setValue("true", forKey: "isObservationLiked")
                                     
                                     let alert = UIAlertController(title: "Alert", message: "Liked Successfully", preferredStyle: UIAlertControllerStyle.Alert)
                                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                     self.presentViewController(alert, animated: true, completion: nil)
+                                    
+                                    self.getLikesToObservations()
                                 }
                                 else
                                 {
