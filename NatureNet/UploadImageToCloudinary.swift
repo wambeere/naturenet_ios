@@ -72,17 +72,6 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         
         uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
         
-        
-        
-        
-        //Cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
-        //Cloudinary.config().setValue("893246586645466", forKey: "api_key")
-        //Cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
-        
-        
-        
-        
-        
     }
     
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
@@ -98,6 +87,8 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
             userDefaults.setValue(url, forKey: "observationImageUrl")
         }
     }
+    
+    
     
     func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
         //do any progress update you may need
