@@ -176,6 +176,12 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
                                 print(autoID.key)
                                 let designData = ["id": autoID.key as AnyObject,"content": self.textView.text as AnyObject,"group": self.design as AnyObject, "status": "Doing" ,"submitter": userID as AnyObject,"created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
                                 autoID.setValue(designData)
+                                
+                                let alert = UIAlertController(title: "Alert", message: "Design Posted Successfully", preferredStyle: UIAlertControllerStyle.Alert)
+                                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                                alert.addAction(action)
+                                self.presentViewController(alert, animated: true, completion: nil)
+
                             }
                             
                             })

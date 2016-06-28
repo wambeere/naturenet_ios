@@ -72,7 +72,6 @@
 		9F32D22A1CBDC73C00298E02 /* CameraAndGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2281CBDC73C00298E02 /* CameraAndGalleryViewController.xib */; };
 		9F32D22F1CBEB61900298E02 /* NewObsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */; };
 		9F32D2301CBEB61900298E02 /* NewObsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */; };
-		9F32D2331CBEE46A00298E02 /* NewObservationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */; };
 		9F32D2341CBEE46A00298E02 /* NewObservationDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */; };
 		9F4523551CC167C400D5D92C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4523541CC167C400D5D92C /* SWRevealViewController.m */; };
 		9F45235B1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4523591CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift */; };
@@ -190,7 +189,6 @@
 		9F32D2281CBDC73C00298E02 /* CameraAndGalleryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryViewController.xib; sourceTree = "<group>"; };
 		9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewObsViewController.swift; sourceTree = "<group>"; };
 		9F32D22E1CBEB61900298E02 /* NewObsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewObsViewController.xib; sourceTree = "<group>"; };
-		9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewObservationDetailsViewController.swift; sourceTree = "<group>"; };
 		9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewObservationDetailsViewController.xib; sourceTree = "<group>"; };
 		9F4523531CC167C400D5D92C /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		9F4523541CC167C400D5D92C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
@@ -330,7 +328,6 @@
 				9F32D2271CBDC73C00298E02 /* CameraAndGalleryViewController.swift */,
 				18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */,
 				9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */,
-				9F32D2311CBEE46900298E02 /* NewObservationDetailsViewController.swift */,
 				9F4523591CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift */,
 				9F45235D1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift */,
 				9F7C59B11CF0C1CA00371F88 /* HomeViewController.swift */,
@@ -709,7 +706,6 @@
 				9F14A79B1C9F159C00CAB0F6 /* DesignIdeasViewController.swift in Sources */,
 				9F7C59B31CF0C1CA00371F88 /* HomeViewController.swift in Sources */,
 				9F9DBC6D1CA2F68A0047DE4B /* SignInSignUpViewController.swift in Sources */,
-				9F32D2331CBEE46A00298E02 /* NewObservationDetailsViewController.swift in Sources */,
 				9F25D3861CCA619000342B56 /* ProjectDetailViewController.swift in Sources */,
 				9F14A78B1C9DC8CE00CAB0F6 /* ExploreViewController.swift in Sources */,
 				9F4523551CC167C400D5D92C /* SWRevealViewController.m in Sources */,
