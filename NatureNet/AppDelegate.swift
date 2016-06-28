@@ -45,6 +45,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //persistent data
         FIRDatabase.database().persistenceEnabled = true
         
+        //these cannot be purged from the cache
+        let geoActivitiesRootRef = FIRDatabase.database().referenceWithPath("geo/activities/")
+        let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities/")
+        geoActivitiesRootRef.keepSynced(true)
+        activitiesRootRef.keepSynced(true)
+        
        
         
 
