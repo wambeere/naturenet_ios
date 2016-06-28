@@ -161,6 +161,11 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
             }
             }, withCancelBlock: { error in
                 print(error.description)
+                let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                alert.addAction(action)
+                self.presentViewController(alert, animated: true, completion: nil)
+
         })
         
 //        let sitesUrl = NSURL(string: FIREBASE_URL + "sites.json")
@@ -519,7 +524,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                             if error != nil {
                                 // There was an error logging in to this account
                                 print("\(error)")
-                                let alert = UIAlertController(title: "Alert", message:error!.description ,preferredStyle: UIAlertControllerStyle.Alert)
+                                let alert = UIAlertController(title: "Alert", message:error!.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                 self.presentViewController(alert, animated: true, completion: nil)
                                 
@@ -567,6 +572,11 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                     }
                                     }, withCancelBlock: { error in
                                         print(error.description)
+                                        let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                                        let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                                        alert.addAction(action)
+                                        self.presentViewController(alert, animated: true, completion: nil)
+
                                 })
                                 
 //                                let endpoint = NSURL(string: USERS_URL+"\(authData?.uid).json")
@@ -676,7 +686,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                  completion: { result, error in
                                     if error != nil {
                                         // There was an error creating the account
-                                        let alert = UIAlertController(title: "Alert", message:error!.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                        let alert = UIAlertController(title: "Alert", message:error!.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                         self.presentViewController(alert, animated: true, completion: nil)
                                         //print(error.description)

@@ -12,22 +12,21 @@ import Cloudinary
 import MapKit
 import CoreLocation
 
-class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate{
+class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,CLLocationManagerDelegate{
 
     @IBOutlet weak var observationDetailsTableView: UITableView!
     @IBOutlet weak var observationImageView: UIImageView!
     var obsImage : UIImage = UIImage(named: "default-no-image.png")!
     
-    var items: [String] = ["Description", "Project"]
+    var items: [String] = ["Select a Project"]
     
-    var projectName : String = ""
+    var projectKey : String = ""
     var descText :String = ""
     var userID :String = ""
     
     let locationManager = CLLocationManager()
     var locValue = CLLocationCoordinate2D()
     
-    @IBOutlet weak var obsDescAndProjectView: UIView!
     
     @IBOutlet weak var obsProjectLabel: UILabel!
     @IBOutlet weak var obsDescTextView: UITextView!
@@ -76,21 +75,24 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        if(userDefaults.objectForKey("ObservationDescription") != nil)
-        {
-            userDefaults.setValue("", forKey:"ObservationDescription")
-        }
-        if(userDefaults.objectForKey("Project") != nil)
+        
+        if(userDefaults.objectForKey("ProjectKey") != nil)
         {
             //projectName = (userDefaults.objectForKey("Project") as? String)!
             userDefaults.setValue("", forKey:"ProjectKey")
             userDefaults.setValue("", forKey:"ProjectName")
         }
         
-        obsDescAndProjectView.hidden = true
-        observationDetailsTableView.hidden = false
+        
 
 
+    }
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locValue = manager.location!.coordinate
@@ -99,22 +101,14 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     override func viewWillAppear(animated: Bool) {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        if(userDefaults.objectForKey("ObservationDescription") as! String != "")
-        {
-            print(userDefaults.objectForKey("ObservationDescription"))
-            obsDescTextView.text = (userDefaults.objectForKey("ObservationDescription") as? String)!
-            
-            obsDescAndProjectView.hidden = false
-            //observationDetailsTableView.hidden = true
-        }
-        if(userDefaults.objectForKey("ProjectName") as! String != "")
+        
+        if(userDefaults.objectForKey("ProjectName") != nil)
         {
             obsProjectLabel.text = (userDefaults.objectForKey("ProjectName") as? String)!
-            
-            obsDescAndProjectView.hidden = false
-            //observationDetailsTableView.hidden = true
+            //userDefaults.setValue("", forKey:"ProjectKey")
+            //userDefaults.setValue("", forKey:"ProjectName")
         }
-        
+
         
     }
     
@@ -134,13 +128,12 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
 //        let obs = ["id": uid as! AnyObject,"display_name": self.joinName.text as! AnyObject, "affiliation": self.joinAffliation.text as! AnyObject]
 //        observations.setValue(obs)
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        if(userDefaults.objectForKey("ObservationDescription") != nil)
-        {
-            descText = (userDefaults.objectForKey("ObservationDescription") as? String)!
-        }
+        
+        descText = obsDescTextView.text
+        
         if(userDefaults.objectForKey("ProjectKey") != nil)
         {
-            projectName = (userDefaults.objectForKey("ProjectKey") as? String)!
+            projectKey = (userDefaults.objectForKey("ProjectKey") as? String)!
         }
         if(userDefaults.objectForKey("userID") != nil)
         {
@@ -152,7 +145,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         
         
-        print(projectName)
+        print(projectKey)
         print(descText)
         print(userID)
         print(OBSERVATION_IMAGE_UPLOAD_URL)
@@ -232,11 +225,11 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             
                             //let dataKeys = ["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject]
                             //obsData.setValue(dataKeys)
-                            let userDefaults = NSUserDefaults.standardUserDefaults()
+                            //let userDefaults = NSUserDefaults.standardUserDefaults()
                             print(userDefaults.objectForKey("progress"))
-                            if(userDefaults.objectForKey("progress") as? String == "100.0")
+                            if(userDefaults.objectForKey("progress") as? String == "100.0" && (self.projectKey != ""))
                             {
-                                let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectName,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+                                let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
                                 autoID.setValue(obsDetails)
                                 
                                 print(autoID)
@@ -313,16 +306,10 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let obsDetailsVC = NewObservationDetailsViewController()
+        //let obsDetailsVC = NewObservationDetailsViewController()
         let projectVC = ProjectsViewController()
         let navVC = UINavigationController()
         if(indexPath.row == 0)
-        {
-            obsDetailsVC.isDescription = true
-            navVC.viewControllers = [obsDetailsVC]
-            self.presentViewController(navVC, animated: true, completion: nil)
-        }
-        else
         {
             //obsDetailsVC.isDescription = false
             projectVC.isfromObservationVC = true

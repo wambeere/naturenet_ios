@@ -225,6 +225,11 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                    
                     }, withCancelBlock: { error in
                         print(error.description)
+                        let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                        let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                        alert.addAction(action)
+                        self.presentViewController(alert, animated: true, completion: nil)
+
                 })
 
                 

@@ -45,8 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //persistent data
         FIRDatabase.database().persistenceEnabled = true
         
-        let date = NSDate(timeIntervalSince1970:Double(1460408776050)/1000)
-        print(date)
+       
         
 
         
@@ -69,18 +68,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
 
-        /***** NSDateFormatter Part *****/
-        
-        let formatter = NSDateFormatter()
-        formatter.locale = NSLocale.currentLocale()
-        formatter.timeZone = NSTimeZone.localTimeZone()
-        //formatter.dateFormat = "EEEE, MMMM dd yyyy"
-        formatter.dateStyle = NSDateFormatterStyle.FullStyle
-        formatter.timeStyle = .ShortStyle
-        
-        let dateString = formatter.stringFromDate(date)
-        
-        print(dateString)
+//        let date = NSDate(timeIntervalSince1970:Double(1460408776050)/1000)
+//        print(date)
+//        /***** NSDateFormatter Part *****/
+//        
+//        let formatter = NSDateFormatter()
+//        formatter.locale = NSLocale.currentLocale()
+//        formatter.timeZone = NSTimeZone.localTimeZone()
+//        //formatter.dateFormat = "EEEE, MMMM dd yyyy"
+//        formatter.dateStyle = NSDateFormatterStyle.FullStyle
+//        formatter.timeStyle = .ShortStyle
+//        
+//        let dateString = formatter.stringFromDate(date)
+//        
+//        print(dateString)
 
 
         

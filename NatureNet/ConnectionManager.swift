@@ -40,4 +40,5 @@ class ConnectionManager{
     
     static let sharedManager = ConnectionManager()
     
+        
 }
