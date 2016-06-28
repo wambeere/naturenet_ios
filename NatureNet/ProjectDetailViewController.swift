@@ -48,7 +48,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
     
     var obsIdsArray : NSMutableArray = []
     
-    var projectObservationsNumber : Int = 4
+    var projectObservationsNumber : Int = 10
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +100,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         //geoObservationsRootRef.queryLimitedToLast(4)
         //geoObservationsRootRef.queryOrderedByChild("updated_at")
         
-        geoObservationsRootRef.queryOrderedByChild("updated_at").queryLimitedToLast(UInt(projectObservationsNumber)).observeEventType(.Value, withBlock: { snapshot in
+        geoObservationsRootRef.queryLimitedToLast(UInt(projectObservationsNumber)).queryOrderedByChild("activity_location").queryEqualToValue(projectIdFromProjectVC).observeEventType(.Value, withBlock: { snapshot in
             
             print(geoObservationsRootRef)
             //print(snapshot.value!.count)
