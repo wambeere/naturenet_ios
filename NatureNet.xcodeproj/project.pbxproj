@@ -30,7 +30,6 @@
 		9F1B6DDB1D16FE650012F66E /* CommunitiesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */; };
 		9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */; };
 		9F1B6DDE1D1AF4040012F66E /* shutdown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDD1D1AF4040012F66E /* shutdown.png */; };
-		9F1B6DE11D1DAC2E0012F66E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DDF1D1DAC2E0012F66E /* GoogleService-Info.plist */; };
 		9F1B6DE21D1DAC2E0012F66E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F1B6DE01D1DAC2E0012F66E /* Info.plist */; };
 		9F2222951CE25E9100A845E2 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222941CE25E9100A845E2 /* user.png */; };
 		9F2222A71CE25FA400A845E2 /* add design challenges.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F2222961CE25FA400A845E2 /* add design challenges.png */; };
@@ -81,6 +80,7 @@
 		9F6905821CFDC73A00EEE241 /* 4-5 discussing.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F69057F1CFDC73A00EEE241 /* 4-5 discussing.png */; };
 		9F6905831CFDC73A00EEE241 /* 4-6 like-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6905801CFDC73A00EEE241 /* 4-6 like-grey.png */; };
 		9F6905841CFDC73A00EEE241 /* 4-7 dislike-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6905811CFDC73A00EEE241 /* 4-7 dislike-grey.png */; };
+		9F73BDFE1D22CE1A00336223 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F73BDFD1D22CE1A00336223 /* GoogleService-Info.plist */; };
 		9F7C59B01CEF67E800371F88 /* Logo_GreenTransp.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7C59AF1CEF67E800371F88 /* Logo_GreenTransp.png */; };
 		9F7C59B31CF0C1CA00371F88 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7C59B11CF0C1CA00371F88 /* HomeViewController.swift */; };
 		9F7C59B41CF0C1CA00371F88 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F7C59B21CF0C1CA00371F88 /* HomeViewController.xib */; };
@@ -147,7 +147,6 @@
 		9F1B6DD91D16FE650012F66E /* CommunitiesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunitiesTableViewCell.swift; sourceTree = "<group>"; };
 		9F1B6DDA1D16FE650012F66E /* CommunitiesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommunitiesTableViewCell.xib; sourceTree = "<group>"; };
 		9F1B6DDD1D1AF4040012F66E /* shutdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shutdown.png; sourceTree = "<group>"; };
-		9F1B6DDF1D1DAC2E0012F66E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9F1B6DE01D1DAC2E0012F66E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F2222941CE25E9100A845E2 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		9F2222961CE25FA400A845E2 /* add design challenges.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add design challenges.png"; sourceTree = "<group>"; };
@@ -199,6 +198,7 @@
 		9F69057F1CFDC73A00EEE241 /* 4-5 discussing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-5 discussing.png"; sourceTree = "<group>"; };
 		9F6905801CFDC73A00EEE241 /* 4-6 like-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-6 like-grey.png"; sourceTree = "<group>"; };
 		9F6905811CFDC73A00EEE241 /* 4-7 dislike-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-7 dislike-grey.png"; sourceTree = "<group>"; };
+		9F73BDFD1D22CE1A00336223 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9F7C59AF1CEF67E800371F88 /* Logo_GreenTransp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo_GreenTransp.png; sourceTree = "<group>"; };
 		9F7C59B11CF0C1CA00371F88 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		9F7C59B21CF0C1CA00371F88 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
@@ -402,7 +402,7 @@
 		9F9BB3BA1C9B214C0076E68E /* NatureNet */ = {
 			isa = PBXGroup;
 			children = (
-				9F1B6DDF1D1DAC2E0012F66E /* GoogleService-Info.plist */,
+				9F73BDFD1D22CE1A00336223 /* GoogleService-Info.plist */,
 				9F1B6DE01D1DAC2E0012F66E /* Info.plist */,
 				9F32D20D1CB587FD00298E02 /* Reachability.swift */,
 				9F32D2151CB6F6E100298E02 /* ConnectionManager.swift */,
@@ -574,12 +574,12 @@
 				9F32D21E1CB7F33100298E02 /* marker.png in Resources */,
 				9F25D38B1CCA65AF00342B56 /* ProjectDetailCollectionViewCell.xib in Resources */,
 				9F25D3871CCA619000342B56 /* ProjectDetailViewController.xib in Resources */,
-				9F1B6DE11D1DAC2E0012F66E /* GoogleService-Info.plist in Resources */,
 				9F2222AB1CE25FA400A845E2 /* completed.png in Resources */,
 				9F14A7941C9E65B800CAB0F6 /* DetailedObservationViewController.xib in Resources */,
 				9F2222AC1CE25FA400A845E2 /* design ideas navy.png in Resources */,
 				9F7C59BC1CF0C24100371F88 /* 2-5 cancel.png in Resources */,
 				9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */,
+				9F73BDFE1D22CE1A00336223 /* GoogleService-Info.plist in Resources */,
 				9F7C59B01CEF67E800371F88 /* Logo_GreenTransp.png in Resources */,
 				9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */,
 				9F14A7981C9F158000CAB0F6 /* ProjectsViewController.xib in Resources */,

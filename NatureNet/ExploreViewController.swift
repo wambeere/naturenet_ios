@@ -365,6 +365,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         //        }
         
         let observationsImageUrlString = exploreObservationsImagesArray[indexPath.row] as! String
+        print(observationsImageUrlString)
         let newimageURLString = observationsImageUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
         //observerImageUrlData = NSData(contentsOfURL: observerImageUrl)
         
@@ -442,7 +443,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
         detailedObservationVC.obsupdateddate = observationUpdatedAtTimestampsArrayFromMapview[indexPath.row] as! NSNumber
         
         let observerImageUrlString = exploreObservationsImagesArray[indexPath.row] as! String
-        let newimageURLString = observerImageUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-large", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        let newimageURLString = observerImageUrlString.stringByReplacingOccurrencesOfString("upload/t_ios-thumbnail", withString: "upload/t_ios-large", options: NSStringCompareOptions.LiteralSearch, range: nil)
         
         detailedObservationVC.observationImageUrl = newimageURLString
         //detailedObservationVC.observationsIdsfromExploreView = observerIdsfromMapView

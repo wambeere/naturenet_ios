@@ -46,7 +46,8 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
         
         peopleTable.delegate = self
         peopleTable.dataSource = self
-        peopleTable.separatorColor = UIColor.clearColor()
+        peopleTable.separatorColor = UIColor.grayColor()
+        self.peopleTable.tableFooterView = UIView(frame: CGRectZero)
         peopleTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         peopleTable.contentInset = UIEdgeInsetsMake(-1.0, 0.0, 0.0, 0.0)
         

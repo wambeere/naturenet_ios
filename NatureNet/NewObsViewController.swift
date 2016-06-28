@@ -227,42 +227,53 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             //obsData.setValue(dataKeys)
                             //let userDefaults = NSUserDefaults.standardUserDefaults()
                             print(userDefaults.objectForKey("progress"))
-                            if(userDefaults.objectForKey("progress") as? String == "100.0" && (self.projectKey != ""))
-                            {
-                                let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
-                                autoID.setValue(obsDetails)
+                            if(self.projectKey != ""){
                                 
-                                print(autoID)
-                                
-                                let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
-                                //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                
-                                if(userDefaults.objectForKey("ObservationDescription") != nil)
+                                if(userDefaults.objectForKey("progress") as? String == "100.0")
                                 {
-                                    userDefaults.setValue("", forKey:"ObservationDescription")
-                                }
-                                if(userDefaults.objectForKey("Project") != nil)
-                                {
-                                    //projectName = (userDefaults.objectForKey("Project") as? String)!
-                                    userDefaults.setValue("", forKey:"ProjectKey")
-                                    userDefaults.setValue("", forKey:"ProjectName")
-                                }
-                                
-                                let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
-                                {
-                                    UIAlertAction in
-                                    self.dismissVC()
+                                    let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+                                    autoID.setValue(obsDetails)
+                                    
+                                    print(autoID)
+                                    
+                                    let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                    //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                    
+                                    if(userDefaults.objectForKey("ObservationDescription") != nil)
+                                    {
+                                        userDefaults.setValue("", forKey:"ObservationDescription")
+                                    }
+                                    if(userDefaults.objectForKey("Project") != nil)
+                                    {
+                                        //projectName = (userDefaults.objectForKey("Project") as? String)!
+                                        userDefaults.setValue("", forKey:"ProjectKey")
+                                        userDefaults.setValue("", forKey:"ProjectName")
+                                    }
+                                    
+                                    let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
+                                    {
+                                        UIAlertAction in
+                                        self.dismissVC()
+                                        
+                                    }
+                                    alert.addAction(dismissAction)
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                    
+                                    
                                     
                                 }
-                                alert.addAction(dismissAction)
-                                self.presentViewController(alert, animated: true, completion: nil)
-                                
-                                
+                                else
+                                {
+                                    let alert = UIAlertController(title: "Alert", message:"Image uploading failed" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                }
 
+                                
                             }
                             else
                             {
-                                let alert = UIAlertController(title: "Alert", message:"Image uploading failed" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                let alert = UIAlertController(title: "Alert", message:"Please select a project to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                 self.presentViewController(alert, animated: true, completion: nil)
                             }

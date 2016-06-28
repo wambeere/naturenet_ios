@@ -165,26 +165,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         mapAnnotationClickSubView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MapViewController.mapAnnotationClickSubViewtapped)))
         mapAnnotationClickSubView.userInteractionEnabled = true
         
-       
+       self.getObservations()
         
                 
-        //declare this property where it won't go out of scope relative to your listener
-        var reachability: Reachability?
-        
-        //declare this inside of viewWillAppear
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-        } catch {
-            print("Unable to create Reachability")
-            return
-        }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.reachabilityChanged(_:)),name: ReachabilityChangedNotification,object: reachability)
-        do{
-            try reachability?.startNotifier()
-        }catch{
-            print("could not start reachability notifier")
-        }
+//        //declare this property where it won't go out of scope relative to your listener
+//        var reachability: Reachability?
+//        
+//        //declare this inside of viewWillAppear
+//        do {
+//            reachability = try Reachability.reachabilityForInternetConnection()
+//        } catch {
+//            print("Unable to create Reachability")
+//            return
+//        }
+//        
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.reachabilityChanged(_:)),name: ReachabilityChangedNotification,object: reachability)
+//        do{
+//            try reachability?.startNotifier()
+//        }catch{
+//            print("could not start reachability notifier")
+//        }
         
         if(UIScreen.mainScreen().nativeBounds.height <= 1136)
         {
@@ -270,28 +270,28 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     }
 
     
-    func reachabilityChanged(note: NSNotification) {
-        
-        let reachability = note.object as! Reachability
-        
-        if reachability.isReachable() {
-            //                if reachability.isReachableViaWiFi() {
-            //                    print("Reachable via WiFi")
-            //                } else {
-            //                    print("Reachable via Cellular")
-            //                }
-            dispatch_async(dispatch_get_main_queue(), {
-                // code here
-                self.getObservations()
-            })
-            
-        } else {
-            print("Network not reachable")
-            let alert = UIAlertController(title: "Alert", message:"Please Check your Internet Connection" ,preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-    }
+//    func reachabilityChanged(note: NSNotification) {
+//        
+//        let reachability = note.object as! Reachability
+//        
+//        if reachability.isReachable() {
+//            //                if reachability.isReachableViaWiFi() {
+//            //                    print("Reachable via WiFi")
+//            //                } else {
+//            //                    print("Reachable via Cellular")
+//            //                }
+//            dispatch_async(dispatch_get_main_queue(), {
+//                // code here
+//                
+//            })
+//            
+//        } else {
+//            print("Network not reachable")
+//            let alert = UIAlertController(title: "Alert", message:"Please Check your Internet Connection" ,preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        }
+//    }
     
     func getObservations()
     {
@@ -512,7 +512,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
                         let imageURLString = observationImageAndText["image"] as! String
                         //let aString: String = "This is my string"
                         let newimageURLString = imageURLString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                        self.observationImagesArray.addObject(newimageURLString)
+                        self.observationImagesArray.addObject(imageURLString)
                     }
                     else
                     {
@@ -1016,11 +1016,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         
         observationTextLabel.text = (observationTextArray[view.tag] as! String)
         
-        if let url  = NSURL(string: observationImagesArray[view.tag] as! String),
-            data = NSData(contentsOfURL: url)
+        if let url  = NSURL(string: observationImagesArray[view.tag] as! String)
+            //,
+            //data = NSData(contentsOfURL: url)
         {
-            observationImageView.image = UIImage(data: data)
             observervationUrlString = observationImagesArray[view.tag] as! String
+            let newimageURLString = observervationUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            //observationImageView.image = UIImage(data: data)
+            let newUrl  = NSURL(string:newimageURLString)
+            print(newUrl)
+            observationImageView.kf_setImageWithURL(newUrl!, placeholderImage: UIImage(named: "default-no-image.png"))
+            
         }
         
         
