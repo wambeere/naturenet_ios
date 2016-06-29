@@ -16,6 +16,7 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     
     var observationImage:UIImage?
     var selectedCloset:String?
+    var alreadyDidSaveForLater = false
     
 
     override func viewDidLoad() {
@@ -75,16 +76,25 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     }
     
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
-        let publicId = successResult["public_id"] as! String
-        let url = successResult["url"] as? String
-        print("now cloudinary uploaded, public id is: \(publicId) and \(url), ready for uploading media")
-        // push media after cloudinary is finished
-        //let params = ["link": publicId] as Dictionary<String, Any>
-        //self.doPushNew(self.apiService!, params: params)
-        if(url != "")
-        {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            userDefaults.setValue(url, forKey: "observationImageUrl")
+        if(errorResult == nil) {
+            let publicId = successResult["public_id"] as! String
+            let url = successResult["url"] as? String
+            print("now cloudinary uploaded, public id is: \(publicId) and \(url), ready for uploading media")
+            // push media after cloudinary is finished
+            //let params = ["link": publicId] as Dictionary<String, Any>
+            //self.doPushNew(self.apiService!, params: params)
+            if(url != "")
+            {
+                let userDefaults = NSUserDefaults.standardUserDefaults()
+                userDefaults.setValue(url, forKey: "observationImageUrl")
+            }
+        }
+        else {
+            print(errorResult.localizedLowercaseString)
+            if !alreadyDidSaveForLater {
+                saveForLater()
+            }
+            
         }
     }
     
@@ -107,6 +117,18 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    func saveForLater() {
+        print("disconnece=ted")
+        alreadyDidSaveForLater = true
+        
+        
+        
+        
+        
+        
+        
+        
+    }
 
     /*
     // MARK: - Navigation
@@ -119,3 +141,5 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     */
 
 }
+
+
