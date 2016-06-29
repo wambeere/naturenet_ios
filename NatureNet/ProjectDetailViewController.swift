@@ -107,12 +107,43 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
             
             if !(snapshot.value is NSNull)
             {
+                
+                let tempSnap = snapshot.value!.allValues as NSArray
+                
+                print(tempSnap)
+                
+                var snapArray : NSMutableArray = []
+                /*
+                for i in 0 ..< tempSnap.count
+                {
+                    snapArray.addObject(tempSnap[i].allKeys)
+                    print(snapArray[i])
+                }
+                print(snapArray)
+                */
+                let sort = tempSnap.sort({ $0.objectForKey("updated_at") as! Int > $1.objectForKey("updated_at") as! Int})
+                
+                print(sort)
+                
+                var lastNum = 0
+                
+                for i in 0 ..< tempSnap.count
+                {
+                    let temp = sort[i].objectForKey("updated_at")! as! Int
+                    print("\(i) \(temp)")
+                    print(temp > lastNum)
+                    lastNum = temp
+                    
+                }
+                
+                
                 for i in 0 ..< snapshot.value!.count
                 {
                     
                         //print(json.allKeys[i])
-                        let obs = snapshot.value!.allKeys[i] as! String
-                        let obsDictionary = snapshot.value!.objectForKey(obs) as! NSDictionary
+                        //let obs = snapshot.value!.allKeys[i] as! String
+                        //let obsDictionary = snapshot.value!.objectForKey(obs) as! NSDictionary
+                        let obsDictionary = sort[i] as! NSDictionary
                         print(obsDictionary)
                         
                         let activity_location = obsDictionary.objectForKey("activity_location") as! String

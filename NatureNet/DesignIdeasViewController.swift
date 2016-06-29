@@ -297,9 +297,15 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             
             if !(snapshot.value is NSNull)
             {
-                for i in 0 ..< snapshot.value!.count
+                let snap = snapshot.value!.allValues as NSArray
+                print(snap)
+                
+                let sortedSnapshot = snap.sort({ $0.objectForKey("updated_at") as! Int > $1.objectForKey("updated_at") as! Int})
+                print(snap)
+                
+                for i in 0 ..< snap.count
                 {
-                    let designData = snapshot.value!.allValues[i] as! NSDictionary
+                    let designData = sortedSnapshot[i] as! NSDictionary
                     
                     //print(i)
                     
@@ -355,12 +361,12 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 let snap = snapshot.value!.allValues as NSArray
                 print(snap)
                 
-                snap.sort({ $0.objectForKey("updated_at") as! Int > $1.objectForKey("updated_at") as! Int})
+                let sortedSnapshot = snap.sort({ $0.objectForKey("updated_at") as! Int > $1.objectForKey("updated_at") as! Int})
                 print(snap)
                 
                 for i in 0 ..< snap.count
                 {
-                    let designData = snap[i] as! NSDictionary
+                    let designData = sortedSnapshot[i] as! NSDictionary
                     
                     //print(i)
                     
