@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1816D9991D24317500F6F194 /* ObservationForLater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816D9981D24317500F6F194 /* ObservationForLater.swift */; };
 		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
 		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
@@ -122,6 +123,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1816D9981D24317500F6F194 /* ObservationForLater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationForLater.swift; sourceTree = "<group>"; };
 		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -254,6 +256,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1816D9971D24311D00F6F194 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				1816D9981D24317500F6F194 /* ObservationForLater.swift */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
 		2A5D107B68A586FF69DFA471 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +420,7 @@
 				9F25D3721CC7CF2200342B56 /* UploadImageToCloudinary.swift */,
 				9F4523561CC167CA00D5D92C /* SlideView */,
 				9F9BB3C21C9B214C0076E68E /* Assets.xcassets */,
+				1816D9971D24311D00F6F194 /* Objects */,
 				9F0ECB971CA5D0AC00594B2C /* Views */,
 				9F0ECB961CA5D06200594B2C /* Controllers */,
 				9F0ECB951CA5D03A00594B2C /* Images */,
@@ -691,6 +702,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */,
+				1816D9991D24317500F6F194 /* ObservationForLater.swift in Sources */,
 				9F14A7931C9E65B800CAB0F6 /* DetailedObservationViewController.swift in Sources */,
 				9F45235F1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift in Sources */,
 				9F9BB3BE1C9B214C0076E68E /* ViewController.swift in Sources */,

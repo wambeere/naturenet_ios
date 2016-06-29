@@ -51,9 +51,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         geoActivitiesRootRef.keepSynced(true)
         activitiesRootRef.keepSynced(true)
         
-       
+        let connectedRef = FIRDatabase.database().referenceWithPath(".info/connected")
+        connectedRef.observeEventType(.Value, withBlock: { snapshot in
+            if let connected = snapshot.value as? Bool where connected {
+                print("Connected")
+                //upload any not uploaded observations
+            } else {
+                print("Not connected")
+            }
+        })
         
-
+        
         
 //        let myRootRef = FIRAuth.auth()
 //        // Write data to Firebase
@@ -93,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

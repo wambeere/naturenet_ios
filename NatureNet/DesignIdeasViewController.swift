@@ -119,15 +119,61 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         
         //let ideasUrl = NSURL(string: "https://naturenet.firebaseio.com/ideas/-KFSFdMuw_jLEG9ZU-6v.json")
         //let ideasUrl = NSURL(string: DESIGN_URL)
-        
-        firebaseForIdeas()
-        firebaseForChallenges()
+        //removeAllObjectsFromArrays()
+        //firebaseForIdeas()
+        //updateTable(IDEA)
+        //firebaseForChallenges()
         
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        removeAllObjectsFromArrays()
+        if(designIdeasButton.selected == true)
+        {
+            firebaseForIdeas()
+            updateTable(IDEA)
+        }
+        else{
+            firebaseForChallenges()
+            updateTable(CHALLENGE)
+        }
+        
+        
+        
+        //updateTable(IDEA)
+    }
+    
+    func removeAllObjectsFromArrays()
+    {
+        contentArray_ideas.removeAllObjects()
+        submitterAvatar_ideas.removeAllObjects()
+        submitterAffiliation_ideas.removeAllObjects()
+        submitterDisplayName_ideas.removeAllObjects()
+        observationUpdatedTimestampsArray_ideas.removeAllObjects()
+        designIdsArray_ideas.removeAllObjects()
+        commentsCountArray_ideas.removeAllObjects()
+        likesCountArray_ideas.removeAllObjects()
+        dislikesCountArray_ideas.removeAllObjects()
+        statusArray_ideas.removeAllObjects()
+        commentsDictArray_ideas.removeAllObjects()
+        
+        contentArray_challenges.removeAllObjects()
+        submitterAvatar_challenges.removeAllObjects()
+        submitterAffiliation_challenges.removeAllObjects()
+        submitterDisplayName_challenges.removeAllObjects()
+        observationUpdatedTimestampsArray_challenges.removeAllObjects()
+        designIdsArray_challenges.removeAllObjects()
+        commentsCountArray_challenges.removeAllObjects()
+        likesCountArray_challenges.removeAllObjects()
+        dislikesCountArray_challenges.removeAllObjects()
+        statusArray_challenges.removeAllObjects()
+        commentsDictArray_challenges.removeAllObjects()
     }
     
     @IBAction func getDesignIdeas(sender: UIButton) {
@@ -140,6 +186,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         designLabel.text = "DESIGN IDEAS"
         designDescrptionLabel.text = "Your design ideas can be a new way of using NatureNet in your community, and new mobile technology for learning about sustainability or changes in the environment, or a new feature for the app."
         
+        
+        removeAllObjectsFromArrays()
         firebaseForIdeas()
         updateTable(IDEA)
     }
@@ -154,6 +202,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         designLabel.text = "DESIGN CHALLENGES"
         designDescrptionLabel.text = "A design challenge is a question – for example: How can the NatureNet app collect temperature data?"
         
+        removeAllObjectsFromArrays()
         firebaseForChallenges()
         updateTable(CHALLENGE)
     }
@@ -296,14 +345,22 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     }
     
     func firebaseForIdeas() -> Void {
+        
         ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).queryOrderedByChild("group").queryEqualToValue("idea").observeEventType(.Value, withBlock: { snapshot in
             
             if !(snapshot.value is NSNull)
             {
                 print("not null")
-                for i in 0 ..< snapshot.value!.count
+                
+                let snap = snapshot.value!.allValues as NSArray
+                print(snap)
+                
+                snap.sort({ $0.objectForKey("updated_at") as! Int > $1.objectForKey("updated_at") as! Int})
+                print(snap)
+                
+                for i in 0 ..< snap.count
                 {
-                    let designData = snapshot.value!.allValues[i] as! NSDictionary
+                    let designData = snap[i] as! NSDictionary
                     
                     //print(i)
                     
@@ -560,7 +617,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                 
                                 
                             }
-                            //self.designTableView.reloadData()
+                            self.updateTable(self.CHALLENGE)
                             }, withCancelBlock: { error in
                                 print(error.description)
                                 let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
@@ -607,10 +664,11 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         self.submitterAvatar_challenges.addObject(tempImageUrl)
                         
                     }
+                    
                 }
                 
                 
-                //self.updateTable(self.CHALLENGE)
+                self.updateTable(self.CHALLENGE)
                 
                 
             })
@@ -704,10 +762,12 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                         self.submitterAvatar_ideas.addObject(tempImageUrl)
                         
                     }
+                    
+                   
                 }
                 
                 
-                self.updateTable(self.IDEA)
+                 self.updateTable(self.IDEA)
                 
                 
             })
