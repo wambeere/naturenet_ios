@@ -13,6 +13,7 @@ class NewObsAndDIViewController: UIViewController{
     @IBOutlet weak var camButton: UIButton!
     //@IBOutlet var obsAndDIView: UIView!
     @IBOutlet var imageSelectionView: UIView!
+    @IBOutlet var viewForPlusDevices: UIView!
 
     @IBOutlet var designSelectionView: UIView!
     @IBOutlet weak var designIdeaButton: UIButton!

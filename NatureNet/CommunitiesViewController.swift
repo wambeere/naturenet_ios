@@ -215,10 +215,32 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
 //            }
 //
 //        }
+        let screenHeight = UIScreen.mainScreen().bounds.size.height
         
+        if(screenHeight == 667)
+        {
+            
+        }
+        else if(screenHeight == 736)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        //print(newObsAndDIView_communities.view.frame)
+        //print(newObsAndDIView_communities.designIdeaButton.frame)
         
-        newObsAndDIView_communities.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView_communities.view.frame.size.height-8, newObsAndDIView_communities.view.frame.size.width, newObsAndDIView_communities.view.frame.size.height)
+        newObsAndDIView_communities.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView_communities.view.frame.size.height-8, UIScreen.mainScreen().bounds.size.width, 50)
+        
+        //newObsAndDIView_communities.designIdeaButton.frame = CGRectMake(UIScreen.mainScreen().bounds.size.width-newObsAndDIView_communities.designIdeaButton.frame.size.width-8 ,newObsAndDIView_communities.designIdeaButton.frame.origin.y, newObsAndDIView_communities.designIdeaButton.frame.size.width, newObsAndDIView_communities.designIdeaButton.frame.size.height)
+        //newObsAndDIView_communities.view.setNeedsUpdateConstraints()
+        
+        //print(newObsAndDIView_communities.view.frame)
+        //print(newObsAndDIView_communities.designIdeaButton.frame)
         self.view.addSubview(newObsAndDIView_communities.view)
+        
         //self.view.bringSubviewToFront(newObsAndDIView.view)
         newObsAndDIView_communities.camButton.addTarget(self, action: #selector(CommunitiesViewController.openNewObsView_communities), forControlEvents: .TouchUpInside)
         
@@ -229,14 +251,14 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
     {
         //print("gverver")
         self.addChildViewController(cgVC_communities)
-        cgVC_communities.view.frame = CGRectMake(0, self.view.frame.size.height - cgVC_communities.view.frame.size.height+68, cgVC_communities.view.frame.size.width, cgVC_communities.view.frame.size.height)
+        cgVC_communities.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - cgVC_communities.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, cgVC_communities.view.frame.size.height)
         
         cgVC_communities.closeButton.addTarget(self, action: #selector(ProjectsViewController.closeCamAndGalleryView), forControlEvents: .TouchUpInside)
         
         self.view.addSubview(cgVC_communities.view)
         UIView.animateWithDuration(0.3, animations: {
             
-            self.cgVC_communities.view.frame = CGRectMake(0, self.view.frame.size.height - self.cgVC_communities.view.frame.size.height+68, self.cgVC_communities.view.frame.size.width, self.cgVC_communities.view.frame.size.height)
+            self.cgVC_communities.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.cgVC_communities.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.cgVC_communities.view.frame.size.height)
             
         }) { (isComplete) in
             

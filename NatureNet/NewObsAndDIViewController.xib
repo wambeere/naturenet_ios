@@ -11,7 +11,8 @@
                 <outlet property="designIdeaButton" destination="QT3-0s-iPP" id="Obe-co-mP3"/>
                 <outlet property="designSelectionView" destination="adp-hf-Az9" id="qKW-fP-QCq"/>
                 <outlet property="imageSelectionView" destination="US6-vB-h1H" id="MJD-SX-5Lg"/>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="3WT-HK-hMC"/>
+                <outlet property="viewForPlusDevices" destination="36e-Lw-iIw" id="LlO-nY-VUL"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -31,7 +32,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="143.5" y="207"/>
+            <point key="canvasLocation" x="355.5" y="147"/>
         </view>
         <view contentMode="scaleToFill" id="US6-vB-h1H">
             <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
@@ -106,6 +107,24 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="548.5" y="-164"/>
+        </view>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" id="36e-Lw-iIw">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ryl-lg-Nvc">
+                    <rect key="frame" x="8" y="0.0" width="50" height="50"/>
+                    <state key="normal" backgroundImage="add observation.png"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IxX-Ig-3FQ">
+                    <rect key="frame" x="356" y="0.0" width="50" height="50"/>
+                    <state key="normal" backgroundImage="add design ideas.png"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="268" y="313"/>
         </view>
     </objects>
     <resources>

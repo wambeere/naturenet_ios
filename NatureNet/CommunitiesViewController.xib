@@ -17,20 +17,26 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Aar-I1-2NC">
-                    <rect key="frame" x="8" y="0.0" width="359" height="594"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Aar-I1-2NC">
+                    <rect key="frame" x="8" y="8" width="359" height="587"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="5-1 people.png" translatesAutoresizingMaskIntoConstraints="NO" id="liW-GC-gzu">
-                    <rect key="frame" x="8" y="72" width="30" height="30"/>
+                    <rect key="frame" x="8" y="64" width="30" height="30"/>
                 </imageView>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k7I-Vh-AIx">
-                    <rect key="frame" x="46" y="72" width="309" height="30"/>
+                    <rect key="frame" x="46" y="64" width="309" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Aar-I1-2NC" secondAttribute="trailing" constant="8" id="QmO-nx-cgZ"/>
+                <constraint firstItem="Aar-I1-2NC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="T5K-Vf-o8x"/>
+                <constraint firstAttribute="bottom" secondItem="Aar-I1-2NC" secondAttribute="bottom" constant="72" id="q5E-KI-Ixk"/>
+                <constraint firstItem="Aar-I1-2NC" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="zuB-Ee-yCR"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="263.5" y="231.5"/>
         </view>

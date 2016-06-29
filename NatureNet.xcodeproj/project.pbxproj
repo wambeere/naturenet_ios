@@ -308,6 +308,7 @@
 		9F0ECB961CA5D06200594B2C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9F7C59B11CF0C1CA00371F88 /* HomeViewController.swift */,
 				9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */,
 				9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */,
 				9F9BB3BD1C9B214C0076E68E /* ViewController.swift */,
@@ -330,7 +331,6 @@
 				9F32D22D1CBEB61900298E02 /* NewObsViewController.swift */,
 				9F4523591CC675B000D5D92C /* DesignIdeasAndChallengesViewController.swift */,
 				9F45235D1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift */,
-				9F7C59B11CF0C1CA00371F88 /* HomeViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -340,6 +340,7 @@
 			children = (
 				9F9BB3C41C9B214C0076E68E /* LaunchScreen.storyboard */,
 				9F9BB3BF1C9B214C0076E68E /* Main.storyboard */,
+				9F7C59B21CF0C1CA00371F88 /* HomeViewController.xib */,
 				9F14A77C1C9B425E00CAB0F6 /* MapViewController.xib */,
 				9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */,
 				9F14A7801C9B53BF00CAB0F6 /* MenuTableViewCell.xib */,
@@ -362,7 +363,6 @@
 				9F32D2321CBEE46900298E02 /* NewObservationDetailsViewController.xib */,
 				9F45235A1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib */,
 				9F45235E1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib */,
-				9F7C59B21CF0C1CA00371F88 /* HomeViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
