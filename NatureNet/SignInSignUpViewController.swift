@@ -694,7 +694,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                     } else {
                                        
                                         
-                                        let uid = result?.uid
+                                        let uid = result!.uid
                                         print("Successfully created user account with uid: \(uid)")
 //                                        let alert = UIAlertController(title: "Alert", message:"Successfully created user account with uid: \(uid)" ,preferredStyle: UIAlertControllerStyle.Alert)
 //                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
@@ -712,12 +712,13 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     let userDefaults = NSUserDefaults.standardUserDefaults()
                                                     var usersAvatarUrl = userDefaults.objectForKey("observationImageUrl") as? String
                                                     
-                                                    let ref = FIRDatabase.database().referenceWithPath("users")
+                                                    let ref = FIRDatabase.database().referenceWithPath("users/")
                                                     
                                                     let usersRef = ref.childByAppendingPath("\(uid)")
                                                     //let usersPubReftoid = usersRef.childByAppendingPath("public")
                                                     
                                                     print(uid)
+                                                    print(usersRef)
                                                     print(self.joinUsername.text)
                                                     print(self.AffiliationId)
                                                     print(FIRServerValue.timestamp())
@@ -729,7 +730,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                         usersAvatarUrl = ""
                                                     }
                                                     
-                                                    let usersPub = ["id": uid as! AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp(),"avatar":usersAvatarUrl as! AnyObject]
+                                                    let usersPub = ["id": uid as AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp(),"avatar":usersAvatarUrl as! AnyObject]
                                                     
                                                     
                                                     usersRef.setValue(usersPub)

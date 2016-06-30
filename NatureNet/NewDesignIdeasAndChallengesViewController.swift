@@ -65,7 +65,7 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
     }
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "Placeholder"
+            textView.text = "Enter Description for Design Idea/Challenge"
             textView.textColor = UIColor.lightGrayColor()
         }
     }
@@ -127,18 +127,26 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
         {
             userID = (userDefaults.objectForKey("userID") as? String)!
         }
-        let email = userDefaults.objectForKey("email") as? String
-        let password = userDefaults.objectForKey("password") as? String
+        var email = ""
+        var password = ""
+        
+        
+        if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
+        {
+            email = (userDefaults.objectForKey("email") as? String)!
+            password = (userDefaults.objectForKey("password") as? String)!
+        }
+
         
         print(userID)
         let refUser = FIRAuth.auth()!
-        refUser.signInWithEmail(email!, password: password!,
+        refUser.signInWithEmail(email, password: password,
                          completion: { authData, error in
                             if error != nil {
                                 
                                 print("\(error)")
                                 var alert = UIAlertController()
-                                if(email == nil)
+                                if(email == "")
                                 {
                                     alert = UIAlertController(title: "Alert", message:"Please Login to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
                                 }

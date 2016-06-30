@@ -83,6 +83,8 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             userDefaults.setValue("", forKey:"ProjectName")
         }
         
+        obsDescTextView.delegate = self
+        
         
 
 
@@ -135,42 +137,65 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         {
             projectKey = (userDefaults.objectForKey("ProjectKey") as? String)!
         }
+        else
+        {
+            
+        }
         if(userDefaults.objectForKey("userID") != nil)
         {
             userID = (userDefaults.objectForKey("userID") as? String)!
+        }
+        else
+        {
+            
         }
         
         //let upImage = UploadImageToCloudinary()
         //upImage.uploadToCloudinary(obsImage)
         
         
-        
+        //print((userDefaults.objectForKey("ProjectName") as! String))
         print(projectKey)
         print(descText)
         print(userID)
         print(OBSERVATION_IMAGE_UPLOAD_URL)
+        var email = ""
+        var password = ""
+        var obsImageUrl = ""
         
-        let email = userDefaults.objectForKey("email") as? String
-        let password = userDefaults.objectForKey("password") as? String
-        let obsImageUrl = userDefaults.objectForKey("observationImageUrl") as? String
+        if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
+        {
+            email = (userDefaults.objectForKey("email") as? String)!
+            password = (userDefaults.objectForKey("password") as? String)!
+        }
+        
+        
+        if(userDefaults.objectForKey("observationImageUrl") as? String != nil)
+        {
+            obsImageUrl = (userDefaults.objectForKey("observationImageUrl") as? String)!
+        }
+        
+        
+        
+        
         
         //print(email)
         //print(password)
     
         let refUser = FIRAuth.auth() //Firebase(url: FIREBASE_URL)
-        refUser!.signInWithEmail(email!, password: password!,
+        refUser!.signInWithEmail(email, password: password,
                      completion: { authData, error in
                         if error != nil {
                             
                             print("\(error)")
                             var alert = UIAlertController()
-                            if(email == nil)
+                            if(email == "")
                             {
-                                alert = UIAlertController(title: "Alert", message:"Please Login to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                alert = UIAlertController(title: "Alert", message:"Please Sign In to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
                             }
                             else
                             {
-                                alert = UIAlertController(title: "Alert", message:error.debugDescription ,preferredStyle: UIAlertControllerStyle.Alert)
+                                alert = UIAlertController(title: "Alert", message:error?.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
                             }
 
                             //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
@@ -227,8 +252,13 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             //obsData.setValue(dataKeys)
                             //let userDefaults = NSUserDefaults.standardUserDefaults()
                             print(userDefaults.objectForKey("progress"))
-                            if(self.projectKey != ""){
+                            
+                            if(self.projectKey == ""){
                                 
+                                self.projectKey = "-ACES_g38"
+                            }
+                            
+                            print(self.projectKey)
                                 if(userDefaults.objectForKey("progress") as? String == "100.0")
                                 {
                                     let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
@@ -268,16 +298,6 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                                     self.presentViewController(alert, animated: true, completion: nil)
                                 }
-
-                                
-                            }
-                            else
-                            {
-                                let alert = UIAlertController(title: "Alert", message:"Please select a project to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                self.presentViewController(alert, animated: true, completion: nil)
-                            }
-                            
                             
         
                         }})
