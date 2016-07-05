@@ -150,11 +150,11 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         observerAvatarImageView?.kf_setImageWithURL(observerAvatarUrl!, placeholderImage: UIImage(named: "user.png"))
         
         print(observationImageUrl)
-        if((observationImageUrl) != "")
-        {
+        //if((observationImageUrl) != "")
+        //{
             let obsImageUrl  = NSURL(string: observationImageUrl )
             observationImageView.kf_setImageWithURL(obsImageUrl! , placeholderImage: UIImage(named: "default-no-image.png"))
-        }
+        //}
 //        else
 //        {
 //            print("in")
@@ -195,6 +195,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         observerAffiliationLabel.text = observerAffiliation
         observationTextLabel.text = observationText
+        //observationTextLabel.sizeToFit()
         
         
         
