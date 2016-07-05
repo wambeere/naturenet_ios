@@ -87,7 +87,10 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                 
         if(pageTitle == "Sign In")
         {
-            signInView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y-64, self.view.frame.size.width, self.view.frame.size.height)
+            signInView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
+            
+            signInView.translatesAutoresizingMaskIntoConstraints = true
+            signInView.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.FlexibleTopMargin, UIViewAutoresizing.FlexibleBottomMargin]
             self.view.addSubview(signInView)
         }
         else if(pageTitle == "Join NatureNet")
@@ -108,10 +111,14 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         {
             joinScrollView = UIScrollView()
         }
-        joinScrollView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)
+        joinScrollView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
         joinScrollView.backgroundColor = UIColor.clearColor()
         joinScrollView.autoresizesSubviews = true
-        joinScrollView.contentSize=CGSizeMake(self.view.frame.size.width, self.view.frame.size.height+80)
+        joinScrollView.contentSize=CGSizeMake(UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height+80)
+        
+        joinScrollView.translatesAutoresizingMaskIntoConstraints = true
+        joinScrollView.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.FlexibleTopMargin, UIViewAutoresizing.FlexibleBottomMargin]
+        
         self.view.addSubview(joinScrollView)
         
         joinView.frame = CGRectMake(joinScrollView.frame.origin.x, joinScrollView.frame.origin.y, joinScrollView.frame.size.width, self.view.frame.size.height)
