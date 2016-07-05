@@ -232,7 +232,8 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
         //print(newObsAndDIView_communities.view.frame)
         //print(newObsAndDIView_communities.designIdeaButton.frame)
         
-        newObsAndDIView_communities.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView_communities.view.frame.size.height-8, UIScreen.mainScreen().bounds.size.width, 50)
+        newObsAndDIView_communities.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView_communities.view.frame.size.height-8, UIScreen.mainScreen().bounds.size.width, newObsAndDIView_communities.view.frame.size.height)
+        newObsAndDIView_communities.view.translatesAutoresizingMaskIntoConstraints = true
         
         //newObsAndDIView_communities.designIdeaButton.frame = CGRectMake(UIScreen.mainScreen().bounds.size.width-newObsAndDIView_communities.designIdeaButton.frame.size.width-8 ,newObsAndDIView_communities.designIdeaButton.frame.origin.y, newObsAndDIView_communities.designIdeaButton.frame.size.width, newObsAndDIView_communities.designIdeaButton.frame.size.height)
         //newObsAndDIView_communities.view.setNeedsUpdateConstraints()
@@ -240,6 +241,9 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
         //print(newObsAndDIView_communities.view.frame)
         //print(newObsAndDIView_communities.designIdeaButton.frame)
         self.view.addSubview(newObsAndDIView_communities.view)
+        
+        newObsAndDIView_communities.view.center = CGPoint(x: view.bounds.midX, y: UIScreen.mainScreen().bounds.size.height - newObsAndDIView_communities.view.frame.size.height/2 - 8)
+        newObsAndDIView_communities.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
         
         //self.view.bringSubviewToFront(newObsAndDIView.view)
         newObsAndDIView_communities.camButton.addTarget(self, action: #selector(CommunitiesViewController.openNewObsView_communities), forControlEvents: .TouchUpInside)
@@ -260,6 +264,10 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
             
             self.cgVC_communities.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.cgVC_communities.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.cgVC_communities.view.frame.size.height)
             
+            //self.cgVC_communities.view.center = CGPoint(x: self.view.bounds.midX, y: UIScreen.mainScreen().bounds.size.height - self.cgVC_communities.view.frame.size.height/2 - 8)
+            self.cgVC_communities.view.translatesAutoresizingMaskIntoConstraints = true
+            self.cgVC_communities.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
+            
         }) { (isComplete) in
             
             self.cgVC_communities.didMoveToParentViewController(self)
@@ -270,14 +278,17 @@ class CommunitiesViewController: UIViewController ,UITableViewDelegate, UITableV
     {
         //print("gverver")
         self.addChildViewController(diAndCVC_communities)
-        diAndCVC_communities.view.frame = CGRectMake(0, self.view.frame.size.height - diAndCVC_communities.view.frame.size.height+68, diAndCVC_communities.view.frame.size.width, diAndCVC_communities.view.frame.size.height)
+        diAndCVC_communities.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - diAndCVC_communities.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width,diAndCVC_communities.view.frame.size.height)
         
         diAndCVC_communities.closeButton.addTarget(self, action: #selector(ProjectsViewController.closeDiAndChallengesView), forControlEvents: .TouchUpInside)
         
         self.view.addSubview(diAndCVC_communities.view)
         UIView.animateWithDuration(0.3, animations: {
             
-            self.diAndCVC_communities.view.frame = CGRectMake(0, self.view.frame.size.height - self.diAndCVC_communities.view.frame.size.height+68, self.diAndCVC_communities.view.frame.size.width, self.diAndCVC_communities.view.frame.size.height)
+            self.diAndCVC_communities.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.diAndCVC_communities.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.diAndCVC_communities.view.frame.size.height)
+            
+            self.diAndCVC_communities.view.translatesAutoresizingMaskIntoConstraints = true
+            self.diAndCVC_communities.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
             
         }) { (isComplete) in
             

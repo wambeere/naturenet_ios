@@ -67,7 +67,12 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         //self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProjectsViewController.ViewTapped)))
         if(isfromObservationVC == false)
         {
-            newObsAndDIView_projects.view.frame = CGRectMake(0 ,self.view.frame.size.height-newObsAndDIView_projects.view.frame.size.height-8, newObsAndDIView_projects.view.frame.size.width, newObsAndDIView_projects.view.frame.size.height)
+            newObsAndDIView_projects.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView_projects.view.frame.size.height-8, UIScreen.mainScreen().bounds.size.width, newObsAndDIView_projects.view.frame.size.height)
+            
+            newObsAndDIView_projects.view.translatesAutoresizingMaskIntoConstraints = true
+            newObsAndDIView_projects.view.center = CGPoint(x: view.bounds.midX, y: UIScreen.mainScreen().bounds.size.height - newObsAndDIView_projects.view.frame.size.height/2 - 8)
+            newObsAndDIView_projects.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
+            
             self.view.addSubview(newObsAndDIView_projects.view)
             //self.view.bringSubviewToFront(newObsAndDIView.view)
             newObsAndDIView_projects.camButton.addTarget(self, action: #selector(ProjectsViewController.openNewObsView_projects), forControlEvents: .TouchUpInside)
@@ -450,7 +455,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         self.view.addSubview(cgVC_projects.view)
         UIView.animateWithDuration(0.3, animations: {
             
-            self.cgVC_projects.view.frame = CGRectMake(0, self.view.frame.size.height - self.cgVC_projects.view.frame.size.height+68, self.cgVC_projects.view.frame.size.width, self.cgVC_projects.view.frame.size.height)
+            self.cgVC_projects.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.cgVC_projects.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.cgVC_projects.view.frame.size.height)
+            
+            self.cgVC_projects.view.translatesAutoresizingMaskIntoConstraints = true
+            self.cgVC_projects.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
             
         }) { (isComplete) in
             
@@ -469,7 +477,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         self.view.addSubview(diAndCVC_projects.view)
         UIView.animateWithDuration(0.3, animations: {
             
-            self.diAndCVC_projects.view.frame = CGRectMake(0, self.view.frame.size.height - self.diAndCVC_projects.view.frame.size.height+68, self.diAndCVC_projects.view.frame.size.width, self.diAndCVC_projects.view.frame.size.height)
+            self.diAndCVC_projects.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.diAndCVC_projects.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.diAndCVC_projects.view.frame.size.height)
+            
+            self.diAndCVC_projects.view.translatesAutoresizingMaskIntoConstraints = true
+            self.diAndCVC_projects.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
             
         }) { (isComplete) in
             

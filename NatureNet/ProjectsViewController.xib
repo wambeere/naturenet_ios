@@ -16,14 +16,20 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppX-27-fAo">
-                    <rect key="frame" x="8" y="8" width="359" height="659"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppX-27-fAo">
+                    <rect key="frame" x="8" y="8" width="359" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ppX-27-fAo" secondAttribute="trailing" constant="8" id="35x-bO-l91"/>
+                <constraint firstItem="ppX-27-fAo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="S6b-Vf-Vmo"/>
+                <constraint firstItem="ppX-27-fAo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="adi-j7-B05"/>
+                <constraint firstAttribute="bottom" secondItem="ppX-27-fAo" secondAttribute="bottom" constant="59" id="hZU-xd-EWi"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-            <point key="canvasLocation" x="434.5" y="-138.5"/>
+            <point key="canvasLocation" x="410.5" y="-155.5"/>
         </view>
     </objects>
 </document>

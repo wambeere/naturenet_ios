@@ -527,6 +527,11 @@
 					9F9BB3B71C9B214C0076E68E = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 6L33LY5G5P;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					9F9BB3CB1C9B214C0076E68E = {
 						CreatedOnToolsVersion = 7.2.1;

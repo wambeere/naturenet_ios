@@ -186,17 +186,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
 //            print("could not start reachability notifier")
 //        }
         
-        if(UIScreen.mainScreen().nativeBounds.height <= 1136)
-        {
-            newObsAndDIView.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView.view.frame.size.height-8 - 60, UIScreen.mainScreen().bounds.size.width, newObsAndDIView.view.frame.size.height)
+//        if(UIScreen.mainScreen().nativeBounds.height <= 1136)
+//        {
+//            newObsAndDIView.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView.view.frame.size.height-8 - 60, UIScreen.mainScreen().bounds.size.width, newObsAndDIView.view.frame.size.height)
+//            
+//            newObsAndDIView.designIdeaButton.frame = CGRectMake(newObsAndDIView.designIdeaButton.frame.origin.x - newObsAndDIView.designIdeaButton.frame.size.width, newObsAndDIView.designIdeaButton.frame.origin.y, newObsAndDIView.designIdeaButton.frame.size.width, newObsAndDIView.designIdeaButton.frame.size.height)
+//        }
+//        else
+//        {
+        newObsAndDIView.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView.view.frame.size.height-exploreView.frame.size.height-8, UIScreen.mainScreen().bounds.size.width, newObsAndDIView.view.frame.size.height)
             
-            newObsAndDIView.designIdeaButton.frame = CGRectMake(newObsAndDIView.designIdeaButton.frame.origin.x - newObsAndDIView.designIdeaButton.frame.size.width, newObsAndDIView.designIdeaButton.frame.origin.y, newObsAndDIView.designIdeaButton.frame.size.width, newObsAndDIView.designIdeaButton.frame.size.height)
-        }
-        else
-        {
-            newObsAndDIView.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView.view.frame.size.height-8 - 60, UIScreen.mainScreen().bounds.size.width, newObsAndDIView.view.frame.size.height)
-            
-        }
+        //}
+        newObsAndDIView.view.translatesAutoresizingMaskIntoConstraints = true
+        //newObsAndDIView.view.center = CGPoint(x: view.bounds.midX, y: UIScreen.mainScreen().bounds.size.height - newObsAndDIView.view.frame.size.height/2 - 8)
+        newObsAndDIView.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
+        
         self.view.addSubview(newObsAndDIView.view)
         //self.view.bringSubviewToFront(newObsAndDIView.view)
         newObsAndDIView.camButton.addTarget(self, action: #selector(MapViewController.openNewObsView), forControlEvents: .TouchUpInside)
@@ -242,7 +246,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         cgVC.closeButton.hidden = true
         UIView.animateWithDuration(0.3, animations: {
         
-            self.cgVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.cgVC.view.frame.size.height+68, self.cgVC.view.frame.size.width, self.cgVC.view.frame.size.height)
+            self.cgVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.cgVC.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.cgVC.view.frame.size.height)
+            
+            self.cgVC.view.translatesAutoresizingMaskIntoConstraints = true
+            self.cgVC.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
         
         }) { (isComplete) in
         
@@ -260,7 +267,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         self.view.addSubview(diAndCVC.view)
         UIView.animateWithDuration(0.3, animations: {
             
-            self.diAndCVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.diAndCVC.view.frame.size.height+68, self.diAndCVC.view.frame.size.width, self.diAndCVC.view.frame.size.height)
+            self.diAndCVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.diAndCVC.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.diAndCVC.view.frame.size.height)
+            
+            self.diAndCVC.view.translatesAutoresizingMaskIntoConstraints = true
+            self.diAndCVC.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
             
         }) { (isComplete) in
             

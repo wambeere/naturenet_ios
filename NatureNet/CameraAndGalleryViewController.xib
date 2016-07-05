@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CameraAndGalleryViewController" customModule="NatureNet" customModuleProvider="target">
@@ -19,15 +20,23 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hr-gE-Ggk">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hr-gE-Ggk">
                     <rect key="frame" x="132" y="25" width="110" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="tcH-Bs-YJA"/>
+                        <constraint firstAttribute="width" constant="110" id="yd7-4s-vvM"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUL-DF-3iL">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUL-DF-3iL">
                     <rect key="frame" x="132" y="54" width="110" height="30"/>
                     <color key="backgroundColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="110" id="1Aa-j8-wZj"/>
+                        <constraint firstAttribute="height" constant="30" id="uib-ku-wvG"/>
+                    </constraints>
                     <state key="normal" title="Camera">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -35,9 +44,13 @@
                         <action selector="cameraButtonClicked:" destination="-1" eventType="touchUpInside" id="kck-qK-WlN"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nob-2K-eYT">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nob-2K-eYT">
                     <rect key="frame" x="132" y="92" width="110" height="30"/>
                     <color key="backgroundColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="QXN-XI-vMF"/>
+                        <constraint firstAttribute="width" constant="110" id="pQp-Ts-jcc"/>
+                    </constraints>
                     <state key="normal" title="Gallery">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -45,19 +58,29 @@
                         <action selector="galleryButtonClicked:" destination="-1" eventType="touchUpInside" id="gBF-uR-ATl"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j8i-gc-s6L">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j8i-gc-s6L">
                     <rect key="frame" x="337" y="8" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="Nde-x4-9YU"/>
+                        <constraint firstAttribute="width" constant="30" id="P7r-bg-Xry"/>
+                        <constraint firstAttribute="width" secondItem="j8i-gc-s6L" secondAttribute="height" multiplier="1:1" id="Ubq-Cf-PBc"/>
+                    </constraints>
                     <state key="normal" backgroundImage="2-5 cancel.png"/>
                 </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yuw-6I-AWT">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yuw-6I-AWT">
                     <rect key="frame" x="323" y="104" width="44" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="VJw-Wb-veu"/>
+                        <constraint firstAttribute="width" constant="44" id="aNG-Hf-wsT"/>
+                        <constraint firstAttribute="width" secondItem="Yuw-6I-AWT" secondAttribute="height" multiplier="22:15" id="oUK-le-RH3"/>
+                    </constraints>
                     <color key="tintColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="Select"/>
                     <connections>
                         <action selector="selectButtonPressed:" destination="-1" eventType="touchUpInside" id="gA2-pa-1A4"/>
                     </connections>
                 </button>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Ol3-rK-Pow">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Ol3-rK-Pow">
                     <rect key="frame" x="8" y="142" width="359" height="190"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="0.0" id="5xf-At-xly">
@@ -69,6 +92,22 @@
                 </collectionView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Ol3-rK-Pow" firstAttribute="top" secondItem="Nob-2K-eYT" secondAttribute="bottom" constant="20" id="3AK-q0-ExW"/>
+                <constraint firstItem="4hr-gE-Ggk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="D5l-uP-DCy"/>
+                <constraint firstItem="xUL-DF-3iL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="JgS-Fr-6ej"/>
+                <constraint firstAttribute="bottom" secondItem="Ol3-rK-Pow" secondAttribute="bottom" constant="68" id="KH1-Uy-NDq"/>
+                <constraint firstItem="Nob-2K-eYT" firstAttribute="top" secondItem="xUL-DF-3iL" secondAttribute="bottom" constant="8" id="KST-V7-hDX"/>
+                <constraint firstItem="Ol3-rK-Pow" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Mtr-sx-A86"/>
+                <constraint firstAttribute="trailing" secondItem="j8i-gc-s6L" secondAttribute="trailing" constant="8" id="Nxf-9T-f0e"/>
+                <constraint firstItem="Nob-2K-eYT" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PDB-Hr-6Hk"/>
+                <constraint firstAttribute="trailing" secondItem="Ol3-rK-Pow" secondAttribute="trailing" constant="8" id="Zjd-3s-olm"/>
+                <constraint firstItem="4hr-gE-Ggk" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="kMK-4j-eA4"/>
+                <constraint firstItem="j8i-gc-s6L" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="nHP-cW-bLN"/>
+                <constraint firstAttribute="trailing" secondItem="Yuw-6I-AWT" secondAttribute="trailing" constant="8" id="xEo-Gy-9Xj"/>
+                <constraint firstItem="xUL-DF-3iL" firstAttribute="top" secondItem="4hr-gE-Ggk" secondAttribute="bottom" constant="8" id="xIl-jE-KeT"/>
+                <constraint firstItem="Ol3-rK-Pow" firstAttribute="top" secondItem="Yuw-6I-AWT" secondAttribute="bottom" constant="8" id="xso-8K-Osy"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="316.5" y="-16"/>

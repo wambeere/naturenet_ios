@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DesignIdeasAndChallengesViewController" customModule="NatureNet" customModuleProvider="target">
@@ -16,9 +17,14 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Sg-mX-OR5">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Sg-mX-OR5">
                     <rect key="frame" x="107" y="246" width="160" height="30"/>
                     <color key="backgroundColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="CBp-Wj-pZ9"/>
+                        <constraint firstAttribute="width" secondItem="5Sg-mX-OR5" secondAttribute="height" multiplier="16:3" id="lVH-QH-nVA"/>
+                        <constraint firstAttribute="width" constant="160" id="tfY-zl-fJt"/>
+                    </constraints>
                     <state key="normal" title="Design Ideas">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -26,9 +32,55 @@
                         <action selector="disignIdeasButtonClicked:" destination="-1" eventType="touchUpInside" id="Egl-cn-2Bu"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6u-mV-wji">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8JU-I9-1qv">
+                    <rect key="frame" x="337" y="8" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="Jqc-qw-ew3"/>
+                        <constraint firstAttribute="height" constant="30" id="aJT-St-a9f"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="2-5 cancel.png"/>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njv-s7-42f">
+                    <rect key="frame" x="8" y="46" width="359" height="92"/>
+                    <string key="text">Crowdsourcing design is a way for anyone to contribute to the NatureNet experience. Designers change the world and the NatureNet project gives everyone a chance to be a designer. Your design ideas can be a new way of using NatureNet in your community, and new to use mobile technology for learning about sustainability or changes in the environment, or a new feature on the web site.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="204-aD-7Us">
+                    <rect key="frame" x="8" y="145" width="359" height="51.5"/>
+                    <string key="text">Join the discussion below with an idea or challenge of your own, comment on someone else's idea, or vote for your favorite idea.</string>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bah-O4-dUE">
+                    <rect key="frame" x="107" y="204.5" width="160" height="33.5"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="design ideas.png" translatesAutoresizingMaskIntoConstraints="NO" id="5WW-H1-lwg">
+                            <rect key="frame" x="14" y="5" width="24" height="24"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose Idea" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhk-HM-O1R">
+                            <rect key="frame" x="46" y="6" width="100" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="33.5" id="33j-SO-xUg"/>
+                        <constraint firstAttribute="width" constant="160" id="oiY-Y3-xKQ"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6u-mV-wji">
                     <rect key="frame" x="107" y="294" width="160" height="30"/>
                     <color key="backgroundColor" red="0.1058823529" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="S6u-mV-wji" secondAttribute="height" multiplier="16:3" id="FIk-hn-4zg"/>
+                        <constraint firstAttribute="height" constant="30" id="HuN-Q6-nmR"/>
+                        <constraint firstAttribute="width" constant="160" id="ZCx-EJ-js8"/>
+                    </constraints>
                     <state key="normal" title="Design Challenges">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -36,48 +88,24 @@
                         <action selector="designChallengesButtonClicked:" destination="-1" eventType="touchUpInside" id="vEp-jf-28O"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="design ideas.png" translatesAutoresizingMaskIntoConstraints="NO" id="5WW-H1-lwg">
-                    <rect key="frame" x="121" y="205" width="24" height="24"/>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose Idea" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhk-HM-O1R">
-                    <rect key="frame" x="153" y="208" width="100" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8JU-I9-1qv">
-                    <rect key="frame" x="337" y="8" width="30" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="30" id="5RH-OB-B83"/>
-                        <constraint firstAttribute="height" constant="30" id="DYE-CY-Jhk"/>
-                    </constraints>
-                    <state key="normal" backgroundImage="2-5 cancel.png"/>
-                </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njv-s7-42f">
-                    <rect key="frame" x="8" y="46" width="359" height="100.5"/>
-                    <string key="text">Crowdsourcing design is a way for anyone to contribute to the NatureNet experience. Designers change the world and the NatureNet project gives everyone a chance to be a designer. Your design ideas can be a new way of using NatureNet in your community, and new to use mobile technology for learning about sustainability or changes in the environment, or a new feature on the web site.</string>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="204-aD-7Us">
-                    <rect key="frame" x="8" y="154" width="359" height="43"/>
-                    <string key="text">Join the discussion below with an idea or challenge of your own, comment on someone else's idea, or vote for your favorite idea.</string>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="njv-s7-42f" secondAttribute="trailing" constant="8" id="FjN-3J-Bb2"/>
-                <constraint firstAttribute="trailing" secondItem="8JU-I9-1qv" secondAttribute="trailing" constant="8" id="Mqc-KZ-B0S"/>
-                <constraint firstItem="8JU-I9-1qv" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="cDe-vO-dLK"/>
-                <constraint firstItem="204-aD-7Us" firstAttribute="top" secondItem="njv-s7-42f" secondAttribute="bottom" constant="8" id="cmy-bC-lXo"/>
-                <constraint firstItem="njv-s7-42f" firstAttribute="top" secondItem="8JU-I9-1qv" secondAttribute="bottom" constant="8" id="eNV-AX-rBo"/>
-                <constraint firstAttribute="trailing" secondItem="204-aD-7Us" secondAttribute="trailing" constant="8" id="pwj-go-5My"/>
-                <constraint firstItem="njv-s7-42f" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="rKQ-Mg-Yfb"/>
-                <constraint firstItem="204-aD-7Us" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="uhX-hw-CkR"/>
+                <constraint firstItem="Bah-O4-dUE" firstAttribute="top" secondItem="204-aD-7Us" secondAttribute="bottom" constant="8" id="8HH-9W-9cO"/>
+                <constraint firstItem="S6u-mV-wji" firstAttribute="top" secondItem="5Sg-mX-OR5" secondAttribute="bottom" constant="18" id="9ML-kh-FAa"/>
+                <constraint firstAttribute="trailing" secondItem="8JU-I9-1qv" secondAttribute="trailing" constant="8" id="Eih-g0-lpZ"/>
+                <constraint firstItem="njv-s7-42f" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="FCo-pJ-Sao"/>
+                <constraint firstItem="204-aD-7Us" firstAttribute="top" secondItem="njv-s7-42f" secondAttribute="bottom" constant="7.5" id="J2d-zp-giF"/>
+                <constraint firstAttribute="trailing" secondItem="njv-s7-42f" secondAttribute="trailing" constant="8" id="Ker-G5-PjL"/>
+                <constraint firstItem="8JU-I9-1qv" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="OXP-K7-2Tq"/>
+                <constraint firstItem="5Sg-mX-OR5" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="SX5-fB-BbI"/>
+                <constraint firstItem="njv-s7-42f" firstAttribute="top" secondItem="8JU-I9-1qv" secondAttribute="bottom" constant="8" id="TCc-lx-NwR"/>
+                <constraint firstAttribute="bottom" secondItem="S6u-mV-wji" secondAttribute="bottom" constant="76" id="aQ2-mn-laT"/>
+                <constraint firstItem="S6u-mV-wji" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="eRq-7r-RGO"/>
+                <constraint firstItem="5Sg-mX-OR5" firstAttribute="top" secondItem="Bah-O4-dUE" secondAttribute="bottom" constant="8" id="lPD-ou-Ser"/>
+                <constraint firstItem="Bah-O4-dUE" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="lWn-4b-EY2"/>
+                <constraint firstAttribute="trailing" secondItem="204-aD-7Us" secondAttribute="trailing" constant="8" id="rUN-Ks-PBn"/>
+                <constraint firstItem="204-aD-7Us" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="ufA-XI-4h1"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
