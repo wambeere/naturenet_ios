@@ -32,6 +32,16 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     
     func uploadToCloudinary(image: UIImage) {
         
+        let date = NSDate()
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-HH-mm-ss"
+        print(dateFormatter.stringFromDate(date))
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let username = userDefaults.stringForKey("userDisplayName")//dataForKey("userDisplayName")
+        
+        print("\(dateFormatter.stringFromDate(date))-\(username!)")
+        
         let infoPath = NSBundle.mainBundle().pathForResource("Info.plist", ofType: nil)!
         let info = NSDictionary(contentsOfFile: infoPath)!
         //print(info.objectForKey("CloudinaryAccessUrl"))
