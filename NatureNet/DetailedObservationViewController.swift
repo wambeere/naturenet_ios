@@ -13,6 +13,13 @@ import Kingfisher
 
 class DetailedObservationViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
     
+    
+    @IBOutlet var detailedObsView: UIView!
+    var detailObsScrollView: UIScrollView!
+    
+    @IBOutlet var likedislikeViewHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var likeButtonLeftToCommentBoxWidth: NSLayoutConstraint!
     @IBOutlet weak var observationImageView: UIImageView!
     @IBOutlet weak var observationPostedDateLabel: UILabel!
     var obsupdateddate: NSNumber = 0
@@ -79,6 +86,24 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
+        if(detailObsScrollView == nil)
+        {
+            detailObsScrollView = UIScrollView()
+        }
+        detailObsScrollView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y-64, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height-commentView.frame.size.height)
+        detailObsScrollView.backgroundColor = UIColor.clearColor()
+        detailObsScrollView.autoresizesSubviews = true
+        detailObsScrollView.contentSize=CGSizeMake(UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
+        
+        detailObsScrollView.translatesAutoresizingMaskIntoConstraints = true
+        detailObsScrollView.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.FlexibleTopMargin, UIViewAutoresizing.FlexibleBottomMargin]
+        
+        self.view.addSubview(detailObsScrollView)
+        
+        detailedObsView.frame = CGRectMake(detailObsScrollView.frame.origin.x, detailObsScrollView.frame.origin.y+84, detailObsScrollView.frame.size.width, detailObsScrollView.frame.size.height)
+        //detailedObsView.backgroundColor = UIColor.redColor()
+        detailObsScrollView.addSubview(detailedObsView)
+        
         print(observationId)
         print(observerImageUrl)
         print(observerDisplayName)
@@ -92,7 +117,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         print(observationCommentsArrayfromExploreView)
         
-        likedislikeView.hidden = true
+        //likedislikeView.hidden = true
         
         observationPostedDateLabel.text = ""
         
@@ -119,11 +144,19 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             observationPostedDateLabel.text = ""
         }
         
+        commentsTableView.delegate = self
+        commentsTableView.dataSource = self
+        commentsTableView.separatorColor = UIColor.clearColor()
+        
+        commentsTableView.registerNib(UINib(nibName: "CommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentCell")
+        
         
         if(isfromDesignIdeasView)
         {
+            likedislikeViewHeight.constant = 40
             likedislikeView.hidden = false
             likeButtonBesidesCommentBox.hidden = true
+            likeButtonLeftToCommentBoxWidth.constant = 0
             
             likesCountLabel.text = "\(likesCountFromDesignIdeasView)"
             dislikesCountLabel.text = "\(dislikesCountFromDesignIdeasView)"
@@ -143,6 +176,17 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         {
             commentContext = "observations"
             getLikesToObservations()
+            
+            //likedislikeView.translatesAutoresizingMaskIntoConstraints = true
+            //newObsAndDIView.view.center = CGPoint(x: view.bounds.midX, y: UIScreen.mainScreen().bounds.size.height - newObsAndDIView.view.frame.size.height/2 - 8)
+            //likedislikeView.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
+            //likedislikeView.addConstraint(NSLayoutConstraint.wid)
+            
+            //commentsTableView.frame = CGRectMake(commentsTableView.frame.origin.x, commentsTableView.frame.origin.y - likedislikeView.frame.size.height, commentsTableView.frame.size.width, commentsTableView.frame.size.height)
+            //likedislikeView.frame = CGRectMake(likedislikeView.frame.origin.x, likedislikeView.frame.origin.x, likedislikeView.frame.size.width, 4)
+            likedislikeViewHeight.constant = 0
+            likedislikeView.hidden = true
+            
         }
         
         let observerAvatarUrl  = NSURL(string: observerImageUrl )
@@ -197,6 +241,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         observationTextLabel.text = observationText
         //observationTextLabel.sizeToFit()
         
+        detailObsScrollView.contentSize=CGSizeMake(UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height+observationTextLabel.frame.size.height)
+        
         
         
         
@@ -205,11 +251,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         
         
-        commentsTableView.delegate = self
-        commentsTableView.dataSource = self
-        commentsTableView.separatorColor = UIColor.clearColor()
-        
-        commentsTableView.registerNib(UINib(nibName: "CommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentCell")
+       
         
         commentTF.delegate = self
         

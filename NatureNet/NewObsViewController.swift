@@ -103,6 +103,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     override func viewWillAppear(animated: Bool) {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
+
         if let pName = userDefaults.objectForKey("ProjectName") as? String
         {
             if(pName != "")
