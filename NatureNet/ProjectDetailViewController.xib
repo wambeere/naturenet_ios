@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -101,9 +101,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="VFO-Lo-vrX">
-                    <rect key="frame" x="8" y="245" width="359" height="422"/>
+                    <rect key="frame" x="0.0" y="245" width="375" height="422"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="VFO-Lo-vrX" secondAttribute="height" multiplier="359:414" constant="-6.9371980676328349" id="bUJ-eb-CFf"/>
+                        <constraint firstAttribute="width" secondItem="VFO-Lo-vrX" secondAttribute="height" multiplier="359:414" constant="9.0628019323671651" id="bUJ-eb-CFf"/>
                     </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="skv-XQ-l4F">
                         <size key="itemSize" width="50" height="50"/>
@@ -116,12 +116,12 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="6Ck-SF-K5E" firstAttribute="top" secondItem="gTr-hh-jg0" secondAttribute="bottom" constant="8" id="Ofd-of-RfK"/>
-                <constraint firstAttribute="trailing" secondItem="VFO-Lo-vrX" secondAttribute="trailing" constant="8" id="XZC-uK-RhX"/>
+                <constraint firstAttribute="trailing" secondItem="VFO-Lo-vrX" secondAttribute="trailing" id="XZC-uK-RhX"/>
                 <constraint firstItem="gTr-hh-jg0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="cwX-IC-bCG"/>
                 <constraint firstItem="gTr-hh-jg0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="68" id="fmF-MJ-hIp"/>
                 <constraint firstItem="VFO-Lo-vrX" firstAttribute="top" secondItem="6Ck-SF-K5E" secondAttribute="bottom" constant="8" id="kjj-D3-0aT"/>
                 <constraint firstAttribute="bottom" secondItem="VFO-Lo-vrX" secondAttribute="bottom" id="luZ-m9-LAA"/>
-                <constraint firstItem="VFO-Lo-vrX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="qcR-Pn-Ffr"/>
+                <constraint firstItem="VFO-Lo-vrX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qcR-Pn-Ffr"/>
                 <constraint firstAttribute="trailing" secondItem="6Ck-SF-K5E" secondAttribute="trailing" constant="8" id="rj0-mV-wZH"/>
                 <constraint firstItem="6Ck-SF-K5E" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="17" id="zLb-bo-Pib"/>
                 <constraint firstAttribute="trailing" secondItem="gTr-hh-jg0" secondAttribute="trailing" constant="8" id="zVa-Py-lg0"/>
