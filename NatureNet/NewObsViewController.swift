@@ -103,20 +103,15 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     override func viewWillAppear(animated: Bool) {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        let pName = userDefaults.objectForKey("ProjectName")
-        print(pName!)
-        
-        if(pName as! String != "")
+        if let pName = userDefaults.objectForKey("ProjectName") as? String
         {
-            obsProjectLabel.text = "    \(pName!)"
-            //userDefaults.setValue("", forKey:"ProjectKey")
-            //userDefaults.setValue("", forKey:"ProjectName")
-        } else
-        {
-            obsProjectLabel.text = "    Free Observation (Default)"
+            if(pName != "")
+            {
+                obsProjectLabel.text = "    \(pName)"
+                //userDefaults.setValue("", forKey:"ProjectKey")
+                //userDefaults.setValue("", forKey:"ProjectName")
+            }
         }
-        
-
         
     }
     
