@@ -127,6 +127,22 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
         //imageView.image=info[UIImagePickerControllerOriginalImage] as? UIImage
         print(info[UIImagePickerControllerOriginalImage])
         
+//        let library = ALAssetsLibrary()
+//        var url: NSURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+//        
+//        library.assetForURL(url, resultBlock: {
+//            (asset: ALAsset!) in
+//            if asset.valueForProperty(ALAssetPropertyLocation) != nil {
+//                
+//                self.latitude = (asset.valueForProperty(ALAssetPropertyLocation) as CLLocation!).coordinate.latitude
+//                self.longitude = (asset.valueForProperty(ALAssetPropertyLocation) as CLLocation!).coordinate.longitude
+//                
+//            }
+//            }, failureBlock: {
+//                (error: NSError!) in
+//                NSLog("Error!")
+//        })
+        
         let newObsVC = NewObsViewController()
         newObsVC.obsImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
         let newObsNavVC = UINavigationController()

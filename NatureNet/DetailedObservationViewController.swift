@@ -11,16 +11,23 @@ import Firebase
 import Kingfisher
 
 
-class DetailedObservationViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
+class DetailedObservationViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIScrollViewDelegate{
     
     
+    @IBOutlet weak var detailObsScrollView: UIScrollView!
     @IBOutlet var detailedObsView: UIView!
-    var detailObsScrollView: UIScrollView!
+    
     
     @IBOutlet var likedislikeViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var likeButtonLeftToCommentBoxWidth: NSLayoutConstraint!
     @IBOutlet weak var observationImageView: UIImageView!
+    
+    @IBOutlet var observationImageViewHeight: NSLayoutConstraint!
+    
+    @IBOutlet var detObsViewHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var obsTextLabelHeight: NSLayoutConstraint!
     @IBOutlet weak var observationPostedDateLabel: UILabel!
     var obsupdateddate: NSNumber = 0
     @IBOutlet weak var observationTextLabel: UILabel!
@@ -86,23 +93,39 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
-        if(detailObsScrollView == nil)
-        {
-            detailObsScrollView = UIScrollView()
-        }
-        detailObsScrollView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y-64, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height-commentView.frame.size.height)
-        detailObsScrollView.backgroundColor = UIColor.clearColor()
-        detailObsScrollView.autoresizesSubviews = true
-        detailObsScrollView.contentSize=CGSizeMake(UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
         
-        detailObsScrollView.translatesAutoresizingMaskIntoConstraints = true
-        detailObsScrollView.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.FlexibleTopMargin, UIViewAutoresizing.FlexibleBottomMargin]
+        
+//        detailObsScrollView.frame = CGRectMake(UIScreen.mainScreen().bounds.origin.x, UIScreen.mainScreen().bounds.origin.y, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height-commentView.frame.size.height)
+//        
+//        detailedObsView.frame = CGRectMake(0, 64, detailObsScrollView.frame.size.width, detailedObsView.frame.size.height)
+        
+        //detailObsScrollView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)
+        
+        detailedObsView.frame = CGRectMake(0,64, detailObsScrollView.frame.size.width, detailedObsView.frame.size.height)
+        
+        
+        //detailObsScrollView.backgroundColor = UIColor.redColor()
+        detailObsScrollView.showsHorizontalScrollIndicator = false
+        detailObsScrollView.delegate = self
+        
+        //detailObsScrollView.autoresizesSubviews = true
+        //detailObsScrollView.contentSize=CGSizeMake(UIScreen.mainScreen().bounds.size.width, self.view.frame.size.height)
+        
+        //detailObsScrollView.translatesAutoresizingMaskIntoConstraints = true
+        //detailObsScrollView.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.FlexibleTopMargin, UIViewAutoresizing.FlexibleBottomMargin]
+        
+        //detailedObsView.translatesAutoresizingMaskIntoConstraints = true
+        //detailedObsView.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.FlexibleTopMargin, UIViewAutoresizing.FlexibleBottomMargin]
         
         self.view.addSubview(detailObsScrollView)
         
-        detailedObsView.frame = CGRectMake(detailObsScrollView.frame.origin.x, detailObsScrollView.frame.origin.y+84, detailObsScrollView.frame.size.width, detailObsScrollView.frame.size.height)
+        
         //detailedObsView.backgroundColor = UIColor.redColor()
         detailObsScrollView.addSubview(detailedObsView)
+        
+        print(UIScreen.mainScreen().bounds)
+        print(detailObsScrollView.frame)
+        print(detailedObsView.frame)
         
         print(observationId)
         print(observerImageUrl)
@@ -196,8 +219,44 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         print(observationImageUrl)
         //if((observationImageUrl) != "")
         //{
+        print(observationImageUrl)
+        if(observationImageUrl != "")
+        {
             let obsImageUrl  = NSURL(string: observationImageUrl )
             observationImageView.kf_setImageWithURL(obsImageUrl! , placeholderImage: UIImage(named: "default-no-image.png"))
+        }
+        else
+        {
+           
+            observationImageViewHeight.constant = 0
+            //observationTextLabel.sizeToFit()
+            //print(detObsViewHeight.constant)
+            
+            //print(observationTextLabel.frame.size.height)
+            
+            func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
+                let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
+                label.numberOfLines = 0
+                label.lineBreakMode = observationTextLabel.lineBreakMode
+                label.font = font
+                label.text = text
+                
+                label.sizeToFit()
+                return label.frame.height
+            }
+            
+            let font = UIFont(name: observationTextLabel.font.fontName, size: 12.0)
+            
+            let height = heightForView(observationText, font: font!, width: observationTextLabel.frame.size.width)
+            obsTextLabelHeight.constant = height
+            
+            print(height)
+            print(observationTextLabel.font.fontName)
+            print(observationTextLabel.frame.origin.y)
+            detObsViewHeight.constant = observationTextLabel.frame.origin.y+height+8
+            
+        }
+        
         //}
 //        else
 //        {
@@ -241,9 +300,13 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         observationTextLabel.text = observationText
         //observationTextLabel.sizeToFit()
         
-        detailObsScrollView.contentSize=CGSizeMake(UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height+observationTextLabel.frame.size.height)
+        observationTextLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.showMoreDescritionText)))
+        observationTextLabel.userInteractionEnabled = true
+
         
+        detailObsScrollView.contentSize=CGSizeMake(detailedObsView.frame.size.width, detailedObsView.frame.size.height+observationTextLabel.frame.size.height)
         
+        print(detailObsScrollView.contentSize)
         
         
         observerAvatarImageView.layer.cornerRadius = 30.0
@@ -264,6 +327,43 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
 
         
 
+    }
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.x != 0 {
+            scrollView.contentOffset.x = 0
+        }
+    }
+    func showMoreDescritionText()
+    {
+        
+        let alertController = UIAlertController(title: "Description", message: observationText, preferredStyle: UIAlertControllerStyle.Alert)
+        let subview = alertController.view.subviews.first! as UIView
+        let alertContentView = subview.subviews.first! as UIView
+        
+        let alertMessage = alertContentView.subviews.first!.subviews.first!.subviews.first!.subviews[1] as! UILabel
+        
+        //NSArray *viewArray = [[[[[[[[[[[[alertController view] subviews] firstObject] subviews] firstObject] subviews] firstObject] subviews] firstObject] subviews] firstObject] subviews];
+        alertMessage.textAlignment = NSTextAlignment.Left
+        
+        alertContentView.backgroundColor = UIColor.whiteColor()
+        
+//        let paragraphStyle = NSMutableParagraphStyle()
+//        paragraphStyle.alignment = NSTextAlignment.Left
+//        
+//        let messageText = NSMutableAttributedString(
+//            string: observationText,
+//            attributes: [
+//                NSParagraphStyleAttributeName: paragraphStyle,
+//                NSFontAttributeName : UIFont.preferredFontForTextStyle(UIFontTextStyleBody),
+//                NSForegroundColorAttributeName : UIColor.whiteColor()
+//            ]
+//        )
+//        
+//        alertController.setValue(messageText, forKey: "attributedMessage")
+//        alertController.setValue("Description", forKey: "attributedTitle")
+        
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool // called when 'return' key pressed. return NO to ignore.
     {
