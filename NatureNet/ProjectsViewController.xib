@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="16A238m" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProjectsViewController" customModule="NatureNet" customModuleProvider="target">
             <connections>
+                <outlet property="noProjectsIndicationLabel" destination="rgT-vk-Pg2" id="kan-lN-2OE"/>
                 <outlet property="projectsTableView" destination="ppX-27-fAo" id="nEx-f0-Eit"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -20,12 +21,25 @@
                     <rect key="frame" x="8" y="8" width="359" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </tableView>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Projects related to your Affiliation" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgT-vk-Pg2">
+                    <rect key="frame" x="8" y="124" width="359" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="359" id="j60-RT-EdY"/>
+                        <constraint firstAttribute="height" constant="40" id="vY0-bd-IKd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="ppX-27-fAo" secondAttribute="trailing" constant="8" id="35x-bO-l91"/>
+                <constraint firstAttribute="trailing" secondItem="rgT-vk-Pg2" secondAttribute="trailing" constant="8" id="F4S-RH-TQP"/>
+                <constraint firstItem="rgT-vk-Pg2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="MxC-Ef-sAa"/>
                 <constraint firstItem="ppX-27-fAo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="S6b-Vf-Vmo"/>
                 <constraint firstItem="ppX-27-fAo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="adi-j7-B05"/>
+                <constraint firstItem="rgT-vk-Pg2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="124" id="gcU-6w-LZ9"/>
                 <constraint firstAttribute="bottom" secondItem="ppX-27-fAo" secondAttribute="bottom" constant="59" id="hZU-xd-EWi"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
