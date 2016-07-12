@@ -682,7 +682,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
             
             
             let upImage = UploadImageToCloudinary()
-            upImage.uploadToCloudinary(profileIconImageView.image!)
+            upImage.uploadToCloudinary(Utility.resizeImage(profileIconImageView.image!))
 
             
             let myRootRef = FIRAuth.auth()

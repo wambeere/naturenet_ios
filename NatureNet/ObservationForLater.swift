@@ -8,6 +8,9 @@
 
 import Foundation
 
+
+//TODO upload function to upload self
+
 class ObservationForLater : NSObject, NSCoding {
     
     var projectKey : String
@@ -15,7 +18,6 @@ class ObservationForLater : NSObject, NSCoding {
     var imageData = NSData()
     var imageURL : String
     var observerID : String
-    var timestamp = ""
     var longitude : Double
     var latitude : Double
     
@@ -25,14 +27,13 @@ class ObservationForLater : NSObject, NSCoding {
     
     var imageUploaded : Bool
     
-    init (projectKey:String, observationDescription:String, imageData:NSData, imageURL:String, observerID:String, timestamp:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
+    init (projectKey:String, observationDescription:String, imageData:NSData = NSData(), imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
     {
         self.projectKey = projectKey
         self.observationDescription = observationDescription
         self.imageData = imageData
         self.imageURL = imageURL
         self.observerID = observerID
-        self.timestamp = timestamp
         self.longitude = longitude
         self.latitude = latitude
         self.email = email
@@ -48,7 +49,6 @@ class ObservationForLater : NSObject, NSCoding {
         self.imageData = decoder.decodeObjectForKey("imageData") as! NSData
         self.imageURL = decoder.decodeObjectForKey("imageURL") as! String
         self.observerID = decoder.decodeObjectForKey("observerID") as! String
-        self.timestamp = decoder.decodeObjectForKey("timestamp") as! String
         self.longitude = decoder.decodeDoubleForKey("longitude")
         self.latitude = decoder.decodeDoubleForKey("latitude")
         self.email = decoder.decodeObjectForKey("email") as! String
@@ -64,12 +64,11 @@ class ObservationForLater : NSObject, NSCoding {
         coder.encodeObject(self.imageData, forKey: "imageData")
         coder.encodeObject(self.imageURL, forKey: "imageURL")
         coder.encodeObject(self.observerID, forKey: "observerID")
-        coder.encodeObject(self.timestamp, forKey: "timestamp")
-        coder.encodeObject(self.longitude, forKey: "longitude")
-        coder.encodeObject(self.latitude, forKey: "latitude")
+        coder.encodeDouble(self.longitude, forKey: "longitude")
+        coder.encodeDouble(self.latitude, forKey: "latitude")
         coder.encodeObject(self.email, forKey: "email")
         coder.encodeObject(self.password, forKey: "password")
-        coder.encodeObject(self.imageUploaded, forKey: "imageUploaded")
+        coder.encodeBool(self.imageUploaded, forKey: "imageUploaded")
         
     }
 }

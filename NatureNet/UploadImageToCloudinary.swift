@@ -33,17 +33,7 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         
     }
     
-    func uploadToCloudinary(image: UIImage) {
-        
-        let date = NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd-HH-mm-ss"
-        print(dateFormatter.stringFromDate(date))
-        
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let username = userDefaults.stringForKey("userDisplayName")//dataForKey("userDisplayName")
-        
-        print("\(dateFormatter.stringFromDate(date))-\(username!)")
+    func uploadToCloudinary(image: NSData) {
         
         let infoPath = NSBundle.mainBundle().pathForResource("Info.plist", ofType: nil)!
         let info = NSDictionary(contentsOfFile: infoPath)!
@@ -52,38 +42,8 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         Cloudinary = CLCloudinary(url: info.objectForKey("CloudinaryAccessUrl") as! String)
         let uploader = CLUploader(Cloudinary, delegate: self)
         
-        let maxSide = CGFloat(1920)
-        let originalWidth = image.size.width
-        let originalHeight = image.size.height
         
-        if(originalWidth > maxSide || originalHeight > maxSide)
-        {
-            //one of the two has to be 1920, so this is an easy way to give initial values
-            var newWidth = maxSide
-            var newHeight = maxSide
-            
-            if(originalWidth >= originalHeight)
-            {
-                let scaleRatio = originalWidth / maxSide
-                newHeight = originalHeight / scaleRatio
-            } else {
-                let scaleRatio = originalHeight / maxSide
-                newWidth = originalWidth / scaleRatio
-            }
-            
-            let rect = CGRectMake(0.0, 0.0, newWidth, newHeight)
-            UIGraphicsBeginImageContext(rect.size)
-            image.drawInRect(rect)
-            let smallerImage = UIGraphicsGetImageFromCurrentImageContext()
-            forUpload = UIImageJPEGRepresentation(smallerImage, 0.6)! as NSData
-            
-        
-        } else {
-            //less compression on the already smaller images
-            forUpload = UIImageJPEGRepresentation(image, 0.7)! as NSData
-        }
-        
-        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        uploader.upload(image, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
         
     }
     
@@ -103,11 +63,9 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         }
         else {
             print(errorResult.localizedLowercaseString)
-            if !alreadyDidSaveForLater {
-                saveForLater()
-            }
-            
         }
+        
+        
     }
     
     
@@ -127,19 +85,6 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func saveForLater() {
-        print("disconnece=ted")
-        alreadyDidSaveForLater = true
-        
-        
-        
-        
-        
-        
-        
-        
     }
 
     /*

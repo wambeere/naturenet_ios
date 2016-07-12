@@ -11,8 +11,9 @@ import Firebase
 import Cloudinary
 import MapKit
 import CoreLocation
+import Cloudinary
 
-class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,CLLocationManagerDelegate{
+class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,CLLocationManagerDelegate,CLUploaderDelegate {
 
     @IBOutlet weak var observationDetailsTableView: UITableView!
     @IBOutlet weak var observationImageView: UIImageView!
@@ -24,8 +25,14 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     var descText :String = ""
     var userID :String = ""
     
+    var imageForUpload = NSData()
+    
     let locationManager = CLLocationManager()
     var locValue = CLLocationCoordinate2D()
+    
+    var imageURL = ""
+    
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     
     @IBOutlet weak var obsProjectLabel: UILabel!
@@ -43,15 +50,15 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         let barButtonItem = UIBarButtonItem(image: UIImage(named: "double_down.png"), style: .Plain, target: self, action: #selector(NewObsViewController.dismissVC))
         navigationItem.leftBarButtonItem = barButtonItem
         
-        let rightBarButtonItem = UIBarButtonItem(title: "Send", style: .Plain, target: self, action: #selector(NewObsViewController.postObservation))
+        //TODO should check that user is logged in when this button is pressed
+        let rightBarButtonItem = UIBarButtonItem(title: "Send", style: .Plain, target: self, action: #selector(NewObsViewController.beginUpload))
         rightBarButtonItem.tintColor = UIColor.whiteColor()
         navigationItem.rightBarButtonItem = rightBarButtonItem
         
         observationImageView.image = obsImage
         
         //spinner.startAnimating()
-        let upImage = UploadImageToCloudinary()
-        upImage.uploadToCloudinary(obsImage)
+        
         //spinner.startAnimating()
         
         observationDetailsTableView.delegate = self
@@ -73,8 +80,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+
         
         if(userDefaults.objectForKey("ProjectKey") != nil)
         {
@@ -84,11 +90,66 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         obsDescTextView.delegate = self
-        
-        
-
 
     }
+    
+    func beginUpload() {
+        
+        var Cloudinary:CLCloudinary!
+        
+        imageForUpload = Utility.resizeImage(obsImage)
+        
+        let infoPath = NSBundle.mainBundle().pathForResource("Info.plist", ofType: nil)!
+        let info = NSDictionary(contentsOfFile: infoPath)!
+        //print(info.objectForKey("CloudinaryAccessUrl"))
+        
+        Cloudinary = CLCloudinary(url: info.objectForKey("CloudinaryAccessUrl") as! String)
+        let uploader = CLUploader(Cloudinary, delegate: self)
+        
+        
+        uploader.upload(imageForUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        
+    }
+    
+    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
+        if(errorResult == nil) {
+            let publicId = successResult["public_id"] as! String
+            let url = successResult["url"] as? String
+            print("now cloudinary uploaded, public id is: \(publicId) and \(url), ready for uploading media")
+            // push media after cloudinary is finished
+            //let params = ["link": publicId] as Dictionary<String, Any>
+            //self.doPushNew(self.apiService!, params: params)
+            if(url != "")
+            {
+                userDefaults.setValue(url, forKey: "observationImageUrl")
+                imageURL = url!
+                
+                postObservation()
+            }
+            
+        }
+        else {
+            print(errorResult.localizedLowercaseString)
+            saveForLater(false)
+        }
+        
+        
+    }
+    
+    
+    
+    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
+        //do any progress update you may need
+        let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
+        //self.updateProgressDelegate?.onUpdateProgress(progress)
+        
+        
+        print("uploading to cloudinary... wait! \(progress * 100)%")
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue("\(progress * 100)", forKey: "progress")
+    }
+    
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
             textView.resignFirstResponder()
@@ -178,7 +239,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         
         
-        
+        //TODO handle failure in here
         
         //print(email)
         //print(password)
@@ -307,6 +368,65 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         //let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
         //usersRef.setValue(usersPub)
         //OBSERVATION_IMAGE_UPLOAD_URL = ""
+        
+    }
+    
+    func saveForLater(imageWasUploaded:Bool) {
+        
+        var forLater : ObservationForLater
+        
+        var project = ""
+        
+        if(userDefaults.objectForKey("ProjectKey") != nil)
+        {
+            project = (userDefaults.objectForKey("ProjectKey") as? String)!
+        }
+        if project == "" {
+            
+            //Default Free Observation
+            project = "-ACES_g38"
+        }
+        
+        let description = obsDescTextView.text
+        let observerID = (userDefaults.objectForKey("userID") as? String)!
+        let longitude = locValue.longitude
+        let latitude = locValue.latitude
+        
+        var email = ""
+        var password = ""
+        
+        if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
+        {
+            email = (userDefaults.objectForKey("email") as? String)!
+            password = (userDefaults.objectForKey("password") as? String)!
+        }
+        
+        if imageWasUploaded {
+            forLater = ObservationForLater(projectKey: project, observationDescription: description, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+        } else {
+            forLater = ObservationForLater(projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+        }
+        
+        //userDefaults.setObject(nil, forKey: "observationsForLater")
+        
+        var laterData : NSData
+        if userDefaults.objectForKey("observationsForLater") == nil {
+            laterData = NSKeyedArchiver.archivedDataWithRootObject([forLater])
+        } else {
+            laterData = (NSUserDefaults.standardUserDefaults().objectForKey("observationsForLater") as? NSData)!
+            
+            var laterArray = NSKeyedUnarchiver.unarchiveObjectWithData(laterData) as? [ObservationForLater]
+                
+            if laterArray != nil {
+                laterArray?.append(forLater)
+            }
+            
+            laterData = NSKeyedArchiver.archivedDataWithRootObject(laterArray!)
+            
+        }
+        
+        userDefaults.setObject(laterData, forKey: "observationsForLater")
+        
         
     }
     

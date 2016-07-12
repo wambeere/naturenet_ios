@@ -52,6 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         activitiesRootRef.keepSynced(true)
         
         let connectedRef = FIRDatabase.database().referenceWithPath(".info/connected")
+        
+        //TODO
         connectedRef.observeEventType(.Value, withBlock: { snapshot in
             if let connected = snapshot.value as? Bool where connected {
                 print("Connected")
