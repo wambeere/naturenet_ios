@@ -9,46 +9,62 @@
 import Foundation
 
 class ObservationForLater : NSObject, NSCoding {
-    var name : String
-    var defaultValue : Int
-    var thisMonthsEstimate : Int
-    var sumOfThisMonthsActuals : Int
-    var riskFactor : Float
-    var monthlyAverage : Float
     
-    var projectKey : String = ""
-    var descText :String = ""
-    var userID :String = ""
+    var projectKey : String
+    var observationDescription : String
+    var imageData = NSData()
+    var imageURL : String
+    var observerID : String
+    var timestamp = ""
+    var longitude : Double
+    var latitude : Double
     
-    init (name:String, defaultValue:Int, thisMonthsEstimate:Int, sumOfThisMonthsActuals:Int, riskFactor:Float, monthlyAverage:Float) {
-        self.name = name
-        self.defaultValue = defaultValue
-        self.thisMonthsEstimate = thisMonthsEstimate
-        self.sumOfThisMonthsActuals = sumOfThisMonthsActuals
-        self.riskFactor = riskFactor
-        self.monthlyAverage = monthlyAverage
+    //should be replaced with more secure storage (ie keychain)
+    var email : String
+    var password : String
+    
+    init (projectKey:String, observationDescription:String, imageData:NSData, imageURL:String, observerID:String, timestamp:String, longitude:Double, latitude:Double, email:String, password:String)
+    {
+        self.projectKey = projectKey
+        self.observationDescription = observationDescription
+        self.imageData = imageData
+        self.imageURL = imageURL
+        self.observerID = observerID
+        self.timestamp = timestamp
+        self.longitude = longitude
+        self.latitude = latitude
+        self.email = email
+        self.password = password
+
     }
     
-    // MARK: NSCoding
-    
     required init(coder decoder: NSCoder) {
-        //Error here "missing argument for parameter name in call
-        self.name = decoder.decodeObjectForKey("name") as! String
-        self.defaultValue = decoder.decodeIntegerForKey("defaultValue")
-        self.thisMonthsEstimate = decoder.decodeIntegerForKey("thisMonthsEstimate")
-        self.sumOfThisMonthsActuals = decoder.decodeIntegerForKey("sumOfThisMonthsActuals")
-        self.riskFactor = decoder.decodeFloatForKey("riskFactor")
-        self.monthlyAverage = decoder.decodeFloatForKey("monthlyAverage")
+        
+        self.projectKey = decoder.decodeObjectForKey("projectKey") as! String
+        self.observationDescription = decoder.decodeObjectForKey("observationDescription") as! String
+        self.imageData = decoder.decodeObjectForKey("imageData") as! NSData
+        self.imageURL = decoder.decodeObjectForKey("imageURL") as! String
+        self.observerID = decoder.decodeObjectForKey("observerID") as! String
+        self.timestamp = decoder.decodeObjectForKey("timestamp") as! String
+        self.longitude = decoder.decodeDoubleForKey("longitude")
+        self.latitude = decoder.decodeDoubleForKey("latitude")
+        self.email = decoder.decodeObjectForKey("email") as! String
+        self.password = decoder.decodeObjectForKey("password") as! String
+        
         super.init()
     }
     
     func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.name, forKey: "name")
-        coder.encodeInt(Int32(self.defaultValue), forKey: "defaultValue")
-        coder.encodeInt(Int32(self.thisMonthsEstimate), forKey: "thisMonthsEstimate")
-        coder.encodeInt(Int32(self.sumOfThisMonthsActuals), forKey: "sumOfThisMonthsActuals")
-        coder.encodeFloat(self.riskFactor, forKey: "riskFactor")
-        coder.encodeFloat(self.monthlyAverage, forKey: "monthlyAverage")
+        coder.encodeObject(self.projectKey, forKey: "projectKey")
+        coder.encodeObject(self.observationDescription, forKey: "observationDescription")
+        coder.encodeObject(self.imageData, forKey: "imageData")
+        coder.encodeObject(self.imageURL, forKey: "imageURL")
+        coder.encodeObject(self.observerID, forKey: "observerID")
+        coder.encodeObject(self.timestamp, forKey: "timestamp")
+        coder.encodeObject(self.longitude, forKey: "longitude")
+        coder.encodeObject(self.latitude, forKey: "latitude")
+        coder.encodeObject(self.email, forKey: "email")
+        coder.encodeObject(self.password, forKey: "password")
         
     }
 }

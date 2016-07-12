@@ -18,6 +18,9 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     var selectedCloset:String?
     var alreadyDidSaveForLater = false
     
+    var forUpload = NSData()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +55,6 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         let maxSide = CGFloat(1920)
         let originalWidth = image.size.width
         let originalHeight = image.size.height
-        var forUpload = NSData()
         
         if(originalWidth > maxSide || originalHeight > maxSide)
         {
