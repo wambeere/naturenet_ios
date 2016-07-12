@@ -23,7 +23,9 @@ class ObservationForLater : NSObject, NSCoding {
     var email : String
     var password : String
     
-    init (projectKey:String, observationDescription:String, imageData:NSData, imageURL:String, observerID:String, timestamp:String, longitude:Double, latitude:Double, email:String, password:String)
+    var imageUploaded : Bool
+    
+    init (projectKey:String, observationDescription:String, imageData:NSData, imageURL:String, observerID:String, timestamp:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
     {
         self.projectKey = projectKey
         self.observationDescription = observationDescription
@@ -35,6 +37,7 @@ class ObservationForLater : NSObject, NSCoding {
         self.latitude = latitude
         self.email = email
         self.password = password
+        self.imageUploaded = imageUploaded
 
     }
     
@@ -50,6 +53,7 @@ class ObservationForLater : NSObject, NSCoding {
         self.latitude = decoder.decodeDoubleForKey("latitude")
         self.email = decoder.decodeObjectForKey("email") as! String
         self.password = decoder.decodeObjectForKey("password") as! String
+        self.imageUploaded = decoder.decodeBoolForKey("imageUploaded")
         
         super.init()
     }
@@ -65,6 +69,7 @@ class ObservationForLater : NSObject, NSCoding {
         coder.encodeObject(self.latitude, forKey: "latitude")
         coder.encodeObject(self.email, forKey: "email")
         coder.encodeObject(self.password, forKey: "password")
+        coder.encodeObject(self.imageUploaded, forKey: "imageUploaded")
         
     }
 }
