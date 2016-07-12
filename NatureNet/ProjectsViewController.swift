@@ -199,6 +199,7 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                         if(activity == geoActivity)
                                         {
                                             self.projectIds.addObject(activityDictionary.objectForKey("id")!)
+                                            print(self.projectIds)
                                         }
                                     }
                                     
@@ -706,6 +707,7 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
             let userDefaults = NSUserDefaults.standardUserDefaults()
             userDefaults.setValue(projectGeoIds[indexPath.row] as! String, forKey: "ProjectKey")
             userDefaults.setValue(projectKeys[indexPath.row] as! String, forKey: "ProjectName")
+            userDefaults.setValue(projectIds[indexPath.row] as! String, forKey: "ActivityID")
             self.dismissVC()
         }
         

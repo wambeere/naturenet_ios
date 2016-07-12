@@ -61,6 +61,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         
+        //NSString * timestamp = [NSString stringWithFormat:"%f",[[NSDate date] timeIntervalSince1970] * 1000];
+        
+        //let date = NSDate().timeIntervalSince1970 * 1000
+        //print(date)
         
         
 //        let myRootRef = FIRAuth.auth()
@@ -82,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
 
-//        let date = NSDate(timeIntervalSince1970:Double(1460408776050)/1000)
+//        let date = NSDate(timeIntervalSince1970:Double(468342303759)/1000)
 //        print(date)
 //        /***** NSDateFormatter Part *****/
 //        

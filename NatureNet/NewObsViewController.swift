@@ -151,6 +151,11 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         {
             
         }
+        var projectActivityId = ""
+        if(userDefaults.objectForKey("ActivityID") != nil)
+        {
+            projectActivityId = (userDefaults.objectForKey("ActivityID") as? String)!
+        }
         
         //let upImage = UploadImageToCloudinary()
         //upImage.uploadToCloudinary(obsImage)
@@ -261,12 +266,26 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             }
                             
                             print(self.projectKey)
+                            print(self.userID)
+                            print(projectActivityId)
+                            
                                 if(userDefaults.objectForKey("progress") as? String == "100.0")
                                 {
-                                    let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+                                    let currentTimestamp = FIRServerValue.timestamp()
+                                    
+                                    let obsDetails = ["data":["image": obsImageUrl as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": currentTimestamp,"updated_at": currentTimestamp]
                                     autoID.setValue(obsDetails)
                                     
                                     print(autoID)
+                                    
+                                    print("Timestamp: "+"\(FIRServerValue.timestamp())")
+                                    
+                                    
+                                    let uRef = FIRDatabase.database().referenceWithPath("users/\(self.userID)")
+                                    uRef.child("latest_contribution").setValue(currentTimestamp)
+                                    
+                                    let aRef = FIRDatabase.database().referenceWithPath("activities/\(projectActivityId)")
+                                    aRef.child("latest_contribution").setValue(currentTimestamp)
                                     
                                     let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
                                     //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
