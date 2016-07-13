@@ -51,7 +51,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         navigationItem.leftBarButtonItem = barButtonItem
         
         //TODO should check that user is logged in when this button is pressed
-        let rightBarButtonItem = UIBarButtonItem(title: "Send", style: .Plain, target: self, action: #selector(NewObsViewController.beginUpload))
+        let rightBarButtonItem = UIBarButtonItem(title: "Send", style: .Plain, target: self, action: #selector(NewObsViewController.postObservation))
         rightBarButtonItem.tintColor = UIColor.whiteColor()
         navigationItem.rightBarButtonItem = rightBarButtonItem
         
@@ -93,7 +93,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
 
     }
     
-    func beginUpload() {
+    func uploadImage() {
         
         var Cloudinary:CLCloudinary!
         
@@ -124,7 +124,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                 userDefaults.setValue(url, forKey: "observationImageUrl")
                 imageURL = url!
                 
-                postObservation()
+                postToFirebase()
             }
             
         }
@@ -157,10 +157,12 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         return true
     }
+    
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locValue = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
+    
     override func viewWillAppear(animated: Bool) {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -223,7 +225,6 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         print(OBSERVATION_IMAGE_UPLOAD_URL)
         var email = ""
         var password = ""
-        var obsImageUrl = ""
         
         if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
         {
@@ -234,12 +235,12 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         if(userDefaults.objectForKey("observationImageUrl") as? String != nil)
         {
-            obsImageUrl = (userDefaults.objectForKey("observationImageUrl") as? String)!
+            imageURL = (userDefaults.objectForKey("observationImageUrl") as? String)!
         }
         
-        
-        
-        //TODO handle failure in here
+        if email == "" {
+            
+        }
         
         //print(email)
         //print(password)
@@ -254,112 +255,48 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             if(email == "")
                             {
                                 alert = UIAlertController(title: "Alert", message:"Please Sign In to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                                    UIAlertAction in
+                                    //print("OK Pressed")
+                                    //self.dismissVC()
+                                    
+                                    let signInSignUpVC=SignInSignUpViewController()
+                                    let signInSignUpNavVC = UINavigationController()
+                                    signInSignUpVC.pageTitle="Sign In"
+                                    signInSignUpNavVC.viewControllers = [signInSignUpVC]
+                                    self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+                                }
+                                
+                                // Add the actions
+                                alert.addAction(showMenuAction)
+                                
+                                
+                                
                             }
                             else
                             {
-                                alert = UIAlertController(title: "Alert", message:error?.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                            }
-
-                            //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                            let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
-                                UIAlertAction in
-                                //print("OK Pressed")
-                                //self.dismissVC()
+                                var message = (error?.localizedDescription)!
                                 
-                                let signInSignUpVC=SignInSignUpViewController()
-                                let signInSignUpNavVC = UINavigationController()
-                                signInSignUpVC.pageTitle="Sign In"
-                                signInSignUpNavVC.viewControllers = [signInSignUpVC]
-                                self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+                                if email != "" {
+                                    message += "\n\nWe'll try to upload this next time you have a connection."
+                                    
+                                    self.imageForUpload = Utility.resizeImage(self.obsImage)
+                                    self.saveForLater(false)
+                                }
+                                alert = UIAlertController(title: "Alert", message: message ,preferredStyle: UIAlertControllerStyle.Alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                             }
-                            
-                            // Add the actions
-                            alert.addAction(showMenuAction)
 
+                            
                             
                             self.presentViewController(alert, animated: true, completion: nil)
-                            
                         }
                         else
                         {
-                            let ref = FIRDatabase.database().referenceWithPath("observations")
-                            //Firebase(url: POST_OBSERVATION_URL)
-                            print(ref.childByAutoId())
-                            let autoID = ref.childByAutoId()
                             
+                            //this function will call the firebase post function when it is done
+                            self.uploadImage()
                             
-                            
-                            //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
-                            //let obsData = autoID.childByAppendingPath("data")
-//                            let obsDataDetails = obsData.childByAppendingPath("text")
-//                            obsDataDetails.setValue(self.descText)
-//                            let obsDataImageDetails = obsData.childByAppendingPath("image")
-//                            obsDataImageDetails.setValue(obsImageUrl)
-////                            let obsDataIgnoreDetails = obsData.childByAppendingPath("ignore")
-////                            obsDataIgnoreDetails.setValue("true")
-//                            let obsId = autoID.childByAppendingPath("id")
-//                            obsId.setValue(autoID.key)
-//                            let obsCreatedAt = autoID.childByAppendingPath("created_at")
-//                            obsCreatedAt.setValue(FirebaseServerValue.timestamp())
-//                            let obsUpdatedAt = autoID.childByAppendingPath("updated_at")
-//                            obsUpdatedAt.setValue(FirebaseServerValue.timestamp())
-//                            let obsActivityLocation = autoID.childByAppendingPath("activity_location")
-//                            obsActivityLocation.setValue("test")
-//
-//        
-//                            let obsIdKey = autoID.childByAppendingPath("observer")
-//                            obsIdKey.setValue(self.userID)
-                            
-                            //let dataKeys = ["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject]
-                            //obsData.setValue(dataKeys)
-                            //let userDefaults = NSUserDefaults.standardUserDefaults()
-                            print(userDefaults.objectForKey("progress"))
-                            
-                            if(self.projectKey == ""){
-                                
-                                self.projectKey = "-ACES_g38"
-                            }
-                            
-                            print(self.projectKey)
-                                if(userDefaults.objectForKey("progress") as? String == "100.0")
-                                {
-                                    let obsDetails = ["data":["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
-                                    autoID.setValue(obsDetails)
-                                    
-                                    print(autoID)
-                                    
-                                    let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
-                                    //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                    
-                                    if(userDefaults.objectForKey("ObservationDescription") != nil)
-                                    {
-                                        userDefaults.setValue("", forKey:"ObservationDescription")
-                                    }
-                                    if(userDefaults.objectForKey("Project") != nil)
-                                    {
-                                        //projectName = (userDefaults.objectForKey("Project") as? String)!
-                                        userDefaults.setValue("", forKey:"ProjectKey")
-                                        userDefaults.setValue("", forKey:"ProjectName")
-                                    }
-                                    
-                                    let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
-                                    {
-                                        UIAlertAction in
-                                        self.dismissVC()
-                                        
-                                    }
-                                    alert.addAction(dismissAction)
-                                    self.presentViewController(alert, animated: true, completion: nil)
-                                    
-                                    
-                                    
-                                }
-                                else
-                                {
-                                    let alert = UIAlertController(title: "Alert", message:"Image uploading failed" ,preferredStyle: UIAlertControllerStyle.Alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                    self.presentViewController(alert, animated: true, completion: nil)
-                                }
                             
         
                         }})
@@ -369,6 +306,89 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         //usersRef.setValue(usersPub)
         //OBSERVATION_IMAGE_UPLOAD_URL = ""
         
+    }
+    
+    func postToFirebase() {
+        
+        let ref = FIRDatabase.database().referenceWithPath("observations")
+        //Firebase(url: POST_OBSERVATION_URL)
+        print(ref.childByAutoId())
+        let autoID = ref.childByAutoId()
+        
+        
+        
+        //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
+        //let obsData = autoID.childByAppendingPath("data")
+        //                            let obsDataDetails = obsData.childByAppendingPath("text")
+        //                            obsDataDetails.setValue(self.descText)
+        //                            let obsDataImageDetails = obsData.childByAppendingPath("image")
+        //                            obsDataImageDetails.setValue(obsImageUrl)
+        ////                            let obsDataIgnoreDetails = obsData.childByAppendingPath("ignore")
+        ////                            obsDataIgnoreDetails.setValue("true")
+        //                            let obsId = autoID.childByAppendingPath("id")
+        //                            obsId.setValue(autoID.key)
+        //                            let obsCreatedAt = autoID.childByAppendingPath("created_at")
+        //                            obsCreatedAt.setValue(FirebaseServerValue.timestamp())
+        //                            let obsUpdatedAt = autoID.childByAppendingPath("updated_at")
+        //                            obsUpdatedAt.setValue(FirebaseServerValue.timestamp())
+        //                            let obsActivityLocation = autoID.childByAppendingPath("activity_location")
+        //                            obsActivityLocation.setValue("test")
+        //
+        //
+        //                            let obsIdKey = autoID.childByAppendingPath("observer")
+        //                            obsIdKey.setValue(self.userID)
+        
+        //let dataKeys = ["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject]
+        //obsData.setValue(dataKeys)
+        //let userDefaults = NSUserDefaults.standardUserDefaults()
+        print(userDefaults.objectForKey("progress"))
+        
+        if(self.projectKey == ""){
+            
+            self.projectKey = "-ACES_g38"
+        }
+        
+        print(self.projectKey)
+        //    if(userDefaults.objectForKey("progress") as? String == "100.0")
+        //    {
+        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+        autoID.setValue(obsDetails)
+        
+        print(autoID)
+        
+        let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
+        //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        if(userDefaults.objectForKey("ObservationDescription") != nil)
+        {
+            userDefaults.setValue("", forKey:"ObservationDescription")
+        }
+        if(userDefaults.objectForKey("Project") != nil)
+        {
+            //projectName = (userDefaults.objectForKey("Project") as? String)!
+            userDefaults.setValue("", forKey:"ProjectKey")
+            userDefaults.setValue("", forKey:"ProjectName")
+        }
+        
+        let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
+        {
+            UIAlertAction in
+            self.dismissVC()
+            
+        }
+        alert.addAction(dismissAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        
+        
+        /*    }
+         else
+         {
+         let alert = UIAlertController(title: "Alert", message:"Image uploading failed" ,preferredStyle: UIAlertControllerStyle.Alert)
+         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+         self.presentViewController(alert, animated: true, completion: nil)
+         }
+         */
     }
     
     func saveForLater(imageWasUploaded:Bool) {
@@ -402,7 +422,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         if imageWasUploaded {
-            forLater = ObservationForLater(projectKey: project, observationDescription: description, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+            forLater = ObservationForLater(projectKey: project, observationDescription: description, imageData: imageForUpload, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
         } else {
             forLater = ObservationForLater(projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
         }
@@ -413,12 +433,13 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         if userDefaults.objectForKey("observationsForLater") == nil {
             laterData = NSKeyedArchiver.archivedDataWithRootObject([forLater])
         } else {
-            laterData = (NSUserDefaults.standardUserDefaults().objectForKey("observationsForLater") as? NSData)!
+            laterData = (userDefaults.objectForKey("observationsForLater") as? NSData)!
             
             var laterArray = NSKeyedUnarchiver.unarchiveObjectWithData(laterData) as? [ObservationForLater]
                 
             if laterArray != nil {
                 laterArray?.append(forLater)
+                print(laterArray?.count)
             }
             
             laterData = NSKeyedArchiver.archivedDataWithRootObject(laterArray!)

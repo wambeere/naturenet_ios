@@ -58,6 +58,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let connected = snapshot.value as? Bool where connected {
                 print("Connected")
                 //upload any not uploaded observations
+                
+                let userDefaults = NSUserDefaults.standardUserDefaults()
+                var laterData : NSData
+                if userDefaults.objectForKey("observationsForLater") != nil {
+                    laterData = (NSUserDefaults.standardUserDefaults().objectForKey("observationsForLater") as? NSData)!
+                    
+                    let laterArray = NSKeyedUnarchiver.unarchiveObjectWithData(laterData) as? [ObservationForLater]
+                    
+                    if laterArray != nil {
+                        //for all of the things
+                        for observation in laterArray! {
+                            observation.upload()
+                        }
+                    }
+                    
+                    //laterData = NSKeyedArchiver.archivedDataWithRootObject(laterArray!)
+                }
             } else {
                 print("Not connected")
             }
@@ -125,7 +142,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
 }
 

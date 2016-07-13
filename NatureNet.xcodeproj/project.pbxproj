@@ -11,6 +11,7 @@
 		18429F191D357BF20062F2F4 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18429F181D357BF20062F2F4 /* Utility.swift */; };
 		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
 		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
+		1885616B1D368A5D0018B3DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */; };
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
 		9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */; };
 		9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */; };
@@ -82,7 +83,6 @@
 		9F6905821CFDC73A00EEE241 /* 4-5 discussing.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F69057F1CFDC73A00EEE241 /* 4-5 discussing.png */; };
 		9F6905831CFDC73A00EEE241 /* 4-6 like-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6905801CFDC73A00EEE241 /* 4-6 like-grey.png */; };
 		9F6905841CFDC73A00EEE241 /* 4-7 dislike-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6905811CFDC73A00EEE241 /* 4-7 dislike-grey.png */; };
-		9F73BDFE1D22CE1A00336223 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F73BDFD1D22CE1A00336223 /* GoogleService-Info.plist */; };
 		9F7C59B01CEF67E800371F88 /* Logo_GreenTransp.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7C59AF1CEF67E800371F88 /* Logo_GreenTransp.png */; };
 		9F7C59B31CF0C1CA00371F88 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7C59B11CF0C1CA00371F88 /* HomeViewController.swift */; };
 		9F7C59B41CF0C1CA00371F88 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F7C59B21CF0C1CA00371F88 /* HomeViewController.xib */; };
@@ -128,6 +128,7 @@
 		18429F181D357BF20062F2F4 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
+		1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F14A7731C9B3EF400CAB0F6 /* NatureNet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NatureNet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
@@ -202,7 +203,6 @@
 		9F69057F1CFDC73A00EEE241 /* 4-5 discussing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-5 discussing.png"; sourceTree = "<group>"; };
 		9F6905801CFDC73A00EEE241 /* 4-6 like-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-6 like-grey.png"; sourceTree = "<group>"; };
 		9F6905811CFDC73A00EEE241 /* 4-7 dislike-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-7 dislike-grey.png"; sourceTree = "<group>"; };
-		9F73BDFD1D22CE1A00336223 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9F7C59AF1CEF67E800371F88 /* Logo_GreenTransp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo_GreenTransp.png; sourceTree = "<group>"; };
 		9F7C59B11CF0C1CA00371F88 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		9F7C59B21CF0C1CA00371F88 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
@@ -414,8 +414,8 @@
 		9F9BB3BA1C9B214C0076E68E /* NatureNet */ = {
 			isa = PBXGroup;
 			children = (
-				9F73BDFD1D22CE1A00336223 /* GoogleService-Info.plist */,
 				9F1B6DE01D1DAC2E0012F66E /* Info.plist */,
+				1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */,
 				9F32D20D1CB587FD00298E02 /* Reachability.swift */,
 				9F32D2151CB6F6E100298E02 /* ConnectionManager.swift */,
 				9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */,
@@ -598,7 +598,7 @@
 				9F2222AC1CE25FA400A845E2 /* design ideas navy.png in Resources */,
 				9F7C59BC1CF0C24100371F88 /* 2-5 cancel.png in Resources */,
 				9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */,
-				9F73BDFE1D22CE1A00336223 /* GoogleService-Info.plist in Resources */,
+				1885616B1D368A5D0018B3DD /* GoogleService-Info.plist in Resources */,
 				9F7C59B01CEF67E800371F88 /* Logo_GreenTransp.png in Resources */,
 				9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */,
 				9F14A7981C9F158000CAB0F6 /* ProjectsViewController.xib in Resources */,
