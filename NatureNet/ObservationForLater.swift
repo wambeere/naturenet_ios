@@ -27,6 +27,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     var password : String
     
     var imageUploaded : Bool
+    var toBeRemoved : Bool
     
     init (projectKey:String, observationDescription:String, imageData:NSData, imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
     {
@@ -40,6 +41,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         self.email = email
         self.password = password
         self.imageUploaded = imageUploaded
+        self.toBeRemoved = false
 
     }
     
@@ -55,6 +57,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         self.email = decoder.decodeObjectForKey("email") as! String
         self.password = decoder.decodeObjectForKey("password") as! String
         self.imageUploaded = decoder.decodeBoolForKey("imageUploaded")
+        self.toBeRemoved = decoder.decodeBoolForKey("successfullyPosted")
         
         super.init()
     }
@@ -70,42 +73,40 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         coder.encodeObject(self.email, forKey: "email")
         coder.encodeObject(self.password, forKey: "password")
         coder.encodeBool(self.imageUploaded, forKey: "imageUploaded")
+        coder.encodeBool(self.toBeRemoved, forKey: "successfullyPosted")
         
     }
     
     func upload(){
         
-        let refUser = FIRAuth.auth() //Firebase(url: FIREBASE_URL)
-        refUser!.signInWithEmail(email, password: password,
-             completion: { authData, error in
-                if error != nil {
-                    
-                    print("\(error)")
-                    if(self.email == "")
-                    {
-                        //remove for no login info
-                        self.removeSelfFromUserDefaults()
+        if !toBeRemoved {
+            let refUser = FIRAuth.auth() //Firebase(url: FIREBASE_URL)
+            refUser!.signInWithEmail(email, password: password,
+                 completion: { authData, error in
+                    if error != nil {
+                        
+                        print("\(error)")
+                        //incorrect password and user not found respectively
+                        if(self.email == "" || error?.code == 17009 || error?.code == 17011) {
+                            self.successfullyPostedObservation()
+                        }
+                        //otherwise we can assume that the internet went out again
+                        //and leave the object in the array to be tried again later
                     }
                     else
                     {
-                        //incorrect password and user not found respectively
-                        if(error?.code == 17009 || error?.code == 17011) {
-                            self.removeSelfFromUserDefaults()
+                        if !self.imageUploaded {
+                            //this function will call the firebase post function when it is done
+                            self.uploadImage()
+                        } else {
+                            self.postToFirebase()
                         }
-                        
-                        //otherwise we can assume that the internet went out again
                     }
-                }
-                else
-                {
-                    if !self.imageUploaded {
-                        //this function will call the firebase post function when it is done
-                        self.uploadImage()
-                    } else {
-                        self.postToFirebase()
-                    }
-                }
-        })
+            })
+        } else {
+            print("already posted")
+        }
+        
     }
     
     
@@ -182,29 +183,12 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         
         print(autoID)
         
-        removeSelfFromUserDefaults()
+        successfullyPostedObservation()
         
     }
     
-    func removeSelfFromUserDefaults() {
-        
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        var laterData = (userDefaults.objectForKey("observationsForLater") as? NSData)!
-        
-        var laterArray = NSKeyedUnarchiver.unarchiveObjectWithData(laterData) as? [ObservationForLater]
-        
-        if laterArray != nil {
-            
-            for i in 0..<laterArray!.count {
-                if laterArray![i].equals(self) {
-                    laterArray?.removeAtIndex(i)
-                }
-            }
-            
-            laterData = NSKeyedArchiver.archivedDataWithRootObject(laterArray!)
-        }
-        
-        userDefaults.setObject(laterData, forKey: "observationsForLater")
+    func successfullyPostedObservation() {
+        toBeRemoved = true
         
     }
     

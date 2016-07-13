@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var viewController: UIViewController?
     var frontNavController : UINavigationController? = nil
+    var laterArray : [ObservationForLater] = []
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -53,28 +54,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let connectedRef = FIRDatabase.database().referenceWithPath(".info/connected")
         
-        //TODO
+        //unbundle observations for later from user defaults
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        var laterData : NSData
+        if userDefaults.objectForKey("observationsForLater") != nil {
+            laterData = (NSUserDefaults.standardUserDefaults().objectForKey("observationsForLater") as? NSData)!
+            
+            laterArray = (NSKeyedUnarchiver.unarchiveObjectWithData(laterData) as? [ObservationForLater])!
+        }
+        
+        //listener for whether we are connected to firebase (and thus likely internet)
         connectedRef.observeEventType(.Value, withBlock: { snapshot in
             if let connected = snapshot.value as? Bool where connected {
                 print("Connected")
                 //upload any not uploaded observations
-                
-                let userDefaults = NSUserDefaults.standardUserDefaults()
-                var laterData : NSData
-                if userDefaults.objectForKey("observationsForLater") != nil {
-                    laterData = (NSUserDefaults.standardUserDefaults().objectForKey("observationsForLater") as? NSData)!
-                    
-                    let laterArray = NSKeyedUnarchiver.unarchiveObjectWithData(laterData) as? [ObservationForLater]
-                    
-                    if laterArray != nil {
-                        //for all of the things
-                        for observation in laterArray! {
-                            observation.upload()
-                        }
-                    }
-                    
-                    //laterData = NSKeyedArchiver.archivedDataWithRootObject(laterArray!)
+                //for all of the things
+                for observation in self.laterArray {
+                    observation.upload()
                 }
+                
             } else {
                 print("Not connected")
             }
@@ -129,6 +127,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        //clean up the upload later queue
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        print(laterArray.count)
+        
+        for (i, _) in laterArray.enumerate().reverse() {
+            if laterArray[i].toBeRemoved {
+                laterArray.removeAtIndex(i)
+            }
+        }
+        
+        //put later array into user defaults for storage
+        let laterData = NSKeyedArchiver.archivedDataWithRootObject(laterArray)
+        userDefaults.setObject(laterData, forKey: "observationsForLater")
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

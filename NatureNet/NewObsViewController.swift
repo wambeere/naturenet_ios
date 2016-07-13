@@ -131,6 +131,18 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         else {
             print(errorResult.localizedLowercaseString)
             saveForLater(false)
+            
+            let message = "We'll try to upload this for automatically next time you have a connection."
+            let alert = UIAlertController(title: "Image Upload Failed", message: message ,preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.dismissVC()
+            }
+            
+            alert.addAction(showMenuAction)
+            
+            self.presentViewController(alert, animated: true, completion: nil)
         }
         
         
@@ -252,7 +264,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             
                             print("\(error)")
                             var alert = UIAlertController()
-                            if(email == "")
+                            if(email == "" || error?.code == 17009 || error?.code == 17011)
                             {
                                 alert = UIAlertController(title: "Alert", message:"Please Sign In to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
                                 let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
@@ -270,26 +282,31 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                                 // Add the actions
                                 alert.addAction(showMenuAction)
                                 
-                                
+                                self.presentViewController(alert, animated: true, completion: nil)
                                 
                             }
                             else
                             {
                                 var message = (error?.localizedDescription)!
                                 
-                                if email != "" {
-                                    message += "\n\nWe'll try to upload this next time you have a connection."
+                                message += "\n\nWe'll try to upload this for you automatically next time you have a connection."
                                     
-                                    self.imageForUpload = Utility.resizeImage(self.obsImage)
-                                    self.saveForLater(false)
-                                }
+                                self.imageForUpload = Utility.resizeImage(self.obsImage)
+                                self.saveForLater(false)
+                                
                                 alert = UIAlertController(title: "Alert", message: message ,preferredStyle: UIAlertControllerStyle.Alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                            }
+                                
+                                let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                                    UIAlertAction in
+                                    self.dismissVC()
+                                }
 
-                            
-                            
-                            self.presentViewController(alert, animated: true, completion: nil)
+                                alert.addAction(showMenuAction)
+                                
+                                self.presentViewController(alert, animated: true, completion: nil)
+                                
+                                
+                            }
                         }
                         else
                         {
@@ -428,27 +445,8 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         //userDefaults.setObject(nil, forKey: "observationsForLater")
-        
-        var laterData : NSData
-        if userDefaults.objectForKey("observationsForLater") == nil {
-            laterData = NSKeyedArchiver.archivedDataWithRootObject([forLater])
-        } else {
-            laterData = (userDefaults.objectForKey("observationsForLater") as? NSData)!
-            
-            var laterArray = NSKeyedUnarchiver.unarchiveObjectWithData(laterData) as? [ObservationForLater]
-                
-            if laterArray != nil {
-                laterArray?.append(forLater)
-                print(laterArray?.count)
-            }
-            
-            laterData = NSKeyedArchiver.archivedDataWithRootObject(laterArray!)
-            
-        }
-        
-        userDefaults.setObject(laterData, forKey: "observationsForLater")
-        
-        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.laterArray.append(forLater)
     }
     
     // MARK: - Table view data source
