@@ -7,48 +7,209 @@
 //
 
 import Foundation
+import Cloudinary
+import Firebase
 
-class ObservationForLater : NSObject, NSCoding {
-    var name : String
-    var defaultValue : Int
-    var thisMonthsEstimate : Int
-    var sumOfThisMonthsActuals : Int
-    var riskFactor : Float
-    var monthlyAverage : Float
+//TODO upload function to upload self
+
+class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     
-    var projectKey : String = ""
-    var descText :String = ""
-    var userID :String = ""
+    var projectKey : String
+    var observationDescription : String
+    var imageData = NSData()
+    var imageURL : String
+    var observerID : String
+    var longitude : Double
+    var latitude : Double
     
-    init (name:String, defaultValue:Int, thisMonthsEstimate:Int, sumOfThisMonthsActuals:Int, riskFactor:Float, monthlyAverage:Float) {
-        self.name = name
-        self.defaultValue = defaultValue
-        self.thisMonthsEstimate = thisMonthsEstimate
-        self.sumOfThisMonthsActuals = sumOfThisMonthsActuals
-        self.riskFactor = riskFactor
-        self.monthlyAverage = monthlyAverage
+    //should be replaced with more secure storage (ie keychain)
+    var email : String
+    var password : String
+    
+    var imageUploaded : Bool
+    var toBeRemoved : Bool
+    
+    init (projectKey:String, observationDescription:String, imageData:NSData, imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
+    {
+        self.projectKey = projectKey
+        self.observationDescription = observationDescription
+        self.imageData = imageData
+        self.imageURL = imageURL
+        self.observerID = observerID
+        self.longitude = longitude
+        self.latitude = latitude
+        self.email = email
+        self.password = password
+        self.imageUploaded = imageUploaded
+        self.toBeRemoved = false
+
     }
     
-    // MARK: NSCoding
-    
     required init(coder decoder: NSCoder) {
-        //Error here "missing argument for parameter name in call
-        self.name = decoder.decodeObjectForKey("name") as! String
-        self.defaultValue = decoder.decodeIntegerForKey("defaultValue")
-        self.thisMonthsEstimate = decoder.decodeIntegerForKey("thisMonthsEstimate")
-        self.sumOfThisMonthsActuals = decoder.decodeIntegerForKey("sumOfThisMonthsActuals")
-        self.riskFactor = decoder.decodeFloatForKey("riskFactor")
-        self.monthlyAverage = decoder.decodeFloatForKey("monthlyAverage")
+        
+        self.projectKey = decoder.decodeObjectForKey("projectKey") as! String
+        self.observationDescription = decoder.decodeObjectForKey("observationDescription") as! String
+        self.imageData = decoder.decodeObjectForKey("imageData") as! NSData
+        self.imageURL = decoder.decodeObjectForKey("imageURL") as! String
+        self.observerID = decoder.decodeObjectForKey("observerID") as! String
+        self.longitude = decoder.decodeDoubleForKey("longitude")
+        self.latitude = decoder.decodeDoubleForKey("latitude")
+        self.email = decoder.decodeObjectForKey("email") as! String
+        self.password = decoder.decodeObjectForKey("password") as! String
+        self.imageUploaded = decoder.decodeBoolForKey("imageUploaded")
+        self.toBeRemoved = decoder.decodeBoolForKey("successfullyPosted")
+        
         super.init()
     }
     
     func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.name, forKey: "name")
-        coder.encodeInt(Int32(self.defaultValue), forKey: "defaultValue")
-        coder.encodeInt(Int32(self.thisMonthsEstimate), forKey: "thisMonthsEstimate")
-        coder.encodeInt(Int32(self.sumOfThisMonthsActuals), forKey: "sumOfThisMonthsActuals")
-        coder.encodeFloat(self.riskFactor, forKey: "riskFactor")
-        coder.encodeFloat(self.monthlyAverage, forKey: "monthlyAverage")
+        coder.encodeObject(self.projectKey, forKey: "projectKey")
+        coder.encodeObject(self.observationDescription, forKey: "observationDescription")
+        coder.encodeObject(self.imageData, forKey: "imageData")
+        coder.encodeObject(self.imageURL, forKey: "imageURL")
+        coder.encodeObject(self.observerID, forKey: "observerID")
+        coder.encodeDouble(self.longitude, forKey: "longitude")
+        coder.encodeDouble(self.latitude, forKey: "latitude")
+        coder.encodeObject(self.email, forKey: "email")
+        coder.encodeObject(self.password, forKey: "password")
+        coder.encodeBool(self.imageUploaded, forKey: "imageUploaded")
+        coder.encodeBool(self.toBeRemoved, forKey: "successfullyPosted")
         
     }
+    
+    func upload(){
+        
+        if !toBeRemoved {
+            let refUser = FIRAuth.auth() //Firebase(url: FIREBASE_URL)
+            refUser!.signInWithEmail(email, password: password,
+                 completion: { authData, error in
+                    if error != nil {
+                        
+                        print("\(error)")
+                        //incorrect password and user not found respectively
+                        if(self.email == "" || error?.code == 17009 || error?.code == 17011) {
+                            self.successfullyPostedObservation()
+                        }
+                        //otherwise we can assume that the internet went out again
+                        //and leave the object in the array to be tried again later
+                    }
+                    else
+                    {
+                        if !self.imageUploaded {
+                            //this function will call the firebase post function when it is done
+                            self.uploadImage()
+                        } else {
+                            self.postToFirebase()
+                        }
+                    }
+            })
+        } else {
+            print("already posted")
+        }
+        
+    }
+    
+    
+    private func uploadImage() {
+        
+        var Cloudinary:CLCloudinary!
+        
+        let infoPath = NSBundle.mainBundle().pathForResource("Info.plist", ofType: nil)!
+        let info = NSDictionary(contentsOfFile: infoPath)!
+        //print(info.objectForKey("CloudinaryAccessUrl"))
+        
+        Cloudinary = CLCloudinary(url: info.objectForKey("CloudinaryAccessUrl") as! String)
+        let uploader = CLUploader(Cloudinary, delegate: self)
+        
+        
+        uploader.upload(imageData, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        
+    }
+    
+    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
+        if(errorResult == nil) {
+            let publicId = successResult["public_id"] as! String
+            let url = successResult["url"] as? String
+            print("now cloudinary uploaded, public id is: \(publicId) and \(url), ready for uploading media")
+            // push media after cloudinary is finished
+            //let params = ["link": publicId] as Dictionary<String, Any>
+            //self.doPushNew(self.apiService!, params: params)
+            if(url != "")
+            {
+                imageURL = url!
+                imageUploaded = true
+
+                postToFirebase()
+            }
+            
+        }
+        else {
+            print(errorResult.localizedLowercaseString)
+        }
+        
+        
+    }
+    
+    
+    
+    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
+        //do any progress update you may need
+        let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
+        //self.updateProgressDelegate?.onUpdateProgress(progress)
+        
+        
+        print("uploading to cloudinary... wait! \(progress * 100)%")
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue("\(progress * 100)", forKey: "progress")
+    }
+    
+    private func postToFirebase() {
+     
+        let ref = FIRDatabase.database().referenceWithPath("observations")
+        print(ref.childByAutoId())
+        let autoID = ref.childByAutoId()
+        
+        if(self.projectKey == ""){
+            
+            self.projectKey = "-ACES_g38"
+        }
+        
+        print(self.projectKey)
+        let currentTimestamp = FIRServerValue.timestamp()
+        
+        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.observationDescription as AnyObject],"l":["0": self.latitude as AnyObject, "1" : self.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.observerID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+        autoID.setValue(obsDetails)
+        
+        print(autoID)
+        
+        let uRef = FIRDatabase.database().referenceWithPath("users/\(self.observerID)")
+        uRef.child("latest_contribution").setValue(currentTimestamp)
+        
+        let aRef = FIRDatabase.database().referenceWithPath("activities/\(projectKey)")
+        aRef.child("latest_contribution").setValue(currentTimestamp)
+        
+        successfullyPostedObservation()
+        
+    }
+    
+    func successfullyPostedObservation() {
+        toBeRemoved = true
+        
+    }
+    
+    func equals(obs: ObservationForLater) -> Bool
+    {
+        return
+            self.projectKey == obs.projectKey &&
+            self.observationDescription == obs.observationDescription &&
+            self.imageData == obs.imageData &&
+            self.observerID == obs.observerID &&
+            self.longitude == obs.longitude &&
+            self.latitude == obs.latitude &&
+            self.email == obs.email &&
+            self.password == obs.password
+    }
+    
+    
 }

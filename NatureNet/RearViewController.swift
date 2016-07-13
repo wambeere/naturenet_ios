@@ -129,7 +129,11 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             //NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
             //[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
             
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            let laterUploads = userDefaults.objectForKey("observationsForLater")
             NSUserDefaults.standardUserDefaults().removePersistentDomainForName(NSBundle.mainBundle().bundleIdentifier!)
+            userDefaults.setObject(laterUploads, forKey: "observationsForLater")
+            
             
             if(menuItems.count > 4)
             {

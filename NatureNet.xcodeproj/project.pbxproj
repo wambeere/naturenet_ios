@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1816D9991D24317500F6F194 /* ObservationForLater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816D9981D24317500F6F194 /* ObservationForLater.swift */; };
+		18429F191D357BF20062F2F4 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18429F181D357BF20062F2F4 /* Utility.swift */; };
 		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
 		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
+		1885616B1D368A5D0018B3DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */; };
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
 		9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */; };
 		9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */; };
@@ -124,8 +126,10 @@
 
 /* Begin PBXFileReference section */
 		1816D9981D24317500F6F194 /* ObservationForLater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationForLater.swift; sourceTree = "<group>"; };
+		18429F181D357BF20062F2F4 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
+		1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F14A7731C9B3EF400CAB0F6 /* NatureNet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NatureNet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
@@ -412,11 +416,13 @@
 		9F9BB3BA1C9B214C0076E68E /* NatureNet */ = {
 			isa = PBXGroup;
 			children = (
-				9F51F69D1D342AB100DED2A6 /* GoogleService-Info.plist */,
+
 				9F1B6DE01D1DAC2E0012F66E /* Info.plist */,
+				1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */,
 				9F32D20D1CB587FD00298E02 /* Reachability.swift */,
 				9F32D2151CB6F6E100298E02 /* ConnectionManager.swift */,
 				9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */,
+				18429F181D357BF20062F2F4 /* Utility.swift */,
 				9F25D3721CC7CF2200342B56 /* UploadImageToCloudinary.swift */,
 				9F4523561CC167CA00D5D92C /* SlideView */,
 				9F9BB3C21C9B214C0076E68E /* Assets.xcassets */,
@@ -595,7 +601,8 @@
 				9F2222AC1CE25FA400A845E2 /* design ideas navy.png in Resources */,
 				9F7C59BC1CF0C24100371F88 /* 2-5 cancel.png in Resources */,
 				9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */,
-				9F51F69E1D342AB100DED2A6 /* GoogleService-Info.plist in Resources */,
+
+				1885616B1D368A5D0018B3DD /* GoogleService-Info.plist in Resources */,
 				9F7C59B01CEF67E800371F88 /* Logo_GreenTransp.png in Resources */,
 				9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */,
 				9F14A7981C9F158000CAB0F6 /* ProjectsViewController.xib in Resources */,
@@ -726,6 +733,7 @@
 				9F25D3861CCA619000342B56 /* ProjectDetailViewController.swift in Sources */,
 				9F14A78B1C9DC8CE00CAB0F6 /* ExploreViewController.swift in Sources */,
 				9F4523551CC167C400D5D92C /* SWRevealViewController.m in Sources */,
+				18429F191D357BF20062F2F4 /* Utility.swift in Sources */,
 				9F32D2161CB6F6E100298E02 /* ConnectionManager.swift in Sources */,
 				9FC2D1A01CEB7749000B398B /* DesignIdeasAndChallengesTableViewCell.swift in Sources */,
 				18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */,

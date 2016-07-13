@@ -11,8 +11,9 @@ import Firebase
 import Cloudinary
 import MapKit
 import CoreLocation
+import Cloudinary
 
-class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,CLLocationManagerDelegate{
+class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,CLLocationManagerDelegate,CLUploaderDelegate {
 
     @IBOutlet weak var observationDetailsTableView: UITableView!
     @IBOutlet weak var observationImageView: UIImageView!
@@ -24,8 +25,14 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     var descText :String = ""
     var userID :String = ""
     
+    var imageForUpload = NSData()
+    
     let locationManager = CLLocationManager()
     var locValue = CLLocationCoordinate2D()
+    
+    var imageURL = ""
+    
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     
     @IBOutlet weak var obsProjectLabel: UILabel!
@@ -43,6 +50,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         let barButtonItem = UIBarButtonItem(image: UIImage(named: "double_down.png"), style: .Plain, target: self, action: #selector(NewObsViewController.dismissVC))
         navigationItem.leftBarButtonItem = barButtonItem
         
+        //TODO should check that user is logged in when this button is pressed
         let rightBarButtonItem = UIBarButtonItem(title: "Send", style: .Plain, target: self, action: #selector(NewObsViewController.postObservation))
         rightBarButtonItem.tintColor = UIColor.whiteColor()
         navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -50,8 +58,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         observationImageView.image = obsImage
         
         //spinner.startAnimating()
-        let upImage = UploadImageToCloudinary()
-        upImage.uploadToCloudinary(obsImage)
+        
         //spinner.startAnimating()
         
         observationDetailsTableView.delegate = self
@@ -73,8 +80,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+
         
         if(userDefaults.objectForKey("ProjectKey") != nil)
         {
@@ -84,11 +90,78 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         obsDescTextView.delegate = self
-        
-        
-
 
     }
+    
+    func uploadImage() {
+        
+        var Cloudinary:CLCloudinary!
+        
+        imageForUpload = Utility.resizeImage(obsImage)
+        
+        let infoPath = NSBundle.mainBundle().pathForResource("Info.plist", ofType: nil)!
+        let info = NSDictionary(contentsOfFile: infoPath)!
+        //print(info.objectForKey("CloudinaryAccessUrl"))
+        
+        Cloudinary = CLCloudinary(url: info.objectForKey("CloudinaryAccessUrl") as! String)
+        let uploader = CLUploader(Cloudinary, delegate: self)
+        
+        
+        uploader.upload(imageForUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        
+    }
+    
+    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
+        if(errorResult == nil) {
+            let publicId = successResult["public_id"] as! String
+            let url = successResult["url"] as? String
+            print("now cloudinary uploaded, public id is: \(publicId) and \(url), ready for uploading media")
+            // push media after cloudinary is finished
+            //let params = ["link": publicId] as Dictionary<String, Any>
+            //self.doPushNew(self.apiService!, params: params)
+            if(url != "")
+            {
+                userDefaults.setValue(url, forKey: "observationImageUrl")
+                imageURL = url!
+                
+                postToFirebase()
+            }
+            
+        }
+        else {
+            print(errorResult.localizedLowercaseString)
+            saveForLater(false)
+            
+            let message = "We'll try to upload this for automatically next time you have a connection."
+            let alert = UIAlertController(title: "Image Upload Failed", message: message ,preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.dismissVC()
+            }
+            
+            alert.addAction(showMenuAction)
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
+        
+    }
+    
+    
+    
+    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
+        //do any progress update you may need
+        let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
+        //self.updateProgressDelegate?.onUpdateProgress(progress)
+        
+        
+        print("uploading to cloudinary... wait! \(progress * 100)%")
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue("\(progress * 100)", forKey: "progress")
+    }
+    
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
             textView.resignFirstResponder()
@@ -96,10 +169,12 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         return true
     }
+    
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locValue = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
+    
     override func viewWillAppear(animated: Bool) {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -168,7 +243,6 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         print(OBSERVATION_IMAGE_UPLOAD_URL)
         var email = ""
         var password = ""
-        var obsImageUrl = ""
         
         if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
         {
@@ -179,12 +253,12 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         if(userDefaults.objectForKey("observationImageUrl") as? String != nil)
         {
-            obsImageUrl = (userDefaults.objectForKey("observationImageUrl") as? String)!
+            imageURL = (userDefaults.objectForKey("observationImageUrl") as? String)!
         }
         
-        
-        
-        
+        if email == "" {
+            
+        }
         
         //print(email)
         //print(password)
@@ -196,138 +270,163 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
                             
                             print("\(error)")
                             var alert = UIAlertController()
-                            if(email == "")
+                            if(email == "" || error?.code == 17009 || error?.code == 17011)
                             {
                                 alert = UIAlertController(title: "Alert", message:"Please Sign In to continue" ,preferredStyle: UIAlertControllerStyle.Alert)
+                                let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                                    UIAlertAction in
+                                    //print("OK Pressed")
+                                    //self.dismissVC()
+                                    
+                                    let signInSignUpVC=SignInSignUpViewController()
+                                    let signInSignUpNavVC = UINavigationController()
+                                    signInSignUpVC.pageTitle="Sign In"
+                                    signInSignUpNavVC.viewControllers = [signInSignUpVC]
+                                    self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+                                }
+                                
+                                // Add the actions
+                                alert.addAction(showMenuAction)
+                                
+                                self.presentViewController(alert, animated: true, completion: nil)
+                                
                             }
                             else
                             {
-                                alert = UIAlertController(title: "Alert", message:error?.localizedDescription ,preferredStyle: UIAlertControllerStyle.Alert)
-                            }
-
-                            //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                            let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
-                                UIAlertAction in
-                                //print("OK Pressed")
-                                //self.dismissVC()
+                                var message = (error?.localizedDescription)!
                                 
-                                let signInSignUpVC=SignInSignUpViewController()
-                                let signInSignUpNavVC = UINavigationController()
-                                signInSignUpVC.pageTitle="Sign In"
-                                signInSignUpNavVC.viewControllers = [signInSignUpVC]
-                                self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
-                            }
-                            
-                            // Add the actions
-                            alert.addAction(showMenuAction)
+                                message += "\n\nWe'll try to upload this for you automatically next time you have a connection."
+                                    
+                                self.imageForUpload = Utility.resizeImage(self.obsImage)
+                                self.saveForLater(false)
+                                
+                                alert = UIAlertController(title: "Alert", message: message ,preferredStyle: UIAlertControllerStyle.Alert)
+                                
+                                let showMenuAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                                    UIAlertAction in
+                                    self.dismissVC()
+                                }
 
-                            
-                            self.presentViewController(alert, animated: true, completion: nil)
-                            
+                                alert.addAction(showMenuAction)
+                                
+                                self.presentViewController(alert, animated: true, completion: nil)
+                                
+                                
+                            }
                         }
                         else
                         {
-                            let ref = FIRDatabase.database().referenceWithPath("observations")
-                            //Firebase(url: POST_OBSERVATION_URL)
-                            print(ref.childByAutoId())
-                            let autoID = ref.childByAutoId()
                             
-                            
-                            
-                            //let obsRef = ref.childByAutoId().childByAppendingPath(ref.AutoId())
-                            //let obsData = autoID.childByAppendingPath("data")
-//                            let obsDataDetails = obsData.childByAppendingPath("text")
-//                            obsDataDetails.setValue(self.descText)
-//                            let obsDataImageDetails = obsData.childByAppendingPath("image")
-//                            obsDataImageDetails.setValue(obsImageUrl)
-////                            let obsDataIgnoreDetails = obsData.childByAppendingPath("ignore")
-////                            obsDataIgnoreDetails.setValue("true")
-//                            let obsId = autoID.childByAppendingPath("id")
-//                            obsId.setValue(autoID.key)
-//                            let obsCreatedAt = autoID.childByAppendingPath("created_at")
-//                            obsCreatedAt.setValue(FirebaseServerValue.timestamp())
-//                            let obsUpdatedAt = autoID.childByAppendingPath("updated_at")
-//                            obsUpdatedAt.setValue(FirebaseServerValue.timestamp())
-//                            let obsActivityLocation = autoID.childByAppendingPath("activity_location")
-//                            obsActivityLocation.setValue("test")
-//
-//        
-//                            let obsIdKey = autoID.childByAppendingPath("observer")
-//                            obsIdKey.setValue(self.userID)
-                            
-                            //let dataKeys = ["image": obsImageUrl as! AnyObject, "text" : self.descText as AnyObject]
-                            //obsData.setValue(dataKeys)
-                            //let userDefaults = NSUserDefaults.standardUserDefaults()
-                            print(userDefaults.objectForKey("progress"))
-                            
-                            if(self.projectKey == ""){
-                                
-                                self.projectKey = "-ACES_g38"
-                            }
-                            
-                            print(self.projectKey)
-                            print(self.userID)
-                            print(projectActivityId)
-                            
-                                if(userDefaults.objectForKey("progress") as? String == "100.0")
-                                {
-                                    let currentTimestamp = FIRServerValue.timestamp()
-                                    
-                                    let obsDetails = ["data":["image": obsImageUrl as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": currentTimestamp,"updated_at": currentTimestamp]
-                                    autoID.setValue(obsDetails)
-                                    
-                                    print(autoID)
-                                    
-                                    print("Timestamp: "+"\(FIRServerValue.timestamp())")
-                                    
-                                    
-                                    let uRef = FIRDatabase.database().referenceWithPath("users/\(self.userID)")
-                                    uRef.child("latest_contribution").setValue(currentTimestamp)
-                                    
-                                    let aRef = FIRDatabase.database().referenceWithPath("activities/\(projectActivityId)")
-                                    aRef.child("latest_contribution").setValue(currentTimestamp)
-                                    
-                                    let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
-                                    //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                    
-                                    if(userDefaults.objectForKey("ObservationDescription") != nil)
-                                    {
-                                        userDefaults.setValue("", forKey:"ObservationDescription")
-                                    }
-                                    if(userDefaults.objectForKey("Project") != nil)
-                                    {
-                                        //projectName = (userDefaults.objectForKey("Project") as? String)!
-                                        userDefaults.setValue("", forKey:"ProjectKey")
-                                        userDefaults.setValue("", forKey:"ProjectName")
-                                    }
-                                    
-                                    let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
-                                    {
-                                        UIAlertAction in
-                                        self.dismissVC()
-                                        
-                                    }
-                                    alert.addAction(dismissAction)
-                                    self.presentViewController(alert, animated: true, completion: nil)
-                                    
-                                    
-                                    
-                                }
-                                else
-                                {
-                                    let alert = UIAlertController(title: "Alert", message:"Image uploading failed" ,preferredStyle: UIAlertControllerStyle.Alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                                    self.presentViewController(alert, animated: true, completion: nil)
-                                }
-                            
-        
-                        }})
+                            //this function will call the firebase post function when it is done
+                            self.uploadImage()
 
-        //let usersPrivateReftoid = usersRef.childByAppendingPath("private")
-        //let usersPrivate = ["email": self.joinEmail.text as! AnyObject]
-        //usersRef.setValue(usersPub)
-        //OBSERVATION_IMAGE_UPLOAD_URL = ""
+                        }
+        })
+    }
+    
+    func postToFirebase() {
         
+        let ref = FIRDatabase.database().referenceWithPath("observations")
+        let currentTimestamp = FIRServerValue.timestamp()
+        print(ref.childByAutoId())
+        let autoID = ref.childByAutoId()
+        
+        print(userDefaults.objectForKey("progress"))
+        
+        if(self.projectKey == ""){
+            
+            self.projectKey = "-ACES_g38"
+        }
+        
+        print(self.projectKey)
+        //    if(userDefaults.objectForKey("progress") as? String == "100.0")
+        //    {
+        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+        autoID.setValue(obsDetails)
+        
+        print(autoID)
+        
+        
+        let uRef = FIRDatabase.database().referenceWithPath("users/\(self.userID)")
+        uRef.child("latest_contribution").setValue(currentTimestamp)
+        
+        let aRef = FIRDatabase.database().referenceWithPath("activities/\(projectKey)")
+        aRef.child("latest_contribution").setValue(currentTimestamp)
+        
+        let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
+        //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        if(userDefaults.objectForKey("ObservationDescription") != nil)
+        {
+            userDefaults.setValue("", forKey:"ObservationDescription")
+        }
+        if(userDefaults.objectForKey("Project") != nil)
+        {
+            //projectName = (userDefaults.objectForKey("Project") as? String)!
+            userDefaults.setValue("", forKey:"ProjectKey")
+            userDefaults.setValue("", forKey:"ProjectName")
+        }
+        
+        let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
+        {
+            UIAlertAction in
+            self.dismissVC()
+            
+        }
+        alert.addAction(dismissAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        
+        
+        /*    }
+         else
+         {
+         let alert = UIAlertController(title: "Alert", message:"Image uploading failed" ,preferredStyle: UIAlertControllerStyle.Alert)
+         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+         self.presentViewController(alert, animated: true, completion: nil)
+         }
+         */
+    }
+    
+    func saveForLater(imageWasUploaded:Bool) {
+        
+        var forLater : ObservationForLater
+        
+        var project = ""
+        
+        if(userDefaults.objectForKey("ProjectKey") != nil)
+        {
+            project = (userDefaults.objectForKey("ProjectKey") as? String)!
+        }
+        if project == "" {
+            
+            //Default Free Observation
+            project = "-ACES_g38"
+        }
+        
+        let description = obsDescTextView.text
+        let observerID = (userDefaults.objectForKey("userID") as? String)!
+        let longitude = locValue.longitude
+        let latitude = locValue.latitude
+        
+        var email = ""
+        var password = ""
+        
+        if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
+        {
+            email = (userDefaults.objectForKey("email") as? String)!
+            password = (userDefaults.objectForKey("password") as? String)!
+        }
+        
+        if imageWasUploaded {
+            forLater = ObservationForLater(projectKey: project, observationDescription: description, imageData: imageForUpload, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+        } else {
+            forLater = ObservationForLater(projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+        }
+        
+        //userDefaults.setObject(nil, forKey: "observationsForLater")
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.laterArray.append(forLater)
     }
     
     // MARK: - Table view data source
