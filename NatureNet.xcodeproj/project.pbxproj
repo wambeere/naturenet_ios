@@ -11,7 +11,8 @@
 		18429F191D357BF20062F2F4 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18429F181D357BF20062F2F4 /* Utility.swift */; };
 		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
 		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
-		1885616B1D368A5D0018B3DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */; };
+		18A725821D392AF4001F1148 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A725811D392AF4001F1148 /* GoogleService-Info.plist */; };
+		18A725841D393734001F1148 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A725831D393734001F1148 /* Comment.swift */; };
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
 		9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */; };
 		9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */; };
@@ -80,7 +81,6 @@
 		9F45235C1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F45235A1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib */; };
 		9F45235F1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F45235D1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift */; };
 		9F4523601CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F45235E1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib */; };
-		9F51F69E1D342AB100DED2A6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F51F69D1D342AB100DED2A6 /* GoogleService-Info.plist */; };
 		9F6905821CFDC73A00EEE241 /* 4-5 discussing.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F69057F1CFDC73A00EEE241 /* 4-5 discussing.png */; };
 		9F6905831CFDC73A00EEE241 /* 4-6 like-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6905801CFDC73A00EEE241 /* 4-6 like-grey.png */; };
 		9F6905841CFDC73A00EEE241 /* 4-7 dislike-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6905811CFDC73A00EEE241 /* 4-7 dislike-grey.png */; };
@@ -129,7 +129,8 @@
 		18429F181D357BF20062F2F4 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
-		1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18A725811D392AF4001F1148 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18A725831D393734001F1148 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F14A7731C9B3EF400CAB0F6 /* NatureNet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NatureNet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
@@ -201,7 +202,6 @@
 		9F45235A1CC675B000D5D92C /* DesignIdeasAndChallengesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DesignIdeasAndChallengesViewController.xib; sourceTree = "<group>"; };
 		9F45235D1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDesignIdeasAndChallengesViewController.swift; sourceTree = "<group>"; };
 		9F45235E1CC6799500D5D92C /* NewDesignIdeasAndChallengesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDesignIdeasAndChallengesViewController.xib; sourceTree = "<group>"; };
-		9F51F69D1D342AB100DED2A6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9F69057F1CFDC73A00EEE241 /* 4-5 discussing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-5 discussing.png"; sourceTree = "<group>"; };
 		9F6905801CFDC73A00EEE241 /* 4-6 like-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-6 like-grey.png"; sourceTree = "<group>"; };
 		9F6905811CFDC73A00EEE241 /* 4-7 dislike-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4-7 dislike-grey.png"; sourceTree = "<group>"; };
@@ -264,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				1816D9981D24317500F6F194 /* ObservationForLater.swift */,
+				18A725831D393734001F1148 /* Comment.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -416,12 +417,11 @@
 		9F9BB3BA1C9B214C0076E68E /* NatureNet */ = {
 			isa = PBXGroup;
 			children = (
-
 				9F1B6DE01D1DAC2E0012F66E /* Info.plist */,
-				1885616A1D368A5D0018B3DD /* GoogleService-Info.plist */,
 				9F32D20D1CB587FD00298E02 /* Reachability.swift */,
 				9F32D2151CB6F6E100298E02 /* ConnectionManager.swift */,
 				9F9BB3BB1C9B214C0076E68E /* AppDelegate.swift */,
+				18A725811D392AF4001F1148 /* GoogleService-Info.plist */,
 				18429F181D357BF20062F2F4 /* Utility.swift */,
 				9F25D3721CC7CF2200342B56 /* UploadImageToCloudinary.swift */,
 				9F4523561CC167CA00D5D92C /* SlideView */,
@@ -601,8 +601,7 @@
 				9F2222AC1CE25FA400A845E2 /* design ideas navy.png in Resources */,
 				9F7C59BC1CF0C24100371F88 /* 2-5 cancel.png in Resources */,
 				9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */,
-
-				1885616B1D368A5D0018B3DD /* GoogleService-Info.plist in Resources */,
+				18A725821D392AF4001F1148 /* GoogleService-Info.plist in Resources */,
 				9F7C59B01CEF67E800371F88 /* Logo_GreenTransp.png in Resources */,
 				9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */,
 				9F14A7981C9F158000CAB0F6 /* ProjectsViewController.xib in Resources */,
@@ -738,6 +737,7 @@
 				9FC2D1A01CEB7749000B398B /* DesignIdeasAndChallengesTableViewCell.swift in Sources */,
 				18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */,
 				9F14A7811C9B53BF00CAB0F6 /* MenuTableViewCell.swift in Sources */,
+				18A725841D393734001F1148 /* Comment.swift in Sources */,
 				9F32D22F1CBEB61900298E02 /* NewObsViewController.swift in Sources */,
 				9F32D2131CB6E92100298E02 /* CommentsTableViewCell.swift in Sources */,
 				9F14A79F1C9F15BB00CAB0F6 /* CommunitiesViewController.swift in Sources */,

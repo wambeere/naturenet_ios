@@ -77,8 +77,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     
     var detailed_commentsDictArray : NSMutableArray = []
     var detailed_commentsCount: Int = 0
-    var commentsArray : NSMutableArray = []
-    var commentersArray : NSMutableArray = []
+    var commentsArray = [Comment]()
 
     @IBOutlet weak var commentsTableView: UITableView!
     @IBOutlet weak var commentView: UIView!
@@ -518,6 +517,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     
     func getCommentsDetails(obsCommentsArray: NSArray)
     {
+        print(obsCommentsArray)
         for j in 0 ..< obsCommentsArray.count
         {
             //            let comments = commentsDictfromExploreView.allValues[j] as! NSDictionary
@@ -533,28 +533,32 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                 
                 if !(snapshot.value is NSNull)
                 {
+                    var text = "No Comment Text"
+                    
                     if(snapshot.value!["comment"] != nil)
                     {
-                        self.commentsArray.addObject(snapshot.value!["comment"] as! String)
-                    }
-                    else
-                    {
-                        self.commentsArray.addObject("No Comment text")
+                        text = snapshot.value!["comment"] as! String
+                        //self.commentsArray.addObject(snapshot.value!["comment"] as! String)
                     }
                     
                     //if(snapshot.value["commenter"] != nil)
                     //{
-                    self.commentersArray.addObject(snapshot.value!["commenter"] as! String)
+
+                    let commenter = snapshot.value!["commenter"] as! String
                     //                    }
                     //                    else
                     //                    {
                     //                        //self.commentersArray.addObject("")
                     //                    }
                     
-                    
+                    let timestamp = snapshot.value!["updated_at"] as! Int
+                    let comment = Comment(commenter: commenter, commentText: text, timestamp: timestamp)
+                    self.commentsArray.append(comment)
                     
                 }
                 
+                //sort
+                self.commentsArray.sortInPlace({$0.timestamp < $1.timestamp})
                 self.commentsTableView.reloadData()
                 
                 }, withCancelBlock: { error in
@@ -607,8 +611,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                 print(self.detailed_commentsDictArray[0])
                 print(self.detailed_commentsCount)
                 
-                self.commentsArray.removeAllObjects()
-                self.commentersArray.removeAllObjects()
+                self.commentsArray.removeAll()
                 
                 self.getCommentsDetails(self.detailed_commentsDictArray[0] as! NSArray)
                 
@@ -785,19 +788,19 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commentersArray.count
+        return commentsArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell", forIndexPath: indexPath) as! CommentsTableViewCell
         
-        cell.commentLabel.text = commentsArray[indexPath.row] as? String
+        cell.commentLabel.text = commentsArray[indexPath.row].commentText as? String
         
         //cell.commentorAvatarImageView.layer.cornerRadius = 20.0
         
         
-        let geoActivitiesRootRef = FIRDatabase.database().referenceWithPath("users/" + String(self.commentersArray[indexPath.row])) //Firebase(url:USERS_URL+(self.commentersArray[indexPath.row] as! String))
+        let geoActivitiesRootRef = FIRDatabase.database().referenceWithPath("users/" + String(self.commentsArray[indexPath.row].commenter)) //Firebase(url:USERS_URL+(self.commentersArray[indexPath.row] as! String))
         geoActivitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
             
             print(geoActivitiesRootRef)

@@ -70,7 +70,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
     
     @IBOutlet weak var commentsCountLabel: UILabel!
     
-    var observationsLimit : UInt = 4
+    var observationsLimit : UInt = 10
     
     override func viewDidLoad() {
         super.viewDidLoad()
