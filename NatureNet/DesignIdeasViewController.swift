@@ -356,7 +356,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     
     func firebaseForIdeas() -> Void {
         
-        ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).queryOrderedByChild("group").queryEqualToValue("dea").observeEventType(.Value, withBlock: { snapshot in
+        ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).queryOrderedByChild("group").queryEqualToValue("idea").observeEventType(.Value, withBlock: { snapshot in
             
             if !(snapshot.value is NSNull)
             {

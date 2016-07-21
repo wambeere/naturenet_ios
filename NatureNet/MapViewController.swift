@@ -108,6 +108,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MapViewController.mapViewTapped)))
         mapView.userInteractionEnabled = true
         //mapView.showsUserLocation = true
+        //mapView.showsUserLocation = true
         mapView.mapType = .Satellite
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
