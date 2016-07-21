@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import AssetsLibrary
 
 class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource{
     
@@ -28,6 +29,7 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
     let manager = PHImageManager.defaultManager()
     var width = CGFloat(0.0)
     var lastCellSelected = NSIndexPath()
+    
     
     var selectedPhotoIndexPath : NSIndexPath? {
         didSet {
@@ -127,21 +129,24 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
         //imageView.image=info[UIImagePickerControllerOriginalImage] as? UIImage
         print(info[UIImagePickerControllerOriginalImage])
         
-//        let library = ALAssetsLibrary()
-//        var url: NSURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-//        
-//        library.assetForURL(url, resultBlock: {
-//            (asset: ALAsset!) in
-//            if asset.valueForProperty(ALAssetPropertyLocation) != nil {
-//                
-//                self.latitude = (asset.valueForProperty(ALAssetPropertyLocation) as CLLocation!).coordinate.latitude
-//                self.longitude = (asset.valueForProperty(ALAssetPropertyLocation) as CLLocation!).coordinate.longitude
-//                
-//            }
-//            }, failureBlock: {
-//                (error: NSError!) in
-//                NSLog("Error!")
-//        })
+        let library = ALAssetsLibrary()
+        var url: NSURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+        
+        library.assetForURL(url, resultBlock: {
+            (asset: ALAsset!) in
+            if asset.valueForProperty(ALAssetPropertyLocation) != nil {
+                
+                let latitude = (asset.valueForProperty(ALAssetPropertyLocation) as! CLLocation!).coordinate.latitude
+                let longitude = (asset.valueForProperty(ALAssetPropertyLocation) as! CLLocation!).coordinate.longitude
+                
+                print(latitude)
+                print(longitude)
+                
+            }
+            }, failureBlock: {
+                (error: NSError!) in
+                NSLog("Error!")
+        })
         
         let newObsVC = NewObsViewController()
         newObsVC.obsImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!

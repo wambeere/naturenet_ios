@@ -28,12 +28,12 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
         {
             self.navigationItem.title="Design Idea"
             //isDesignIdea = false
-            design = "Idea"
+            design = "idea"
         }
         else
         {
             self.navigationItem.title="Design Challenge"
-            design = "Challenge"
+            design = "challenge"
         }
         
         

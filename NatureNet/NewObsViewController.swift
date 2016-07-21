@@ -34,9 +34,13 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
+    let localNotification:UILocalNotification = UILocalNotification()
+    
     
     @IBOutlet weak var obsProjectLabel: UILabel!
     @IBOutlet weak var obsDescTextView: UITextView!
+    
+    var activityID: String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -87,6 +91,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             //projectName = (userDefaults.objectForKey("Project") as? String)!
             userDefaults.setValue("", forKey:"ProjectKey")
             userDefaults.setValue("", forKey:"ProjectName")
+            userDefaults.setValue("", forKey:"ActivityID")
         }
         
         obsDescTextView.delegate = self
@@ -107,7 +112,16 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         let uploader = CLUploader(Cloudinary, delegate: self)
         
         
+
+        
+        
         uploader.upload(imageForUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        
+//        localNotification.alertAction = "progress"
+//        localNotification.alertBody = "0"+"%"
+//        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+//        localNotification.fireDate = NSDate(timeIntervalSinceNow: 1)
+//        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
         
     }
     
@@ -160,6 +174,10 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setValue("\(progress * 100)", forKey: "progress")
+        
+        
+        //localNotification.alertBody = "\(progress * 100)"+"%"
+        
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -226,10 +244,10 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         {
             
         }
-        var projectActivityId = ""
+        
         if(userDefaults.objectForKey("ActivityID") != nil)
         {
-            projectActivityId = (userDefaults.objectForKey("ActivityID") as? String)!
+            activityID = (userDefaults.objectForKey("ActivityID") as? String)!
         }
         
         //let upImage = UploadImageToCloudinary()
@@ -338,9 +356,13 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             self.projectKey = "-ACES_g38"
         }
         
-        print(self.projectKey)
+        
         //    if(userDefaults.objectForKey("progress") as? String == "100.0")
         //    {
+        print(self.projectKey)
+        print(self.activityID)
+        print(self.locValue.latitude)
+        print(self.locValue.longitude)
         let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
         autoID.setValue(obsDetails)
         
@@ -350,7 +372,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         let uRef = FIRDatabase.database().referenceWithPath("users/\(self.userID)")
         uRef.child("latest_contribution").setValue(currentTimestamp)
         
-        let aRef = FIRDatabase.database().referenceWithPath("activities/\(projectKey)")
+        let aRef = FIRDatabase.database().referenceWithPath("activities/\(activityID)")
         aRef.child("latest_contribution").setValue(currentTimestamp)
         
         let alert = UIAlertController(title: "Alert", message:"Observation Posted Successfully" ,preferredStyle: UIAlertControllerStyle.Alert)
@@ -365,6 +387,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             //projectName = (userDefaults.objectForKey("Project") as? String)!
             userDefaults.setValue("", forKey:"ProjectKey")
             userDefaults.setValue("", forKey:"ProjectName")
+            userDefaults.setValue("", forKey:"ActivityID")
         }
         
         let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
@@ -393,10 +416,15 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         var forLater : ObservationForLater
         
         var project = ""
+        var projectId = ""
         
         if(userDefaults.objectForKey("ProjectKey") != nil)
         {
             project = (userDefaults.objectForKey("ProjectKey") as? String)!
+        }
+        if(userDefaults.objectForKey("ActivityID") != nil)
+        {
+            projectId = (userDefaults.objectForKey("ActivityID") as? String)!
         }
         if project == "" {
             
@@ -419,9 +447,9 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         if imageWasUploaded {
-            forLater = ObservationForLater(projectKey: project, observationDescription: description, imageData: imageForUpload, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+            forLater = ObservationForLater(projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
         } else {
-            forLater = ObservationForLater(projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+            forLater = ObservationForLater(projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
         }
         
         //userDefaults.setObject(nil, forKey: "observationsForLater")

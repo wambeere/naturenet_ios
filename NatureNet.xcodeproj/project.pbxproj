@@ -11,8 +11,17 @@
 		18429F191D357BF20062F2F4 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18429F181D357BF20062F2F4 /* Utility.swift */; };
 		18508AEF1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */; };
 		18508AF01D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */; };
+<<<<<<< Updated upstream
 		18A725821D392AF4001F1148 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A725811D392AF4001F1148 /* GoogleService-Info.plist */; };
 		18A725841D393734001F1148 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A725831D393734001F1148 /* Comment.swift */; };
+=======
+<<<<<<< HEAD
+		9F00D5FD1D40161200E4DEC1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F00D5FC1D40161200E4DEC1 /* GoogleService-Info.plist */; };
+=======
+		18A725821D392AF4001F1148 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A725811D392AF4001F1148 /* GoogleService-Info.plist */; };
+		18A725841D393734001F1148 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A725831D393734001F1148 /* Comment.swift */; };
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 		9F14A7791C9B421F00CAB0F6 /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */; };
 		9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */; };
 		9F14A77D1C9B425E00CAB0F6 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F14A77B1C9B425E00CAB0F6 /* MapViewController.swift */; };
@@ -129,9 +138,18 @@
 		18429F181D357BF20062F2F4 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		18508AED1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraAndGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		18508AEE1D1443FD003F31A8 /* CameraAndGalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraAndGalleryCollectionViewCell.xib; sourceTree = "<group>"; };
+<<<<<<< Updated upstream
 		18A725811D392AF4001F1148 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		18A725831D393734001F1148 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+=======
+<<<<<<< HEAD
+=======
+		18A725811D392AF4001F1148 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18A725831D393734001F1148 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 		87C29FD98C2859F7E2F45E2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F00D5FC1D40161200E4DEC1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9F14A7731C9B3EF400CAB0F6 /* NatureNet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NatureNet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F14A7771C9B421F00CAB0F6 /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
 		9F14A7781C9B421F00CAB0F6 /* RearViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RearViewController.xib; sourceTree = "<group>"; };
@@ -417,6 +435,13 @@
 		9F9BB3BA1C9B214C0076E68E /* NatureNet */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+				9F00D5FC1D40161200E4DEC1 /* GoogleService-Info.plist */,
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 				9F1B6DE01D1DAC2E0012F66E /* Info.plist */,
 				9F32D20D1CB587FD00298E02 /* Reachability.swift */,
 				9F32D2151CB6F6E100298E02 /* ConnectionManager.swift */,
@@ -535,7 +560,7 @@
 						DevelopmentTeam = 6L33LY5G5P;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -601,7 +626,15 @@
 				9F2222AC1CE25FA400A845E2 /* design ideas navy.png in Resources */,
 				9F7C59BC1CF0C24100371F88 /* 2-5 cancel.png in Resources */,
 				9F14A77A1C9B421F00CAB0F6 /* RearViewController.xib in Resources */,
+<<<<<<< Updated upstream
 				18A725821D392AF4001F1148 /* GoogleService-Info.plist in Resources */,
+=======
+<<<<<<< HEAD
+				9F00D5FD1D40161200E4DEC1 /* GoogleService-Info.plist in Resources */,
+=======
+				18A725821D392AF4001F1148 /* GoogleService-Info.plist in Resources */,
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 				9F7C59B01CEF67E800371F88 /* Logo_GreenTransp.png in Resources */,
 				9F1B6DDC1D16FE650012F66E /* CommunitiesTableViewCell.xib in Resources */,
 				9F14A7981C9F158000CAB0F6 /* ProjectsViewController.xib in Resources */,
@@ -888,7 +921,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_MODULE_DEBUGGING = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mary Lou Maher (JFFHTA444C)";
 				INFOPLIST_FILE = NatureNet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -913,7 +946,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_MODULE_DEBUGGING = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mary Lou Maher (JFFHTA444C)";
 				INFOPLIST_FILE = NatureNet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

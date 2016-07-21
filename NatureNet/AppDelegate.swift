@@ -9,6 +9,7 @@
 import UIKit
 import Kingfisher
 import Firebase
+import Foundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -78,6 +79,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
+        
+        
+        
         //NSString * timestamp = [NSString stringWithFormat:"%f",[[NSDate date] timeIntervalSince1970] * 1000];
         
         //let date = NSDate().timeIntervalSince1970 * 1000
@@ -119,6 +124,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        print(dateString)
 
 
+        //Encoding and Decoding a String
+        
+        let str = "iOS Developer Tips encoded in Base64"
+        print("Original: \(str)")
+        
+        let utf8str = str.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        if let base64Encoded = utf8str?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        {
+            
+            print("Encoded:  \(base64Encoded)")
+            
+            if let base64Decoded = NSData(base64EncodedString: base64Encoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+                .map({ NSString(data: $0, encoding: NSUTF8StringEncoding) })
+            {
+                // Convert back to a string
+                print("Decoded:  \(base64Decoded)")
+            }
+        }
         
         return true
     }
@@ -146,6 +170,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let laterData = NSKeyedArchiver.archivedDataWithRootObject(laterArray)
         userDefaults.setObject(laterData, forKey: "observationsForLater")
     }
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        
+//        UIApplicationState state = [application applicationState];
+//        if (state == UIApplicationStateActive) {
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
+//            message:notification.alertBody
+//            delegate:self cancelButtonTitle:@"OK"
+//            otherButtonTitles:nil];
+//            [alert show];
+//        }
+        
+        application.applicationIconBadgeNumber = 0
+    }
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
@@ -153,6 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        //UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(application: UIApplication) {

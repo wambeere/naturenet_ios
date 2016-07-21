@@ -75,6 +75,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     let CHALLENGE = 0
     let IDEA = 1
     
+    var designsCount = 0
+    
     
     
     
@@ -174,6 +176,8 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         dislikesCountArray_challenges.removeAllObjects()
         statusArray_challenges.removeAllObjects()
         commentsDictArray_challenges.removeAllObjects()
+        
+        self.designsCount = 0
     }
     
     @IBAction func getDesignIdeas(sender: UIButton) {
@@ -319,7 +323,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     
                     if(designData.objectForKey("group") != nil)
                     {
-                        
+                            self.designsCount = self.designsCount+1
                      
                             self.parseDesignChallenge(designData)
                             
@@ -352,7 +356,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     
     func firebaseForIdeas() -> Void {
         
-        ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).queryOrderedByChild("group").queryEqualToValue("idea").observeEventType(.Value, withBlock: { snapshot in
+        ideasDataRoot.queryLimitedToLast(UInt(ideaNumber)).queryOrderedByChild("group").queryEqualToValue("dea").observeEventType(.Value, withBlock: { snapshot in
             
             if !(snapshot.value is NSNull)
             {
@@ -362,7 +366,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 print(snap)
                 
                 let sortedSnapshot = snap.sort({ $0.objectForKey("updated_at") as! Int > $1.objectForKey("updated_at") as! Int})
-                print(snap)
+                print(snap.count)
                 
                 for i in 0 ..< snap.count
                 {
@@ -383,7 +387,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     
                     if(designData.objectForKey("group") != nil)
                     {
-                        
+                        self.designsCount = self.designsCount+1
                         self.parseDesignIdea(designData)
                             
                         if(designData.objectForKey("content") != nil)
@@ -502,6 +506,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     
     func parseDesignIdea(idea: NSDictionary) -> Void {
         
+        //print(idea.count)
         let designId = idea.objectForKey("id") as? String
         if(designId != nil)
         {
@@ -721,8 +726,10 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                 
                                 
                                 
+                                
                             }
-                            self.designTableView.reloadData()
+                            self.updateTable(self.IDEA)
+                            
                             }, withCancelBlock: { error in
                                 print(error.description)
                                 let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
@@ -821,24 +828,30 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         }
         
         
-        if(contentArray.count == 0)
-        {
-            recentContributionsLabel.text = "No Recent Contributions"
-            recentContributionsLabel.textAlignment = NSTextAlignment.Center
-            recentContributionsLabel.textColor = UIColor.redColor()
-        }
-        else
-        {
-            recentContributionsLabel.text = "Recent Contributions"
-            recentContributionsLabel.textAlignment = NSTextAlignment.Left
-            recentContributionsLabel.textColor = UIColor.blackColor()
-        }
+        
         
         print(commentsCountArray)
         print(likesCountArray)
         print(dislikesCountArray)
+        print(submitterAffiliation.count)
         
         self.designTableView.reloadData()
+        
+        print(self.designsCount)
+        
+        if(self.designsCount == 0)
+        {
+            self.recentContributionsLabel.text = "No Recent Contributions"
+            self.recentContributionsLabel.textAlignment = NSTextAlignment.Center
+            self.recentContributionsLabel.textColor = UIColor.redColor()
+        }
+        else
+        {
+            self.recentContributionsLabel.text = "Recent Contributions"
+            self.recentContributionsLabel.textAlignment = NSTextAlignment.Left
+            self.recentContributionsLabel.textColor = UIColor.blackColor()
+        }
+        
     }
     
 }

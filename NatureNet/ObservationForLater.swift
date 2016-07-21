@@ -14,6 +14,7 @@ import Firebase
 
 class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     
+    var projectID: String
     var projectKey : String
     var observationDescription : String
     var imageData = NSData()
@@ -29,8 +30,11 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     var imageUploaded : Bool
     var toBeRemoved : Bool
     
-    init (projectKey:String, observationDescription:String, imageData:NSData, imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
+    let localNotification:UILocalNotification = UILocalNotification()
+    
+    init (projectID: String, projectKey:String, observationDescription:String, imageData:NSData, imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
     {
+        self.projectID = projectID
         self.projectKey = projectKey
         self.observationDescription = observationDescription
         self.imageData = imageData
@@ -47,6 +51,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     
     required init(coder decoder: NSCoder) {
         
+        self.projectID = decoder.decodeObjectForKey("projectID") as! String
         self.projectKey = decoder.decodeObjectForKey("projectKey") as! String
         self.observationDescription = decoder.decodeObjectForKey("observationDescription") as! String
         self.imageData = decoder.decodeObjectForKey("imageData") as! NSData
@@ -63,6 +68,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     }
     
     func encodeWithCoder(coder: NSCoder) {
+        coder.encodeObject(self.projectID, forKey: "projectID")
         coder.encodeObject(self.projectKey, forKey: "projectKey")
         coder.encodeObject(self.observationDescription, forKey: "observationDescription")
         coder.encodeObject(self.imageData, forKey: "imageData")
@@ -162,6 +168,15 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setValue("\(progress * 100)", forKey: "progress")
+        
+        
+//        localNotification.alertAction = "progress"
+//        localNotification.alertBody = "\(progress * 100)"
+//        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+//        localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
+//        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        
+        
     }
     
     private func postToFirebase() {
@@ -176,6 +191,9 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         }
         
         print(self.projectKey)
+        print(self.projectID)
+        print(self.latitude)
+        print(self.longitude)
         let currentTimestamp = FIRServerValue.timestamp()
         
         let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.observationDescription as AnyObject],"l":["0": self.latitude as AnyObject, "1" : self.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.observerID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
@@ -186,7 +204,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         let uRef = FIRDatabase.database().referenceWithPath("users/\(self.observerID)")
         uRef.child("latest_contribution").setValue(currentTimestamp)
         
-        let aRef = FIRDatabase.database().referenceWithPath("activities/\(projectKey)")
+        let aRef = FIRDatabase.database().referenceWithPath("activities/\(self.projectID)")
         aRef.child("latest_contribution").setValue(currentTimestamp)
         
         successfullyPostedObservation()
@@ -201,6 +219,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     func equals(obs: ObservationForLater) -> Bool
     {
         return
+            self.projectID == obs.projectID &&
             self.projectKey == obs.projectKey &&
             self.observationDescription == obs.observationDescription &&
             self.imageData == obs.imageData &&
