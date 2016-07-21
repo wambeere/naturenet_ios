@@ -153,6 +153,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     
     func removeAllObjectsFromArrays()
     {
+        recentContributionsLabel.hidden = true
         contentArray_ideas.removeAllObjects()
         submitterAvatar_ideas.removeAllObjects()
         submitterAffiliation_ideas.removeAllObjects()
@@ -349,6 +350,14 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 }
                 
             }
+            else
+            {
+                self.recentContributionsLabel.hidden = false
+                self.designsCount = 0
+                self.recentContributionsLabel.text = "No Recent Contributions"
+                self.recentContributionsLabel.textAlignment = NSTextAlignment.Center
+                self.recentContributionsLabel.textColor = UIColor.redColor()
+            }
             
             
         })
@@ -410,7 +419,16 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                 }
                 
             }
-            print("null")
+            else
+            {
+                self.recentContributionsLabel.hidden = false
+                self.designsCount = 0
+                self.recentContributionsLabel.text = "No Recent Contributions"
+                self.recentContributionsLabel.textAlignment = NSTextAlignment.Center
+                self.recentContributionsLabel.textColor = UIColor.redColor()
+            }
+
+            //print("null")
             
         })
     }
@@ -628,6 +646,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                 
                                 
                             }
+                            self.recentContributionsLabel.hidden = false
                             self.updateTable(self.CHALLENGE)
                             }, withCancelBlock: { error in
                                 print(error.description)
@@ -678,7 +697,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                     
                 }
                 
-                
+                self.recentContributionsLabel.hidden = true
                 self.updateTable(self.CHALLENGE)
                 
                 
@@ -728,6 +747,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                                 
                                 
                             }
+                            self.recentContributionsLabel.hidden = false
                             self.updateTable(self.IDEA)
                             
                             }, withCancelBlock: { error in
@@ -779,7 +799,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
                    
                 }
                 
-                
+                self.recentContributionsLabel.hidden = true
                  self.updateTable(self.IDEA)
                 
                 
@@ -791,14 +811,14 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
     
     func updateTable(designType: Int) -> Void {
         
+        
+        
         if(designType == CHALLENGE) {
             contentArray = contentArray_challenges
             submitterAvatar = submitterAvatar_challenges
             submitterAffiliation = submitterAffiliation_challenges
             submitterDisplayName = submitterDisplayName_challenges
-            
             observationUpdatedTimestampsArray = observationUpdatedTimestampsArray_challenges
-            
             designIdsArray = designIdsArray_challenges
             commentsCountArray = commentsCountArray_challenges
             likesCountArray = likesCountArray_challenges
@@ -839,6 +859,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
         
         print(self.designsCount)
         
+        
         if(self.designsCount == 0)
         {
             self.recentContributionsLabel.text = "No Recent Contributions"
@@ -850,6 +871,7 @@ class DesignIdeasViewController: UIViewController ,UITableViewDelegate, UITableV
             self.recentContributionsLabel.text = "Recent Contributions"
             self.recentContributionsLabel.textAlignment = NSTextAlignment.Left
             self.recentContributionsLabel.textColor = UIColor.blackColor()
+            
         }
         
     }
