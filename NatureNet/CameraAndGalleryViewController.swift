@@ -29,6 +29,7 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
     let manager = PHImageManager.defaultManager()
     var width = CGFloat(0.0)
     var lastCellSelected = NSIndexPath()
+    var cameraButtonClicked: Bool = false
     
     
     var selectedPhotoIndexPath : NSIndexPath? {
@@ -101,17 +102,20 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
     {
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
         {
+            cameraButtonClicked = true
             picker!.sourceType = UIImagePickerControllerSourceType.Camera
             self .presentViewController(picker!, animated: true, completion: nil)
         }
         else
         {
+            cameraButtonClicked = false
             openGallary()
         }
     }
     
     func openGallary()
     {
+        cameraButtonClicked = false
         picker!.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone
         {
@@ -129,27 +133,38 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
         //imageView.image=info[UIImagePickerControllerOriginalImage] as? UIImage
         print(info[UIImagePickerControllerOriginalImage])
         
-        let library = ALAssetsLibrary()
-        var url: NSURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-        
-        library.assetForURL(url, resultBlock: {
-            (asset: ALAsset!) in
-            if asset.valueForProperty(ALAssetPropertyLocation) != nil {
-                
-                let latitude = (asset.valueForProperty(ALAssetPropertyLocation) as! CLLocation!).coordinate.latitude
-                let longitude = (asset.valueForProperty(ALAssetPropertyLocation) as! CLLocation!).coordinate.longitude
-                
-                print(latitude)
-                print(longitude)
-                
-            }
-            }, failureBlock: {
-                (error: NSError!) in
-                NSLog("Error!")
-        })
-        
         let newObsVC = NewObsViewController()
         newObsVC.obsImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
+        
+        if(cameraButtonClicked == false)
+        {
+            newObsVC.isFromGallery = true
+            
+            let library = ALAssetsLibrary()
+            var url: NSURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+            
+            library.assetForURL(url, resultBlock: {
+                (asset: ALAsset!) in
+                if asset.valueForProperty(ALAssetPropertyLocation) != nil {
+                    
+                    let latitude = (asset.valueForProperty(ALAssetPropertyLocation) as! CLLocation!).coordinate.latitude
+                    let longitude = (asset.valueForProperty(ALAssetPropertyLocation) as! CLLocation!).coordinate.longitude
+                    
+                    print(latitude)
+                    print(longitude)
+                    
+                    newObsVC.locValueFromPicture.latitude = latitude
+                    newObsVC.locValueFromPicture.longitude = longitude
+                    
+                }
+                }, failureBlock: {
+                    (error: NSError!) in
+                    NSLog("Error!")
+            })
+
+        }
+        
+        
         let newObsNavVC = UINavigationController()
         newObsNavVC.viewControllers = [newObsVC]
         self.presentViewController(newObsNavVC, animated: true, completion: nil)
@@ -226,6 +241,8 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
     
     @IBAction func selectButtonPressed(sender: AnyObject) {
         print("selected")
+        cameraButtonClicked = false
+        
         let newObsVC = NewObsViewController()
         let photo = photos.objectAtIndex(lastCellSelected.item) as? PHAsset
         print("\(photo?.pixelHeight)h x \(photo?.pixelWidth)w")
@@ -235,6 +252,7 @@ class CameraAndGalleryViewController: UIViewController ,UIAlertViewDelegate,UIIm
         imageOptions.synchronous = true
         manager.requestImageForAsset(photo!, targetSize: CGSize(width: CGFloat((photo?.pixelWidth)!), height: CGFloat((photo?.pixelHeight)!)), contentMode: .AspectFit, options: imageOptions) { (result, _) in
             newObsVC.obsImage = result!
+            print(photo?.location)
         }
         //newObsVC.obsImage = (cell.imageView?. as? UIImage)!
         let newObsNavVC = UINavigationController()

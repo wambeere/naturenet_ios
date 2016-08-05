@@ -99,7 +99,7 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
                 
                 if !(snapshot.value is NSNull)
                 {
-                    if((snapshot.value!.objectForKey("affiliation")) != nil)
+                    if((snapshot.value!.objectForKey("affiliation")) != nil && (snapshot.value!.objectForKey("affiliation")) as! String != "")
                     {
                         let observerAffiliationString = snapshot.value!.objectForKey("affiliation") as! String
                         let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+observerAffiliationString)
@@ -390,8 +390,8 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
             cell.exploreProfileName.text = "No Display Name"
         }
         
-        if(observerAffiliationsArray[indexPath.row] as! String != "")
-        {
+        //if(observerAffiliationsArray[indexPath.row] as! String != "")
+        //{
 //            let sitesRootRef = FIRDatabase.database().referenceWithPath("sites/"+(observerAffiliationsArray[indexPath.row] as! String))
 //            //Firebase(url:FIREBASE_URL + "sites/"+aff!)
 //            sitesRootRef.observeEventType(.Value, withBlock: { snapshot in
@@ -420,11 +420,11 @@ class ExploreViewController: UIViewController,UICollectionViewDelegateFlowLayout
 //            })
 
             cell.exploreDate.text = (observerAffiliationsArray[indexPath.row] as! String)
-        }
-        else
-        {
-            cell.exploreDate.text = "No Affiliation"
-        }
+        //}
+//        else
+//        {
+//            cell.exploreDate.text = "No Affiliation"
+//        }
         
         
         return cell

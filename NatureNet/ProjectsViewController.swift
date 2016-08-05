@@ -93,13 +93,14 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
             //print(geoActivitiesRootRef)
             //print(snapshot.value!.count)
             
+            
             if !(snapshot.value is NSNull)
             {
                 for i in 0 ..< snapshot.value!.count
                 {
                     let geoActivities = snapshot.value!.allValues[i] as! NSDictionary
                     print(geoActivities)
-                    let geoActivity = geoActivities.objectForKey("activity") as! String
+                    //let geoActivity = geoActivities.objectForKey("activity") as! String
                     let geoActivityId = geoActivities.objectForKey("id") as! String
                     
                     //print(geoActivity)
@@ -111,6 +112,22 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                     {
                         self.projectGeoIds.addObject("")
                     }
+                    
+                    
+                }
+            }
+            
+            
+            
+            }, withCancelBlock: { error in
+                print(error.description)
+                let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                alert.addAction(action)
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+        })
+
                     
                     
                     
@@ -153,54 +170,54 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                     let activity = snapshot.value!.allKeys[j] as! String
                                     let activityDictionary = snapshot.value!.objectForKey(activity) as! NSDictionary
                                     //print(activityDictionary.objectForKey("name"))
-                                    if(activityDictionary.objectForKey("name") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("name") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
+                                        //if(activity == geoActivity)
+                                        //{
                                             self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
-                                        }
+                                        //}
                                     }
-                                    if(activityDictionary.objectForKey("description") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("description") != nil )
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
+                                        //if(activity == geoActivity)
+                                        //{
                                             self.projectDescriptionKeys.addObject(activityDictionary.objectForKey("description")!)
-                                        }
+                                        //}
                                     }
-                                    if(activityDictionary.objectForKey("icon_url") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("icon_url") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
+                                        //if(activity == geoActivity)
+                                        //{
                                             
                                             let iconUrlString = activityDictionary.objectForKey("icon_url") as! String
                                             let newiconUrlString = iconUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
                                             self.projectIconKeys.addObject(newiconUrlString)
-                                        }
+                                        //}
                                     }
-                                    if(activityDictionary.objectForKey("status") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("status") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
-                                            self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
-                                        }
+                                        //if(activity == geoActivity)
+                                        //{
+                                    self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
+                                        //}
                                     }
-                                    if(activityDictionary.objectForKey("id") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("id") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
-                                            self.projectIds.addObject(activityDictionary.objectForKey("id")!)
-                                            print(self.projectIds)
-                                        }
+                                        //if(activity == geoActivity)
+                                        //{
+                                        self.projectIds.addObject(activityDictionary.objectForKey("id")!)
+                                        print(self.projectIds)
+                                        //}
                                     }
                                     
                                     
@@ -250,53 +267,53 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                     let activity = snapshot.value!.allKeys[j] as! String
                                     let activityDictionary = snapshot.value!.objectForKey(activity) as! NSDictionary
                                     //print(activityDictionary.objectForKey("name"))
-                                    if(activityDictionary.objectForKey("name") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("name") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
+                                        //if(activity == geoActivity)
+                                        //{
                                             self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
-                                        }
+                                        //}
                                     }
-                                    if(activityDictionary.objectForKey("description") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("description") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
+                                        //if(activity == geoActivity)
+                                        //{
                                             self.projectDescriptionKeys.addObject(activityDictionary.objectForKey("description")!)
-                                        }
+                                        //}
                                     }
-                                    if(activityDictionary.objectForKey("icon_url") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("icon_url") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
+                                        //if(activity == geoActivity)
+                                        //{
                                             
                                             let iconUrlString = activityDictionary.objectForKey("icon_url") as! String
                                             let newiconUrlString = iconUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
                                             self.projectIconKeys.addObject(newiconUrlString)
-                                        }
+                                        //}
                                     }
-                                    if(activityDictionary.objectForKey("status") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("status") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
+                                        //if(activity == geoActivity)
+                                        //{
                                             self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
-                                        }
+                                        //}
                                     }
-                                    if(activityDictionary.objectForKey("id") != nil && geoActivity != "")
+                                    if(activityDictionary.objectForKey("id") != nil)
                                     {
                                         //print(geoActivity)
                                         //print(activity)
-                                        if(activity == geoActivity)
-                                        {
+                                        //if(activity == geoActivity)
+                                        //{
                                             self.projectIds.addObject(activityDictionary.objectForKey("id")!)
-                                        }
+                                        //}
                                     }
                                     
                                     
@@ -329,21 +346,7 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                     
 
 
-                    
-                }
-            }
-            
-            
-            
-            }, withCancelBlock: { error in
-                print(error.description)
-                let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
-                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
-                alert.addAction(action)
-                self.presentViewController(alert, animated: true, completion: nil)
-
-        })
-
+                
         
         
         
@@ -699,7 +702,7 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
             projectDetailVC.projectDescription = projectDescriptionKeys[indexPath.row] as! String
             projectDetailVC.projectStatus = projectStatusKeys[indexPath.row] as! String
             projectDetailVC.projectIcon = projectIconKeys[indexPath.row] as! String
-            projectDetailVC.projectIdFromProjectVC = projectGeoIds[indexPath.row] as! String
+            projectDetailVC.projectIdFromProjectVC = projectIds[indexPath.row] as! String
             self.navigationController?.pushViewController(projectDetailVC, animated: true)
         }
         else

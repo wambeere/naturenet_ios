@@ -294,8 +294,11 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
 //                print(error.description)
 //        })
 
+        if(observerAffiliation != "No Affiliation")
+        {
+            observerAffiliationLabel.text = observerAffiliation
+        }
         
-        observerAffiliationLabel.text = observerAffiliation
         observationTextLabel.text = observationText
         //observationTextLabel.sizeToFit()
         
@@ -988,6 +991,21 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 90
     }
+    
+    func decodeString(stringToBeDecoded: String) -> String
+    {
+        //Encoding and Decoding String
+        
+        let base64Decoded = NSData(base64EncodedString: stringToBeDecoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+            .map({ NSString(data: $0, encoding: NSUTF8StringEncoding) })
+    
+        // Convert back to a string
+        print("Decoded:  \(base64Decoded!)")
+    
+
+        return base64Decoded as! String
+        
+    }
 
     @IBAction func postComment(sender: UIButton) {
         
@@ -1009,8 +1027,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
             
             if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
             {
-                email = (userDefaults.objectForKey("email") as? String)!
-                password = (userDefaults.objectForKey("password") as? String)!
+                email = decodeString((userDefaults.objectForKey("email") as? String)!)
+                password = decodeString((userDefaults.objectForKey("password") as? String)!)
             }
             
             
@@ -1229,8 +1247,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
         {
-            email = (userDefaults.objectForKey("email") as? String)!
-            password = (userDefaults.objectForKey("password") as? String)!
+            email = decodeString((userDefaults.objectForKey("email") as? String)!)
+            password = decodeString((userDefaults.objectForKey("password") as? String)!)
         }
 
         
@@ -1335,8 +1353,8 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
         
         if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
         {
-            email = (userDefaults.objectForKey("email") as? String)!
-            password = (userDefaults.objectForKey("password") as? String)!
+            email = decodeString((userDefaults.objectForKey("email") as? String)!)
+            password = decodeString((userDefaults.objectForKey("password") as? String)!)
         }
 
         

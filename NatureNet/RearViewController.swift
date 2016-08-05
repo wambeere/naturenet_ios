@@ -15,10 +15,6 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     var menuItems: [String] = ["Explore","Projects","Design Ideas","Communities"]
     var menuItemsImages: [String] = ["observations navy.png","project.png","design ideas.png","community.png"]
     
-    //var menuItems: [String] = ["Explore","Projects","Design Ideas"]
-    //var menuItemsImages: [String] = ["observations navy.png","project.png","design ideas.png"]
-    
-
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
     
@@ -54,7 +50,6 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         profileImageView.layer.cornerRadius = 30.0
         profileImageView.clipsToBounds = true
-        
         profileDetailsView.hidden = true
         
     }
@@ -80,27 +75,16 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         cell.menuItemIcon.image = UIImage(named: menuItemsImages[indexPath.row])
         return cell
     }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var newFrontViewController: UINavigationController?
         
         
         if ((indexPath.section == 0) && (indexPath.row == 0)) {
             
-//            if(self.revealViewController().frontViewController == MapViewController())
-//            {
-//                self.revealViewController().revealToggleAnimated(true)
-//            }
-//            else
-//            {
-                let mapVC = MapViewController()
-                newFrontViewController = UINavigationController(rootViewController: mapVC)
-                //self.revealViewController().setFrontViewController(newFrontViewController, animated: true)
-                //self.revealViewController().revealToggleAnimated(true)
-            //}
-            
+            let mapVC = MapViewController()
+            newFrontViewController = UINavigationController(rootViewController: mapVC)
             revealViewController().pushFrontViewController(newFrontViewController, animated: true)
-            //self.revealViewController().setFrontViewController(newFrontViewController, animated: true)
-            //self.revealViewController().presentFrontViewHierarchically = true
             
         }
         else if ((indexPath.section == 0) && (indexPath.row == 1)) {
@@ -151,11 +135,6 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
         
     }
-//    func tableView( tableView : UITableView,  titleForHeaderInSection section: Int)->String? {
-//        
-//        return "Menu"
-//    
-//    }
 
     @IBAction func signInAction(sender: UIButton) {
         

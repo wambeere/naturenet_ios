@@ -9,6 +9,7 @@
 import Foundation
 
 class Utility {
+    //Resizing image
     static func resizeImage(image: UIImage) -> NSData {
         let maxSide = CGFloat(1920)
         let originalWidth = image.size.width

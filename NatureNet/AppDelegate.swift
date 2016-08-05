@@ -26,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
-        //let mapVC = MapViewController()
         let homeVC = HomeViewController()
         let rearVC = RearViewController()
         
@@ -39,13 +38,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = self.viewController
         self.window?.makeKeyAndVisible()
         
+        //Initializing Kingfisher Library for image caching
         let cache = KingfisherManager.sharedManager.cache
         cache.maxDiskCacheSize = 10 * 1024 * 1024
         
+        //Configuring Firebase
         FIRApp.configure()
         
-        //persistent data
+        //Enabling Firebase persistent data
         FIRDatabase.database().persistenceEnabled = true
+        
+        
+
         
         //these cannot be purged from the cache
         let geoActivitiesRootRef = FIRDatabase.database().referenceWithPath("geo/activities/")
@@ -53,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         geoActivitiesRootRef.keepSynced(true)
         activitiesRootRef.keepSynced(true)
         
+        //Checking Network Connection
         let connectedRef = FIRDatabase.database().referenceWithPath(".info/connected")
         
         //unbundle observations for later from user defaults
@@ -81,68 +86,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
         
-        
-        
-        //NSString * timestamp = [NSString stringWithFormat:"%f",[[NSDate date] timeIntervalSince1970] * 1000];
-        
-        //let date = NSDate().timeIntervalSince1970 * 1000
-        //print(date)
-        
-        
-//        let myRootRef = FIRAuth.auth()
-//        // Write data to Firebase
+        //Encoding and Decoding String
+//        let str = "iOS Developer Tips encoded in Base64"
+//        print("Original: \(str)")
 //        
-//        myRootRef!.createUserWithEmail("abhi@yahoooo.com", password: "password",
-//                                       completion: { result, error in
-//                                        
-//                                        if(error != nil)
-//                                        {
-//                                            print(error?.debugDescription.localizedLowercaseString)
-//                                            
-//                                        }
-//                                        else{
-//                                            print(result?.uid)
-//                                        }
-//                                        
-//            })
-        
-        
-
-//        let date = NSDate(timeIntervalSince1970:Double(468342303759)/1000)
-//        print(date)
-//        /***** NSDateFormatter Part *****/
+//        let utf8str = str.dataUsingEncoding(NSUTF8StringEncoding)
 //        
-//        let formatter = NSDateFormatter()
-//        formatter.locale = NSLocale.currentLocale()
-//        formatter.timeZone = NSTimeZone.localTimeZone()
-//        //formatter.dateFormat = "EEEE, MMMM dd yyyy"
-//        formatter.dateStyle = NSDateFormatterStyle.FullStyle
-//        formatter.timeStyle = .ShortStyle
-//        
-//        let dateString = formatter.stringFromDate(date)
-//        
-//        print(dateString)
-
-
-        //Encoding and Decoding a String
-        
-        let str = "iOS Developer Tips encoded in Base64"
-        print("Original: \(str)")
-        
-        let utf8str = str.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        if let base64Encoded = utf8str?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-        {
-            
-            print("Encoded:  \(base64Encoded)")
-            
-            if let base64Decoded = NSData(base64EncodedString: base64Encoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
-                .map({ NSString(data: $0, encoding: NSUTF8StringEncoding) })
-            {
-                // Convert back to a string
-                print("Decoded:  \(base64Decoded)")
-            }
-        }
+//        if let base64Encoded = utf8str?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+//        {
+//            
+//            print("Encoded:  \(base64Encoded)")
+//            
+//            if let base64Decoded = NSData(base64EncodedString: base64Encoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+//                .map({ NSString(data: $0, encoding: NSUTF8StringEncoding) })
+//            {
+//                // Convert back to a string
+//                print("Decoded:  \(base64Decoded)")
+//            }
+//        }
         
         return true
     }
@@ -171,17 +132,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         userDefaults.setObject(laterData, forKey: "observationsForLater")
     }
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        
-//        UIApplicationState state = [application applicationState];
-//        if (state == UIApplicationStateActive) {
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
-//            message:notification.alertBody
-//            delegate:self cancelButtonTitle:@"OK"
-//            otherButtonTitles:nil];
-//            [alert show];
-//        }
-        
+
         application.applicationIconBadgeNumber = 0
+        
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

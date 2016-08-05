@@ -10,10 +10,9 @@ import Foundation
 import Cloudinary
 import Firebase
 
-//TODO upload function to upload self
-
 class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     
+    var site: String
     var projectID: String
     var projectKey : String
     var observationDescription : String
@@ -22,18 +21,17 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     var observerID : String
     var longitude : Double
     var latitude : Double
-    
-    //should be replaced with more secure storage (ie keychain)
     var email : String
     var password : String
-    
     var imageUploaded : Bool
     var toBeRemoved : Bool
     
     let localNotification:UILocalNotification = UILocalNotification()
     
-    init (projectID: String, projectKey:String, observationDescription:String, imageData:NSData, imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
+    // MARK: - *** Initialization ***
+    init (site:String, projectID: String, projectKey:String, observationDescription:String, imageData:NSData, imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
     {
+        self.site = site
         self.projectID = projectID
         self.projectKey = projectKey
         self.observationDescription = observationDescription
@@ -49,8 +47,10 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
 
     }
     
+    // MARK: - *** Encoding and Decoding variables ***
     required init(coder decoder: NSCoder) {
         
+        self.site = decoder.decodeObjectForKey("site") as! String
         self.projectID = decoder.decodeObjectForKey("projectID") as! String
         self.projectKey = decoder.decodeObjectForKey("projectKey") as! String
         self.observationDescription = decoder.decodeObjectForKey("observationDescription") as! String
@@ -68,6 +68,8 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     }
     
     func encodeWithCoder(coder: NSCoder) {
+        
+        coder.encodeObject(self.site, forKey: "site")
         coder.encodeObject(self.projectID, forKey: "projectID")
         coder.encodeObject(self.projectKey, forKey: "projectKey")
         coder.encodeObject(self.observationDescription, forKey: "observationDescription")
@@ -82,12 +84,27 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         coder.encodeBool(self.toBeRemoved, forKey: "successfullyPosted")
         
     }
+    func decodeString(stringToBeDecoded: String) -> String
+    {
+        //Encoding and Decoding String
+        
+        let base64Decoded = NSData(base64EncodedString: stringToBeDecoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+            .map({ NSString(data: $0, encoding: NSUTF8StringEncoding) })
+        
+        // Convert back to a string
+        print("Decoded:  \(base64Decoded!)")
+        
+        
+        return base64Decoded as! String
+        
+    }
     
+    // MARK: - *** Uploading Image to Cloudinary ***
     func upload(){
         
         if !toBeRemoved {
             let refUser = FIRAuth.auth() //Firebase(url: FIREBASE_URL)
-            refUser!.signInWithEmail(email, password: password,
+            refUser!.signInWithEmail(decodeString(email), password: decodeString(password),
                  completion: { authData, error in
                     if error != nil {
                         
@@ -115,7 +132,6 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         
     }
     
-    
     private func uploadImage() {
         
         var Cloudinary:CLCloudinary!
@@ -127,6 +143,12 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         Cloudinary = CLCloudinary(url: info.objectForKey("CloudinaryAccessUrl") as! String)
         let uploader = CLUploader(Cloudinary, delegate: self)
         
+        localNotification.alertAction = "progress"
+        localNotification.alertBody = "Observation Image Uploading in Progress"
+        //localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        
         
         uploader.upload(imageData, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
         
@@ -135,7 +157,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
         if(errorResult == nil) {
             let publicId = successResult["public_id"] as! String
-            let url = successResult["url"] as? String
+            let url = successResult["secure_url"] as? String
             print("now cloudinary uploaded, public id is: \(publicId) and \(url), ready for uploading media")
             // push media after cloudinary is finished
             //let params = ["link": publicId] as Dictionary<String, Any>
@@ -157,28 +179,29 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     }
     
     
-    
     func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
         //do any progress update you may need
         let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
         //self.updateProgressDelegate?.onUpdateProgress(progress)
-        
+        UIApplication.sharedApplication().cancelLocalNotification(localNotification)
         
         print("uploading to cloudinary... wait! \(progress * 100)%")
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setValue("\(progress * 100)", forKey: "progress")
         
-        
-//        localNotification.alertAction = "progress"
-//        localNotification.alertBody = "\(progress * 100)"
-//        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-//        localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
-//        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-        
+        if(progress == 100.0)
+        {
+            localNotification.alertAction = "progress"
+            localNotification.alertBody = "Uploading Finished"
+            //localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+            localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
+            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        }
         
     }
     
+    // MARK: - *** Posting Data to Firebase ***
     private func postToFirebase() {
      
         let ref = FIRDatabase.database().referenceWithPath("observations")
@@ -196,7 +219,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         print(self.longitude)
         let currentTimestamp = FIRServerValue.timestamp()
         
-        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.observationDescription as AnyObject],"l":["0": self.latitude as AnyObject, "1" : self.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.observerID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.observationDescription as AnyObject],"l":["0": self.latitude as AnyObject, "1" : self.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"activity": self.projectID,"site": self.site,"observer":self.observerID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
         autoID.setValue(obsDetails)
         
         print(autoID)
@@ -219,6 +242,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     func equals(obs: ObservationForLater) -> Bool
     {
         return
+            self.site == obs.site &&
             self.projectID == obs.projectID &&
             self.projectKey == obs.projectKey &&
             self.observationDescription == obs.observationDescription &&

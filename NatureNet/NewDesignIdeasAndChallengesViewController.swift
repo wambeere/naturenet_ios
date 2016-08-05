@@ -119,6 +119,20 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
     override func viewWillAppear(animated: Bool) {
         textView.becomeFirstResponder()
     }
+    func decodeString(stringToBeDecoded: String) -> String
+    {
+        //Encoding and Decoding String
+        
+        let base64Decoded = NSData(base64EncodedString: stringToBeDecoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+            .map({ NSString(data: $0, encoding: NSUTF8StringEncoding) })
+        
+        // Convert back to a string
+        print("Decoded:  \(base64Decoded!)")
+        
+        
+        return base64Decoded as! String
+        
+    }
     func postDesign()
     {
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -133,8 +147,8 @@ class NewDesignIdeasAndChallengesViewController: UIViewController ,UIImagePicker
         
         if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
         {
-            email = (userDefaults.objectForKey("email") as? String)!
-            password = (userDefaults.objectForKey("password") as? String)!
+            email = decodeString((userDefaults.objectForKey("email") as? String)!)
+            password = decodeString((userDefaults.objectForKey("password") as? String)!)
         }
 
         

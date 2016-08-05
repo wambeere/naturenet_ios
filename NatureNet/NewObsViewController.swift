@@ -29,12 +29,15 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     let locationManager = CLLocationManager()
     var locValue = CLLocationCoordinate2D()
+    var locValueFromPicture = CLLocationCoordinate2D()
     
     var imageURL = ""
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     let localNotification:UILocalNotification = UILocalNotification()
+    
+    var isFromGallery: Bool = false
     
     
     @IBOutlet weak var obsProjectLabel: UILabel!
@@ -79,11 +82,41 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
         
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
+        if(isFromGallery)
+        {
+            if(locValueFromPicture.latitude != 0 || locValueFromPicture.longitude != 0)
+            {
+                locValue = locValueFromPicture
+                print(locValue)
+            }
+            else
+            {
+                if CLLocationManager.locationServicesEnabled() {
+                    locationManager.delegate = self
+                    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                    locationManager.startUpdatingLocation()
+                }
+                else
+                {
+                    getSiteLocationAndSetToLocValue()
+                }
+
+            }
         }
+        else
+        {
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                locationManager.startUpdatingLocation()
+            }
+            else
+            {
+                getSiteLocationAndSetToLocValue()
+            }
+        }
+        
+        
 
         
         if(userDefaults.objectForKey("ProjectKey") != nil)
@@ -95,6 +128,40 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         obsDescTextView.delegate = self
+
+    }
+    func getSiteLocationAndSetToLocValue()
+    {
+        //Getting lat and long from sites table
+        let userDefaults = NSUserDefaults()
+        print(userDefaults.objectForKey("userAffiliation"))
+        if let userAffiliation = userDefaults.objectForKey("userAffiliation"){
+            
+            let myRootRef = FIRDatabase.database().referenceWithPath("sites/\(userAffiliation)")
+            myRootRef.observeEventType(.Value, withBlock: { snapshot in
+                print(snapshot.value!["l"])
+                let siteLocationArray = snapshot.value!["l"] as! NSArray
+                print(siteLocationArray[0])
+                print(siteLocationArray[1])
+                
+                //var locCoord = CLLocationCoordinate2D()
+                self.locValue.latitude = siteLocationArray[0] as! Double
+                self.locValue.longitude = siteLocationArray[1] as! Double
+                
+                //self.setMapViewCoordinates(self.locValue)
+                
+                
+                }, withCancelBlock: { error in
+                    print(error.description)
+                    let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                    let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                    alert.addAction(action)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+            })
+            
+            
+        }
 
     }
     
@@ -112,7 +179,11 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         let uploader = CLUploader(Cloudinary, delegate: self)
         
         
-
+        localNotification.alertAction = "progress"
+        localNotification.alertBody = "Observation Image Uploading in Progress"
+        //localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
         
         
         uploader.upload(imageForUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
@@ -128,7 +199,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
         if(errorResult == nil) {
             let publicId = successResult["public_id"] as! String
-            let url = successResult["url"] as? String
+            let url = successResult["secure_url"] as? String
             print("now cloudinary uploaded, public id is: \(publicId) and \(url), ready for uploading media")
             // push media after cloudinary is finished
             //let params = ["link": publicId] as Dictionary<String, Any>
@@ -168,12 +239,22 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         //do any progress update you may need
         let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
         //self.updateProgressDelegate?.onUpdateProgress(progress)
+        UIApplication.sharedApplication().cancelLocalNotification(localNotification)
         
-        
-        print("uploading to cloudinary... wait! \(progress * 100)%")
+        print("uploading to cloudinary... wait! \(progress * 100)"+"%")
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setValue("\(progress * 100)", forKey: "progress")
+        
+        if(progress == 100.0)
+        {
+            localNotification.alertAction = "progress"
+            localNotification.alertBody = "Uploading Finished"
+            //localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+            localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
+            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        }
+        
         
         
         //localNotification.alertBody = "\(progress * 100)"+"%"
@@ -217,6 +298,20 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         //print("abhi")
         
     }
+    func decodeString(stringToBeDecoded: String) -> String
+    {
+        //Encoding and Decoding String
+        
+        let base64Decoded = NSData(base64EncodedString: stringToBeDecoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+            .map({ NSString(data: $0, encoding: NSUTF8StringEncoding) })
+        
+        // Convert back to a string
+        print("Decoded:  \(base64Decoded!)")
+        
+        
+        return base64Decoded as! String
+        
+    }
     func postObservation()
     {
         print("post")
@@ -248,6 +343,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         if(userDefaults.objectForKey("ActivityID") != nil)
         {
             activityID = (userDefaults.objectForKey("ActivityID") as? String)!
+            print(activityID)
         }
         
         //let upImage = UploadImageToCloudinary()
@@ -262,10 +358,11 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         var email = ""
         var password = ""
         
+        
         if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
         {
-            email = (userDefaults.objectForKey("email") as? String)!
-            password = (userDefaults.objectForKey("password") as? String)!
+            email = decodeString((userDefaults.objectForKey("email") as? String)!)
+            password = decodeString((userDefaults.objectForKey("password") as? String)!)
         }
         
         
@@ -355,15 +452,27 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             
             self.projectKey = "-ACES_g38"
         }
+        if(self.activityID == "")
+        {
+            self.activityID = "-ACES_a38"
+        }
         
         
         //    if(userDefaults.objectForKey("progress") as? String == "100.0")
         //    {
+        var userAffiliation = ""
+        
+        if(userDefaults.objectForKey("userAffiliation") as? String != nil)
+        {
+            userAffiliation = (userDefaults.objectForKey("userAffiliation") as? String)!
+        }
+        
+        print(userAffiliation)
         print(self.projectKey)
         print(self.activityID)
         print(self.locValue.latitude)
         print(self.locValue.longitude)
-        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"activity": self.activityID,"site": userAffiliation, "observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
         autoID.setValue(obsDetails)
         
         print(autoID)
@@ -431,6 +540,11 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
             //Default Free Observation
             project = "-ACES_g38"
         }
+        if projectId == "" {
+            
+            //Default Free Observation
+            projectId = "-ACES_a38"
+        }
         
         let description = obsDescTextView.text
         let observerID = (userDefaults.objectForKey("userID") as? String)!
@@ -442,14 +556,21 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         if(userDefaults.objectForKey("email") as? String != nil || userDefaults.objectForKey("password") as? String != nil)
         {
-            email = (userDefaults.objectForKey("email") as? String)!
-            password = (userDefaults.objectForKey("password") as? String)!
+            email = decodeString((userDefaults.objectForKey("email") as? String)!)
+            password = decodeString((userDefaults.objectForKey("password") as? String)!)
+        }
+        
+        var userAffiliation = ""
+        
+        if(userDefaults.objectForKey("userAffiliation") as? String != nil)
+        {
+            userAffiliation = (userDefaults.objectForKey("userAffiliation") as? String)!
         }
         
         if imageWasUploaded {
-            forLater = ObservationForLater(projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+            forLater = ObservationForLater(site:userAffiliation, projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
         } else {
-            forLater = ObservationForLater(projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+            forLater = ObservationForLater(site:userAffiliation, projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
         }
         
         //userDefaults.setObject(nil, forKey: "observationsForLater")

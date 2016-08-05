@@ -100,10 +100,10 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         //geoObservationsRootRef.queryLimitedToLast(4)
         //geoObservationsRootRef.queryOrderedByChild("updated_at")
         
-        geoObservationsRootRef.queryLimitedToLast(UInt(projectObservationsNumber)).queryOrderedByChild("activity_location").queryEqualToValue(projectIdFromProjectVC).observeEventType(.Value, withBlock: { snapshot in
+        geoObservationsRootRef.queryLimitedToLast(UInt(projectObservationsNumber)).queryOrderedByChild("activity").queryEqualToValue(projectIdFromProjectVC).observeEventType(.Value, withBlock: { snapshot in
             
             print(geoObservationsRootRef)
-            //print(snapshot.value!.count)
+            print(snapshot.value!)
             
             if !(snapshot.value is NSNull)
             {
@@ -125,18 +125,18 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                         let obsDictionary = sort[i] as! NSDictionary
                         print(obsDictionary)
                         
-                        let activity_location = obsDictionary.objectForKey("activity_location") as! String
+                        let activity = obsDictionary.objectForKey("activity") as! String
                         
-                        print(activity_location)
+                        print(activity)
                         print(self.projectIdFromProjectVC)
                         
-                        if(activity_location != "")
+                        if(activity != "")
                         {
-                            if(activity_location == self.projectIdFromProjectVC)
+                            if(activity == self.projectIdFromProjectVC)
                             {
                                 print(obsDictionary)
                                 print(obsDictionary.objectForKey("id"))
-                                print(obsDictionary.objectForKey("activity_location"))
+                                print(obsDictionary.objectForKey("activity"))
                                 print(obsDictionary.objectForKey("created_at"))
                                 print(obsDictionary.objectForKey("observer"))
                                 let observationData = obsDictionary.objectForKey("data") as! NSDictionary
@@ -281,6 +281,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                                                         {
                                                             //self.observerAffiliationLabel.text = snapshot.value!.objectForKey("name") as? String
                                                             self.observersAffiliationsArray_proj.addObject((snapshot.value!.objectForKey("name") as? String)!)
+                                                                self.showHideRecentContributionsLabel()
                                                         }
                                                         
                                                         
@@ -374,7 +375,12 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
                 
                 
             }
-            //self.showHideRecentContributionsLabel()
+            else{
+                
+                self.showHideRecentContributionsLabel()
+                
+            }
+            
             
             }, withCancelBlock: { error in
                 print(error.description)
@@ -634,7 +640,7 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
     
     func showHideRecentContributionsLabel()
     {
-        if(self.observersNamesArray_proj.count == 0)
+        if(self.observersAffiliationsArray_proj.count == 0)
         {
             self.recentContributionLabel.text = "No Recent Contributions"
             self.recentContributionLabel.textAlignment = NSTextAlignment.Center

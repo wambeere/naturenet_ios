@@ -19,15 +19,11 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
     var alreadyDidSaveForLater = false
     
     var forUpload = NSData()
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        
         
         //uploadToCloudinary(observationImage!)
         
@@ -37,20 +33,19 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
         
         let infoPath = NSBundle.mainBundle().pathForResource("Info.plist", ofType: nil)!
         let info = NSDictionary(contentsOfFile: infoPath)!
-        //print(info.objectForKey("CloudinaryAccessUrl"))
         
         Cloudinary = CLCloudinary(url: info.objectForKey("CloudinaryAccessUrl") as! String)
         let uploader = CLUploader(Cloudinary, delegate: self)
-        
         
         uploader.upload(image, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
         
     }
     
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
+        
         if(errorResult == nil) {
             let publicId = successResult["public_id"] as! String
-            let url = successResult["url"] as? String
+            let url = successResult["secure_url"] as? String
             print("now cloudinary uploaded, public id is: \(publicId) and \(url), ready for uploading media")
             // push media after cloudinary is finished
             //let params = ["link": publicId] as Dictionary<String, Any>
@@ -65,16 +60,12 @@ class UploadImageToCloudinary: UIViewController,CLUploaderDelegate {
             print(errorResult.localizedLowercaseString)
         }
         
-        
     }
-    
-    
     
     func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
         //do any progress update you may need
         let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
         //self.updateProgressDelegate?.onUpdateProgress(progress)
-        
         
         print("uploading to cloudinary... wait! \(progress * 100)%")
         

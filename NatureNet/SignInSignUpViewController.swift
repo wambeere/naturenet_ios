@@ -60,6 +60,8 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     var isThirdConsentChecked: Bool = false
     var isFourthConsentChecked: Bool = false
     
+    var isDefaultImage: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -311,7 +313,14 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     {
         picker .dismissViewControllerAnimated(true, completion: nil)
         profileIconImageView.image=info[UIImagePickerControllerOriginalImage] as? UIImage
-        //print(info[UIImagePickerControllerOriginalImage])
+        if(info[UIImagePickerControllerOriginalImage] != nil)
+        {
+            isDefaultImage = true
+        }
+        else
+        {
+            isDefaultImage = false
+        }
         
         
     }
@@ -552,7 +561,10 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                     if !(snapshot.value is NSNull)
                                     {
                                         
-                                        
+                                            //FireBase Analytics
+                                            FIRAnalytics.logEventWithName(kFIREventSelectContent, parameters: [
+                                                kFIREventLogin: "Logged In"
+                                            ])
                                             
                                             let userAffiliation = snapshot.value!.objectForKey("affiliation")
                                             let userDisplayName = snapshot.value!.objectForKey("display_name")
@@ -563,9 +575,10 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                             userDefaults.setValue(userDisplayName, forKey: "userDisplayName")
                                             userDefaults.setValue("true", forKey: "isSignedIn")
                                             userDefaults.setValue(authData?.uid, forKey: "userID")
-                                            userDefaults.setValue(self.username.text, forKey: "email")
-                                            userDefaults.setValue(self.password.text, forKey: "password")
-                                            
+                                            userDefaults.setValue(self.encodeString(self.username.text!), forKey: "email")
+                                            userDefaults.setValue(self.encodeString(self.password.text!), forKey: "password")
+                                            //self.encodeString(self.username.text!)
+                                            //self.encodeString(self.password.text!)
                                             if(usersAvatar != nil)
                                             {
                                                 userDefaults.setValue(usersAvatar, forKey: "usersAvatar")
@@ -680,9 +693,11 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         if(joinUsername.text != "" || joinPassword.text != "" || joinName.text != "" || joinEmail.text != "" || joinAffliation.text != "" )
         {
             
-            
-            let upImage = UploadImageToCloudinary()
-            upImage.uploadToCloudinary(Utility.resizeImage(profileIconImageView.image!))
+            if(isDefaultImage == false)
+            {
+                let upImage = UploadImageToCloudinary()
+                upImage.uploadToCloudinary(Utility.resizeImage(profileIconImageView.image!))
+            }
 
             
             let myRootRef = FIRAuth.auth()
@@ -732,9 +747,9 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     print(usersAvatarUrl)
                                                     //print(uid)
                                                     
-                                                    if(usersAvatarUrl == nil)
+                                                    if(usersAvatarUrl == nil || usersAvatarUrl == "")
                                                     {
-                                                        usersAvatarUrl = ""
+                                                        usersAvatarUrl = "https://res.cloudinary.com/university-of-colorado/image/upload/v1470239519/static/default_avatar.png"
                                                     }
                                                     
                                                     let usersPub = ["id": uid as AnyObject,"display_name": self.joinUsername.text as! AnyObject,"affiliation": self.AffiliationId as AnyObject, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp(),"avatar":usersAvatarUrl as! AnyObject]
@@ -777,8 +792,8 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
                                                     userDefaults.setValue(self.joinUsername.text, forKey: "userDisplayName")
                                                     userDefaults.setValue("true", forKey: "isSignedIn")
                                                     userDefaults.setValue(uid, forKey: "userID")
-                                                    userDefaults.setValue(self.joinEmail.text, forKey: "email")
-                                                    userDefaults.setValue(self.joinPassword.text, forKey: "password")
+                                                    userDefaults.setValue(self.encodeString(self.joinEmail.text!), forKey: "email")
+                                                    userDefaults.setValue(self.encodeString(self.joinPassword.text!), forKey: "password")
                                                     
                                                     userDefaults.setValue(usersAvatarUrl, forKey: "usersAvatar")
                                                     
@@ -800,6 +815,33 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
             print("Please Enter All the Details")
 
         }
+        
+    }
+    
+    func encodeString(stringToBeEncoded: String) -> String
+    {
+        //Encoding and Decoding String
+        
+        let utf8str = stringToBeEncoded.dataUsingEncoding(NSUTF8StringEncoding)
+        let base64Encoded = utf8str?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+       
+            
+        print("Encoded:  \(base64Encoded)")
+           
+            
+            
+            
+//            if let base64Decoded = NSData(base64EncodedString: base64Encoded, options:   NSDataBase64DecodingOptions(rawValue: 0))
+//                .map({ NSString(data: $0, encoding: NSUTF8StringEncoding) })
+//            {
+//                // Convert back to a string
+//                print("Decoded:  \(base64Decoded!)")
+//            }
+            
+        return base64Encoded!
+        //}
+        
+        //return stringToBeEncoded
         
     }
 
