@@ -17,6 +17,8 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
 
     @IBOutlet weak var observationDetailsTableView: UITableView!
     @IBOutlet weak var observationImageView: UIImageView!
+    
+    @IBOutlet weak var whereitisTextView: UITextView!
     var obsImage : UIImage = UIImage(named: "default-no-image.png")!
     
     var items: [String] = ["Select a Project"]
@@ -472,7 +474,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         print(self.activityID)
         print(self.locValue.latitude)
         print(self.locValue.longitude)
-        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"activity": self.activityID,"site": userAffiliation, "observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey, "where": whereitisTextView.text,"activity": self.activityID,"site": userAffiliation, "observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
         autoID.setValue(obsDetails)
         
         print(autoID)
@@ -568,9 +570,9 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         if imageWasUploaded {
-            forLater = ObservationForLater(site:userAffiliation, projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+            forLater = ObservationForLater(whereitis:whereitisTextView.text , site:userAffiliation, projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, imageURL: imageURL ,observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
         } else {
-            forLater = ObservationForLater(site:userAffiliation, projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
+            forLater = ObservationForLater(whereitis:whereitisTextView.text, site:userAffiliation, projectID: projectId, projectKey: project, observationDescription: description, imageData: imageForUpload, observerID: observerID, longitude: longitude, latitude: latitude, email: email, password: password, imageUploaded: imageWasUploaded)
         }
         
         //userDefaults.setObject(nil, forKey: "observationsForLater")

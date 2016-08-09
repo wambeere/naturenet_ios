@@ -12,6 +12,7 @@ import Firebase
 
 class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     
+    var whereitis: String
     var site: String
     var projectID: String
     var projectKey : String
@@ -29,8 +30,9 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     let localNotification:UILocalNotification = UILocalNotification()
     
     // MARK: - *** Initialization ***
-    init (site:String, projectID: String, projectKey:String, observationDescription:String, imageData:NSData, imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
+    init (whereitis:String, site:String, projectID: String, projectKey:String, observationDescription:String, imageData:NSData, imageURL:String = "", observerID:String, longitude:Double, latitude:Double, email:String, password:String, imageUploaded:Bool)
     {
+        self.whereitis = whereitis
         self.site = site
         self.projectID = projectID
         self.projectKey = projectKey
@@ -49,7 +51,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     
     // MARK: - *** Encoding and Decoding variables ***
     required init(coder decoder: NSCoder) {
-        
+        self.whereitis = decoder.decodeObjectForKey("whereitis") as! String
         self.site = decoder.decodeObjectForKey("site") as! String
         self.projectID = decoder.decodeObjectForKey("projectID") as! String
         self.projectKey = decoder.decodeObjectForKey("projectKey") as! String
@@ -69,6 +71,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     
     func encodeWithCoder(coder: NSCoder) {
         
+        coder.encodeObject(self.site, forKey: "whereitis")
         coder.encodeObject(self.site, forKey: "site")
         coder.encodeObject(self.projectID, forKey: "projectID")
         coder.encodeObject(self.projectKey, forKey: "projectKey")
@@ -219,7 +222,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
         print(self.longitude)
         let currentTimestamp = FIRServerValue.timestamp()
         
-        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.observationDescription as AnyObject],"l":["0": self.latitude as AnyObject, "1" : self.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"activity": self.projectID,"site": self.site,"observer":self.observerID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.observationDescription as AnyObject],"l":["0": self.latitude as AnyObject, "1" : self.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey,"activity": self.projectID,"where": self.whereitis,"site": self.site,"observer":self.observerID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
         autoID.setValue(obsDetails)
         
         print(autoID)
@@ -242,6 +245,7 @@ class ObservationForLater : NSObject, NSCoding, CLUploaderDelegate {
     func equals(obs: ObservationForLater) -> Bool
     {
         return
+            self.whereitis == obs.whereitis &&
             self.site == obs.site &&
             self.projectID == obs.projectID &&
             self.projectKey == obs.projectKey &&
