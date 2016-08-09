@@ -27,9 +27,9 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
 
     @IBOutlet weak var projectsTableView: UITableView!
     
-    var projItems: [String] = ["Red Mountain", "Native or Not?","How many Mallards?", "Heron Spotting","Who's Who?", "Tracks"]
+    //var projItems: [String] = ["Red Mountain", "Native or Not?","How many Mallards?", "Heron Spotting","Who's Who?", "Tracks"]
     
-    var projIcons: [String] = ["RedMountain.png", "Native.png","Mallard.png", "Heron.png","Who.png", "Tracks.png"]
+    //var projIcons: [String] = ["RedMountain.png", "Native.png","Mallard.png", "Heron.png","Who.png", "Tracks.png"]
     
     
     override func viewDidLoad() {
@@ -259,6 +259,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                             print(snapshot.value)
                             
                             self.projectKeys.removeAllObjects()
+                            self.projectDescriptionKeys.removeAllObjects()
+                            self.projectIconKeys.removeAllObjects()
+                            self.projectStatusKeys.removeAllObjects()
+                            self.projectIds.removeAllObjects()
                             
                             if !(snapshot.value is NSNull)
                             {
@@ -278,6 +282,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                             self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
                                         //}
                                     }
+                                    else
+                                    {
+                                        self.projectKeys.addObject("")
+                                    }
                                     if(activityDictionary.objectForKey("description") != nil)
                                     {
                                         //print(geoActivity)
@@ -286,6 +294,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                         //{
                                             self.projectDescriptionKeys.addObject(activityDictionary.objectForKey("description")!)
                                         //}
+                                    }
+                                    else
+                                    {
+                                        self.projectDescriptionKeys.addObject("")
                                     }
                                     if(activityDictionary.objectForKey("icon_url") != nil)
                                     {
@@ -299,6 +311,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                             self.projectIconKeys.addObject(newiconUrlString)
                                         //}
                                     }
+                                    else
+                                    {
+                                        self.projectIconKeys.addObject("")
+                                    }
                                     if(activityDictionary.objectForKey("status") != nil)
                                     {
                                         //print(geoActivity)
@@ -308,6 +324,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                             self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
                                         //}
                                     }
+                                    else
+                                    {
+                                    self.projectStatusKeys.addObject("")
+                                    }
                                     if(activityDictionary.objectForKey("id") != nil)
                                     {
                                         //print(geoActivity)
@@ -316,6 +336,10 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
                                         //{
                                             self.projectIds.addObject(activityDictionary.objectForKey("id")!)
                                         //}
+                                    }
+                                    else
+                                    {
+                                        self.projectIds.addObject("")
                                     }
                                     
                                     
