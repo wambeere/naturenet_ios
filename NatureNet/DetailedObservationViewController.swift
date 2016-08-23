@@ -521,43 +521,48 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
     func getCommentsDetails(obsCommentsArray: NSArray)
     {
         print(obsCommentsArray)
-        for j in 0 ..< obsCommentsArray.count
-        {
+        
             //            let comments = commentsDictfromExploreView.allValues[j] as! NSDictionary
             //            print(comments)
             //            commentsArray.addObject(comments.objectForKey("comment")!)
             //            commentersArray.addObject(comments.objectForKey("commenter")!)
 
-            let myRootRef = FIRDatabase.database().referenceWithPath("comments/\(obsCommentsArray[j])") //Firebase(url:COMMENTS_URL+"\(obsCommentsArray[j])")
-            myRootRef.observeEventType(.Value, withBlock: { snapshot in
+            let myRootRef = FIRDatabase.database().referenceWithPath("comments/") //Firebase(url:COMMENTS_URL+"\(obsCommentsArray[j])")
+            myRootRef.queryOrderedByChild("parent").queryEqualToValue("\(self.observationId)").observeSingleEventOfType(.Value, withBlock: { snapshot in
 
                 print(myRootRef)
                 print(snapshot.value)
-
+                
                 if !(snapshot.value is NSNull)
                 {
-                    var text = "No Comment Text"
-
-                    if(snapshot.value!["comment"] != nil)
+                    for j in 0 ..< snapshot.value!.allValues.count
                     {
-                        text = snapshot.value!["comment"] as! String
-                        //self.commentsArray.addObject(snapshot.value!["comment"] as! String)
+                        var text = "No Comment Text"
+                        
+                        let snap = snapshot.value!.allValues as NSArray
+                        let commentDictionary = snap[j] as! NSDictionary
+                        
+                        if(commentDictionary["comment"] != nil)
+                        {
+                            text = commentDictionary["comment"] as! String
+                            //self.commentsArray.addObject(snapshot.value!["comment"] as! String)
+                        }
+                        
+                        //if(snapshot.value["commenter"] != nil)
+                        //{
+                        
+                        let commenter = commentDictionary["commenter"] as! String
+                        //                    }
+                        //                    else
+                        //                    {
+                        //                        //self.commentersArray.addObject("")
+                        //                    }
+                        
+                        let timestamp = commentDictionary["updated_at"] as! Int
+                        let comment = Comment(commenter: commenter, commentText: text, timestamp: timestamp)
+                        self.commentsArray.append(comment)
+
                     }
-
-                    //if(snapshot.value["commenter"] != nil)
-                    //{
-
-                    let commenter = snapshot.value!["commenter"] as! String
-                    //                    }
-                    //                    else
-                    //                    {
-                    //                        //self.commentersArray.addObject("")
-                    //                    }
-
-                    let timestamp = snapshot.value!["updated_at"] as! Int
-                    let comment = Comment(commenter: commenter, commentText: text, timestamp: timestamp)
-                    self.commentsArray.append(comment)
-
                 }
 
                 //sort
@@ -575,15 +580,30 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
 
         }
 
-    }
+    
 
     func getUpdatedComments()
     {
-        let observationRootRef = FIRDatabase.database().referenceWithPath("observations/" + String(observationId)) //Firebase(url:ALL_OBSERVATIONS_URL + observationId)
-        observationRootRef.observeEventType(.Value, withBlock: { snapshot in
+        let ref = FIRDatabase.database()
+        var commentsRootRef = FIRDatabase.database().reference()
+        if(isfromDesignIdeasView == true)
+        {
+            commentsRootRef = ref.referenceWithPath("ideas/\(self.observationId)")
+            
+        }
+        else
+        {
+            commentsRootRef = ref.referenceWithPath("observations/" + String(observationId))
+        }
+        //commentsRootRef.keepSynced(true)
+        //let observationRootRef = FIRDatabase.database().referenceWithPath("observations/" + String(observationId)) //Firebase(url:ALL_OBSERVATIONS_URL + observationId)
+        commentsRootRef.observeEventType(.Value, withBlock: { snapshot in
 
-            print(observationRootRef)
-            print(snapshot.value!.count)
+            print(commentsRootRef)
+            print(snapshot.value)
+            
+            self.commentsArray.removeAll()
+            self.detailed_commentsDictArray.removeAllObjects()
 
             if !(snapshot.value is NSNull)
             {
@@ -614,39 +634,9 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                 print(self.detailed_commentsDictArray[0])
                 print(self.detailed_commentsCount)
 
-                self.commentsArray.removeAll()
+                
 
                 self.getCommentsDetails(self.detailed_commentsDictArray[0] as! NSArray)
-
-                //self.commentsTableView.reloadData()
-
-//                    if(snapshot.value.objectForKey("likes") != nil)
-//                    {
-//                        let likesDictionary = snapshot.value.objectForKey("likes") as! NSDictionary
-//                        print(likesDictionary.allValues)
-//
-//                        let likesArray = likesDictionary.allValues as NSArray
-//                        print(likesArray)
-//
-//
-//                        for l in 0 ..< likesArray.count
-//                        {
-//                            if(likesArray[l] as! NSObject == 1)
-//                            {
-//                                self.likesCount += 1
-//                            }
-//                        }
-//                        print(self.likesCount)
-//
-//
-//                        self.likesCountArray.addObject("\(self.likesCount)")
-//
-//
-//                    }
-//                    else
-//                    {
-//                        self.likesCountArray.addObject("0")
-//                    }
             }
 
             }, withCancelBlock: { error in
@@ -1069,7 +1059,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                     autoID.setValue(commentData)
                                     
                                     let ref = FIRDatabase.database()
-                                    var parentRef = nil
+                                    var parentRef = FIRDatabase.database().reference()
 
                                     if(self.isfromDesignIdeasView == true)
                                     {
@@ -1080,7 +1070,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                         parentRef = ref.referenceWithPath("observations/\(self.observationId)/comments")
                                     }
 
-                                    let commentidChild = parentRef.reference().child(autoID.key)
+                                    let commentidChild = parentRef.child(autoID.key)
                                     commentidChild.setValue(true)
 
                                     let alert = UIAlertController(title: "Alert", message: "Comment Posted Successfully", preferredStyle: UIAlertControllerStyle.Alert)
