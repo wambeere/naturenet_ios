@@ -130,6 +130,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         obsDescTextView.delegate = self
+        whereitisTextView.delegate = self
 
     }
     func getSiteLocationAndSetToLocValue()
@@ -445,7 +446,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         let ref = FIRDatabase.database().referenceWithPath("observations")
         let currentTimestamp = FIRServerValue.timestamp()
-        print(ref.childByAutoId())
+        //print(ref.childByAutoId())
         let autoID = ref.childByAutoId()
         
         print(userDefaults.objectForKey("progress"))
