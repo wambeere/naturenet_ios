@@ -133,6 +133,47 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         whereitisTextView.delegate = self
 
     }
+    func textViewDidBeginEditing(textView: UITextView) {
+        if(textView == whereitisTextView)
+        {
+            //NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewObsViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+            //NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewObsViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+            self.view.frame.origin.y -= 150
+            
+        }
+        else if(textView == obsDescTextView)
+        {
+            self.view.frame.origin.y -= 50
+        }
+    }
+    func textViewDidEndEditing(textView: UITextView) {
+        if(textView == whereitisTextView)
+        {
+            //NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewObsViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+            //NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewObsViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+            self.view.frame.origin.y += 150
+        }
+        else if(textView == obsDescTextView)
+        {
+            self.view.frame.origin.y += 50
+        }
+
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.view.frame.origin.y -= keyboardSize.height
+        }
+        
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.view.frame.origin.y += keyboardSize.height
+        }
+    }
+
     func getSiteLocationAndSetToLocValue()
     {
         //Getting lat and long from sites table

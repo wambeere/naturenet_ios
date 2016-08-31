@@ -12,6 +12,10 @@ import Kingfisher
 
 class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
+    let newObsAndDIView_projectDetails = NewObsAndDIViewController()
+    let cgVC_projectDetails = CameraAndGalleryViewController()
+    let diAndCVC_projectDetails = DesignIdeasAndChallengesViewController()
+    
     var projectTitle : String = ""
     var projectIcon : String = ""
     var projectStatus : String = ""
@@ -632,10 +636,73 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
 //                }
 //            }
 
+        newObsAndDIView_projectDetails.view.frame = CGRectMake(0 ,UIScreen.mainScreen().bounds.size.height-newObsAndDIView_projectDetails.view.frame.size.height-8, UIScreen.mainScreen().bounds.size.width, newObsAndDIView_projectDetails.view.frame.size.height)
+        
+        newObsAndDIView_projectDetails.view.translatesAutoresizingMaskIntoConstraints = true
+        newObsAndDIView_projectDetails.view.center = CGPoint(x: view.bounds.midX, y: UIScreen.mainScreen().bounds.size.height - newObsAndDIView_projectDetails.view.frame.size.height/2 - 8)
+        newObsAndDIView_projectDetails.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
+        
+        self.view.addSubview(newObsAndDIView_projectDetails.view)
+        //self.view.bringSubviewToFront(newObsAndDIView.view)
+        newObsAndDIView_projectDetails.camButton.addTarget(self, action: #selector(ProjectsViewController.openNewObsView_projects), forControlEvents: .TouchUpInside)
+        
+        newObsAndDIView_projectDetails.designIdeaButton.addTarget(self, action: #selector(ProjectsViewController.openNewDesignView_projects), forControlEvents: .TouchUpInside)
+        
+        
+    }
+    func openNewObsView_projects()
+    {
+        //print("gverver")
+        self.addChildViewController(cgVC_projectDetails)
+        cgVC_projectDetails.view.frame = CGRectMake(0, self.view.frame.size.height - cgVC_projectDetails.view.frame.size.height+68, cgVC_projectDetails.view.frame.size.width, cgVC_projectDetails.view.frame.size.height)
+        
+        cgVC_projectDetails.closeButton.addTarget(self, action: #selector(ProjectDetailViewController.closeCamAndGalleryView), forControlEvents: .TouchUpInside)
+        
+        self.view.addSubview(cgVC_projectDetails.view)
+        UIView.animateWithDuration(0.3, animations: {
             
+            self.cgVC_projectDetails.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.cgVC_projectDetails.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.cgVC_projectDetails.view.frame.size.height)
+            
+            self.cgVC_projectDetails.view.translatesAutoresizingMaskIntoConstraints = true
+            self.cgVC_projectDetails.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
+            
+        }) { (isComplete) in
+            
+            self.cgVC_projectDetails.didMoveToParentViewController(self)
+            
+        }
+    }
+    func openNewDesignView_projects()
+    {
+        //print("gverver")
+        self.addChildViewController(diAndCVC_projectDetails)
+        diAndCVC_projectDetails.view.frame = CGRectMake(0, self.view.frame.size.height - diAndCVC_projectDetails.view.frame.size.height+68, diAndCVC_projectDetails.view.frame.size.width, diAndCVC_projectDetails.view.frame.size.height)
         
+        diAndCVC_projectDetails.closeButton.addTarget(self, action: #selector(ProjectDetailViewController.closeDiAndChallengesView), forControlEvents: .TouchUpInside)
         
-        
+        self.view.addSubview(diAndCVC_projectDetails.view)
+        UIView.animateWithDuration(0.3, animations: {
+            
+            self.diAndCVC_projectDetails.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height - self.diAndCVC_projectDetails.view.frame.size.height+68, UIScreen.mainScreen().bounds.size.width, self.diAndCVC_projectDetails.view.frame.size.height)
+            
+            self.diAndCVC_projectDetails.view.translatesAutoresizingMaskIntoConstraints = true
+            self.diAndCVC_projectDetails.view.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleRightMargin, UIViewAutoresizing.None, UIViewAutoresizing.FlexibleBottomMargin]
+            
+        }) { (isComplete) in
+            
+            self.diAndCVC_projectDetails.didMoveToParentViewController(self)
+            
+        }
+    }
+    func closeCamAndGalleryView()
+    {
+        cgVC_projectDetails.view.removeFromSuperview()
+        cgVC_projectDetails.removeFromParentViewController()
+    }
+    func closeDiAndChallengesView()
+    {
+        diAndCVC_projectDetails.view.removeFromSuperview()
+        diAndCVC_projectDetails.removeFromParentViewController()
     }
     
     func showHideRecentContributionsLabel()

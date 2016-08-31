@@ -661,7 +661,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDe
         if NSURL(string: observationImagesArray[view.tag] as! String) != nil
         {
             observervationUrlString = observationImagesArray[view.tag] as! String
-            let newimageURLString = observervationUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            let newimageURLString = observervationUrlString.stringByReplacingOccurrencesOfString("upload/", withString: "upload/t_ios-thumbnail/", options: NSStringCompareOptions.LiteralSearch, range: nil)
             let newUrl  = NSURL(string:newimageURLString)
             print(newUrl)
             observationImageView.kf_setImageWithURL(newUrl!, placeholderImage: UIImage(named: "default-no-image.png"))

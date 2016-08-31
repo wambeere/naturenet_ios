@@ -322,13 +322,7 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
 
         getCommentsDetails(observationCommentsArrayfromExploreView)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailedObservationViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailedObservationViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
-
-
-
-
-
+        
     }
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView.contentOffset.x != 0 {
@@ -1074,7 +1068,14 @@ class DetailedObservationViewController: UIViewController, UITableViewDelegate,U
                                     commentidChild.setValue(true)
 
                                     let alert = UIAlertController(title: "Alert", message: "Comment Posted Successfully", preferredStyle: UIAlertControllerStyle.Alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                    //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
+                                    {
+                                        UIAlertAction in
+                                        self.commentTF.text = ""
+                                        
+                                    }
+                                    alert.addAction(okAction)
                                     self.presentViewController(alert, animated: true, completion: nil)
                                 }
                                 self.getUpdatedComments()

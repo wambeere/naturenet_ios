@@ -35,22 +35,39 @@ class HomeViewController: UIViewController {
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
-        if(UIScreen.mainScreen().nativeBounds.height <= 1136)
-        {
-            joinNatureNetButton.hidden = true
-            let rightBarButtonItem = UIBarButtonItem(title: "Join", style: .Plain, target: self, action: #selector(joinNatureNet))
-            rightBarButtonItem.tintColor = UIColor.whiteColor()
-            navigationItem.rightBarButtonItem = rightBarButtonItem
-        }
-        else
-        {
-            joinNatureNetButton.hidden = false
-        }
+        hideShowJoinButton()
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func hideShowJoinButton()
+    {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if((userDefaults.stringForKey("isSignedIn")) != "true")
+        {
+            
+            if(UIScreen.mainScreen().nativeBounds.height <= 1136)
+            {
+                joinNatureNetButton.hidden = true
+                let rightBarButtonItem = UIBarButtonItem(title: "Join", style: .Plain, target: self, action: #selector(joinNatureNet))
+                rightBarButtonItem.tintColor = UIColor.whiteColor()
+                navigationItem.rightBarButtonItem = rightBarButtonItem
+            }
+            else
+            {
+                joinNatureNetButton.hidden = false
+            }
+            
+        }
+        else
+        {
+            joinNatureNetButton.hidden = true
+        }
+
     }
     
     @IBAction func joinNatureNet(sender: UIButton) {
@@ -65,20 +82,22 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         
-        let userDefaults = NSUserDefaults()
+        hideShowJoinButton()
         
-        
-        if(userDefaults.objectForKey("isFromConsentForm") as? String == "true")
-        {
-            if self.revealViewController() != nil {
-                self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-                self.revealViewController().rearViewRevealWidth = 290
-                
-                self.revealViewController().revealToggleAnimated(true)
-                
-            }
-            userDefaults.setValue("false", forKey: "isFromConsentForm")
-        }
+//        let userDefaults = NSUserDefaults()
+//        
+//        
+//        if(userDefaults.objectForKey("isFromConsentForm") as? String == "true")
+//        {
+//            if self.revealViewController() != nil {
+//                self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+//                self.revealViewController().rearViewRevealWidth = 290
+//                
+//                self.revealViewController().revealToggleAnimated(true)
+//                
+//            }
+//            userDefaults.setValue("false", forKey: "isFromConsentForm")
+//        }
         
     }
 

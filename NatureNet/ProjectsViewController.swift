@@ -133,21 +133,21 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
 
                     if(self.isfromObservationVC == true)
                     {
-                        let userDefaults = NSUserDefaults.standardUserDefaults()
-                        var userAffiliation = ""
-                        self.noProjectsIndicationLabel.hidden = true
-                        if(userDefaults.objectForKey("userAffiliation") != nil)
-                        {
-                            self.noProjectsIndicationLabel.hidden = true
-                            userAffiliation = userDefaults.objectForKey("userAffiliation") as! String
-                        }
-                        else
-                        {
-                            userAffiliation = ""
-                            self.noProjectsIndicationLabel.hidden = false
-                        }
-
-                        print(userAffiliation)
+//                        let userDefaults = NSUserDefaults.standardUserDefaults()
+//                        var userAffiliation = ""
+//                        self.noProjectsIndicationLabel.hidden = true
+//                        if(userDefaults.objectForKey("userAffiliation") != nil)
+//                        {
+//                            self.noProjectsIndicationLabel.hidden = true
+//                            userAffiliation = userDefaults.objectForKey("userAffiliation") as! String
+//                        }
+//                        else
+//                        {
+//                            userAffiliation = ""
+//                            self.noProjectsIndicationLabel.hidden = false
+//                        }
+//
+//                        print(userAffiliation)
 
 
                         let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities")
