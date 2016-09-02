@@ -67,7 +67,7 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         print(version)
         print(build)
         
-        versionAndBuildLabel.text = "NatureNet, Version: \(version) Build: \(build)"
+        versionAndBuildLabel.text = "NatureNet \(version).\(build)"
         
     }
 
