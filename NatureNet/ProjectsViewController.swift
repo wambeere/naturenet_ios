@@ -19,7 +19,7 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
     var projectStatusKeys: NSMutableArray = []
     var projectIconKeys: NSMutableArray = []
     var projectIds: NSMutableArray = []
-    var projectGeoIds: NSMutableArray = []
+    //var projectGeoIds: NSMutableArray = []
     var isfromObservationVC: Bool = false
 
 
@@ -86,288 +86,279 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
 
 
 
-        let geoActivitiesRootRef = FIRDatabase.database().referenceWithPath("geo/activities/")
-        //Firebase(url:FIREBASE_URL + "geo/activities")
-        geoActivitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
+//        let geoActivitiesRootRef = FIRDatabase.database().referenceWithPath("geo/activities/")
+//        //Firebase(url:FIREBASE_URL + "geo/activities")
+//        geoActivitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
+//
+//            //print(geoActivitiesRootRef)
+//            //print(snapshot.value!.count)
+//
+//
+//            if !(snapshot.value is NSNull)
+//            {
+//                for i in 0 ..< snapshot.value!.count
+//                {
+//                    let geoActivities = snapshot.value!.allValues[i] as! NSDictionary
+//                    print(geoActivities)
+//                    //let geoActivity = geoActivities.objectForKey("activity") as! String
+//                    let geoActivityId = geoActivities.objectForKey("id") as! String
+//
+//                    //print(geoActivity)
+//                    if(geoActivityId != "")
+//                    {
+//                        self.projectGeoIds.addObject(geoActivityId)
+//                    }
+//                    else
+//                    {
+//                        self.projectGeoIds.addObject("")
+//                    }
+//
+//
+//                }
+//            }
+//
+//
+//
+//            }, withCancelBlock: { error in
+//                print(error.description)
+//                let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+//                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+//                alert.addAction(action)
+//                self.presentViewController(alert, animated: true, completion: nil)
+//
+//        })
 
-            //print(geoActivitiesRootRef)
-            //print(snapshot.value!.count)
 
+        
+        getProjectsDetails()
 
+//                    if(self.isfromObservationVC == true)
+//                    {
+//                        let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities")
+//                        //for user's site only: .queryOrderedByChild("sites/\(userAffiliation)").queryEqualToValue(true)
+//
+//                        activitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
+//
+//                            //print(snapshot)
+//                            //let acesBool = snapshot.childSnapshotForPath("sites/aces").value as! NSNumber
+//                            //print(acesBool)
+//
+//                            print(activitiesRootRef)
+//                            print(snapshot.value)
+//
+//                            if !(snapshot.value is NSNull)
+//                            {
+//                                for j in 0 ..< snapshot.value!.count
+//                                {
+//
+//
+//                                    let activity = snapshot.value!.allKeys[j] as! String
+//                                    let activityDictionary = snapshot.value!.objectForKey(activity) as! NSDictionary
+//                                    //print(activityDictionary.objectForKey("name"))
+//                                    if(activityDictionary.objectForKey("name") != nil)
+//                                    {
+//                                        //print(geoActivity)
+//                                        //print(activity)
+//                                        //if(activity == geoActivity)
+//                                        //{
+//                                            self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
+//                                        //}
+//                                    }
+//                                    
+//                                    if(activityDictionary.objectForKey("description") != nil )
+//                                    {
+//                                        //print(geoActivity)
+//                                        //print(activity)
+//                                        //if(activity == geoActivity)
+//                                        //{
+//                                            self.projectDescriptionKeys.addObject(activityDictionary.objectForKey("description")!)
+//                                        //}
+//                                    }
+//                                    
+//                                    if(activityDictionary.objectForKey("icon_url") != nil)
+//                                    {
+//                                        //print(geoActivity)
+//                                        //print(activity)
+//                                        //if(activity == geoActivity)
+//                                        //{
+//
+//                                            let iconUrlString = activityDictionary.objectForKey("icon_url") as! String
+//                                            let newiconUrlString = iconUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//                                            self.projectIconKeys.addObject(newiconUrlString)
+//                                        //}
+//                                    }
+//                                    if(activityDictionary.objectForKey("status") != nil)
+//                                    {
+//                                        //print(geoActivity)
+//                                        //print(activity)
+//                                        //if(activity == geoActivity)
+//                                        //{
+//                                    self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
+//                                        //}
+//                                    }
+//                                    if(activityDictionary.objectForKey("id") != nil)
+//                                    {
+//                                        //print(geoActivity)
+//                                        //print(activity)
+//                                        //if(activity == geoActivity)
+//                                        //{
+//                                        self.projectIds.addObject(activityDictionary.objectForKey("id")!)
+//                                        print(self.projectIds)
+//                                        //}
+//                                    }
+//
+//
+//
+//
+//                                }
+//                                print(self.projectKeys)
+//
+//
+//
+//                                self.projectsTableView.reloadData()
+//
+//
+//                            }
+//
+//
+//
+//                            }, withCancelBlock: { error in
+//                                print(error.description)
+//                                let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+//                                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+//                                alert.addAction(action)
+//                                self.presentViewController(alert, animated: true, completion: nil)
+//
+//                        })
+//
+//                    }
+//                    else
+//                    {
+//                        
+//                    }
+
+    }
+    func getProjectsDetails()
+    {
+        //activitiesRootRef
+        let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities")
+        activitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
+            
+            //print(snapshot)
+            //let acesBool = snapshot.childSnapshotForPath("sites/aces").value as! NSNumber
+            //print(acesBool)
+            
+            print(activitiesRootRef)
+            print(snapshot.value)
+            
+            self.projectKeys.removeAllObjects()
+            self.projectDescriptionKeys.removeAllObjects()
+            self.projectIconKeys.removeAllObjects()
+            self.projectStatusKeys.removeAllObjects()
+            self.projectIds.removeAllObjects()
+            
             if !(snapshot.value is NSNull)
             {
-                for i in 0 ..< snapshot.value!.count
+                for j in 0 ..< snapshot.value!.count
                 {
-                    let geoActivities = snapshot.value!.allValues[i] as! NSDictionary
-                    print(geoActivities)
-                    //let geoActivity = geoActivities.objectForKey("activity") as! String
-                    let geoActivityId = geoActivities.objectForKey("id") as! String
-
-                    //print(geoActivity)
-                    if(geoActivityId != "")
+                    
+                    
+                    let activity = snapshot.value!.allKeys[j] as! String
+                    let activityDictionary = snapshot.value!.objectForKey(activity) as! NSDictionary
+                    //print(activityDictionary.objectForKey("name"))
+                    if(activityDictionary.objectForKey("name") != nil)
                     {
-                        self.projectGeoIds.addObject(geoActivityId)
+                        //print(geoActivity)
+                        //print(activity)
+                        //if(activity == geoActivity)
+                        //{
+                        self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
+                        //}
                     }
                     else
                     {
-                        self.projectGeoIds.addObject("")
+                        self.projectKeys.addObject("")
                     }
-
-
+                    if(activityDictionary.objectForKey("description") != nil)
+                    {
+                        //print(geoActivity)
+                        //print(activity)
+                        //if(activity == geoActivity)
+                        //{
+                        self.projectDescriptionKeys.addObject(activityDictionary.objectForKey("description")!)
+                        //}
+                    }
+                    else
+                    {
+                        self.projectDescriptionKeys.addObject("")
+                    }
+                    if(activityDictionary.objectForKey("icon_url") != nil)
+                    {
+                        //print(geoActivity)
+                        //print(activity)
+                        //if(activity == geoActivity)
+                        //{
+                        
+                        let iconUrlString = activityDictionary.objectForKey("icon_url") as! String
+                        let newiconUrlString = iconUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                        self.projectIconKeys.addObject(newiconUrlString)
+                        //}
+                    }
+                    else
+                    {
+                        self.projectIconKeys.addObject("")
+                    }
+                    if(activityDictionary.objectForKey("status") != nil)
+                    {
+                        //print(geoActivity)
+                        //print(activity)
+                        //if(activity == geoActivity)
+                        //{
+                        self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
+                        //}
+                    }
+                    else
+                    {
+                        self.projectStatusKeys.addObject("")
+                    }
+                    if(activityDictionary.objectForKey("id") != nil)
+                    {
+                        //print(geoActivity)
+                        //print(activity)
+                        //if(activity == geoActivity)
+                        //{
+                        self.projectIds.addObject(activityDictionary.objectForKey("id")!)
+                        //}
+                    }
+                    else
+                    {
+                        self.projectIds.addObject("")
+                    }
+                    
+                    
+                    
+                    
                 }
+                //print(self.projectKeys)
+                
+                self.projectsTableView.reloadData()
+                
+                
             }
-
-
-
+            
+            
+            
             }, withCancelBlock: { error in
                 print(error.description)
                 let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
                 let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
                 alert.addAction(action)
                 self.presentViewController(alert, animated: true, completion: nil)
-
+                
         })
 
-
-                    self.projectKeys.removeAllObjects()
-
-                    if(self.isfromObservationVC == true)
-                    {
-//                        let userDefaults = NSUserDefaults.standardUserDefaults()
-//                        var userAffiliation = ""
-//                        self.noProjectsIndicationLabel.hidden = true
-//                        if(userDefaults.objectForKey("userAffiliation") != nil)
-//                        {
-//                            self.noProjectsIndicationLabel.hidden = true
-//                            userAffiliation = userDefaults.objectForKey("userAffiliation") as! String
-//                        }
-//                        else
-//                        {
-//                            userAffiliation = ""
-//                            self.noProjectsIndicationLabel.hidden = false
-//                        }
-//
-//                        print(userAffiliation)
-
-
-                        let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities")
-                        //for user's site only: .queryOrderedByChild("sites/\(userAffiliation)").queryEqualToValue(true)
-
-                        activitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
-
-                            //print(snapshot)
-                            //let acesBool = snapshot.childSnapshotForPath("sites/aces").value as! NSNumber
-                            //print(acesBool)
-
-                            print(activitiesRootRef)
-                            print(snapshot.value)
-
-                            if !(snapshot.value is NSNull)
-                            {
-                                for j in 0 ..< snapshot.value!.count
-                                {
-
-
-                                    let activity = snapshot.value!.allKeys[j] as! String
-                                    let activityDictionary = snapshot.value!.objectForKey(activity) as! NSDictionary
-                                    //print(activityDictionary.objectForKey("name"))
-                                    if(activityDictionary.objectForKey("name") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-                                            self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
-                                        //}
-                                    }
-                                    if(activityDictionary.objectForKey("description") != nil )
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-                                            self.projectDescriptionKeys.addObject(activityDictionary.objectForKey("description")!)
-                                        //}
-                                    }
-                                    if(activityDictionary.objectForKey("icon_url") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-
-                                            let iconUrlString = activityDictionary.objectForKey("icon_url") as! String
-                                            let newiconUrlString = iconUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                                            self.projectIconKeys.addObject(newiconUrlString)
-                                        //}
-                                    }
-                                    if(activityDictionary.objectForKey("status") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-                                    self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
-                                        //}
-                                    }
-                                    if(activityDictionary.objectForKey("id") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-                                        self.projectIds.addObject(activityDictionary.objectForKey("id")!)
-                                        print(self.projectIds)
-                                        //}
-                                    }
-
-
-
-
-                                }
-                                print(self.projectKeys)
-
-
-
-                                self.projectsTableView.reloadData()
-
-
-                            }
-
-
-
-                            }, withCancelBlock: { error in
-                                print(error.description)
-                                let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
-                                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
-                                alert.addAction(action)
-                                self.presentViewController(alert, animated: true, completion: nil)
-
-                        })
-
-                    }
-                    else
-                    {
-                        //activitiesRootRef
-                        let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities")
-                        activitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
-
-                            //print(snapshot)
-                            //let acesBool = snapshot.childSnapshotForPath("sites/aces").value as! NSNumber
-                            //print(acesBool)
-
-                            print(activitiesRootRef)
-                            print(snapshot.value)
-
-                            self.projectKeys.removeAllObjects()
-                            self.projectDescriptionKeys.removeAllObjects()
-                            self.projectIconKeys.removeAllObjects()
-                            self.projectStatusKeys.removeAllObjects()
-                            self.projectIds.removeAllObjects()
-
-                            if !(snapshot.value is NSNull)
-                            {
-                                for j in 0 ..< snapshot.value!.count
-                                {
-
-
-                                    let activity = snapshot.value!.allKeys[j] as! String
-                                    let activityDictionary = snapshot.value!.objectForKey(activity) as! NSDictionary
-                                    //print(activityDictionary.objectForKey("name"))
-                                    if(activityDictionary.objectForKey("name") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-                                            self.projectKeys.addObject(activityDictionary.objectForKey("name")!)
-                                        //}
-                                    }
-                                    else
-                                    {
-                                        self.projectKeys.addObject("")
-                                    }
-                                    if(activityDictionary.objectForKey("description") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-                                            self.projectDescriptionKeys.addObject(activityDictionary.objectForKey("description")!)
-                                        //}
-                                    }
-                                    else
-                                    {
-                                        self.projectDescriptionKeys.addObject("")
-                                    }
-                                    if(activityDictionary.objectForKey("icon_url") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-
-                                            let iconUrlString = activityDictionary.objectForKey("icon_url") as! String
-                                            let newiconUrlString = iconUrlString.stringByReplacingOccurrencesOfString("upload", withString: "upload/t_ios-thumbnail", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                                            self.projectIconKeys.addObject(newiconUrlString)
-                                        //}
-                                    }
-                                    else
-                                    {
-                                        self.projectIconKeys.addObject("")
-                                    }
-                                    if(activityDictionary.objectForKey("status") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-                                            self.projectStatusKeys.addObject(activityDictionary.objectForKey("status")!)
-                                        //}
-                                    }
-                                    else
-                                    {
-                                    self.projectStatusKeys.addObject("")
-                                    }
-                                    if(activityDictionary.objectForKey("id") != nil)
-                                    {
-                                        //print(geoActivity)
-                                        //print(activity)
-                                        //if(activity == geoActivity)
-                                        //{
-                                            self.projectIds.addObject(activityDictionary.objectForKey("id")!)
-                                        //}
-                                    }
-                                    else
-                                    {
-                                        self.projectIds.addObject("")
-                                    }
-
-
-
-
-                                }
-                                print(self.projectKeys)
-
-                                self.projectsTableView.reloadData()
-
-
-                            }
-
-
-
-                            }, withCancelBlock: { error in
-                                print(error.description)
-                                let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
-                                let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
-                                alert.addAction(action)
-                                self.presentViewController(alert, animated: true, completion: nil)
-
-                        })
-
-                    }
-
     }
+    
     func dismissVC()
     {
         self.presentingViewController?.dismissViewControllerAnimated(true, completion: {})
@@ -502,7 +493,7 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
         else
         {
             let userDefaults = NSUserDefaults.standardUserDefaults()
-            userDefaults.setValue(projectGeoIds[indexPath.row] as! String, forKey: "ProjectKey")
+            //userDefaults.setValue(projectGeoIds[indexPath.row] as! String, forKey: "ProjectKey")
             userDefaults.setValue(projectKeys[indexPath.row] as! String, forKey: "ProjectName")
             userDefaults.setValue(projectIds[indexPath.row] as! String, forKey: "ActivityID")
             self.dismissVC()

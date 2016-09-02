@@ -367,14 +367,14 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         descText = obsDescTextView.text
         
-        if(userDefaults.objectForKey("ProjectKey") != nil)
-        {
-            projectKey = (userDefaults.objectForKey("ProjectKey") as? String)!
-        }
-        else
-        {
-            
-        }
+//        if(userDefaults.objectForKey("ProjectKey") != nil)
+//        {
+//            projectKey = (userDefaults.objectForKey("ProjectKey") as? String)!
+//        }
+//        else
+//        {
+//            
+//        }
         if(userDefaults.objectForKey("userID") != nil)
         {
             userID = (userDefaults.objectForKey("userID") as? String)!
@@ -395,7 +395,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         
         //print((userDefaults.objectForKey("ProjectName") as! String))
-        print(projectKey)
+        //print(projectKey)
         print(descText)
         print(userID)
         print(OBSERVATION_IMAGE_UPLOAD_URL)
@@ -492,10 +492,10 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         print(userDefaults.objectForKey("progress"))
         
-        if(self.projectKey == ""){
-            
-            self.projectKey = "-ACES_g38"
-        }
+//        if(self.projectKey == ""){
+//            
+//            self.projectKey = "-ACES_g38"
+//        }
         if(self.activityID == "")
         {
             self.activityID = "-ACES_a38"
@@ -512,11 +512,11 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         
         print(userAffiliation)
-        print(self.projectKey)
+        //print(self.projectKey)
         print(self.activityID)
         print(self.locValue.latitude)
         print(self.locValue.longitude)
-        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key,"activity_location": self.projectKey, "where": whereitisTextView.text,"activity": self.activityID,"site": userAffiliation, "observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
+        let obsDetails = ["data":["image": imageURL as AnyObject, "text" : self.descText as AnyObject],"l":["0": self.locValue.latitude as AnyObject, "1" : self.locValue.longitude as AnyObject],"id": autoID.key, "where": whereitisTextView.text,"activity": self.activityID,"site": userAffiliation, "observer":self.userID, "created_at": FIRServerValue.timestamp(),"updated_at": FIRServerValue.timestamp()]
         autoID.setValue(obsDetails)
         
         print(autoID)
@@ -538,7 +538,7 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         if(userDefaults.objectForKey("Project") != nil)
         {
             //projectName = (userDefaults.objectForKey("Project") as? String)!
-            userDefaults.setValue("", forKey:"ProjectKey")
+            //userDefaults.setValue("", forKey:"ProjectKey")
             userDefaults.setValue("", forKey:"ProjectName")
             userDefaults.setValue("", forKey:"ActivityID")
         }
@@ -571,24 +571,25 @@ class NewObsViewController: UIViewController,UITableViewDelegate,UITableViewData
         var project = ""
         var projectId = ""
         
-        if(userDefaults.objectForKey("ProjectKey") != nil)
-        {
-            project = (userDefaults.objectForKey("ProjectKey") as? String)!
-        }
+//        if(userDefaults.objectForKey("ProjectKey") != nil)
+//        {
+//            project = (userDefaults.objectForKey("ProjectKey") as? String)!
+//        }
         if(userDefaults.objectForKey("ActivityID") != nil)
         {
             projectId = (userDefaults.objectForKey("ActivityID") as? String)!
         }
-        if project == "" {
-            
-            //Default Free Observation
-            project = "-ACES_g38"
-        }
+//        if project == "" {
+//            
+//            //Default Free Observation
+//            project = "-ACES_g38"
+//        }
         if projectId == "" {
             
             //Default Free Observation
             projectId = "-ACES_a38"
         }
+        project = projectId
         
         let description = obsDescTextView.text
         let observerID = (userDefaults.objectForKey("userID") as? String)!

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16A270f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16A313a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -7,7 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController" customModule="NatureNet" customModuleProvider="target">
             <connections>
+                <outlet property="alreadyAMemberLabel" destination="rbY-Gb-fKB" id="ITq-0K-29d"/>
                 <outlet property="joinNatureNetButton" destination="abM-aE-AEN" id="zZz-sP-EOn"/>
+                <outlet property="signInButton_home" destination="JVz-xw-uVP" id="ttq-Qa-ocf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -75,16 +77,43 @@ DESIGN this nature technology with your community</string>
                         <action selector="joinNatureNet:" destination="-1" eventType="touchUpInside" id="Mhk-bc-Lli"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JVz-xw-uVP">
+                    <rect key="frame" x="232" y="526" width="46" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="46" id="HUi-fc-JBn"/>
+                        <constraint firstAttribute="height" constant="21" id="JfW-xh-ivM"/>
+                    </constraints>
+                    <state key="normal" title="SignIn">
+                        <color key="titleColor" red="0.12038145214319229" green="0.8022618293762207" blue="0.42462405562400818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="signInButtonHomeClicked:" destination="-1" eventType="touchUpInside" id="6eB-1A-Wm6"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already a Member?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbY-Gb-fKB">
+                    <rect key="frame" x="97" y="526" width="133" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="133" id="7kf-6n-S2V"/>
+                        <constraint firstAttribute="height" constant="21" id="sw6-f6-i1Z"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="JVz-xw-uVP" secondAttribute="bottom" constant="120" id="0Yj-mf-DU8"/>
                 <constraint firstItem="UG0-4f-oBt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="22" id="1jU-Qj-CFA"/>
                 <constraint firstItem="UG0-4f-oBt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="296" id="AM8-3D-Trr"/>
-                <constraint firstAttribute="bottom" secondItem="abM-aE-AEN" secondAttribute="bottom" constant="149" id="Biz-mW-Kw2"/>
+                <constraint firstItem="rbY-Gb-fKB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="97" id="EKW-50-D8Y"/>
+                <constraint firstItem="rbY-Gb-fKB" firstAttribute="top" secondItem="abM-aE-AEN" secondAttribute="bottom" constant="8" id="Fkk-Uz-1yA"/>
                 <constraint firstItem="UG0-4f-oBt" firstAttribute="top" secondItem="pxc-MH-Ous" secondAttribute="bottom" constant="43.5" id="Gof-5N-8pi"/>
                 <constraint firstAttribute="trailing" secondItem="awN-kx-ndi" secondAttribute="trailing" constant="14" id="M9X-j1-6Bc"/>
+                <constraint firstAttribute="bottom" secondItem="rbY-Gb-fKB" secondAttribute="bottom" constant="120" id="PK3-F2-XFu"/>
                 <constraint firstItem="awN-kx-ndi" firstAttribute="leading" secondItem="UG0-4f-oBt" secondAttribute="trailing" constant="-6" id="Sd3-sS-c1N"/>
                 <constraint firstItem="Y3u-y1-D5S" firstAttribute="top" secondItem="C1v-dK-iS3" secondAttribute="bottom" constant="7.5" id="TFQ-e5-ejN"/>
+                <constraint firstItem="JVz-xw-uVP" firstAttribute="leading" secondItem="rbY-Gb-fKB" secondAttribute="trailing" constant="2" id="VRb-wH-Moe"/>
                 <constraint firstItem="pxc-MH-Ous" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="22" id="WO5-N6-ZN9"/>
                 <constraint firstAttribute="trailing" secondItem="lyu-pt-pWa" secondAttribute="trailing" constant="14" id="ZHA-wC-WcV"/>
                 <constraint firstAttribute="trailing" secondItem="abM-aE-AEN" secondAttribute="trailing" constant="20" id="eGw-IZ-cit"/>
@@ -100,6 +129,7 @@ DESIGN this nature technology with your community</string>
                 <constraint firstItem="MjE-SI-hWe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="87" id="ryl-EA-4O5"/>
                 <constraint firstItem="Y3u-y1-D5S" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="22" id="tUl-eG-47b"/>
                 <constraint firstItem="C1v-dK-iS3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="22" id="wYq-AA-re6"/>
+                <constraint firstItem="JVz-xw-uVP" firstAttribute="top" secondItem="abM-aE-AEN" secondAttribute="bottom" constant="8" id="wZN-7k-XrE"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="608.5" y="187.5"/>

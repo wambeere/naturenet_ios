@@ -10,10 +10,12 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    var isFromConsentForm: Bool = false
+    //var isFromConsentForm: Bool = false
     
+    @IBOutlet weak var signInButton_home: UIButton!
     @IBOutlet weak var joinNatureNetButton: UIButton!
 
+    @IBOutlet weak var alreadyAMemberLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,6 +36,10 @@ class HomeViewController: UIViewController {
         self.navigationController!.navigationBar.barTintColor = UIColor(red: 48.0/255.0, green: 204.0/255.0, blue: 114.0/255.0, alpha: 1.0)
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        
+        signInButton_home.hidden = false
+        alreadyAMemberLabel.hidden = false
+        joinNatureNetButton.hidden = false
         
         hideShowJoinButton()
         
@@ -66,6 +72,8 @@ class HomeViewController: UIViewController {
         else
         {
             joinNatureNetButton.hidden = true
+            signInButton_home.hidden = true
+            alreadyAMemberLabel.hidden = true
         }
 
     }
@@ -79,6 +87,18 @@ class HomeViewController: UIViewController {
         signInSignUpNavVC.viewControllers = [signInSignUpVC]
         self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
     }
+    
+    
+    @IBAction func signInButtonHomeClicked(sender: AnyObject) {
+        
+        let signInSignUpVC=SignInSignUpViewController()
+        let signInSignUpNavVC = UINavigationController()
+        signInSignUpVC.pageTitle="Sign In"
+        signInSignUpVC.isFromHomeVC = true
+        signInSignUpNavVC.viewControllers = [signInSignUpVC]
+        self.presentViewController(signInSignUpNavVC, animated: true, completion: nil)
+    }
+    
     
     override func viewWillAppear(animated: Bool) {
         

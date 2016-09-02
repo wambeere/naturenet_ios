@@ -69,8 +69,6 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
             projectIconImageView?.kf_setImageWithURL(projectIconUrl, placeholderImage: UIImage(named: "project.png"))
         }
         
-        projectTitleLabel.text = projectTitle
-        projectStatusLabel.text = projectStatus
         if(projectStatus == "Completed")
         {
             projectStatusImageView.hidden = false
@@ -78,6 +76,10 @@ class ProjectDetailViewController: UIViewController,UICollectionViewDelegateFlow
         else{
             projectStatusImageView.hidden = true
         }
+        
+        projectTitleLabel.text = projectTitle
+        projectStatusLabel.text = projectStatus
+        
         projectDescriptionTextView.text = projectDescription
         
         //Setting up collection view

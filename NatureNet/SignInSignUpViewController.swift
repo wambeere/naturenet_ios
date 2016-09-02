@@ -38,8 +38,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
     var popover:UIPopoverController?=nil
     
    
-    @IBAction func forgotPasswordButtonClicked(sender: UIButton) {
-    }
+    
     var tapGesture:UITapGestureRecognizer!
     
     var joinScrollView: UIScrollView!
@@ -105,6 +104,8 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         
 
     }
+    
+    
     
     
     func addJoinScrollView()
@@ -535,6 +536,7 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         {
         
             let ref = FIRAuth.auth()
+            
             ref!.signInWithEmail(username.text!, password: password.text!,
                          completion: { authData, error in
                             if error != nil {
@@ -842,6 +844,45 @@ class SignInSignUpViewController: UIViewController, UITextFieldDelegate, UIScrol
         //}
         
         //return stringToBeEncoded
+        
+    }
+    
+    @IBAction func forgotPasswordButtonClicked(sender: UIButton) {
+        
+        
+        let auth = FIRAuth.auth()
+        let emailAddress = username.text
+        let pwd = password.text
+        
+        print(pwd)
+        
+        if(emailAddress != "")
+        {
+            auth?.sendPasswordResetWithEmail(emailAddress!, completion: { error in
+                
+                if(error == nil)
+                {
+                    let alert = UIAlertController(title: "Alert", message: "Password reset email sent successfully!", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+
+                }
+                else
+                {
+                    let alert = UIAlertController(title: "Alert", message: error?.description, preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+
+                }
+            })
+        }
+        else
+        {
+            let alert = UIAlertController(title: "Alert", message: "Please Enter your Email Address", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+
+        }
         
     }
 
