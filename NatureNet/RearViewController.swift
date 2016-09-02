@@ -29,6 +29,9 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     var allowOnce : Bool = true
     
     
+    @IBOutlet weak var versionAndBuildLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,6 +54,20 @@ class RearViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         profileImageView.layer.cornerRadius = 30.0
         profileImageView.clipsToBounds = true
         profileDetailsView.hidden = true
+        
+        //First get the nsObject by defining as an optional anyObject
+        let nsObject_version: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+        
+        let nsObject_build: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"]
+        
+        //Then just cast the object as a String, but be careful, you may want to double check for nil
+        let version = nsObject_version as! String
+        let build = nsObject_build as! String
+        
+        print(version)
+        print(build)
+        
+        versionAndBuildLabel.text = "NatureNet, Version: \(version) Build: \(build)"
         
     }
 

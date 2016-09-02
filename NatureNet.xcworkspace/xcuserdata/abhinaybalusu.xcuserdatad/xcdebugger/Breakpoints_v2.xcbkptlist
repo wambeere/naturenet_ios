@@ -17,38 +17,6 @@
             endingLineNumber = "467"
             landmarkName = "postObservation()"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "function signature specialization &lt;Arg[2] = Value Promoted from Box&gt; of NatureNet.NewObsViewController.(postObservation () -&gt; ()).(closure #1)"
-                  moduleName = "NatureNet"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/abhinaybalusu/Desktop/naturenet_ios/NatureNet/NewObsViewController.swift"
-                  timestampString = "494533536.994066"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "467"
-                  endingLineNumber = "467"
-                  offsetFromSymbolStart = "2692">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NatureNet.NewObsViewController.(postObservation () -&gt; ()).(closure #1).(closure #2)"
-                  moduleName = "NatureNet"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/abhinaybalusu/Desktop/naturenet_ios/NatureNet/NewObsViewController.swift"
-                  timestampString = "494533536.994249"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "467"
-                  endingLineNumber = "467"
-                  offsetFromSymbolStart = "60">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
