@@ -242,7 +242,8 @@ class ProjectsViewController: UIViewController,UITableViewDelegate, UITableViewD
     {
         //activitiesRootRef
         let activitiesRootRef = FIRDatabase.database().referenceWithPath("activities")
-        activitiesRootRef.observeEventType(.Value, withBlock: { snapshot in
+        
+        activitiesRootRef.observeSingleEventOfType(.Value, withBlock: { snapshot in
             
             //print(snapshot)
             //let acesBool = snapshot.childSnapshotForPath("sites/aces").value as! NSNumber

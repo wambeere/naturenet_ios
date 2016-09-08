@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NatureNet/ProjectsViewController.swift"
-            timestampString = "494444477.810431"
+            timestampString = "494540819.008265"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "244"
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NatureNet/ProjectsViewController.swift"
-            timestampString = "494444477.810431"
+            timestampString = "494540819.008265"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "getProjectsDetails()"
             landmarkType = "5">
          </BreakpointContent>
