@@ -474,6 +474,7 @@
 				9F9BB3B61C9B214C0076E68E /* Resources */,
 				9C10EB7C042DC37A22B9ACC2 /* Embed Pods Frameworks */,
 				F32968C59984EC5838FA776D /* Copy Pods Resources */,
+				9FB3F2BC1D81FE6100233E17 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -689,6 +690,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9FB3F2BC1D81FE6100233E17 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:264870647126:ios:33764497eafa799d\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/abhinaybalusu/Desktop/naturenet_ios/ServiceAccount.json\"";
 		};
 		F32968C59984EC5838FA776D /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
